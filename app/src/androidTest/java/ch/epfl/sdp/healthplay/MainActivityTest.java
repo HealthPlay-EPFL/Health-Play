@@ -23,7 +23,7 @@ public class MainActivityTest {
     public ActivityScenarioRule<MainActivity> testRule = new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void test() {
+    public void intentContainsCorrectTextWhenButtonPressed() {
         // Get the TextView and write the test name onto it
         ViewInteraction textView = Espresso.onView(withId(R.id.mainName));
         textView.perform(ViewActions.typeText(TEST_NAME));
