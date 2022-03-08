@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "878559279283",
+    "project_id": "health-play-9e161",
+    "storage_bucket": "health-play-9e161.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:878559279283:android:7e40614a120f1e133998c6",
+        "android_client_info": {
+          "package_name": "ch.epfl.sdp.healthplay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "878559279283-f8qkanf64h74ftokkeqr7i8omlcvvpes.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBztUpfierHuOaKvtvzxvCEscwW2ymyQVE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "878559279283-f8qkanf64h74ftokkeqr7i8omlcvvpes.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

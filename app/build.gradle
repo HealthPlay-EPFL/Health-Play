@@ -1,7 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'jacoco'
+
 }
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdk 31
@@ -42,7 +45,11 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
+    implementation platform('com.google.firebase:firebase-bom:29.1.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-database'
 }
+
 
 tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
