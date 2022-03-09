@@ -30,5 +30,18 @@ public class GamesMenu extends AppCompatActivity {
                     }
                 }
         );
+
+        final ImageButton kneetagButton = findViewById(R.id.kneetagThumbnail);
+
+        kneetagButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(GamesMenu.this, KneetagDescription.class);
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(GamesMenu.this, kneetagButton, ViewCompat.getTransitionName(kneetagButton));
+                        startActivity(intent, options.toBundle());
+                    }
+                }
+        );
     }
 }

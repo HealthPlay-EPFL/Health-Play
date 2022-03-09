@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#5A5A5A"
     tools:context=".GamesMenu">
 
@@ -18,16 +19,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/play_button_left"
+            android:backgroundTint="@color/planthuntGreen"
+            />
+
         <ImageButton
             android:id="@+id/planthuntThumbnail"
             android:layout_width="247dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:scaleX="1"
-            android:scaleY="1"
-            android:src="@drawable/planthunt_button"
-            android:background="@drawable/description_button"
+            android:scaleY="1.15"
+            app:srcCompat="@drawable/planthunt_button"
+            android:background="@drawable/play_button_right"
             android:transitionName="planthunt_transition"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -39,7 +48,52 @@
             android:text="►"
             android:textColor="#FFFFFF"
             android:textSize="60sp"
-            android:background="@drawable/play_button"
+            android:background="@drawable/play_button_right"
+            android:backgroundTint="@color/planthuntGreen"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="337dp"
+        android:layout_height="174dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="51dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/play_button_left"
+            android:backgroundTint="@color/kneetagBlue"
+            />
+
+        <ImageButton
+            android:id="@+id/kneetagThumbnail"
+            android:layout_width="247dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:scaleX="1"
+            android:scaleY="1.15"
+            app:srcCompat="@drawable/kneetag_button"
+            android:transitionName="kneetag_transition"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/kneetagPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:text="►"
+            android:textColor="#FFFFFF"
+            android:textSize="60sp"
+            android:background="@drawable/play_button_right"
+            android:backgroundTint="@color/kneetagBlue"
             />
     </LinearLayout>
 
