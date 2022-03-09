@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#5A5A5A"
+    tools:context=".GamesMenu">
+
+    <LinearLayout
+        android:layout_width="337dp"
+        android:layout_height="174dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="121dp"
+        android:layout_marginEnd="51dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/planthuntThumbnail"
+            android:layout_width="247dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:src="@drawable/planthunt_button"
+            android:background="@drawable/description_button"
+            android:transitionName="planthunt_transition"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/planthuntPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:text="►"
+            android:textColor="#FFFFFF"
+            android:textSize="60sp"
+            android:background="@drawable/play_button"
+            />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

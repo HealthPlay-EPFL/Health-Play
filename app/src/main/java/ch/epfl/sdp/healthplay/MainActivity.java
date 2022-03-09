@@ -19,10 +19,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void sendMessage(View view) {
-        Intent intent = new Intent(this, GreetingActivity.class);
-        EditText editText = findViewById(R.id.mainName);
+        Intent intent = new Intent(this, GamesMenu.class);
+        /*EditText editText = findViewById(R.id.mainName);
         String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra(EXTRA_MESSAGE, message);*/
         startActivity(intent);
     }
 }
