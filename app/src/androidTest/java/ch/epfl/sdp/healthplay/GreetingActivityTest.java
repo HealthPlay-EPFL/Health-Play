@@ -22,7 +22,7 @@ public class GreetingActivityTest {
     @Test
     public void test() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), GreetingActivity.class);
-        intent.putExtra(MainActivity.EXTRA_MESSAGE, TEST_TEXT);
+        intent.putExtra(MainActivity.EXTRA_USERNAME, TEST_TEXT);
 
         try (ActivityScenario<GreetingActivity> scenario = ActivityScenario.launch(intent)) {
             Espresso.onView(withId(R.id.greetingMessage)).check(
