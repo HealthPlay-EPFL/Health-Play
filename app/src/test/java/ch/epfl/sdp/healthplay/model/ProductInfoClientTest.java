@@ -14,6 +14,8 @@ import org.mockito.MockitoAnnotations;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class ProductInfoClientTest {
@@ -45,6 +47,13 @@ public class ProductInfoClientTest {
     }
 
     @Test
+    public void errorStringReturnedIfHttpNotOk() throws IOException {
+        when(connection.getResponseCode()).thenReturn(HttpURLConnection.HTTP_BAD_REQUEST);
+        client = new ProductInfoClient(connection);
+        assertEquals("ERROR", client.getInfo());
+    }
+
+    @Test
     public void whenExceptionReturnErrorString() throws IOException {
         when(connection.getInputStream()).thenThrow(IOException.class);
 
@@ -61,6 +70,11 @@ public class ProductInfoClientTest {
     @Test(expected = IllegalArgumentException.class)
     public void nullBarcodeThrowsException() throws IOException {
         client = new ProductInfoClient((String) null);
+    }
+
+    @Test
+    public void testNoExceptionsThrown() throws IOException {
+        (new ProductInfoClient("737628064502")).getInfo();
     }
 
     @After
