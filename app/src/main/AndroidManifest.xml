@@ -11,7 +11,8 @@
         android:theme="@style/Theme.HealthPlay">
         <activity
             android:name=".ProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ProfileSetupActivity"/>
         <activity
             android:name=".ProfileSetupActivity"
             android:exported="false" />

@@ -43,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        String greeting = "Hello " + name;
+        String greeting = "Hi" + name;
         textView.setText(greeting);
 
         User.mDatabase.child("users").child(id).child("calorieCounter").addValueEventListener(new ValueEventListener() {

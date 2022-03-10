@@ -12,8 +12,6 @@ import ch.epfl.sdp.healthplay.database.User;
 public class ProfileSetupActivity extends AppCompatActivity {
 
     public static final String EXTRA_USERNAME = "ch.epfl.sdp.healthplay.USERNAME";
-    //public static final String EXTRA_AGE = "ch.epfl.sdp.healthplay.AGE";
-    //public static final String EXTRA_WEIGHT = "ch.epfl.sdp.healthplay.WEIGHT";
     public static final String EXTRA_ID = "ch.epfl.sdp.healthplay.ID";
 
     @Override
@@ -23,12 +21,12 @@ public class ProfileSetupActivity extends AppCompatActivity {
 
     }
 
-    public void sendMessage(View view) {
-        Intent intent = new Intent(this, GreetingActivity.class);
+    public void setProfile(View view) {
+        Intent intent = new Intent(this, ProfileActivity.class);
         EditText editName = findViewById(R.id.ProfileName);
         EditText editAge = findViewById(R.id.ProfileAge);
         EditText editWeight= findViewById(R.id.ProfileWeight);
-        EditText editId = findViewById(R.id.profileId);
+        EditText editId = findViewById(R.id.ProfileId);
 
         int age = Integer.parseInt(editAge.getText().toString());
         int weight = Integer.parseInt(editWeight.getText().toString());

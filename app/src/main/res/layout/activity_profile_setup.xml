@@ -7,7 +7,7 @@
     tools:context=".ProfileSetupActivity">
 
     <EditText
-        android:id="@+id/profileId"
+        android:id="@+id/ProfileId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
@@ -24,26 +24,25 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/mainGoButton2"
+        android:id="@+id/ReadyButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="160dp"
         android:layout_marginEnd="160dp"
-        android:layout_marginBottom="244dp"
-        android:onClick="sendMessage"
+        android:layout_marginBottom="128dp"
+        android:onClick="setProfile"
         android:text="Go"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainName" />
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/ProfileWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="352dp"
+        android:layout_marginTop="312dp"
         android:layout_marginEnd="100dp"
         android:ems="10"
         android:hint="Weight (kg)"
