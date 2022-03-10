@@ -15,24 +15,17 @@ import ch.epfl.sdp.healthplay.model.ProductInfoClient;
 
 public class BarcodeInformationActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_barcode_information);
+    private final AtomicReference<String> productName = new AtomicReference<>("");
+    private final AtomicReference<String> energy = new AtomicReference<>("");
 
-        Intent intent = getIntent();
-        String barcode = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-
-        AtomicReference<String> productName = new AtomicReference<>("");
-        AtomicReference<String> energy = new AtomicReference<>("");
-
-        Thread t = new Thread(() -> {
+    private Thread pullInformation(String barcode) {
+        return new Thread(() -> {
             try {
                 ProductInfoClient client = new ProductInfoClient(barcode);
                 Optional<Product> p = Product.of(client.getInfo());
                 if (p.isPresent()) {
                     Product product = p.get();
-                    productName.set(product.getGenericName());
+                    productName.set(product.getName());
                     int value = product.getKCalEnergy();
                     energy.set(value < 0 ? "Unkown" : Integer.toString(value));
                 }
@@ -42,7 +35,17 @@ public class BarcodeInformationActivity extends AppCompatActivity {
                 energy.set("Unknown");
             }
         });
+    }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_barcode_information);
+
+        Intent intent = getIntent();
+        String barcode = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+
+        Thread t = pullInformation(barcode);
         t.start();
         try {
             t.join(10000);

@@ -23,7 +23,7 @@ public class BarcodeInformationActivityTest {
         try (ActivityScenario<GreetingActivity> scenario = ActivityScenario.launch(intent)) {
             Espresso.onView(withId(R.id.pName)).check(
                     ViewAssertions.matches(
-                            ViewMatchers.withText("Rice Noodles")
+                            ViewMatchers.withText("Thai peanut noodle kit includes stir-fry rice noodles & thai peanut seasoning")
                     )
             );
             Espresso.onView(withId(R.id.pEnergy)).check(

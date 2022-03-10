@@ -13,8 +13,9 @@ import java.net.URL;
  * @author Ozan
  */
 public final class ProductInfoClient {
-    //TODO: User-Agent: NameOfYourApp - Android - Version 1.0 - www.yourappwebsite.com
     private final static String OPEN_FOOD_FACT_URL = "https://world.openfoodfacts.org/api/v0/product/";
+    // The website asks us to provide a user agent of the following form:
+    // User-Agent: NameOfYourApp - Android - Version 1.0 - www.yourappwebsite.com
     private final static String USER_AGENT = "HealthPlay - Android - Version 1.0 - https://github.com/HealthPlay-EPFL/Health-Play";
     // Workaround to the fact that we cannot use Optional values..
     private final static String ERROR_STRING = "ERROR";
