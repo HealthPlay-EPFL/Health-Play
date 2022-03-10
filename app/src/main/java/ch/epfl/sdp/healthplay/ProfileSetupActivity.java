@@ -27,9 +27,16 @@ public class ProfileSetupActivity extends AppCompatActivity {
         EditText editAge = findViewById(R.id.ProfileAge);
         EditText editWeight= findViewById(R.id.ProfileWeight);
         EditText editId = findViewById(R.id.ProfileId);
+        int age;
+        int weight;
+        try{
+            age = Integer.parseInt(editAge.getText().toString());
+            weight = Integer.parseInt(editWeight.getText().toString());
+        }catch (NumberFormatException e){
+            age = 0;
+            weight = 0;
+        }
 
-        int age = Integer.parseInt(editAge.getText().toString());
-        int weight = Integer.parseInt(editWeight.getText().toString());
         String username = editName.getText().toString();
         String id = editId.getText().toString();
         User.writeNewUser(id,username, age, weight);

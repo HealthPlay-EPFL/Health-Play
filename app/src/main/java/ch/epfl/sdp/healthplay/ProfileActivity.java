@@ -32,7 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.ProfileGreeting);
         TextView TextView2 = findViewById(R.id.CalorieCounter);
 
-        User.mDatabase.child("users").child(id).get().addOnCompleteListener(task -> {
+        User.mDatabase.child("users").child(id).child("calorieCounter").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             }
@@ -43,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        String greeting = "Hi" + name;
+        String greeting = "Hi " + name;
         textView.setText(greeting);
 
         User.mDatabase.child("users").child(id).child("calorieCounter").addValueEventListener(new ValueEventListener() {

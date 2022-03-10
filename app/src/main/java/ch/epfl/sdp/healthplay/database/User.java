@@ -13,7 +13,7 @@ public class User {
     public static DatabaseReference mDatabase = FirebaseDatabase.getInstance(DATABASE_URL).getReference();
 
     private String username;
-    private int calorieCounter = 0;
+    private int calorieCounter;
     private int age;
     private int weight;
     private int healthPoint;
@@ -25,6 +25,7 @@ public class User {
         this.age = 0;
         this.healthPoint = 0;
         this.weight = 0;
+        this.calorieCounter = 0;
     }
 
     public String getUsername() {
