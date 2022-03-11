@@ -32,17 +32,6 @@ public class ProfileActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.ProfileGreeting);
         TextView TextView2 = findViewById(R.id.CalorieCounter);
 
-        User.mDatabase.child("users").child(id).child("calorieCounter").get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                Log.e("firebase", "Error getting data", task.getException());
-            }
-            else {
-                int calories = Integer.parseInt(String.valueOf(task.getResult().getValue()));
-                String showCalories = calories + " calories!";
-                TextView2.setText(showCalories);
-            }
-        });
-
         String greeting = "Hi " + name;
         textView.setText(greeting);
 
@@ -74,5 +63,21 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void initCaloriCounter(String id) {
+
+        TextView TextView2 = findViewById(R.id.CalorieCounter);
+
+        User.mDatabase.child("users").child(id).child("calorieCounter").get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("firebase", "Error getting data", task.getException());
+            }
+            else {
+                int calories = Integer.parseInt(String.valueOf(task.getResult().getValue()));
+                String showCalories = calories + " calories!";
+                TextView2.setText(showCalories);
+            }
+        });
     }
 }
