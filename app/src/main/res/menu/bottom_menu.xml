@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_baseline_home_24" />
 
     <item
-        android:id="@+id/frag_Profile"
+        android:id="@+id/profileSetupActivity"
         android:title="Profile"
         android:icon="@drawable/ic_baseline_person_24"/>
     <item
