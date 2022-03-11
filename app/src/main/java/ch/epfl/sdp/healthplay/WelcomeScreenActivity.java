@@ -19,7 +19,7 @@ public class WelcomeScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome_screen);
         ImageView logo = (ImageView) findViewById(R.id.logo_image);
         logo.setImageResource(R.drawable.logo);
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, HomeScreenActivity.class);
         //Wait 3sec before launch HomeActivity
         handler.postDelayed(new Runnable() {
             public void run() {

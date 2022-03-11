@@ -38,7 +38,7 @@ public class WelcomeScreenActivityTest {
     @Test
     public void startingNewIntentAuto() throws InterruptedException {
         TimeUnit.SECONDS.sleep(3);
-        onView(withId(R.id.main_view)).check(matches(isDisplayed()));
+        onView(withId(R.id.HomeView)).check(matches(isDisplayed()));
     }
     /*@Test
     public void startingNewIntentWithTouching() {

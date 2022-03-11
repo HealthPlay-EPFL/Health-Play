@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Each item correspond to a menu item, which is linked to a Fragment/Activity -->
+    <item
+        android:id="@+id/frag_Home"
+        android:title="Home"
+        android:icon="@drawable/ic_baseline_home_24" />
+
+    <item
+        android:id="@+id/profileSetupActivity"
+        android:title="Profile"
+        android:icon="@drawable/ic_baseline_person_24"/>
+    <item
+        android:id="@+id/productInfoActivity"
+        android:title="Scan"
+        android:icon="@drawable/ic_baseline_qr_code_24"/>
+    <item
+        android:id="@+id/gamesMenu"
+        android:title="Games"
+        android:icon="@drawable/ic_baseline_gamepad_24"/>
+    <item
+        android:id="@+id/settingsFragment"
+        android:title="Settings"
+        android:icon="@drawable/ic_baseline_settings_24"/>
+</menu>
