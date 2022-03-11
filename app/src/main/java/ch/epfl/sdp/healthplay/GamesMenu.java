@@ -15,11 +15,10 @@ public class GamesMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_games_menu);
-
         setTitle("Games");
 
+        //Display Planthunt description when Planthunt button image is clicked
         final ImageButton planthuntButton = findViewById(R.id.planthuntThumbnail);
-
         planthuntButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -31,8 +30,8 @@ public class GamesMenu extends AppCompatActivity {
                 }
         );
 
+        //Display Kneetag description when Kneetag button image is clicked
         final ImageButton kneetagButton = findViewById(R.id.kneetagThumbnail);
-
         kneetagButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

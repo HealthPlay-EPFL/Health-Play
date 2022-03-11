@@ -17,6 +17,5 @@ public class KneetagDescription extends AppCompatActivity {
         setContentView(R.layout.activity_kneetag_description);
 
         setTitle("Kneetag");
-
     }
 }

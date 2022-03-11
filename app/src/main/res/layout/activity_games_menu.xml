@@ -32,12 +32,11 @@
             android:layout_width="247dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:scaleType="centerCrop"
-            android:scaleX="1"
-            android:scaleY="1.15"
-            app:srcCompat="@drawable/planthunt_button"
             android:background="@drawable/play_button_right"
-            android:transitionName="planthunt_transition"/>
+            android:contentDescription="displayPlanthuntDescription"
+            android:scaleType="centerCrop"
+            android:transitionName="planthunt_transition"
+            app:srcCompat="@drawable/planthunt_button" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/planthuntPlay"
@@ -77,11 +76,10 @@
             android:layout_width="247dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:scaleType="centerCrop"
-            android:scaleX="1"
-            android:scaleY="1.15"
-            app:srcCompat="@drawable/kneetag_button"
-            android:transitionName="kneetag_transition"/>
+            android:contentDescription="displayKneetagDescription"
+            android:scaleType="center"
+            android:transitionName="kneetag_transition"
+            app:srcCompat="@drawable/kneetag_button" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/kneetagPlay"

@@ -2,22 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/planthuntDescription"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".PlanthuntDescription">
-    
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:src="@drawable/planthunt_button"
         android:scaleType="centerCrop"
-        android:transitionName="planthunt_transition"/>
-    
+        android:src="@drawable/planthunt_button"
+        android:transitionName="planthunt_transition" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="qdfghkqsbfjkqsgfjqsngjqnbdqbgkjqbdkvbqjdvnjq;snvjkqnsvqnsvnqslvnqslvnlqsnvljqsnvjlq"/>
+        android:text="qdfghkqsbfjkqsgfjqsngjqnbdqbgkjqbdkvbqjdvnjq;snvjkqnsvqnsvnqslvnqslvnlqsnvljqsnvjlq" />
 
 
 </LinearLayout>

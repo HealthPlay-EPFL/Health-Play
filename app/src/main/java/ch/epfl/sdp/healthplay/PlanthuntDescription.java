@@ -17,7 +17,5 @@ public class PlanthuntDescription extends AppCompatActivity {
         setContentView(R.layout.activity_planthunt_description);
 
         setTitle("Planthunt");
-
-
     }
 }
