@@ -1,7 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'jacoco'
+
 }
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdk 31
@@ -49,6 +52,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.4.1'
     implementation 'androidx.navigation:navigation-ui:2.4.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
     implementation 'com.google.android.material:material:1.5.0'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.json:json:20211205'
@@ -60,7 +64,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
     def fragment_version = "1.4.1"
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+    implementation platform('com.google.firebase:firebase-bom:29.2.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-database'
 }
+
 
 tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
