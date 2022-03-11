@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">HealthPlay</string>
+    <string name="product_name_label">Name:</string>
+    <string name="product_energy_label">Energy:</string>
+    <string name="button_find_product_label">Find Information</string>
+    <string name="barcode_number_label">Barcode Number</string>
 </resources>
