@@ -11,6 +11,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthPlay">
         <activity
+            android:name=".KneetagDescription"
+            android:exported="false" />
+        <activity
+            android:name=".PlanthuntDescription"
+            android:exported="false" />
+        <activity
+            android:name=".GamesMenu"
+            android:exported="false" />
+        <activity
             android:name=".BarcodeInformationActivity"
             android:exported="false" />
         <activity
