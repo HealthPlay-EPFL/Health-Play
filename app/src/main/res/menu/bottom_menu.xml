@@ -11,11 +11,11 @@
         android:title="Profile"
         android:icon="@drawable/ic_baseline_person_24"/>
     <item
-        android:id="@+id/frag_Scan"
+        android:id="@+id/productInfoActivity"
         android:title="Scan"
         android:icon="@drawable/ic_baseline_qr_code_24"/>
     <item
-        android:id="@+id/mainActivity"
+        android:id="@+id/gamesMenu"
         android:title="Games"
         android:icon="@drawable/ic_baseline_gamepad_24"/>
     <item
