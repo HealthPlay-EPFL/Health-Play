@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#5A5A5A"
+    tools:context=".GamesMenu">
+
+    <LinearLayout
+        android:layout_width="337dp"
+        android:layout_height="174dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="121dp"
+        android:layout_marginEnd="51dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/play_button_left"
+            android:backgroundTint="@color/planthuntGreen"
+            />
+
+        <ImageButton
+            android:id="@+id/planthuntThumbnail"
+            android:layout_width="247dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/play_button_right"
+            android:contentDescription="displayPlanthuntDescription"
+            android:scaleType="centerCrop"
+            android:transitionName="planthunt_transition"
+            app:srcCompat="@drawable/planthunt_button" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/planthuntPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:text="►"
+            android:textColor="#FFFFFF"
+            android:textSize="60sp"
+            android:background="@drawable/play_button_right"
+            android:backgroundTint="@color/planthuntGreen"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="337dp"
+        android:layout_height="174dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="51dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/play_button_left"
+            android:backgroundTint="@color/kneetagBlue"
+            />
+
+        <ImageButton
+            android:id="@+id/kneetagThumbnail"
+            android:layout_width="247dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="displayKneetagDescription"
+            android:scaleType="center"
+            android:transitionName="kneetag_transition"
+            app:srcCompat="@drawable/kneetag_button" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/kneetagPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:text="►"
+            android:textColor="#FFFFFF"
+            android:textSize="60sp"
+            android:background="@drawable/play_button_right"
+            android:backgroundTint="@color/kneetagBlue"
+            />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
