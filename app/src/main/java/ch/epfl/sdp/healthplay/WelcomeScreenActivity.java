@@ -20,14 +20,13 @@ public class WelcomeScreenActivity extends AppCompatActivity {
         ImageView logo = (ImageView) findViewById(R.id.logo_image);
         logo.setImageResource(R.drawable.logo);
         Intent intent = new Intent(this, MainActivity.class);
-        //Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
                 launchMainActivity(intent);
             }
-        }, 6000);
-        for(int i = 0; i<6; i++){
-            pulse(i*1000, logo/*, handler*/);
+        }, 3000);
+        for(int i = 0; i<3; i++){
+            pulse(i*1000, logo);
         }
         View view = (View) findViewById(R.id.my_view);
         view.setOnTouchListener(new View.OnTouchListener() {
@@ -46,7 +45,7 @@ public class WelcomeScreenActivity extends AppCompatActivity {
         finish();
     }
 
-    private void pulse(int delay, ImageView logo/*, Handler handler*/){
+    private void pulse(int delay, ImageView logo){
         for(int i = 0; i<=1000; i+=5) {
             float opacity;
             if(i<500){
@@ -59,9 +58,5 @@ public class WelcomeScreenActivity extends AppCompatActivity {
                 }
             }, i + delay);
         }
-    }
-
-    public Handler getHandler(){
-        return handler;
     }
 }
