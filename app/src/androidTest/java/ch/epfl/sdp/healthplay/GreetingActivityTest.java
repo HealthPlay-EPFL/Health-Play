@@ -27,13 +27,9 @@ public class GreetingActivityTest {
         intent.putExtra(MainActivity.EXTRA_MESSAGE, TEST_TEXT);
 
         try (ActivityScenario<GreetingActivity> scenario = ActivityScenario.launch(intent)) {
-
-            ViewInteraction button = Espresso.onView(withId(R.id.incrCalories));
-            button.perform(ViewActions.click());
-
-            Espresso.onView(withId(R.id.CalorieCounter)).check(
+            Espresso.onView(withId(R.id.greetingMessage)).check(
                     ViewAssertions.matches(
-                            ViewMatchers.withText("1 " + "Calories")
+                            ViewMatchers.withText("Hello " + TEST_TEXT + "!")
                     )
             );
         }
