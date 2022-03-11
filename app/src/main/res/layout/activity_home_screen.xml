@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeScreenActivity">
+    tools:context=".HomeScreenActivity"
+    android:id="@+id/HomeView">
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
