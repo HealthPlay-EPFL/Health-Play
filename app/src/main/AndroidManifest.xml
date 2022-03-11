@@ -29,6 +29,13 @@
             android:name=".GreetingActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
+       <activity
+            android:name=".ProfileActivity"
+            android:exported="false"
+            android:parentActivityName=".ProfileSetupActivity"/>
+        <activity
+            android:name=".ProfileSetupActivity"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="false" />
@@ -42,5 +49,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
