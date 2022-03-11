@@ -65,26 +65,8 @@ public class ProfileActivityTest {
         //}
     }
 
-    @Test public void TestOneCalorie() {
-        /*Intent intent = new Intent(ApplicationProvider.getApplicationContext(), ProfileActivity.class);
-        intent.putExtra(ProfileSetupActivity.EXTRA_USERNAME, "Hugo");
-        intent.putExtra(ProfileSetupActivity.EXTRA_ID, "123");
-        User.writeNewUser("123", "Hugo", 0, 0);
-        try (ActivityScenario<ProfileActivity> scenario = ActivityScenario.launch(intent)) {*/
-            ViewInteraction button = Espresso.onView(withId(R.id.incrCalories));
-            button.perform(ViewActions.click());
-            Espresso.onView(withId(R.id.CalorieCounter)).check(
-                    ViewAssertions.matches(
-                            ViewMatchers.withText("1 calories!")
-                    )
 
 
-            );
 
-            User.deleteUser("123");
-
-        //}
-
-
-    }
+    
 }
