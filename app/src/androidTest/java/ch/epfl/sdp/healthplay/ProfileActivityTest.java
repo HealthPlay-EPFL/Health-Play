@@ -38,35 +38,59 @@ public class ProfileActivityTest {
         ActivityScenario<ProfileActivity> scenario = ActivityScenario.launch(intent);
     }
 
-    @Test public void TestgreetingMessage() {
+    @Test
+    public void TestgreetingMessage() {
 
         //try (ActivityScenario<ProfileActivity> scenario = ActivityScenario.launch(intent)) {
-            Espresso.onView(withId(R.id.ProfileGreeting)).check(
-                    ViewAssertions.matches(
-                            ViewMatchers.withText("Hi " + "Hugo")
-                    )
-            );
+        Espresso.onView(withId(R.id.ProfileGreeting)).check(
+                ViewAssertions.matches(
+                        ViewMatchers.withText("Hi " + "Hugo")
+                )
+        );
 
-            User.deleteUser("123");
+        User.deleteUser("123");
 
         //}
     }
 
-    @Test public void TestZeroCalorie() {
+    @Test
+    public void TestZeroCalorie() {
 
         //try (ActivityScenario<ProfileActivity> scenario = ActivityScenario.launch(intent)) {
 
-            Espresso.onView(withId(R.id.CalorieCounter)).check(
-                    ViewAssertions.matches(
-                            ViewMatchers.withText("0 calories!")
-                    )
-            );
-            User.deleteUser("123");
+        Espresso.onView(withId(R.id.CalorieCounter)).check(
+                ViewAssertions.matches(
+                        ViewMatchers.withText("0 calories!")
+                )
+        );
+        User.deleteUser("123");
         //}
     }
 
+    @Test public void TestOneCalorie() {
+        /*Intent intent = new Intent(ApplicationProvider.getApplicationContext(), ProfileActivity.class);
+        intent.putExtra(ProfileSetupActivity.EXTRA_USERNAME, "Hugo");
+        intent.putExtra(ProfileSetupActivity.EXTRA_ID, "123");
+        User.writeNewUser("123", "Hugo", 0, 0);
+        try (ActivityScenario<ProfileActivity> scenario = ActivityScenario.launch(intent)) {*/
+    ViewInteraction button = Espresso.onView(withId(R.id.incrCalories));
+        button.perform(ViewActions.click());
+        Espresso.onView(
+
+    withId(R.id.CalorieCounter)).
+
+    check(
+            ViewAssertions.matches(
+            ViewMatchers.withText("1 calories!")
+                )
 
 
+                        );
 
-    
+        User.deleteUser("123");
+
+    //}
+
+    }
+
 }
