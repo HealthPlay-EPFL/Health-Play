@@ -25,29 +25,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Intent intent = getIntent();
-        String name = intent.getStringExtra(ProfileSetupActivity.EXTRA_USERNAME);
-        String id = intent.getStringExtra(ProfileSetupActivity.EXTRA_ID);
+       init_Display();
 
-        TextView textView = findViewById(R.id.ProfileGreeting);
-        TextView TextView2 = findViewById(R.id.CalorieCounter);
-
-        String greeting = "Hi " + name;
-        textView.setText(greeting);
-
-        User.mDatabase.child("users").child(id).child("calorieCounter").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Integer calories = dataSnapshot.getValue(Integer.class);
-                String showCalories = calories + " calories!";
-                TextView2.setText(showCalories);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w("firebase", "Error:onCancelled", databaseError.toException());
-            }
-        });
     }
 
     public void incrCalories(View view) {
@@ -77,6 +56,33 @@ public class ProfileActivity extends AppCompatActivity {
                 int calories = Integer.parseInt(String.valueOf(task.getResult().getValue()));
                 String showCalories = calories + " calories!";
                 TextView2.setText(showCalories);
+            }
+        });
+    }
+
+    public void init_Display() {
+
+        Intent intent = getIntent();
+        String name = intent.getStringExtra(ProfileSetupActivity.EXTRA_USERNAME);
+        String id = intent.getStringExtra(ProfileSetupActivity.EXTRA_ID);
+
+        TextView textView = findViewById(R.id.ProfileGreeting);
+        TextView TextView2 = findViewById(R.id.CalorieCounter);
+
+        String greeting = "Hi " + name;
+        textView.setText(greeting);
+
+        User.mDatabase.child("users").child(id).child("calorieCounter").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Integer calories = dataSnapshot.getValue(Integer.class);
+                String showCalories = calories + " calories!";
+                TextView2.setText(showCalories);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w("firebase", "Error:onCancelled", databaseError.toException());
             }
         });
     }
