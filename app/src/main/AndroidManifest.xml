@@ -29,7 +29,7 @@
             android:name=".GreetingActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
-        <activity
+       <activity
             android:name=".ProfileActivity"
             android:exported="false"
             android:parentActivityName=".ProfileSetupActivity"/>
@@ -38,7 +38,10 @@
             android:exported="false"/>
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="false" />
+        <activity
+            android:name=".WelcomeScreenActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,5 +49,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
