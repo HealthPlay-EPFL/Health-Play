@@ -25,4 +25,8 @@
     <string name="title_activity_main2">MainActivity2</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="product_name_label">Name:</string>
+    <string name="product_energy_label">Energy:</string>
+    <string name="button_find_product_label">Find Information</string>
+    <string name="barcode_number_label">Barcode Number</string>
 </resources>

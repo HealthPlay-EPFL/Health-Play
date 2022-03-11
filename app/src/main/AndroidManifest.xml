@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ch.epfl.sdp.healthplay" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,6 +23,21 @@
             </intent-filter>
             -->
         </activity>
+        <activity
+            android:name=".KneetagDescription"
+            android:exported="false" />
+        <activity
+            android:name=".PlanthuntDescription"
+            android:exported="false" />
+        <activity
+            android:name=".GamesMenu"
+            android:exported="false" />
+        <activity
+            android:name=".BarcodeInformationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProductInfoActivity"
+            android:exported="false" />
         <activity
             android:name=".GreetingActivity"
             android:exported="false"
