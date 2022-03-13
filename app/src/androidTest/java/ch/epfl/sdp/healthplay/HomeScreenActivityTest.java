@@ -18,21 +18,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-
 public class HomeScreenActivityTest {
     @Rule
-    public ActivityScenarioRule<MainActivity> testRule = new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
 
-     @Test
-    public void fragmentChangeTest(){
+    @Test
+    public void fragmentChangeTest() {
          ViewInteraction fragment = Espresso.onView(withId(R.id.fragmentContainerView));
          ViewInteraction navigationBar = Espresso.onView(withId(R.id.bottomNavigationView));
          navigationBar.perform(ViewActions.click());
-
-     }
+    }
     /*@Test //fails
     public void navigationMenu_contractClicked_openContractFragment() {
         Espresso.onView(ViewMatchers.withId(R.id.bottomNavigationView)).perform(NavigationViewActions.navigateTo(R.id.frag_Profile));
-        Espresso.onView(ViewMatchers.withId(R.id.constraint_contract_overview))
+        Espresso.onView(ViewMatchers.withId(R.id.constraint_contract_overview));
     }*/
 }
