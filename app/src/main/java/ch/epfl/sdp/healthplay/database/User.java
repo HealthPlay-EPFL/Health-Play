@@ -129,10 +129,25 @@ public final class User {
      * Given a userId, return the map containing each dates in the
      * yyyy-MM-dd format, each of which contains a map of available
      * fields such as {@value CALORIE_COUNTER}, {@value WEIGHT} and
-     * {@value HEALTH_POINT}.
+     * {@value HEALTH_POINT}. The data retrieved is of the following
+     * JSON form :
+     * <pre>
+     * {@code
+     * {
+     *   "2022-03-04" : {
+     *     "caloriesCount" : 123,
+     *     "healthPoints"  : 123,
+     *     "weight"        : 123
+     *   },
+     *   ...
+     * }}
+     * </pre>
+     * The resulting map for the above example would be:<br>
+     * {@code {"2022-03-04"={"caloriesCount"=123, "healthPoints"=123, "weight"=123}, ...}}
      *
      * @param userId the id of the user
-     * @return a map of a map
+     * @return A map representing multiple maps of the given example.
+     * If a user has no stats, this method will return an empty map.
      */
     public static Map<String, Map<String, String>> getStats(String userId) {
         Map<String, Map<String, String>> map = new HashMap<>();
@@ -140,21 +155,37 @@ public final class User {
                 .child(userId)
                 .child(STATS)
                 .get()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        Log.e("firebase", "Error getting data", task.getException());
-                    } else {
-                        Log.d("test", String.valueOf(task.getResult().getValue()));
-                        map.putAll((Map<String, Map<String, String>>) task.getResult().getValue());
-                    }
-                });
+                .addOnCompleteListener(task -> map.putAll(listenerTask(task)));
 
         try {
+            // Wait for the listener to complete to get the result
             Tasks.await(t, 10, TimeUnit.SECONDS);
         } catch (ExecutionException | InterruptedException | TimeoutException e) {
             e.printStackTrace();
         }
 
         return map;
+    }
+
+    // Helper function used inside the addOnCompleteListener of getStats method
+    private static Map<String, Map<String, String>> listenerTask(Task<DataSnapshot> task) {
+        if (!task.isSuccessful()) {
+            Log.e("firebase", "Error getting data", task.getException());
+        }
+
+        try {
+            // This SuppressWarnings is used because the data taken from
+            // the database should be a JSON that is either empty or not
+            @SuppressWarnings("unchecked")
+            Map<String, Map<String, String>> result =
+                    (Map<String, Map<String, String>>) task.getResult().getValue();
+            if (result != null) {
+                return result;
+            }
+        } catch (ClassCastException ignored) {
+            // If a cast exception is thrown, it is ignored and
+            // the function will return an empty map
+        }
+        return new HashMap<>();
     }
 }
