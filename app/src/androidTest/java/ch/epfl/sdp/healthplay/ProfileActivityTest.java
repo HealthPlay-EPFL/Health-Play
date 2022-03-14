@@ -60,7 +60,7 @@ public class ProfileActivityTest {
 
         Espresso.onView(withId(R.id.CalorieCounter)).check(
                 ViewAssertions.matches(
-                        ViewMatchers.withText("0 calories!")
+                        ViewMatchers.withText("null calories!")
                 )
         );
         User.deleteUser("123");
