@@ -14,11 +14,14 @@
 
 package ch.epfl.sdp.healthplay.auth;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -37,6 +40,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.TwitterAuthProvider;
 import com.google.firebase.auth.UserInfo;
+
+import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.databinding.SignedInLayoutBinding;
 
@@ -55,26 +60,35 @@ public class SignedInActivity extends AppCompatActivity {
     public static final String IDP_RESPONSE = "extra_idp_response";
     private SignedInLayoutBinding mBinding;
 
-    @NonNull
-    public static Intent createIntent(@NonNull Context context, @Nullable IdpResponse response) {
-        return new Intent().setClass(context, SignedInActivity.class)
-                .putExtra(IDP_RESPONSE, response);
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         IdpResponse response = getIntent().getParcelableExtra(IDP_RESPONSE);
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            startActivity(AuthUiActivity.createIntent(this));
+            finish();
+            return;
+        }
+            mBinding = SignedInLayoutBinding.inflate(getLayoutInflater());
+            setContentView(mBinding.getRoot());
+            populateProfile(response);
+            populateIdpToken(response);
 
-        mBinding = SignedInLayoutBinding.inflate(getLayoutInflater());
-        setContentView(mBinding.getRoot());
-        populateProfile(response);
-        populateIdpToken(response);
+            mBinding.deleteAccount.setOnClickListener(view -> deleteAccountClicked());
 
-        mBinding.deleteAccount.setOnClickListener(view -> deleteAccountClicked());
+            mBinding.signOut.setOnClickListener(view -> signOut());
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mBinding.signOut.setOnClickListener(view -> signOut());
     }
 
     public void signOut() {
@@ -82,14 +96,27 @@ public class SignedInActivity extends AppCompatActivity {
                 .signOut(this)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        startActivity(AuthUiActivity.createIntent(SignedInActivity.this));
+                        startActivity(new Intent(this,HomeScreenActivity.class));
                         finish();
+                        return;
                     } else {
                         Log.w(TAG, "signOut:failure", task.getException());
                         showSnackbar(R.string.sign_out_failed);
                     }
                 });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                startActivity(new Intent(this,HomeScreenActivity.class));
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public void deleteAccountClicked() {
         new MaterialAlertDialogBuilder(this)
@@ -98,13 +125,16 @@ public class SignedInActivity extends AppCompatActivity {
                 .setNegativeButton("No", null)
                 .show();
     }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
 
     private void deleteAccount() {
         AuthUI.getInstance()
                 .delete(this)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        startActivity(AuthUiActivity.createIntent(SignedInActivity.this));
+                        startActivity(new Intent(this,HomeScreenActivity.class));
                         finish();
                     } else {
                         showSnackbar(R.string.delete_account_failed);

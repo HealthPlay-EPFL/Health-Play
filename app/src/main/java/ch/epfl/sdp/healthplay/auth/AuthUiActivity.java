@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
 
 import com.firebase.ui.auth.AuthMethodPickerLayout;
@@ -75,10 +76,10 @@ public class AuthUiActivity extends AppCompatActivity
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = AuthUiLayoutBinding.inflate(getLayoutInflater());
-        setContentView(mBinding.getRoot());
 
 
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         signIn.launch(getSignInIntent());
 
 
@@ -149,9 +150,18 @@ public class AuthUiActivity extends AppCompatActivity
             Log.e(TAG, "Sign-in error: ", response.getError());
         }
     }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                startActivity(new Intent(this,HomeScreenActivity.class));
+                return true;
+        }
 
+        return super.onOptionsItemSelected(item);
+    }
     private void startSignedInActivity(@Nullable IdpResponse response) {
-        startActivity(SignedInActivity.createIntent(this, response));
+        startActivity(new Intent(this,AuthUiActivity.class));
     }
 
     @StyleRes
@@ -173,6 +183,7 @@ public class AuthUiActivity extends AppCompatActivity
             selectedProviders.add(new IdpConfig.EmailBuilder()
                     .setRequireName(mBinding.requireName.isChecked())
                     .setAllowNewAccounts(mBinding.allowNewEmailAccounts.isChecked())
+                    .setDefaultEmail("health.play@gmail.com")
                     .build());
 
 

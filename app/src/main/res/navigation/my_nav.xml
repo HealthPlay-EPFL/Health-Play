@@ -47,4 +47,14 @@
         android:name="ch.epfl.sdp.healthplay.auth.SignedInActivity"
         android:label="sign_in"
         tools:layout="@layout/signed_in_layout" />
+    <activity
+        android:id="@+id/authUIActivity"
+        android:name="ch.epfl.sdp.healthplay.auth.AuthUiActivity"
+        android:label="authentification"
+        tools:layout="@layout/auth_ui_layout" />
+    <activity
+        android:id="@+id/profileActivity"
+        android:name="ch.epfl.sdp.healthplay.auth.ProfileActivity"
+        android:label="profile"
+        tools:layout="@layout/activity_profile" />
 </navigation>
