@@ -1,12 +1,20 @@
 package ch.epfl.sdp.healthplay;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
+import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +33,16 @@ public class AuthUiActivityTest {
         ActivityScenario activityTest = ActivityScenario.launch(AuthUiActivity.class);
     }
     @Test
-    public void startingNewIntentAuto() throws InterruptedException {
-        ViewInteraction button = Espresso.onView(withId(R.id.sign_out));
-        button.perform(ViewActions.click());
+    public void authentificate() {
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            ViewInteraction idView = Espresso.onView(withId(com.firebase.ui.auth.R.id.password));
+            idView.perform(ViewActions.typeText("123456"));
+            idView = Espresso.onView(withId(com.firebase.ui.auth.R.id.button_done));
+            idView.perform(ViewActions.click());
+
+        }
+        onView(withId(R.id.HomeView)).check(matches(isDisplayed()));
     }
 }

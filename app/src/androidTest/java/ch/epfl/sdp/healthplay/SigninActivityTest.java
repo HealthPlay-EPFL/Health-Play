@@ -30,9 +30,6 @@ public class SigninActivityTest {
 
     @Test
     public void startingNewIntentAuto() throws InterruptedException {
-        ViewInteraction button = Espresso.onView(withId(R.id.sign_out));
-        TimeUnit.SECONDS.sleep(5);
-        button.perform(ViewActions.click());
-        TimeUnit.SECONDS.sleep(5);
+
     }
 }

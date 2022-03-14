@@ -40,6 +40,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.ActionCodeSettings;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,8 +79,12 @@ public class AuthUiActivity extends AppCompatActivity
         mBinding = AuthUiLayoutBinding.inflate(getLayoutInflater());
 
 
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            startActivity(new Intent(this,HomeScreenActivity.class));
+            finish();
+            return;
+        }
         signIn.launch(getSignInIntent());
 
 
