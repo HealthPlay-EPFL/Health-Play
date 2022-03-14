@@ -59,12 +59,7 @@ public class AuthUiActivity extends AppCompatActivity
         implements ActivityResultCallback<FirebaseAuthUIAuthenticationResult> {
     private static final String TAG = "AuthUiActivity";
 
-    private static final String GOOGLE_TOS_URL = "https://www.google.com/policies/terms/";
-    private static final String FIREBASE_TOS_URL = "https://firebase.google.com/terms/";
-    private static final String GOOGLE_PRIVACY_POLICY_URL = "https://www.google" +
-            ".com/policies/privacy/";
-    private static final String FIREBASE_PRIVACY_POLICY_URL = "https://firebase.google" +
-            ".com/terms/analytics/#7_privacy";
+
 
     private AuthUiLayoutBinding mBinding;
 
