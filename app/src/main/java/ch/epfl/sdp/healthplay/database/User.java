@@ -155,26 +155,7 @@ public final class User {
                 .child(userId)
                 .child(STATS)
                 .get()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        Log.e("firebase", "Error getting data", task.getException());
-                    } else {
-                        Log.d("test", String.valueOf(task.getResult().getValue()));
-                        try {
-                            // This SuppressWarnings is used because the data taken from
-                            // the database should be a JSON that is either empty or not
-                            @SuppressWarnings("unchecked")
-                            Map<String, Map<String, String>> result =
-                                    (Map<String, Map<String, String>>) task.getResult().getValue();
-                            if (result != null) {
-                                map.putAll(result);
-                            }
-                        } catch (ClassCastException ignored) {
-                            // If a cast exception is thrown, it is ignored and
-                            // the function will return an empty map
-                        }
-                    }
-                });
+                .addOnCompleteListener(task -> listenerTask(map, task));
 
         try {
             Tasks.await(t, 10, TimeUnit.SECONDS);
@@ -183,5 +164,27 @@ public final class User {
         }
 
         return map;
+    }
+
+    // Helper function used inside the addOnCompleteListener of getStats method
+    private static void listenerTask(Map<String, Map<String, String>> map, Task<DataSnapshot> task) {
+        if (!task.isSuccessful()) {
+            Log.e("firebase", "Error getting data", task.getException());
+        } else {
+            Log.d("firebase", String.valueOf(task.getResult().getValue()));
+            try {
+                // This SuppressWarnings is used because the data taken from
+                // the database should be a JSON that is either empty or not
+                @SuppressWarnings("unchecked")
+                Map<String, Map<String, String>> result =
+                        (Map<String, Map<String, String>>) task.getResult().getValue();
+                if (result != null) {
+                    map.putAll(result);
+                }
+            } catch (ClassCastException ignored) {
+                // If a cast exception is thrown, it is ignored and
+                // the function will return an empty map
+            }
+        }
     }
 }
