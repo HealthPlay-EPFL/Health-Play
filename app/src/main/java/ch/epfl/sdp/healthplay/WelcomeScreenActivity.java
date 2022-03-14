@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import ch.epfl.sdp.healthplay.auth.AuthUiActivity;
+
 public class WelcomeScreenActivity extends AppCompatActivity {
 
     private Handler handler = new Handler();
@@ -19,7 +21,7 @@ public class WelcomeScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome_screen);
         ImageView logo = (ImageView) findViewById(R.id.logo_image);
         logo.setImageResource(R.drawable.logo);
-        Intent intent = new Intent(this, HomeScreenActivity.class);
+        Intent intent = new Intent(this, AuthUiActivity.class);
         //Wait 3sec before launch HomeActivity
         handler.postDelayed(new Runnable() {
             public void run() {

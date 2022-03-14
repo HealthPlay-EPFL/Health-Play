@@ -19,6 +19,12 @@
             android:name=".KneetagDescription"
             android:exported="false" />
         <activity
+            android:name=".auth.AuthUiActivity"
+            android:exported="true" />
+        <activity
+            android:name=".auth.SignedInActivity"
+            android:exported="false" />
+        <activity
             android:name=".PlanthuntDescription"
             android:exported="false" />
         <activity
@@ -31,20 +37,12 @@
             android:name=".ProductInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".GreetingActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".ProfileActivity"
+            android:name=".auth.ProfileActivity"
             android:exported="false"
             android:parentActivityName=".ProfileSetupActivity"/>
         <activity
             android:name=".ProfileSetupActivity"
             android:exported="false"/>
-        <activity
-            android:name=".MainActivity"
-
-            android:exported="false" />
         <activity
             android:name=".WelcomeScreenActivity"
             android:exported="true">
