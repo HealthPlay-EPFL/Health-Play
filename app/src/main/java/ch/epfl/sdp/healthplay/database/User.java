@@ -155,9 +155,10 @@ public final class User {
                 .child(userId)
                 .child(STATS)
                 .get()
-                .addOnCompleteListener(task -> listenerTask(map, task));
+                .addOnCompleteListener(task -> map.putAll(listenerTask(task)));
 
         try {
+            // Wait for the listener to complete to get the result
             Tasks.await(t, 10, TimeUnit.SECONDS);
         } catch (ExecutionException | InterruptedException | TimeoutException e) {
             e.printStackTrace();
@@ -167,24 +168,24 @@ public final class User {
     }
 
     // Helper function used inside the addOnCompleteListener of getStats method
-    private static void listenerTask(Map<String, Map<String, String>> map, Task<DataSnapshot> task) {
+    private static Map<String, Map<String, String>> listenerTask(Task<DataSnapshot> task) {
         if (!task.isSuccessful()) {
             Log.e("firebase", "Error getting data", task.getException());
-        } else {
-            Log.d("firebase", String.valueOf(task.getResult().getValue()));
-            try {
-                // This SuppressWarnings is used because the data taken from
-                // the database should be a JSON that is either empty or not
-                @SuppressWarnings("unchecked")
-                Map<String, Map<String, String>> result =
-                        (Map<String, Map<String, String>>) task.getResult().getValue();
-                if (result != null) {
-                    map.putAll(result);
-                }
-            } catch (ClassCastException ignored) {
-                // If a cast exception is thrown, it is ignored and
-                // the function will return an empty map
-            }
         }
+
+        try {
+            // This SuppressWarnings is used because the data taken from
+            // the database should be a JSON that is either empty or not
+            @SuppressWarnings("unchecked")
+            Map<String, Map<String, String>> result =
+                    (Map<String, Map<String, String>>) task.getResult().getValue();
+            if (result != null) {
+                return result;
+            }
+        } catch (ClassCastException ignored) {
+            // If a cast exception is thrown, it is ignored and
+            // the function will return an empty map
+        }
+        return new HashMap<>();
     }
 }
