@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#5A5A5A"
     tools:context=".GamesMenu">
 
     <LinearLayout
@@ -21,14 +20,14 @@
 
         <ImageButton
             android:id="@+id/planthuntThumbnail"
-            android:layout_width="280dp"
+            android:layout_width="254dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="displayPlanthuntDescription"
             android:scaleType="fitXY"
             android:transitionName="planthunt_transition"
-            app:srcCompat="@drawable/planthunt_button_2" />
+            app:srcCompat="@drawable/planthunt_thumbnail" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/planthuntPlay"
@@ -40,7 +39,7 @@
             android:textColor="#FFFFFF"
             android:textSize="60sp"
             android:background="@drawable/play_button_right"
-            android:backgroundTint="@color/planthuntGreen"
+            android:backgroundTint="@color/planthuntPlayColor"
             />
     </LinearLayout>
 
@@ -55,24 +54,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/play_button_left"
-            android:backgroundTint="@color/kneetagBlue"
-            />
-
         <ImageButton
             android:id="@+id/kneetagThumbnail"
             android:layout_width="247dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:contentDescription="displayKneetagDescription"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:background="@drawable/play_button_left"
             android:transitionName="kneetag_transition"
-            app:srcCompat="@drawable/kneetag_button" />
+            app:srcCompat="@drawable/kneetag_thumbnail" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/kneetagPlay"
@@ -84,7 +75,7 @@
             android:textColor="#FFFFFF"
             android:textSize="60sp"
             android:background="@drawable/play_button_right"
-            android:backgroundTint="@color/kneetagBlue"
+            android:backgroundTint="@color/kneetagPlayColor"
             />
     </LinearLayout>
 

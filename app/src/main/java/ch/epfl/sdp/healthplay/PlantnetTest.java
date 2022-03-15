@@ -26,8 +26,7 @@ import okhttp3.HttpUrl;
 
 public class PlantnetTest extends AppCompatActivity {
     private static final String API_KEY = "2b106lfsSUXwI6p3JCdVgOXVQe";
-    //private static final String IMAGE = "https://www.jardiner-malin.fr/wp-content/uploads/2022/01/orchidee.jpg";
-    private static final String IMAGE = "@drawable/orchidee";
+    private static final String IMAGE = "https://www.jardiner-malin.fr/wp-content/uploads/2022/01/orchidee.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +92,9 @@ public class PlantnetTest extends AppCompatActivity {
                 .scheme("https")
                 .host("my-api.plantnet.org")
                 .addPathSegments("v2/identify/all")
-                .addQueryParameter("api-key", "2b106lfsSUXwI6p3JCdVgOXVQe")
-                .addQueryParameter("images", "https://www.jardiner-malin.fr/wp-content/uploads/2022/01/orchidee.jpg")
-                .addQueryParameter("organs", "flower")
+                .addQueryParameter("api-key", apiKey)
+                .addQueryParameter("images", imageUrl)
+                .addQueryParameter("organs", organ)
                 .build().url();
         return url.toString();
     }

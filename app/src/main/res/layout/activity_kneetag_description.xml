@@ -12,26 +12,19 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/kneetag_button"
+        android:src="@drawable/kneetag_description"
         android:transitionName="kneetag_transition" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="
-
 Ask everyone to find a partner who has knees that look like theirs.\n
-
 Of course, this is a completely frivolous request, because all you really need are lots of pairs, but observing the brief pursuit of knee comparison is worth it. To this end, any other method to locate a random partner will suffice.\n
-
 Standing with their feet about shoulder-width apart, each person faces their partner about a metre (3’) away and bends down slightly to place their hands on their knees.\n
-
 Each combatant eyes the other eagerly and on “GO” the action begins.\n
-
 A score is made when one person tags the undefended knee of the other, ie their partner does not have a hand on that knee for a split second. Naturally, in order to make a tag, a person’s hand must vacate their knee, so they are vulnerable to attack as well.\n
-
 A round lasts no more than 20-30 seconds. The person who scores the most ‘tags’ upon their partner’s knees wins. Start a new round, or swap partners.\n
-
 Having grasped this basic set-up, look to the Variations tab, because there is so much more available to you.\n
 " />
 
