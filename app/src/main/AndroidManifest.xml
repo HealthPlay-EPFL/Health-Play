@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ch.epfl.sdp.healthplay" >
+    package="ch.epfl.sdp.healthplay">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-
-        android:theme="@style/Theme.HealthPlay" >
+        android:theme="@style/Theme.HealthPlay">
+        <activity
+            android:name=".PlantnetTest"
+            android:exported="false" />
         <activity
             android:name=".HomeScreenActivity"
-            android:exported="true" >
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".KneetagDescription"
             android:exported="false" />
@@ -37,13 +39,12 @@
         <activity
             android:name=".ProfileActivity"
             android:exported="false"
-            android:parentActivityName=".ProfileSetupActivity"/>
+            android:parentActivityName=".ProfileSetupActivity" />
         <activity
             android:name=".ProfileSetupActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
-
             android:exported="false" />
         <activity
             android:name=".WelcomeScreenActivity"
@@ -55,4 +56,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

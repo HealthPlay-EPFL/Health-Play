@@ -18,7 +18,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="qdfghkqsbfjkqsgfjqsngjqnbdqbgkjqbdkvbqjdvnjq;snvjkqnsvqnsvnqslvnqslvnlqsnvljqsnvjlq" />
+        android:text="Plant-Hunt is an exploration game where each player or team has to collect as many points
+            as possible from taking pictures of a maximum of rare plants.\n
+            The plants are identified directly in the app using a wifi connection or you can store the pictures and
+            get the results as soon as you get back online.\n
+            The game can be played with any number of player from 1 to 100 years old.\n
+            Good luck hunting!" />
 
 
 </LinearLayout>
