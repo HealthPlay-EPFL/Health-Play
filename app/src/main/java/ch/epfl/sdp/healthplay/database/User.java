@@ -2,6 +2,8 @@ package ch.epfl.sdp.healthplay.database;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
@@ -57,8 +59,16 @@ public final class User {
         this.age = age;
     }
 
+    /**
+     * Creates a new user in the database
+     *
+     * @param userId the unique identifier given to the user
+     * @param userName the username
+     * @param age the age of the user
+     * @param weight the weight of the user
+     */
     public static void writeNewUser(String userId, String userName, int age, int weight) {
-        User user = new User(userName, "empty name", "emtpy surname", "empty@email.com", "2000-01-01", age);
+        User user = new User(userName, "empty name", "empty surname", "empty@email.com", "2000-01-01", age);
         mDatabase.child(USERS).child(userId).setValue(user);
     }
 
@@ -66,13 +76,50 @@ public final class User {
         mDatabase.child(USERS).child(userId).child(USERNAME).setValue(name);
     }
 
+    /**
+     * Writes the calorie counter for today and overwrites any
+     * values that were present before.
+     *
+     * @param userId the user ID
+     * @param calorieCounter the number of calories
+     */
     public static void writeCalorie(String userId, int calorieCounter) {
         mDatabase.child(USERS)
                 .child(userId)
                 .child(STATS)
-                .child(format.format(new Date()))
+                .child(getTodayDate())
                 .child(CALORIE_COUNTER)
                 .setValue(calorieCounter);
+    }
+
+    /**
+     * Adds the given number of calories to the user's statistics. The
+     * difference with {@linkplain #writeCalorie(String, int)} is that
+     * this methods add to the current value contained for the day.
+     *
+     * @param userId the user ID
+     * @param calories the number of calories to add
+     */
+    public static void addCalorie(String userId, int calories) {
+        int toAdd = calories;
+        Map<String, Map<String, String>> map = getStats(userId);
+        // This bellow is to check the existence of the wanted calories
+        // for today's date
+        if (map.containsKey(getTodayDate())) {
+            Map<String, String> calo = map.get(getTodayDate());
+            String currentCalories;
+            if (calo != null &&
+                    calo.containsKey(CALORIE_COUNTER) &&
+                    (currentCalories = calo.get(CALORIE_COUNTER)) != null) {
+                toAdd += Integer.parseInt(currentCalories);
+            }
+        }
+        mDatabase.child(USERS)
+                .child(userId)
+                .child(STATS)
+                .child(getTodayDate())
+                .child(CALORIE_COUNTER)
+                .setValue(toAdd);
     }
 
     public static void writeAge(String userId, int age) {
@@ -83,7 +130,7 @@ public final class User {
         mDatabase.child(USERS)
                 .child(userId)
                 .child(STATS)
-                .child(format.format(new Date()))
+                .child(getTodayDate())
                 .child(HEALTH_POINT)
                 .setValue(healthPoint);
     }
@@ -92,7 +139,7 @@ public final class User {
         mDatabase.child(USERS)
                 .child(userId)
                 .child(STATS)
-                .child(format.format(new Date()))
+                .child(getTodayDate())
                 .child(WEIGHT)
                 .setValue(weight);
     }
@@ -187,5 +234,15 @@ public final class User {
             // the function will return an empty map
         }
         return new HashMap<>();
+    }
+
+    /**
+     * Gets the current date in the yyyy-MM-dd format
+     *
+     * @return the current date in the yyyy-MM-dd format
+     */
+    @NonNull
+    private static String getTodayDate() {
+        return format.format(new Date());
     }
 }
