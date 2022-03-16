@@ -22,8 +22,8 @@ import ch.epfl.sdp.healthplay.model.ProductInfoClient;
 
 public class BarcodeInformationActivity extends AppCompatActivity {
 
-    private final AtomicReference<String> productName = new AtomicReference<>("");
-    private final AtomicReference<String> energy = new AtomicReference<>("");
+    private final AtomicReference<String> productName = new AtomicReference<>("Unknown");
+    private final AtomicReference<String> energy = new AtomicReference<>("Unknown");
     private FirebaseUser user;
 
     private Thread pullInformation(String barcode) {
@@ -35,12 +35,10 @@ public class BarcodeInformationActivity extends AppCompatActivity {
                     Product product = p.get();
                     productName.set(product.getName());
                     int value = product.getKCalEnergy();
-                    energy.set(value < 0 ? "Unkown" : Integer.toString(value));
+                    energy.set(value < 0 ? "Unknown" : Integer.toString(value));
                 }
 
-            } catch (IOException e) {
-                productName.set("Unknown");
-                energy.set("Unknown");
+            } catch (IOException ignored) {
             }
         });
     }

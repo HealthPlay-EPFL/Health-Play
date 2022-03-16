@@ -19,11 +19,11 @@ public class BarcodeInformationActivityTest {
     private static final String TEST_CODE = "737628064502";
 
     @Test
-    public void test() {
+    public void testInterface() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
         intent.putExtra(ProductInfoActivity.EXTRA_MESSAGE, TEST_CODE);
 
-        try (ActivityScenario<GreetingActivity> ignored = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<BarcodeInformationActivity> ignored = ActivityScenario.launch(intent)) {
             Espresso.onView(withId(R.id.pName)).check(
                     ViewAssertions.matches(
                             ViewMatchers.withText("Thai peanut noodle kit includes stir-fry rice noodles & thai peanut seasoning")
@@ -35,5 +35,25 @@ public class BarcodeInformationActivityTest {
                     )
             );
         }
+    }
+
+
+    @Test
+    public void testUnknown() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
+        intent.putExtra(ProductInfoActivity.EXTRA_MESSAGE, "TEST_CODE");
+        try (ActivityScenario<BarcodeInformationActivity> ignored = ActivityScenario.launch(intent)) {
+            Espresso.onView(withId(R.id.pName)).check(
+                    ViewAssertions.matches(
+                            ViewMatchers.withText("Unknown")
+                    )
+            );
+            Espresso.onView(withId(R.id.pEnergy)).check(
+                    ViewAssertions.matches(
+                            ViewMatchers.withText("Unknown")
+                    )
+            );
+        }
+
     }
 }
