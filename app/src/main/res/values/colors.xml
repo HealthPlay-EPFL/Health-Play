@@ -10,4 +10,7 @@
     <color name="new_black">#FF0A0917</color>
     <color name="planthuntGreen">#44b080</color>
     <color name="kneetagBlue">#30807c</color>
+    <color name="colorPrimary">#039BE5</color>
+    <color name="colorPrimaryVariant">#0288D1</color>
+    <color name="lightGray">#FFEFEFEF</color>
 </resources>
