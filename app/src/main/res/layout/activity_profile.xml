@@ -8,54 +8,178 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="300dp"
         android:background="@drawable/gradient">
-
 
         <ImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginStart="30dp"
             android:layout_marginTop="30dp"
-            android:layout_marginEnd="30dp"
             android:layout_marginBottom="30dp"
-            android:adjustViewBounds="true"
             android:background="@drawable/border"
             android:padding="3dp"
-            android:src="@drawable/rounded_logo" />
+            android:src="@drawable/rounded_logo"
+            />
 
         <TextView
+            android:id="@+id/profileUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="170dp"
             android:text="USERNAME"
             android:textColor="@color/lightGray"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
 
-        <ImageView
-
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_baseline_edit_24" />
 
     </RelativeLayout>
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/statsButton"
         android:layout_width="375dp"
         android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="230dp"
+        android:layout_marginStart="240dp"
+        android:layout_marginTop="241dp"
+        android:layout_marginEnd="240dp"
+        android:layout_marginBottom="370dp"
         android:background="@drawable/rounded_button"
+        android:text="9999999\ndaily calories"
+        android:textAllCaps="false"
+        android:textColor="@color/lightGray"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(click to view stats)"
+        android:textColor="#FE9F9B9B"
+        android:layout_marginTop="370dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="11sp"
 
+    />
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_baseline_edit_24"
         />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="60dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textColor="@color/colorPrimaryVariant" />
+
+
+            <TextView
+                android:id="@+id/profileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="something"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="13dp"
+                android:background="#FFC0C0C0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Birthday"
+                android:textColor="@color/colorPrimaryVariant" />
+
+
+            <TextView
+                android:id="@+id/profileBirthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10/10/10"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="13dp"
+                android:background="#FFC0C0C0" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Weight (kg)"
+                android:textColor="@color/colorPrimaryVariant" />
+
+
+            <TextView
+                android:id="@+id/profileWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ahahahahh"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="13dp"
+                android:background="#FFC0C0C0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Health Point"
+                android:textColor="@color/colorPrimaryVariant" />
+
+
+            <TextView
+                android:id="@+id/profileHealthPoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ahahahahh"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="13dp"
+                android:background="#FFC0C0C0" />
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
 
 </RelativeLayout>

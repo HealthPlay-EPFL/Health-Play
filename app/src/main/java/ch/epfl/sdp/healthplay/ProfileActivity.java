@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -25,7 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-       init_Display();
+      // init_Display();
 
     }
 
@@ -62,28 +64,20 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void init_Display() {
 
-        Intent intent = getIntent();
-        String name = intent.getStringExtra(ProfileSetupActivity.EXTRA_USERNAME);
-        String id = intent.getStringExtra(ProfileSetupActivity.EXTRA_ID);
 
-        TextView textView = findViewById(R.id.ProfileGreeting);
-        TextView TextView2 = findViewById(R.id.CalorieCounter);
 
-        String greeting = "Hi " + name;
-        textView.setText(greeting);
+        TextView TextViewUsername = findViewById(R.id.profileUsername);
+        TextView TextViewStatsButton = findViewById(R.id.statsButton);
+        TextView TextViewWeight = findViewById(R.id.profileWeight);
+        TextView TextViewBirthday = findViewById(R.id.profileBirthday);
+        TextView TextViewHealthPoint = findViewById(R.id.profileHealthPoint);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            //TODO ADD ACTIVITY
+        }
+       
 
-        User.mDatabase.child("users").child(id).child("calorieCounter").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Integer calories = dataSnapshot.getValue(Integer.class);
-                String showCalories = calories + " calories!";
-                TextView2.setText(showCalories);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w("firebase", "Error:onCancelled", databaseError.toException());
-            }
-        });
+
     }
 }

@@ -167,6 +167,7 @@ public final class User {
         return map;
     }
 
+
     // Helper function used inside the addOnCompleteListener of getStats method
     private static Map<String, Map<String, String>> listenerTask(Task<DataSnapshot> task) {
         if (!task.isSuccessful()) {
@@ -188,4 +189,7 @@ public final class User {
         }
         return new HashMap<>();
     }
+
+
+
 }
