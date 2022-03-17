@@ -10,6 +10,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,13 +23,21 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
     private void modifyText(FirebaseUser user, int layoutId, String field) {
         EditText name = findViewById(layoutId);
-        name.setHint(User.readField(user.getUid(), field));
+        String answer = User.readField(user.getUid(), field);
+        if (field.equals(User.BIRTHDAY)) {
+            // Receives the date as format like 2022-03-17
+            // Must reverse the order
+            String[] date = answer.split("-");
+            answer = date[2] + "/" + date[1] + "/" + date[0];
+        }
+        name.setHint(answer);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
+        getSupportActionBar().hide();
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
