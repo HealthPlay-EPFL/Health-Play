@@ -38,9 +38,8 @@ public class GamesMenuTest {
     }
 
     @Test
-    public void kneetagDescriptionCorrectlyDisplays() throws InterruptedException {
+    public void kneetagDescriptionCorrectlyDisplays() {
         Espresso.onView(withId(R.id.kneetagThumbnail)).perform(click());
-        TimeUnit.SECONDS.sleep(3);
         Espresso.onView(withId(R.id.kneetagDescription)).check(ViewAssertions.matches(isDisplayed()));
     }
 
