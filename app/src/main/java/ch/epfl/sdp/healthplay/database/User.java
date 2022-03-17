@@ -30,6 +30,7 @@ public final class User {
     public static final String AGE = "age";
     public static final String HEALTH_POINT = "healthPoint";
     public static final String WEIGHT = "weight";
+    public static final String LAST_CURRENT_WEIGHT = "lastCurrentWeight";
 
     public static DatabaseReference mDatabase = FirebaseDatabase.getInstance(DATABASE_URL).getReference();
 
@@ -43,6 +44,7 @@ public final class User {
     // A yyyy-MM-dd formatted date
     private String birthday;
     private int age;
+    private String lastCurrentWeight;
 
     // Format used to format date when adding stats
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -57,15 +59,16 @@ public final class User {
         this.email = email;
         this.birthday = birthday;
         this.age = age;
+        this.lastCurrentWeight = "";
     }
 
     /**
      * Creates a new user in the database
      *
-     * @param userId the unique identifier given to the user
+     * @param userId   the unique identifier given to the user
      * @param userName the username
-     * @param age the age of the user
-     * @param weight the weight of the user
+     * @param age      the age of the user
+     * @param weight   the weight of the user
      */
     public static void writeNewUser(String userId, String userName, int age, int weight) {
         User user = new User(userName, "empty name", "empty surname", "empty@email.com", "2000-01-01", age);
@@ -80,7 +83,7 @@ public final class User {
      * Writes the calorie counter for today and overwrites any
      * values that were present before.
      *
-     * @param userId the user ID
+     * @param userId         the user ID
      * @param calorieCounter the number of calories
      */
     public static void writeCalorie(String userId, int calorieCounter) {
@@ -97,7 +100,7 @@ public final class User {
      * difference with {@linkplain #writeCalorie(String, int)} is that
      * this methods add to the current value contained for the day.
      *
-     * @param userId the user ID
+     * @param userId   the user ID
      * @param calories the number of calories to add
      */
     public static void addCalorie(String userId, int calories) {
@@ -135,7 +138,12 @@ public final class User {
                 .setValue(healthPoint);
     }
 
-    public static void writeWeight(String userId, int weight) {
+    public static void writeWeight(String userId, double weight) {
+        mDatabase.child(USERS)
+                .child(userId)
+                .child(LAST_CURRENT_WEIGHT)
+                .setValue(weight);
+
         mDatabase.child(USERS)
                 .child(userId)
                 .child(STATS)
@@ -170,6 +178,10 @@ public final class User {
 
     public int getAge() {
         return age;
+    }
+
+    public String getLastCurrentWeight() {
+        return lastCurrentWeight;
     }
 
     /**
@@ -244,5 +256,29 @@ public final class User {
     @NonNull
     private static String getTodayDate() {
         return format.format(new Date());
+    }
+
+    /**
+     * Gets the last entered weight for the given user if present
+     *
+     * @param userId the user id
+     * @return the string of the last entered weight if the user ever entered one,
+     * the empty string otherwise
+     */
+    public static String getLastEnteredWeight(String userId) {
+        StringBuilder weight = new StringBuilder();
+        mDatabase
+                .child(USERS)
+                .child(userId)
+                .child(LAST_CURRENT_WEIGHT)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    } else {
+                        weight.append(task.getResult());
+                    }
+                });
+        return weight.toString();
     }
 }
