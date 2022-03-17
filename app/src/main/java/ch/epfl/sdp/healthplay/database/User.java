@@ -187,15 +187,15 @@ public final class User {
     public static void writeBirthday(String userId, String birthday) {
         mDatabase.child(USERS)
                 .child(userId)
-                .child(SURNAME)
+                .child(BIRTHDAY)
                 .setValue(birthday);
         try {
             Date birth = format.parse(birthday);
             Date today = new Date();
             Calendar calendar = Calendar.getInstance();
-            if (birth != null){
+            if (birth != null) {
                 calendar.setTimeInMillis(today.getTime() - birth.getTime());
-                int age  = calendar.get(Calendar.YEAR);
+                int age = calendar.get(Calendar.YEAR);
                 writeAge(userId, age);
             }
         } catch (ParseException ignored) {

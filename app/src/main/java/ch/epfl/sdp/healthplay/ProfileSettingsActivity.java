@@ -27,7 +27,12 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             if (!task.isSuccessful()) {
                 Log.e("ERROR", "ERRRORORORO");
             }
-            String answer = task.getResult().getValue(String.class);
+            String answer;
+            if (field.equals(User.LAST_CURRENT_WEIGHT)) {
+                answer = String.valueOf(task.getResult().getValue());
+            } else {
+                answer = task.getResult().getValue(String.class);
+            }
             EditText name = findViewById(layoutId);
             if (field.equals(User.BIRTHDAY)) {
                 // Receives the date as format like 2022-03-17
@@ -47,7 +52,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         //FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
-        User.writeNewUser("CdTrI7WKUUThqsVTFx6JZJZhk0s2", "admin", 22, 71);
         user = FirebaseAuth.getInstance().getCurrentUser();
         //FirebaseAuth.getInstance().signOut();
 
@@ -57,7 +61,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             modifyText(user, R.id.modifySurnameEditText, User.SURNAME);
             modifyText(user, R.id.modifyUsernameEditText, User.USERNAME);
             modifyText(user, R.id.modifyBirthDateEditText, User.BIRTHDAY);
-            modifyText(user, R.id.modifyWeightEditText, User.WEIGHT);
+            modifyText(user, R.id.modifyWeightEditText, User.LAST_CURRENT_WEIGHT);
         }
     }
 
@@ -75,10 +79,10 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
             text = findViewById(R.id.modifyBirthDateEditText);
             String birthday = text.getText().toString();
-            String[] date = birthday.split("-");
+            String[] date = birthday.split("/");
             User.writeBirthday(uid, date[2] + "-" + date[1] + "-" + date[0]);
 
-            text = findViewById(R.id.modifyUsernameEditText);
+            text = findViewById(R.id.modifyWeightEditText);
             User.writeWeight(uid, Double.parseDouble(text.getText().toString()));
         }
     }
