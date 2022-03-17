@@ -27,6 +27,7 @@ public class Graph_Frag extends Fragment {
     private HashMap<String, BarData> monthData, weekData;
     private BarData draw;
     private String drawLabel;
+    private BarChart bar;
     private static String[] categories = {"calories", "health points"};
     private static String[] weekLabel = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
     private static String[] monthLabel = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
@@ -63,6 +64,69 @@ public class Graph_Frag extends Fragment {
         return map;
     }
 
+    public void initData(){
+        String[] initWeekLabel = {"weekC", "weekH"};
+        String[] initMonthLabel = {"monthC", "monthH"};
+        String[] initLabel = {"Average of calories", "Sum of Health points"};
+        weekData = initMapBar(initMap(initWeekLabel), initLabel);
+        monthData = initMapBar(initMap(initMonthLabel), initLabel);
+
+        draw = weekData.get(categories[0]);
+        drawLabel = categories[0];
+    }
+
+    public void initBarChart(View view){
+        bar = view.findViewById(R.id.idBarChart);
+        bar.getDescription().setEnabled(false);
+        bar.setFitBars(true);
+        bar.animateY(1000);
+        bar.setData(draw);
+        setAxis(weekLabel, 10f);
+    }
+
+    public void setAxis(String[] valueFormatterX, float granularityY){
+        XAxis xAxis = bar.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(valueFormatterX));
+
+        YAxis axisLeft = bar.getAxisLeft();
+        axisLeft.setGranularity(granularityY);
+        axisLeft.setAxisMinimum(0);
+
+        YAxis axisRight = bar.getAxisRight();
+        axisRight.setGranularity(granularityY);
+        axisRight.setAxisMinimum(0);
+    }
+
+    public void switchVisibilityOnButton(Button enable, Button notEnable){
+        notEnable.setEnabled(false);
+        notEnable.setVisibility(View.INVISIBLE);
+        enable.setVisibility(View.VISIBLE);
+        enable.setEnabled(true);
+    }
+
+    public void clickOnButton(int button, Button prev, Button next, Button buttonCal, Button buttonHealth){
+        if(button == 0 || button == 2 || button == 3){
+            if(button == 2){
+                drawLabel = categories[0];
+                switchVisibilityOnButton(buttonHealth, buttonCal);
+            }else if(button == 3){
+                drawLabel = categories[1];
+                switchVisibilityOnButton(buttonCal, buttonHealth);
+            }
+            draw = weekData.get(drawLabel);
+            bar.getXAxis().setValueFormatter(new IndexAxisValueFormatter(weekLabel));
+            switchVisibilityOnButton(next, prev);
+        }else{
+            draw = monthData.get(drawLabel);
+            bar.getXAxis().setValueFormatter(new IndexAxisValueFormatter(monthLabel));
+            switchVisibilityOnButton(prev, next);
+        }
+        bar.setData(draw);
+        bar.notifyDataSetChanged();
+        bar.invalidate();
+        bar.animateY(1000);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,110 +139,37 @@ public class Graph_Frag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_graph_, container, false);
 
         Button prev = view.findViewById(R.id.buttonPrev);
-        prev.setEnabled(false);
-        prev.setVisibility(View.INVISIBLE);
-
         Button next = view.findViewById(R.id.buttonNext);
-
         Button buttonCal = view.findViewById(R.id.buttonCalories);
-        buttonCal.setVisibility(View.INVISIBLE);
-        buttonCal.setEnabled(false);
-
         Button buttonHealth = view.findViewById(R.id.buttonHealth);
+        switchVisibilityOnButton(next, prev);
+        switchVisibilityOnButton(buttonHealth, buttonCal);
 
-        String[] initWeekLabel = {"weekC", "weekH"};
-        String[] initMonthLabel = {"monthC", "monthH"};
-        String[] initLabel = {"Average of calories", "Sum of Health points"};
-        weekData = initMapBar(initMap(initWeekLabel), initLabel);
-        monthData = initMapBar(initMap(initMonthLabel), initLabel);
-
-        draw = weekData.get(categories[0]);
-        drawLabel = categories[0];
-        BarChart bar = view.findViewById(R.id.idBarChart);
-        bar.getDescription().setEnabled(false);
-        bar.setFitBars(true);
-        bar.animateY(1000);
-        bar.setData(draw);
-
-        XAxis xAxis = bar.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(weekLabel));
-
-        YAxis axisLeft = bar.getAxisLeft();
-        axisLeft.setGranularity(10f);
-        axisLeft.setAxisMinimum(0);
-
-        YAxis axisRight = bar.getAxisRight();
-        axisRight.setGranularity(10f);
-        axisRight.setAxisMinimum(0);
-
+        initData();
+        initBarChart(view);
+        
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                draw = monthData.get(drawLabel);
-                bar.setData(draw);
-                xAxis.setValueFormatter(new IndexAxisValueFormatter(monthLabel));
-                bar.notifyDataSetChanged();
-                bar.invalidate();
-                bar.animateY(1000);
-                next.setVisibility(View.INVISIBLE);
-                next.setEnabled(false);
-                prev.setEnabled(true);
-                prev.setVisibility(View.VISIBLE);
+                clickOnButton(1, prev, next, buttonCal, buttonHealth);
             }
         });
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                draw = weekData.get(drawLabel);
-                bar.setData(draw);
-                xAxis.setValueFormatter(new IndexAxisValueFormatter(weekLabel));
-                bar.notifyDataSetChanged();
-                bar.invalidate();
-                bar.animateY(1000);
-                prev.setVisibility(View.INVISIBLE);
-                prev.setEnabled(false);
-                next.setEnabled(true);
-                next.setVisibility(View.VISIBLE);
+                clickOnButton(0, prev, next, buttonCal, buttonHealth);
             }
         });
         buttonCal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                draw = weekData.get(categories[0]);
-                drawLabel = categories[0];
-                bar.setData(draw);
-                xAxis.setValueFormatter(new IndexAxisValueFormatter(weekLabel));
-                bar.notifyDataSetChanged();
-                bar.invalidate();
-                bar.animateY(1000);
-                prev.setVisibility(View.INVISIBLE);
-                prev.setEnabled(false);
-                next.setEnabled(true);
-                next.setVisibility(View.VISIBLE);
-                buttonCal.setEnabled(false);
-                buttonCal.setVisibility(View.INVISIBLE);
-                buttonHealth.setVisibility(View.VISIBLE);
-                buttonHealth.setEnabled(true);
+                clickOnButton(2, prev, next, buttonCal, buttonHealth);
             }
         });
         buttonHealth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                draw = weekData.get(categories[1]);
-                drawLabel = categories[1];
-                bar.setData(draw);
-                xAxis.setValueFormatter(new IndexAxisValueFormatter(weekLabel));
-                bar.notifyDataSetChanged();
-                bar.invalidate();
-                bar.animateY(1000);
-                prev.setVisibility(View.INVISIBLE);
-                prev.setEnabled(false);
-                next.setEnabled(true);
-                next.setVisibility(View.VISIBLE);
-                buttonHealth.setEnabled(false);
-                buttonHealth.setVisibility(View.INVISIBLE);
-                buttonCal.setVisibility(View.VISIBLE);
-                buttonCal.setEnabled(true);
+                clickOnButton(3, prev, next, buttonCal, buttonHealth);
             }
         });
         return view;
