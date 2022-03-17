@@ -23,7 +23,7 @@ public class BarcodeInformationActivityTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
         intent.putExtra(ProductInfoActivity.EXTRA_MESSAGE, TEST_CODE);
 
-        try (ActivityScenario<GreetingActivity> ignored = ActivityScenario.launch(intent)) {
+        try (ActivityScenario ignored = ActivityScenario.launch(intent)) {
             Espresso.onView(withId(R.id.pName)).check(
                     ViewAssertions.matches(
                             ViewMatchers.withText("Thai peanut noodle kit includes stir-fry rice noodles & thai peanut seasoning")

@@ -14,7 +14,7 @@ import ch.epfl.sdp.healthplay.model.Product;
 import ch.epfl.sdp.healthplay.model.ProductInfoClient;
 
 public class BarcodeInformationActivity extends AppCompatActivity {
-
+    public static final String EXTRA_MESSAGE = "ch.epfl.sdp.healthplay.MESSAGE";
     private final AtomicReference<String> productName = new AtomicReference<>("");
     private final AtomicReference<String> energy = new AtomicReference<>("");
 
@@ -43,7 +43,7 @@ public class BarcodeInformationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_barcode_information);
 
         Intent intent = getIntent();
-        String barcode = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String barcode = intent.getStringExtra(EXTRA_MESSAGE);
 
         Thread t = pullInformation(barcode);
         t.start();
