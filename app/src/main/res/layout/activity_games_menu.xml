@@ -59,7 +59,7 @@
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/play_button_left"
+            android:background="@null"
             android:contentDescription="displayKneetagDescription"
             android:scaleType="centerCrop"
             android:transitionName="kneetag_transition"
