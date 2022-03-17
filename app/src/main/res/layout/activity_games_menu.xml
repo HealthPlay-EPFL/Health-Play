@@ -20,7 +20,7 @@
 
         <ImageButton
             android:id="@+id/planthuntThumbnail"
-            android:layout_width="240dp"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
@@ -56,7 +56,7 @@
 
         <ImageButton
             android:id="@+id/kneetagThumbnail"
-            android:layout_width="240dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
@@ -67,16 +67,15 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/kneetagPlay"
-            android:layout_width="wrap_content"
+            android:layout_width="87dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/play_button_right"
+            android:backgroundTint="@color/kneetagPlayColor"
             android:fontFamily="serif"
             android:text="►"
             android:textColor="#FFFFFF"
-            android:textSize="60sp"
-            android:background="@drawable/play_button_right"
-            android:backgroundTint="@color/kneetagPlayColor"
-            />
+            android:textSize="60sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
