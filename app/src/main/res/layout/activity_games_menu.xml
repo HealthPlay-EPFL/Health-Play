@@ -31,7 +31,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/planthuntPlay"
-            android:layout_width="87dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/play_button_right"
@@ -60,7 +60,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="displayKneetagDescription"
-            android:scaleType="centerInside"
+            android:scaleType="centerCrop"
             android:transitionName="kneetag_transition"
             app:srcCompat="@drawable/kneetag_thumbnail" />
 
