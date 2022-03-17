@@ -83,10 +83,6 @@ public class Graph_FragTest {
         bundle.putFloatArray("monthH", monthDataH);
         FragmentScenario<Graph_Frag> scenario = FragmentScenario.launchInContainer(Graph_Frag.class, bundle);
         onView(withId(R.id.buttonNext)).perform(click());
-        onView(withId(R.id.buttonPrev)).check(matches(isEnabled()));
-        onView(withId(R.id.buttonNext)).check(matches(isNotEnabled()));
-        onView(withId(R.id.buttonCalories)).check(matches(isNotEnabled()));
-        onView(withId(R.id.buttonHealth)).check(matches(isEnabled()));
         onView(withId(R.id.buttonPrev)).perform(click());
         onView(withId(R.id.buttonPrev)).check(matches(isNotEnabled()));
         onView(withId(R.id.buttonNext)).check(matches(isEnabled()));
