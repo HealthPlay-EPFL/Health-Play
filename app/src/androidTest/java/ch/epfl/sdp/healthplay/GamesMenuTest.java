@@ -26,7 +26,6 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class GamesMenuTest {
-    private static final String TEST_NAME = "TestName";
     @Rule
     public ActivityScenarioRule<GamesMenu> testRule = new ActivityScenarioRule<>(GamesMenu.class);
 
@@ -40,6 +39,12 @@ public class GamesMenuTest {
     public void kneetagDescriptionCorrectlyDisplays() {
         Espresso.onView(withId(R.id.kneetagThumbnail)).perform(click());
         Espresso.onView(withId(R.id.kneetagDescription)).check(ViewAssertions.matches(isDisplayed()));
+    }
+
+    @Test
+    public void planthuntPlayCorrectlyLaunches() {
+        Espresso.onView(withId(R.id.planthuntPlay)).perform(click());
+        Espresso.onView(withId(R.id.plantButton)).check(ViewAssertions.matches(isDisplayed()));
     }
 
 }

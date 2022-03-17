@@ -4,36 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlantnetTest">
+    tools:context=".PlantnetApi">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="260dp"
-        android:layout_height="331dp"
-        android:layout_marginStart="75dp"
-        android:layout_marginTop="51dp"
+        android:layout_width="304dp"
+        android:layout_height="212dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="48dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/orchidee" />
+        app:srcCompat="@drawable/coquelicot" />
 
     <Button
         android:id="@+id/plantButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="146dp"
-        android:layout_marginTop="51dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="147dp"
         android:text="Get plant"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/plantDescription"
-        android:layout_width="189dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="111dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="236dp"
+        android:layout_height="263dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="52dp"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"

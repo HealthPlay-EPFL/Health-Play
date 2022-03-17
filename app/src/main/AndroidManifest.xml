@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthPlay">
         <activity
-            android:name=".PlantnetTest"
+            android:name=".PlantnetApi"
             android:exported="false" />
         <activity
             android:name=".HomeScreenActivity"
