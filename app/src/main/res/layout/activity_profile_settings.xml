@@ -98,7 +98,7 @@
             android:textSize="28sp" />
 
         <EditText
-            android:id="@+id/editTextNumberDecimal"
+            android:id="@+id/modifyWeightEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -110,9 +110,10 @@
             android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="93dp"
-            android:layout_marginTop="160sp"
             android:layout_marginHorizontal="60sp"
+            android:layout_marginTop="160sp"
             android:backgroundTint="@color/colorPrimaryVariant"
+            android:onClick="saveChanges"
             android:text="Save changes"
             android:textAllCaps="false"
             android:textSize="28sp" />

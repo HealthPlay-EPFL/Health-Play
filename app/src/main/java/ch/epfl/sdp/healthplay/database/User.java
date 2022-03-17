@@ -10,7 +10,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -31,6 +34,9 @@ public final class User {
     public static final String HEALTH_POINT = "healthPoint";
     public static final String WEIGHT = "weight";
     public static final String LAST_CURRENT_WEIGHT = "lastCurrentWeight";
+    public static final String NAME = "name";
+    public static final String SURNAME = "surname";
+    public static final String BIRTHDAY = "birthday";
 
     public static DatabaseReference mDatabase = FirebaseDatabase.getInstance(DATABASE_URL).getReference();
 
@@ -76,7 +82,11 @@ public final class User {
     }
 
     public static void writeUsername(String userId, String name) {
-        mDatabase.child(USERS).child(userId).child(USERNAME).setValue(name);
+        mDatabase
+                .child(USERS)
+                .child(userId)
+                .child(USERNAME)
+                .setValue(name);
     }
 
     /**
@@ -150,6 +160,38 @@ public final class User {
                 .child(getTodayDate())
                 .child(WEIGHT)
                 .setValue(weight);
+    }
+
+    public static void writeName(String userId, String name) {
+        mDatabase.child(USERS)
+                .child(userId)
+                .child(NAME)
+                .setValue(name);
+    }
+
+    public static void writeSurname(String userId, String surname) {
+        mDatabase.child(USERS)
+                .child(userId)
+                .child(SURNAME)
+                .setValue(surname);
+    }
+
+    public static void writeBirthday(String userId, String birthday) {
+        mDatabase.child(USERS)
+                .child(userId)
+                .child(SURNAME)
+                .setValue(birthday);
+        try {
+            Date birth = format.parse(birthday);
+            Date today = new Date();
+            Calendar calendar = Calendar.getInstance();
+            if (birth != null){
+                calendar.setTimeInMillis(today.getTime() - birth.getTime());
+                int age  = calendar.get(Calendar.YEAR);
+                writeAge(userId, age);
+            }
+        } catch (ParseException ignored) {
+        }
     }
 
     public static void deleteUser(String userId) {
@@ -246,6 +288,19 @@ public final class User {
             // the function will return an empty map
         }
         return new HashMap<>();
+    }
+
+    public static String readField(String userId, String field) {
+        StringBuilder result = new StringBuilder();
+        User.mDatabase.child("users").child(userId).child(field).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("firebase", "Error getting data", task.getException());
+            }
+            else {
+                result.append(String.valueOf(task.getResult().getValue()));
+            }
+        });
+        return result.toString();
     }
 
     /**
