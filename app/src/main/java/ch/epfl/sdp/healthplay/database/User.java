@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
@@ -290,17 +291,8 @@ public final class User {
         return new HashMap<>();
     }
 
-    public static String readField(String userId, String field) {
-        StringBuilder result = new StringBuilder();
-        User.mDatabase.child("users").child(userId).child(field).get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                Log.e("firebase", "Error getting data", task.getException());
-            }
-            else {
-                result.append(String.valueOf(task.getResult().getValue()));
-            }
-        });
-        return result.toString();
+    public static Task<DataSnapshot> readField(String userId, String field, OnCompleteListener<DataSnapshot> listener) {
+        return User.mDatabase.child("users").child(userId).child(field).get().addOnCompleteListener(listener);
     }
 
     /**

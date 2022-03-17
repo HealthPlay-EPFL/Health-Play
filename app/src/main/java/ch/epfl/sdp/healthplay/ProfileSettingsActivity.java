@@ -3,6 +3,7 @@ package ch.epfl.sdp.healthplay;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -22,15 +23,21 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     FirebaseUser user;
 
     private void modifyText(FirebaseUser user, int layoutId, String field) {
-        EditText name = findViewById(layoutId);
-        String answer = User.readField(user.getUid(), field);
-        if (field.equals(User.BIRTHDAY)) {
-            // Receives the date as format like 2022-03-17
-            // Must reverse the order
-            String[] date = answer.split("-");
-            answer = date[2] + "/" + date[1] + "/" + date[0];
-        }
-        name.setHint(answer);
+        User.readField(user.getUid(), field, task -> {
+            if (!task.isSuccessful()) {
+                Log.e("ERROR", "ERRRORORORO");
+            }
+            String answer = task.getResult().getValue(String.class);
+            EditText name = findViewById(layoutId);
+            if (field.equals(User.BIRTHDAY)) {
+                // Receives the date as format like 2022-03-17
+                // Must reverse the order
+                String[] date = answer.split("-");
+                answer = date[2] + "/" + date[1] + "/" + date[0];
+            }
+            name.setHint(answer);
+        });
+
     }
 
     @Override
@@ -39,7 +46,9 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile_settings);
         getSupportActionBar().hide();
 
+        //FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         user = FirebaseAuth.getInstance().getCurrentUser();
+        //FirebaseAuth.getInstance().signOut();
 
         if (user != null) {
             // Set all the hints

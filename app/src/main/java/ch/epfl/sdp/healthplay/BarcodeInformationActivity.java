@@ -66,6 +66,7 @@ public class BarcodeInformationActivity extends AppCompatActivity {
         TextView pEnergy = findViewById(R.id.pEnergy);
         pEnergy.setText(energy.get());
 
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         // Check if a user is logged in and allow them to save the calorie counter
@@ -80,12 +81,22 @@ public class BarcodeInformationActivity extends AppCompatActivity {
 
     private void changeCalorieText(boolean divide) {
         TextView textView = findViewById(R.id.pEnergy);
-        String calorieText = ((TextView) textView).getText().toString();
-        double newCalorie = divide ?
-                Integer.parseInt(calorieText) / 2.0 :
-                2.0 * Integer.parseInt(calorieText);
-        String newText = String.format(Double.toString(newCalorie), Locale.UK);
-        textView.setText(newText);
+        TextView counter = findViewById(R.id.quantity_name2);
+        String calorieText = textView.getText().toString();
+        double newCalorie = 0.0;
+        int quantity = Integer.parseInt(counter.getText().toString());
+        if (Integer.parseInt(counter.getText().toString()) > 1 && divide) {
+            newCalorie = Double.parseDouble(calorieText) / 2.0;
+            counter.setText(String.format(Integer.toString(quantity - 1), Locale.ENGLISH));
+            String newText = String.format(Double.toString(newCalorie), Locale.ENGLISH);
+            textView.setText(newText);
+        } else if (!divide) {
+            newCalorie = 2.0 * Double.parseDouble(calorieText);
+            counter.setText(String.format(Integer.toString(quantity + 1), Locale.ENGLISH));
+            String newText = String.format(Double.toString(newCalorie), Locale.ENGLISH);
+            textView.setText(newText);
+        }
+
     }
 
     public void increment(View view) {
@@ -98,7 +109,7 @@ public class BarcodeInformationActivity extends AppCompatActivity {
 
     public void addToUser(View view) {
         TextView textView = findViewById(R.id.pEnergy);
-        double calorie = Integer.parseInt(textView.getText().toString());
+        double calorie = Double.parseDouble(textView.getText().toString());
         User.addCalorie(user.getUid(), (int) calorie);
     }
 }
