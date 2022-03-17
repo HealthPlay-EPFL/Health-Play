@@ -47,6 +47,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         //FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
+        User.writeNewUser("CdTrI7WKUUThqsVTFx6JZJZhk0s2", "admin", 22, 71);
         user = FirebaseAuth.getInstance().getCurrentUser();
         //FirebaseAuth.getInstance().signOut();
 

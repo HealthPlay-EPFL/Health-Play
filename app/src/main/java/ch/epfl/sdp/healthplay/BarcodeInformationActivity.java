@@ -67,6 +67,7 @@ public class BarcodeInformationActivity extends AppCompatActivity {
         pEnergy.setText(energy.get());
 
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
+        User.writeNewUser("CdTrI7WKUUThqsVTFx6JZJZhk0s2", "admin", 22, 71);
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         // Check if a user is logged in and allow them to save the calorie counter

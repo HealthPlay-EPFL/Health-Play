@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -115,25 +117,30 @@ public final class User {
      * @param calories the number of calories to add
      */
     public static void addCalorie(String userId, int calories) {
-        int toAdd = calories;
-        Map<String, Map<String, String>> map = getStats(userId);
-        // This bellow is to check the existence of the wanted calories
-        // for today's date
-        if (map.containsKey(getTodayDate())) {
-            Map<String, String> calo = map.get(getTodayDate());
-            String currentCalories;
-            if (calo != null &&
-                    calo.containsKey(CALORIE_COUNTER) &&
-                    (currentCalories = calo.get(CALORIE_COUNTER)) != null) {
-                toAdd += Integer.parseInt(currentCalories);
+        getStats(userId, task -> {
+            if (!task.isSuccessful()) {
+                Log.e("ERROR", "EREREREROOORORO");
             }
-        }
-        mDatabase.child(USERS)
-                .child(userId)
-                .child(STATS)
-                .child(getTodayDate())
-                .child(CALORIE_COUNTER)
-                .setValue(toAdd);
+            int toAdd = calories;
+            @SuppressWarnings("unchecked")
+            Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>) task.getResult().getValue();
+            // This bellow is to check the existence of the wanted calories
+            // for today's date
+            if (map != null && map.containsKey(getTodayDate())) {
+                Map<String, Number> calo = map.get(getTodayDate());
+                long currentCalories;
+                if (calo != null && calo.containsKey(CALORIE_COUNTER)) {
+                    currentCalories = Long.parseLong(String.valueOf(calo.get(CALORIE_COUNTER)));
+                    toAdd += currentCalories;
+                }
+            }
+            mDatabase.child(USERS)
+                    .child(userId)
+                    .child(STATS)
+                    .child(getTodayDate())
+                    .child(CALORIE_COUNTER)
+                    .setValue(toAdd);
+        });
     }
 
     public static void writeAge(String userId, int age) {
@@ -248,51 +255,17 @@ public final class User {
      * {@code {"2022-03-04"={"caloriesCount"=123, "healthPoints"=123, "weight"=123}, ...}}
      *
      * @param userId the id of the user
-     * @return A map representing multiple maps of the given example.
-     * If a user has no stats, this method will return an empty map.
      */
-    public static Map<String, Map<String, String>> getStats(String userId) {
-        Map<String, Map<String, String>> map = new HashMap<>();
-        Task<DataSnapshot> t = mDatabase.child(USERS)
+    public static void getStats(String userId, OnCompleteListener<DataSnapshot> onCompleteListener) {
+        mDatabase.child(USERS)
                 .child(userId)
                 .child(STATS)
                 .get()
-                .addOnCompleteListener(task -> map.putAll(listenerTask(task)));
-
-        try {
-            // Wait for the listener to complete to get the result
-            Tasks.await(t, 10, TimeUnit.SECONDS);
-        } catch (ExecutionException | InterruptedException | TimeoutException e) {
-            e.printStackTrace();
-        }
-
-        return map;
+                .addOnCompleteListener(onCompleteListener);
     }
 
-    // Helper function used inside the addOnCompleteListener of getStats method
-    private static Map<String, Map<String, String>> listenerTask(Task<DataSnapshot> task) {
-        if (!task.isSuccessful()) {
-            Log.e("firebase", "Error getting data", task.getException());
-        }
-
-        try {
-            // This SuppressWarnings is used because the data taken from
-            // the database should be a JSON that is either empty or not
-            @SuppressWarnings("unchecked")
-            Map<String, Map<String, String>> result =
-                    (Map<String, Map<String, String>>) task.getResult().getValue();
-            if (result != null) {
-                return result;
-            }
-        } catch (ClassCastException ignored) {
-            // If a cast exception is thrown, it is ignored and
-            // the function will return an empty map
-        }
-        return new HashMap<>();
-    }
-
-    public static Task<DataSnapshot> readField(String userId, String field, OnCompleteListener<DataSnapshot> listener) {
-        return User.mDatabase.child("users").child(userId).child(field).get().addOnCompleteListener(listener);
+    public static void readField(String userId, String field, OnCompleteListener<DataSnapshot> listener) {
+        User.mDatabase.child("users").child(userId).child(field).get().addOnCompleteListener(listener);
     }
 
     /**

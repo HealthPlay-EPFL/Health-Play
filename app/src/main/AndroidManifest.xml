@@ -13,7 +13,7 @@
         android:theme="@style/Theme.HealthPlay">
         <activity
             android:name=".ProfileSettingsActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".HomeScreenActivity"
             android:exported="true"></activity>
@@ -31,7 +31,7 @@
             android:exported="false" />
         <activity
             android:name=".ProductInfoActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".GreetingActivity"
             android:exported="false"
