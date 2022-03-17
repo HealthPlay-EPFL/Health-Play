@@ -10,16 +10,6 @@
         android:name="ch.epfl.sdp.healthplay.Frag_Home"
         android:label="fragment_frag__home"
         tools:layout="@layout/fragment_frag__home" />
-    <fragment
-        android:id="@+id/frag_Profile"
-        android:name="ch.epfl.sdp.healthplay.Frag_Profile"
-        android:label="fragment_frag__profile"
-        tools:layout="@layout/fragment_frag__profile" />
-    <fragment
-        android:id="@+id/frag_Scan"
-        android:name="ch.epfl.sdp.healthplay.Frag_Scan"
-        android:label="fragment_frag__scan"
-        tools:layout="@layout/fragment_frag__scan" />
     <activity
         android:id="@+id/mainActivity"
         android:name="ch.epfl.sdp.healthplay.MainActivity"

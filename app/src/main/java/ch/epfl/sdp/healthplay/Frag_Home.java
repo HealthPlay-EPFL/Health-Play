@@ -4,8 +4,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.ImageView;
+import android.widget.TextView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Map;
+import ch.epfl.sdp.healthplay.database.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,8 +31,11 @@ public class Frag_Home extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private Map<String, Map<String, String>> userStats;
+
     private String mParam1;
     private String mParam2;
+    private DecimalFormat mFormat= new DecimalFormat("00");
 
     public Frag_Home() {
         // Required empty public constructor
@@ -49,12 +65,39 @@ public class Frag_Home extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_frag__home, container, false);
+        View view = inflater.inflate(R.layout.fragment_frag__home, container, false);
+        ImageView imageView = (ImageView) view.findViewById(R.id.main_view);
+        CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendarView);
+        TextView myDate = (TextView) view.findViewById(R.id.my_date);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        /*if (user != null) {
+            userStats = User.getStats(user.getUid());
+        }*/
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                //String data = dayOfMonth + "/" + (month + 1) + "/" + year;
+                String date = year + "-" + mFormat.format(month + 1) + "-" + mFormat.format(dayOfMonth);
+                /*if(user != null){
+                    myDate.setText("Calories: " + userStats.get(year + "-" + mFormat.format(month + 1) + "-" + mFormat.format(dayOfMonth)).get("caloriesCount"));
+                }
+                else{
+                    myDate.setText(data);
+
+                }*/
+                myDate.setText(date);
+            }
+        });
+        return view;
     }
+
 }
