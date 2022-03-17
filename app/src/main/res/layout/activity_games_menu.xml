@@ -60,7 +60,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="displayKneetagDescription"
-            android:scaleType="fitXY"
+            android:scaleType="centerInside"
             android:transitionName="kneetag_transition"
             app:srcCompat="@drawable/kneetag_thumbnail" />
 
