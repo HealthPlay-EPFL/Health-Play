@@ -24,6 +24,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.concurrent.TimeUnit;
+
 @RunWith(AndroidJUnit4.class)
 public class GamesMenuTest {
     @Rule
@@ -36,8 +38,9 @@ public class GamesMenuTest {
     }
 
     @Test
-    public void kneetagDescriptionCorrectlyDisplays() {
+    public void kneetagDescriptionCorrectlyDisplays() throws InterruptedException {
         Espresso.onView(withId(R.id.kneetagThumbnail)).perform(click());
+        TimeUnit.SECONDS.sleep(3);
         Espresso.onView(withId(R.id.kneetagDescription)).check(ViewAssertions.matches(isDisplayed()));
     }
 
