@@ -35,7 +35,6 @@ public class AuthUiActivityTest {
     @Test
     public void authentificate() throws InterruptedException {
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
             ViewInteraction idView = Espresso.onView(withId(com.firebase.ui.auth.R.id.password));
