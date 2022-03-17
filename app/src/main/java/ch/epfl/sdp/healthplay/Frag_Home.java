@@ -1,23 +1,36 @@
 package ch.epfl.sdp.healthplay;
 
+import static ch.epfl.sdp.healthplay.database.User.listenerTask;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 import ch.epfl.sdp.healthplay.database.User;
 
 /**
@@ -30,8 +43,9 @@ public class Frag_Home extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    private Map<String, Map<String, String>> userStats;
+    private static DatabaseReference mDatabase = FirebaseDatabase.getInstance("https://health-play-9e161-default-rtdb.europe-west1.firebasedatabase.app").getReference();
+    private static Map<String, Map<String, String>> userStats;
+    private static String test;
 
     private String mParam1;
     private String mParam2;
@@ -65,7 +79,6 @@ public class Frag_Home extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -73,20 +86,26 @@ public class Frag_Home extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_frag__home, container, false);
-        ImageView imageView = (ImageView) view.findViewById(R.id.main_view);
-        CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendarView);
+        CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendar);
         TextView myDate = (TextView) view.findViewById(R.id.my_date);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        /*if (user != null) {
-            userStats = User.getStats(user.getUid());
-        }*/
+        if (user != null) {
+            //userStats = User.getStats(user.getUid());
+            readField("test","stats","2022-03-17");
+        }
+        else{
+            FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com","123456");
+        }
+
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 //String data = dayOfMonth + "/" + (month + 1) + "/" + year;
                 String date = year + "-" + mFormat.format(month + 1) + "-" + mFormat.format(dayOfMonth);
+                readField("test","stats",date);
                 /*if(user != null){
                     myDate.setText("Calories: " + userStats.get(year + "-" + mFormat.format(month + 1) + "-" + mFormat.format(dayOfMonth)).get("caloriesCount"));
                 }
@@ -94,10 +113,38 @@ public class Frag_Home extends Fragment {
                     myDate.setText(data);
 
                 }*/
-                myDate.setText(date);
+                int begin_calorie = test.indexOf("calorie_counter");
+                int begin_weight = test.indexOf("last_current_weight");
+                int begin_health = test.indexOf("health_point");
+                String[] cut = test.substring(1,test.length()-1).split(",");
+                myDate.setText(
+                        /*date + ": You've consumed :" +
+                        "\n calories: " + userStats.get(date).get("calories") +
+                        "\n weight: " + userStats.get(date).get("last_current_weight") +
+                        "\n health point" + userStats.get(date).get("health_point"));*/
+                        date + ": \nStats :\n " +
+                                 cut[0] +
+                                "\n" + cut[1] +
+                                "\n" + cut[2]);
             }
         });
         return view;
     }
+    public static String readField(String userId, String field, String date) {
+        StringBuilder result = new StringBuilder();
+        mDatabase.child("users").child(userId).child(field).child(date).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("firebase", "Error getting data", task.getException());
+            }
+            else {
+                result.append(task.getResult().getValue().toString());
+                System.out.println("test0: " + result);
+                test = result.toString();
+                System.out.println("valeur de test: " + test);
+            }
+        });
+        return "";
+    }
+
 
 }

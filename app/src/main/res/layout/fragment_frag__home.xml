@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,14 +8,22 @@
 
     <TextView
         android:id="@+id/my_date"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Welcome to the home page!" />
+        android:layout_gravity="center"
+
+        android:text="@string/welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/black"
+        android:translationY="50dp" />
 
     <CalendarView
-        android:id="@+id/calendarView"
+        android:id="@+id/calendar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="326dp"
+        android:maxDate="03/31/2022"
+        android:minDate="03/01/2022"
+        android:visibility="visible" />
+
 
 </FrameLayout>

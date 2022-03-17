@@ -168,7 +168,7 @@ public final class User {
     }
 
     // Helper function used inside the addOnCompleteListener of getStats method
-    private static Map<String, Map<String, String>> listenerTask(Task<DataSnapshot> task) {
+    public static Map<String, Map<String, String>> listenerTask(Task<DataSnapshot> task) {
         if (!task.isSuccessful()) {
             Log.e("firebase", "Error getting data", task.getException());
         }
