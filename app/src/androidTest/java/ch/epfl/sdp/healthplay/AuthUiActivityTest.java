@@ -35,14 +35,15 @@ public class AuthUiActivityTest {
     @Test
     public void authentificate() throws InterruptedException {
 
-
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
 
             ViewInteraction idView = Espresso.onView(withId(com.firebase.ui.auth.R.id.password));
             idView.perform(ViewActions.typeText("123456"));
             idView = Espresso.onView(withId(com.firebase.ui.auth.R.id.button_done));
             idView.perform(ViewActions.click());
-            TimeUnit.SECONDS.sleep(1);
-
-
+        }
+        else
+            onView(withId(R.id.HomeView)).check(matches(isDisplayed()));
     }
 }
