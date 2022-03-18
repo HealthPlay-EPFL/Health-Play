@@ -35,7 +35,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("a@admin.ch","123456");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null) {
             User.mDatabase
