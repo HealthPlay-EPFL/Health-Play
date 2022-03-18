@@ -20,16 +20,8 @@
         android:name="ch.epfl.sdp.healthplay.Frag_Scan"
         android:label="fragment_frag__scan"
         tools:layout="@layout/fragment_frag__scan" />
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="ch.epfl.sdp.healthplay.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
-    <activity
-        android:id="@+id/greetingActivity"
-        android:name="ch.epfl.sdp.healthplay.GreetingActivity"
-        android:label="activity_greeting"
-        tools:layout="@layout/activity_greeting" />
+
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="ch.epfl.sdp.healthplay.SettingsFragment"
@@ -50,4 +42,19 @@
         android:name="ch.epfl.sdp.healthplay.ProfileSetupActivity"
         android:label="activity_profile_setup"
         tools:layout="@layout/activity_profile_setup" />
+    <activity
+        android:id="@+id/SignedInActivity"
+        android:name="ch.epfl.sdp.healthplay.auth.SignedInActivity"
+        android:label="sign_in"
+        tools:layout="@layout/signed_in_layout" />
+    <activity
+        android:id="@+id/authUIActivity"
+        android:name="ch.epfl.sdp.healthplay.auth.AuthUiActivity"
+        android:label="authentification"
+        tools:layout="@layout/auth_ui_layout" />
+    <activity
+        android:id="@+id/profileActivity"
+        android:name="ch.epfl.sdp.healthplay.auth.ProfileActivity"
+        android:label="profile"
+        tools:layout="@layout/activity_profile" />
 </navigation>

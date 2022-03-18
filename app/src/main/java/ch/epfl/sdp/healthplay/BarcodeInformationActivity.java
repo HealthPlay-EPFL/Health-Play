@@ -26,6 +26,9 @@ public class BarcodeInformationActivity extends AppCompatActivity {
     private final AtomicReference<String> energy = new AtomicReference<>("Unknown");
     private FirebaseUser user;
 
+    public static final String EXTRA_MESSAGE = "ch.epfl.sdp.healthplay.MESSAGE";
+
+
     private Thread pullInformation(String barcode) {
         return new Thread(() -> {
             try {
@@ -49,7 +52,7 @@ public class BarcodeInformationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_barcode_information);
 
         Intent intent = getIntent();
-        String barcode = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String barcode = intent.getStringExtra(EXTRA_MESSAGE);
 
         Thread t = pullInformation(barcode);
         t.start();
