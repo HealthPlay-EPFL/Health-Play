@@ -30,9 +30,4 @@ public class HomeScreenActivityTest {
          navigationBar.perform(ViewActions.click());
          //fragment.check(ViewAssertions.matches(ViewMatchers.withId(R.id.profileSetupActivity)));
     }
-    /*@Test //fails
-    public void navigationMenu_contractClicked_openContractFragment() {
-        Espresso.onView(ViewMatchers.withId(R.id.bottomNavigationView)).perform(NavigationViewActions.navigateTo(R.id.frag_Profile));
-        Espresso.onView(ViewMatchers.withId(R.id.constraint_contract_overview));
-    }*/
 }

@@ -38,7 +38,7 @@ public class Frag_HomeTest {
         sus.perform(ViewActions.click());
         onView(withId(R.id.my_date)).check(
                 matches(
-                        withText("2022-03-09")
+                        withText("2022-03-09: \nStats :\n calorie_counter=1001\n last_current_weight=179\n health_point=9")
                 )
         );
     }
@@ -47,6 +47,6 @@ public class Frag_HomeTest {
     public void getWelcomeMessage() {
         onView(withId(R.id.my_date)).check(
                 matches(
-                        withText("Welcome to the home page!")));
+                        withText("Welcome to the home page! \nChoose a date to check what you've consumed.")));
     }
 }
