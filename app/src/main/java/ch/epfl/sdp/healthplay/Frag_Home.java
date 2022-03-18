@@ -1,6 +1,5 @@
 package ch.epfl.sdp.healthplay;
 
-import static ch.epfl.sdp.healthplay.database.User.listenerTask;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -9,27 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.text.DecimalFormat;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import ch.epfl.sdp.healthplay.database.User;
 
@@ -89,35 +77,23 @@ public class Frag_Home extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
-            //userStats = User.getStats(user.getUid());
-            
+
             readField("test","stats","2022-03-18");
         }
-        else{
-            System.out.println("WTFFFFFFFFFFFFFFFFF");
-            FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com","123456");
-            readField("test","stats","2022-03-18");
-            //readField("test", "stats","2022-03-18");
-        }
+
 
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                //String data = dayOfMonth + "/" + (month + 1) + "/" + year;
                 String date = year + "-" + mFormat.format(month + 1) + "-" + mFormat.format(dayOfMonth);
-                readField("test","stats",date);
-                /*if(user != null){
-                    myDate.setText("Calories: " + userStats.get(year + "-" + mFormat.format(month + 1) + "-" + mFormat.format(dayOfMonth)).get("caloriesCount"));
-                }
-                else{
-                    myDate.setText(data);
+                readField("test","stats", date);
 
-                }*/
-                if(test == null || test.equals("Please loggin")){
-                    myDate.setText("Please loggin");
+                if(test == null || test.equals("Please login") || test.equals("Nothing this date")){
+                    myDate.setText(test);
                 }
+                //temporary
                 else{
                     int begin_calorie = test.indexOf("calorie_counter");
                     int begin_weight = test.indexOf("last_current_weight");
@@ -137,6 +113,8 @@ public class Frag_Home extends Fragment {
         });
         return view;
     }
+
+    //will be deleted
     public static String readField(String userId, String field, String date) {
         StringBuilder result = new StringBuilder();
         User.mDatabase.child("users").child(userId).child(field).child(date).get().addOnCompleteListener(task -> {
@@ -144,9 +122,15 @@ public class Frag_Home extends Fragment {
                 Log.e("firebase", "Error getting data", task.getException());
             }
             else {
-                if(task.getResult().getValue()==null){
-                    test = "Please loggin";
+                //No user logged in
+                if(FirebaseAuth.getInstance().getCurrentUser() == null){
+                    test = "Please login";
                 }
+                //No stats for this day
+                else if(task.getResult().getValue()==null && FirebaseAuth.getInstance().getCurrentUser() != null){
+                    test = "Nothing this date";
+                }
+                //Logged in and data
                 else{
                     result.append(task.getResult().getValue().toString());
                     test = result.toString();
