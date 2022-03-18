@@ -112,30 +112,10 @@ public class Graph_Frag extends Fragment {
         Button buttonHealth = view.findViewById(R.id.buttonHealth);
         switchVisibilityOnButton(next, prev);
         switchVisibilityOnButton(buttonHealth, buttonCal);
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickOnButton(1/*, prev, next, buttonCal, buttonHealth*/);
-            }
-        });
-        prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickOnButton(0/*, prev, next, buttonCal, buttonHealth*/);
-            }
-        });
-        buttonCal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickOnButton(2/*, prev, next, buttonCal, buttonHealth*/);
-            }
-        });
-        buttonHealth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickOnButton(3/*, prev, next, buttonCal, buttonHealth*/);
-            }
-        });
+        next.setOnClickListener((v) -> clickOnButton(1));
+        prev.setOnClickListener((v) -> clickOnButton(0));
+        buttonCal.setOnClickListener((v) -> clickOnButton(2));
+        buttonHealth.setOnClickListener((v) -> clickOnButton(3));
     }
 
     public void clickOnButton(int button){
