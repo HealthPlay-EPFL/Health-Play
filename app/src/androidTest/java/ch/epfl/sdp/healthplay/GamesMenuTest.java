@@ -37,17 +37,17 @@ public class GamesMenuTest {
         Espresso.onView(withId(R.id.planthuntDescription)).check(ViewAssertions.matches(isDisplayed()));
     }
 
-    /*@Test
+    @Test
     public void kneetagDescriptionCorrectlyDisplays() {
         Espresso.onView(withId(R.id.kneetagThumbnail)).perform(scrollTo(), click());
         Espresso.onView(withId(R.id.kneetagDescription)).check(ViewAssertions.matches(isDisplayed()));
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void planthuntPlayCorrectlyLaunches() {
         Espresso.onView(withId(R.id.planthuntPlay)).perform(click());
         Espresso.onView(withId(R.id.plantButton)).check(ViewAssertions.matches(isDisplayed()));
-    }*/
+    }
 
 }
 
