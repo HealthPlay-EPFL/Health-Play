@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="new_black">#FF0A0917</color>
+    <color name="planthuntPlayColor">#e60048</color>
+    <color name="kneetagPlayColor">#5e5e5e</color>
     <color name="planthuntGreen">#44b080</color>
     <color name="kneetagBlue">#30807c</color>
     <color name="colorPrimary">#039BE5</color>

@@ -23,6 +23,12 @@ allprojects {
         maven { url 'https://repo1.maven.org/maven2' }
         google()  // Google's Maven repository
     }
+
+    configurations.matching { it.name == '_internal_aapt2_binary' }.all { config ->
+        config.resolutionStrategy.eachDependency { details ->
+            details.useVersion("3.5.0-alpha03-5252756")
+        }
+    }
 }
 
 task clean(type: Delete) {
