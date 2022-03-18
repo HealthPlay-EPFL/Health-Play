@@ -160,5 +160,6 @@
     <string name="product_energy_label">Energy:</string>
     <string name="button_find_product_label">Find Information</string>
     <string name="barcode_number_label">Barcode Number</string>
+    <string name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed">Welcome to the home page! \nChoose a date to check what you\'ve consumed.</string>
 
 </resources>
