@@ -42,9 +42,7 @@ public class Frag_Home extends Fragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private static DatabaseReference mDatabase = FirebaseDatabase.getInstance("https://health-play-9e161-default-rtdb.europe-west1.firebasedatabase.app").getReference();
-    private static Map<String, Map<String, String>> userStats;
+    private static final String ARG_PARAM2 = "param2";private static Map<String, Map<String, String>> userStats;
     private static String test;
 
     private String mParam1;
@@ -92,10 +90,14 @@ public class Frag_Home extends Fragment {
 
         if (user != null) {
             //userStats = User.getStats(user.getUid());
-            readField("test","stats","2022-03-17");
+            
+            readField("test","stats","2022-03-18");
         }
         else{
+            System.out.println("WTFFFFFFFFFFFFFFFFF");
             FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com","123456");
+            readField("test","stats","2022-03-18");
+            //readField("test", "stats","2022-03-18");
         }
 
 
@@ -113,34 +115,43 @@ public class Frag_Home extends Fragment {
                     myDate.setText(data);
 
                 }*/
-                int begin_calorie = test.indexOf("calorie_counter");
-                int begin_weight = test.indexOf("last_current_weight");
-                int begin_health = test.indexOf("health_point");
-                String[] cut = test.substring(1,test.length()-1).split(",");
-                myDate.setText(
+                if(test == null || test.equals("Please loggin")){
+                    myDate.setText("Please loggin");
+                }
+                else{
+                    int begin_calorie = test.indexOf("calorie_counter");
+                    int begin_weight = test.indexOf("last_current_weight");
+                    int begin_health = test.indexOf("health_point");
+                    String[] cut = test.substring(1,test.length()-1).split(",");
+                    myDate.setText(
                         /*date + ": You've consumed :" +
                         "\n calories: " + userStats.get(date).get("calories") +
                         "\n weight: " + userStats.get(date).get("last_current_weight") +
                         "\n health point" + userStats.get(date).get("health_point"));*/
-                        date + ": \nStats :\n " +
-                                 cut[0] +
-                                "\n" + cut[1] +
-                                "\n" + cut[2]);
+                            date + ": \nStats :\n " +
+                                    cut[0] +
+                                    "\n" + cut[1] +
+                                    "\n" + cut[2]);
+                }
             }
         });
         return view;
     }
     public static String readField(String userId, String field, String date) {
         StringBuilder result = new StringBuilder();
-        mDatabase.child("users").child(userId).child(field).child(date).get().addOnCompleteListener(task -> {
+        User.mDatabase.child("users").child(userId).child(field).child(date).get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             }
             else {
-                result.append(task.getResult().getValue().toString());
-                System.out.println("test0: " + result);
-                test = result.toString();
-                System.out.println("valeur de test: " + test);
+                if(task.getResult().getValue()==null){
+                    test = "Please loggin";
+                }
+                else{
+                    result.append(task.getResult().getValue().toString());
+                    test = result.toString();
+                }
+
             }
         });
         return "";
