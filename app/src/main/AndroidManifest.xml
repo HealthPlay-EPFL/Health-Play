@@ -15,6 +15,9 @@
             android:name=".ProfileSettingsActivity"
             android:exported="true" />
         <activity
+            android:name=".PlantnetApi"
+            android:exported="false" />
+        <activity
             android:name=".HomeScreenActivity"
             android:exported="true"></activity>
         <activity
