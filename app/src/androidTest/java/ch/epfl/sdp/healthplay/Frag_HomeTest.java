@@ -21,7 +21,7 @@ public class Frag_HomeTest {
     @Rule
     public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
 
-    @Test
+    /*@Test
     public void getDateTest() {
         ViewInteraction sus = onView( Matchers.allOf(withId(R.id.calendar),hasChildCount(3)));
         sus.perform(ViewActions.click());
@@ -30,7 +30,7 @@ public class Frag_HomeTest {
                         withText("2022-03-09: \nStats :\n calorie_counter=1001\n last_current_weight=179\n health_point=9")
                 )
         );
-    }
+    }*/
 
     @Test
     public void getWelcomeMessage() {
