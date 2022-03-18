@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.auth;
 
 import static ch.epfl.sdp.healthplay.database.User.writeCalorie;
 
@@ -23,7 +23,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
+import ch.epfl.sdp.healthplay.ProfileSetupActivity;
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.User;
 
 public class ProfileActivity extends AppCompatActivity {
