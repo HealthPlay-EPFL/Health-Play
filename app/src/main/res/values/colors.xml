@@ -13,8 +13,10 @@
     <color name="planthuntGreen">#44b080</color>
     <color name="kneetagBlue">#30807c</color>
     <color name="colorPrimary">#039BE5</color>
-    <color name="colorPrimaryVariant">#0288D1</color>
+    <color name="lightGray">#FFEFEFEF</color>
+    <color name="blueButton">#49BEFF</color>
     <color name="colorSecondary">#FFA000</color>
+    <color name="colorPrimaryVariant">#0288D1</color>
 
     <!-- Green theme -->
     <color name="material_green_50">#E8F5E9</color>

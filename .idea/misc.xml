@@ -89,7 +89,11 @@
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/menu/activity_main_drawer.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/menu/bottom_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/menu/bottommenu.xml" value="0.264" />
-        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.20643363728470113" />
+        <entry key="app/src/main/res/drawable/border.xml" value="0.202" />
+        <entry key="app/src/main/res/drawable/gradient.xml" value="0.202" />
+        <entry key="app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.202" />
+        <entry key="app/src/main/res/drawable/rounded_button.xml" value="0.202" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.2625259399414062" />
         <entry key="app/src/main/res/layout/activity_profile_setup.xml" value="0.1" />
       </map>
     </option>

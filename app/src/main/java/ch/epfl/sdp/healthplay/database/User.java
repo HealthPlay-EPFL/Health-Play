@@ -43,8 +43,8 @@ public final class User {
 
     public static DatabaseReference mDatabase = FirebaseDatabase.getInstance(DATABASE_URL).getReference();
 
-    private final static String STATS = "stats";
-    private static final String USERS = "users";
+    public final static String STATS = "stats";
+    public static final String USERS = "users";
 
     private String username;
     private String name;
@@ -68,7 +68,7 @@ public final class User {
         this.email = email;
         this.birthday = birthday;
         this.age = age;
-        this.lastCurrentWeight = "";
+        this.lastCurrentWeight = "0";
     }
 
     /**
@@ -196,6 +196,7 @@ public final class User {
             if (birth != null) {
                 calendar.setTimeInMillis(today.getTime() - birth.getTime());
                 int age = calendar.get(Calendar.YEAR);
+
                 writeAge(userId, age);
             }
         } catch (ParseException ignored) {
@@ -274,7 +275,7 @@ public final class User {
      * @return the current date in the yyyy-MM-dd format
      */
     @NonNull
-    private static String getTodayDate() {
+   public static String getTodayDate() {
         return format.format(new Date());
     }
 
