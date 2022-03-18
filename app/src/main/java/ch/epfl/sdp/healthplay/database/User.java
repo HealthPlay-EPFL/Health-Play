@@ -275,7 +275,7 @@ public final class User {
      * @return the current date in the yyyy-MM-dd format
      */
     @NonNull
-   private static String getTodayDate() {
+   public static String getTodayDate() {
         return format.format(new Date());
     }
 
