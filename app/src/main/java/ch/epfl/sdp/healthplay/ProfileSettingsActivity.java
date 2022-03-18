@@ -49,7 +49,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
 
         //FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         user = FirebaseAuth.getInstance().getCurrentUser();

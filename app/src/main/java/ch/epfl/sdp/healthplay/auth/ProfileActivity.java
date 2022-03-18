@@ -23,6 +23,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import ch.epfl.sdp.healthplay.ProfileSettingsActivity;
 import ch.epfl.sdp.healthplay.ProfileSetupActivity;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.User;
@@ -58,8 +60,9 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    public void setProfile(View view) {
-
+    public void changeProfile(View view) {
+        Intent intent = new Intent(this, ProfileSettingsActivity.class);
+        startActivity(intent);
     }
 
     public void initBirthday(String userId) {
