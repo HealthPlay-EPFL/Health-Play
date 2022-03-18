@@ -20,12 +20,12 @@
 
         <ImageButton
             android:id="@+id/planthuntThumbnail"
-            android:layout_width="250dp"
-            android:layout_height="match_parent"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="displayPlanthuntDescription"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:transitionName="planthunt_transition"
             app:srcCompat="@drawable/planthunt_thumbnail" />
 
@@ -55,12 +55,12 @@
 
         <ImageButton
             android:id="@+id/kneetagThumbnail"
-            android:layout_width="250dp"
-            android:layout_height="match_parent"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="displayKneetagDescription"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:transitionName="kneetag_transition"
             app:srcCompat="@drawable/kneetag_thumbnail" />
 
