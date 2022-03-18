@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileSettingsActivity">
+
+    <LinearLayout
+        android:id="@+id/modify_linear_layout"
+        android:layout_width="340dp"
+        android:layout_height="640dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/modifyNameText"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:text="Name:"
+            android:textColor="@color/colorPrimaryVariant"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/modifyNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="71dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="Current name"
+            android:inputType="textPersonName"
+            android:textSize="26sp" />
+
+        <TextView
+            android:id="@+id/modifySurnameText"
+            android:layout_width="142dp"
+            android:layout_height="wrap_content"
+            android:text="Surname:"
+            android:textColor="@color/colorPrimaryVariant"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/modifySurnameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="71dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="Current surname"
+            android:inputType="textPersonName"
+            android:textSize="26sp" />
+
+        <TextView
+            android:id="@+id/modifyUsernameText"
+            android:layout_width="142dp"
+            android:layout_height="wrap_content"
+            android:text="Username:"
+            android:textColor="@color/colorPrimaryVariant"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/modifyUsernameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="71dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="Current username"
+            android:inputType="textPersonName"
+            android:textSize="26sp" />
+
+        <TextView
+            android:id="@+id/modifyBirthDateText"
+            android:layout_width="142dp"
+            android:layout_height="wrap_content"
+            android:text="Birthdate:"
+            android:textColor="@color/colorPrimaryVariant"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/modifyBirthDateEditText"
+            android:layout_width="match_parent"
+            android:layout_height="71dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="01/01/1900"
+            android:inputType="date"
+            android:textSize="26sp" />
+
+        <TextView
+            android:id="@+id/modifyWeightText"
+            android:layout_width="188dp"
+            android:layout_height="wrap_content"
+            android:text="Weight (kg):"
+            android:textColor="@color/colorPrimaryVariant"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/modifyWeightEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="0.0"
+            android:inputType="numberDecimal"
+            android:textSize="26sp" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginHorizontal="30sp"
+            android:layout_marginTop="20sp"
+            android:backgroundTint="@color/colorPrimaryVariant"
+            android:onClick="saveChanges"
+            android:text="Save changes"
+            android:textAllCaps="false"
+            android:textSize="22sp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

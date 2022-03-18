@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthPlay">
         <activity
+            android:name=".ProfileSettingsActivity"
+            android:exported="true" />
+        <activity
             android:name=".PlantnetApi"
             android:exported="false" />
         <activity
@@ -37,7 +40,7 @@
             android:exported="false" />
         <activity
             android:name=".ProductInfoActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".auth.ProfileActivity"
             android:exported="false"
