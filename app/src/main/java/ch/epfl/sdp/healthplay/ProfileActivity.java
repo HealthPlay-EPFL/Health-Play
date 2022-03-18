@@ -225,7 +225,6 @@ public class ProfileActivity extends AppCompatActivity {
                     TextViewHealthPoint.setText("0");
                 }
             }
-
          }
         else {
             TextViewStatsButton.setText("0\ndaily calories");
