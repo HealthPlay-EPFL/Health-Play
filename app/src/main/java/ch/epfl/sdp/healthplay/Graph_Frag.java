@@ -25,6 +25,7 @@ import java.util.HashMap;
 public class Graph_Frag extends Fragment {
 
     private HashMap<String, BarData> monthData, weekData;
+    private View view;
     private BarData draw;
     private String drawLabel;
     private BarChart bar;
@@ -104,15 +105,52 @@ public class Graph_Frag extends Fragment {
         enable.setEnabled(true);
     }
 
-    public void clickOnButton(int button, Button prev, Button next, Button buttonCal, Button buttonHealth){
-        if(button == 0 || button == 2 || button == 3){
-            if(button == 2){
-                drawLabel = categories[0];
-                switchVisibilityOnButton(buttonHealth, buttonCal);
-            }else if(button == 3){
-                drawLabel = categories[1];
-                switchVisibilityOnButton(buttonCal, buttonHealth);
+    public void initButton(){
+        Button prev = view.findViewById(R.id.buttonPrev);
+        Button next = view.findViewById(R.id.buttonNext);
+        Button buttonCal = view.findViewById(R.id.buttonCalories);
+        Button buttonHealth = view.findViewById(R.id.buttonHealth);
+        switchVisibilityOnButton(next, prev);
+        switchVisibilityOnButton(buttonHealth, buttonCal);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickOnButton(1/*, prev, next, buttonCal, buttonHealth*/);
             }
+        });
+        prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickOnButton(0/*, prev, next, buttonCal, buttonHealth*/);
+            }
+        });
+        buttonCal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickOnButton(2/*, prev, next, buttonCal, buttonHealth*/);
+            }
+        });
+        buttonHealth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickOnButton(3/*, prev, next, buttonCal, buttonHealth*/);
+            }
+        });
+    }
+
+    public void clickOnButton(int button){
+        Button prev = view.findViewById(R.id.buttonPrev);
+        Button next = view.findViewById(R.id.buttonNext);
+        Button buttonCal = view.findViewById(R.id.buttonCalories);
+        Button buttonHealth = view.findViewById(R.id.buttonHealth);
+        if(button == 2){
+            drawLabel = categories[0];
+            switchVisibilityOnButton(buttonHealth, buttonCal);
+        }else if(button == 3){
+            drawLabel = categories[1];
+            switchVisibilityOnButton(buttonCal, buttonHealth);
+        }
+        if(button != 1){
             draw = weekData.get(drawLabel);
             bar.getXAxis().setValueFormatter(new IndexAxisValueFormatter(weekLabel));
             switchVisibilityOnButton(next, prev);
@@ -135,43 +173,10 @@ public class Graph_Frag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_graph_, container, false);
-
-        Button prev = view.findViewById(R.id.buttonPrev);
-        Button next = view.findViewById(R.id.buttonNext);
-        Button buttonCal = view.findViewById(R.id.buttonCalories);
-        Button buttonHealth = view.findViewById(R.id.buttonHealth);
-        switchVisibilityOnButton(next, prev);
-        switchVisibilityOnButton(buttonHealth, buttonCal);
-
+        view = inflater.inflate(R.layout.fragment_graph_, container, false);
+        initButton();
         initData();
         initBarChart(view);
-        
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickOnButton(1, prev, next, buttonCal, buttonHealth);
-            }
-        });
-        prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickOnButton(0, prev, next, buttonCal, buttonHealth);
-            }
-        });
-        buttonCal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickOnButton(2, prev, next, buttonCal, buttonHealth);
-            }
-        });
-        buttonHealth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickOnButton(3, prev, next, buttonCal, buttonHealth);
-            }
-        });
         return view;
     }
 
