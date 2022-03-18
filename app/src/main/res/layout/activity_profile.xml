@@ -28,7 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="170dp"
-            android:text="USERNAME"
             android:textColor="@color/lightGray"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -43,14 +42,11 @@
         android:layout_width="375dp"
         android:layout_height="120dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="240dp"
         android:layout_marginTop="241dp"
         android:layout_marginEnd="240dp"
-        android:layout_marginBottom="370dp"
         android:background="@drawable/rounded_button"
-        android:text="9999999\ndaily calories"
         android:textAllCaps="false"
         android:textColor="@color/lightGray"
         android:textSize="30sp"
@@ -74,8 +70,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_baseline_edit_24"
-        />
+        android:src="@drawable/ic_baseline_edit_24" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,7 +78,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginEnd="50dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="45dp"
             android:orientation="vertical">
 
             <TextView
@@ -97,7 +92,6 @@
                 android:id="@+id/profileName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="something"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -118,7 +112,6 @@
                 android:id="@+id/profileBirthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10/10/10"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -140,7 +133,6 @@
                 android:id="@+id/profileWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ahahahahh"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -161,7 +153,6 @@
                 android:id="@+id/profileHealthPoint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ahahahahh"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
