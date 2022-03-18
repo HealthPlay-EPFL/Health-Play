@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.auth;
 
 import static ch.epfl.sdp.healthplay.database.User.writeCalorie;
 
@@ -15,6 +15,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import ch.epfl.sdp.healthplay.ProfileSetupActivity;
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.User;
 
 public class ProfileActivity extends AppCompatActivity {
