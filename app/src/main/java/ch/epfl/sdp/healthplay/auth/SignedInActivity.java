@@ -85,7 +85,6 @@ public class SignedInActivity extends AppCompatActivity {
             populateIdpToken(response);
 
             mBinding.deleteAccount.setOnClickListener(view -> deleteAccountClicked());
-
             mBinding.signOut.setOnClickListener(view -> signOut());
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
