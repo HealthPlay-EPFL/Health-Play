@@ -21,7 +21,7 @@ public class BarcodeInformationActivityTest {
     @Test
     public void testInterface() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
-        intent.putExtra(ProductInfoActivity.EXTRA_MESSAGE, TEST_CODE);
+        intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, TEST_CODE);
 
         try (ActivityScenario<BarcodeInformationActivity> ignored = ActivityScenario.launch(intent)) {
             Espresso.onView(withId(R.id.pName)).check(
@@ -41,7 +41,7 @@ public class BarcodeInformationActivityTest {
     @Test
     public void testUnknown() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
-        intent.putExtra(ProductInfoActivity.EXTRA_MESSAGE, "TEST_CODE");
+        intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, "TEST_CODE");
         try (ActivityScenario<BarcodeInformationActivity> ignored = ActivityScenario.launch(intent)) {
             Espresso.onView(withId(R.id.pName)).check(
                     ViewAssertions.matches(

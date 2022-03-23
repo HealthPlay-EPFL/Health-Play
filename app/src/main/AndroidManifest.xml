@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthPlay">
         <activity
+            android:name=".BarcodeScanActivity"
+            android:exported="true" />
+        <activity
             android:name=".ProfileSettingsActivity"
             android:exported="true" />
         <activity
@@ -19,7 +22,7 @@
             android:exported="false" />
         <activity
             android:name=".HomeScreenActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".KneetagDescription"
             android:exported="false" />
