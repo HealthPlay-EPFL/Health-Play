@@ -24,6 +24,10 @@ import java.net.URI;
 
 public class BarcodeScanActivity extends AppCompatActivity {
 
+    // This field is only used in tests
+    protected final static CountingIdlingResource idlingResource =
+            new CountingIdlingResource("LOOKUP_BARCODE");
+
     // The barcode formats used
     private final static BarcodeScannerOptions options =
             new BarcodeScannerOptions.Builder()
@@ -39,6 +43,8 @@ public class BarcodeScanActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
+        idlingResource.increment();
+
         // Set the progress bar to visible and disable user interaction
         ProgressBar bar = findViewById(R.id.progressBar);
         bar.setVisibility(View.VISIBLE);
@@ -85,6 +91,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        idlingResource.decrement();
     }
 
     public void enterManually(View view) {
