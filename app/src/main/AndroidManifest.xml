@@ -2,7 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ch.epfl.sdp.healthplay">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+
+
 
     <application
         android:allowBackup="true"
@@ -12,19 +21,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthPlay">
         <activity
+            android:name=".CameraApi"
+            android:exported="false" />
+        <activity
             android:name=".PlantnetApi"
             android:exported="false" />
         <activity
             android:name=".HomeScreenActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
-            android:name=".KneetagDescription"
+            android:name=".KneetagDescriptionActivity"
             android:exported="false" />
         <activity
-            android:name=".PlanthuntDescription"
+            android:name=".PlanthuntDescriptionActivity"
             android:exported="false" />
         <activity
-            android:name=".GamesMenu"
+            android:name=".GamesMenuActivity"
             android:exported="false" />
         <activity
             android:name=".BarcodeInformationActivity"
@@ -55,6 +67,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="ch.epfl.sdp.healthplay.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+
     </application>
 
 </manifest>
