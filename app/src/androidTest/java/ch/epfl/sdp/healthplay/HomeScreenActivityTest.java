@@ -9,6 +9,7 @@ import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -24,13 +25,9 @@ public class HomeScreenActivityTest {
 
     @Test
     public void fragmentChangeTest() {
-         ViewInteraction fragment = Espresso.onView(withId(R.id.fragmentContainerView));
+         //ViewInteraction fragment = Espresso.onView(withId(R.id.fragmentContainerView));
          ViewInteraction navigationBar = Espresso.onView(withId(R.id.bottomNavigationView));
          navigationBar.perform(ViewActions.click());
+         //fragment.check(ViewAssertions.matches(ViewMatchers.withId(R.id.profileSetupActivity)));
     }
-    /*@Test //fails
-    public void navigationMenu_contractClicked_openContractFragment() {
-        Espresso.onView(ViewMatchers.withId(R.id.bottomNavigationView)).perform(NavigationViewActions.navigateTo(R.id.frag_Profile));
-        Espresso.onView(ViewMatchers.withId(R.id.constraint_contract_overview));
-    }*/
 }

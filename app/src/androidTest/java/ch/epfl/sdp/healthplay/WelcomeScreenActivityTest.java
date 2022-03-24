@@ -28,6 +28,8 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
 
+import ch.epfl.sdp.healthplay.auth.AuthUiActivity;
+
 @RunWith(AndroidJUnit4.class)
 public class WelcomeScreenActivityTest {
 
@@ -37,7 +39,7 @@ public class WelcomeScreenActivityTest {
     }
     @Test
     public void startingNewIntentAuto() throws InterruptedException {
-        TimeUnit.SECONDS.sleep(3);
+        TimeUnit.SECONDS.sleep(5);
         onView(withId(R.id.HomeView)).check(matches(isDisplayed()));
     }
     /*@Test

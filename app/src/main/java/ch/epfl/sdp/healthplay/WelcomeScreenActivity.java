@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import ch.epfl.sdp.healthplay.auth.AuthUiActivity;
+
 public class WelcomeScreenActivity extends AppCompatActivity {
 
     private Handler handler = new Handler();
