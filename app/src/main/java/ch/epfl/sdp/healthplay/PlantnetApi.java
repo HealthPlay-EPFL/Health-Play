@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +38,7 @@ public class PlantnetApi extends AppCompatActivity {
 
         final ImageView plantView = findViewById(R.id.plantImage);
         System.out.println(imageUrl);
-        Picasso.get().load(imageUrl).into(plantView);
+        Glide.with(this).load(imageUrl).into(plantView);
 
         final Button plantButton = findViewById(R.id.plantButton);
         plantButton.setOnClickListener(

@@ -72,7 +72,7 @@ public class CameraApi extends AppCompatActivity {
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath,bmOptions);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, outputStream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
             storage.child(fileName).putBytes(outputStream.toByteArray()).addOnSuccessListener(
                     new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
