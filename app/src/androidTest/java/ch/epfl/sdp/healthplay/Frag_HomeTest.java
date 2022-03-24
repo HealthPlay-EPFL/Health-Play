@@ -11,6 +11,8 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,16 +23,44 @@ public class Frag_HomeTest {
     @Rule
     public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
 
-    /*@Test
-    public void getDateTest() {
+    @Test
+    public void getDateWithoutStatsTest() {
         ViewInteraction sus = onView( Matchers.allOf(withId(R.id.calendar),hasChildCount(3)));
         sus.perform(ViewActions.click());
         onView(withId(R.id.my_date)).check(
                 matches(
-                        withText("2022-03-09: \nStats :\n calorie_counter=1001\n last_current_weight=179\n health_point=9")
+                        withText("No stats, please begin adding calories if you want to use the calendar summary")
                 )
         );
-    }*/
+    }
+
+
+    @Test
+    public void getDateNoUserTest() {
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            FirebaseAuth.getInstance().signOut();
+        }
+        ViewInteraction sus = onView( Matchers.allOf(withId(R.id.calendar),hasChildCount(3)));
+        sus.perform(ViewActions.click());
+        onView(withId(R.id.my_date)).check(
+                matches(
+                        withText("Please login")
+                )
+        );
+    }
+    @Test
+    public void printStatsTest() {
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            FirebaseAuth.getInstance().signOut();
+        }
+        ViewInteraction sus = onView( Matchers.allOf(withId(R.id.calendar),hasChildCount(3)));
+        sus.perform(ViewActions.click());
+        onView(withId(R.id.my_date)).check(
+                matches(
+                        withText("Please login")
+                )
+        );
+    }
 
     @Test
     public void getWelcomeMessage() {

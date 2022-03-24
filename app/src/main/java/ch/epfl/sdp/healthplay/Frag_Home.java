@@ -23,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.DecimalFormat;
 import java.util.Map;
 
-import ch.epfl.sdp.healthplay.auth.SignedInActivity;
 import ch.epfl.sdp.healthplay.database.User;
 
 /**
@@ -80,24 +79,38 @@ public class Frag_Home extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_frag__home, container, false);
         CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendar);
-        TextView myDate = (TextView) view.findViewById(R.id.my_date);
+        TextView dataDisplay = (TextView) view.findViewById(R.id.my_date);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
-        User.getStats(user.getUid(), task -> {
-                    if (!task.isSuccessful()) {
-                        Log.e("ERROR", "EREREREROOORORO");
-                    }
-                    //int toAdd = User.calories;
+        if(user != null) {
+            User.getStats(user.getUid(), task -> {
+                if (!task.isSuccessful()) {
+                    Log.e("ERROR", "An error happened");
+                }
                 userStats = (Map<String, Map<String, String>>) task.getResult().getValue();
 
-                    // This bellow is to check the existence of the wanted calories
-                    // for today's date
-               /* (userStats != null && userStats.containsKey(User.getTodayDate())) {
-                        Map<String, Number> calo = userStats.get(User.getTodayDate());
-                        long currentCalories;
-                    }*/
-                });
+            });
+        }
+        else {
+            userStats = null;
+            FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    if(user != null) {
+                        User.getStats(user.getUid(), task -> {
+                            if (!task.isSuccessful()) {
+                                Log.e("ERROR", "An error happened");
+                            }
+                            userStats = (Map<String, Map<String, String>>) task.getResult().getValue();
+                            System.out.println("user stats: "+ userStats);
+                        });
+                        System.out.println("user stats: "+ userStats);
+                    }
+                }
+            }
+
+            );
+        }
         String date = User.getTodayDate();
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @SuppressLint("SetTextI18n")
@@ -105,60 +118,52 @@ public class Frag_Home extends Fragment {
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 selected_Date = year + "-" + mFormat.format(month + 1) + "-" + mFormat.format(dayOfMonth);
                 if(user == null){
-                    myDate.setText("Please login");
+                    dataDisplay.setText("Please login");
                 }
                 else if(userStats == null) {
-                    myDate.setText("No stats, please begin adding calories if you want to use the calendar summary");
+                    dataDisplay.setText("No stats, please begin adding calories if you want to use the calendar summary");
                 }
                 else if(userStats.get(selected_Date) == null){
-                    myDate.setText("No data for this date");
+                    dataDisplay.setText("No data for this date");
                 }
                 else{
-                    myDate.setText(
-                            selected_Date + ": You've consumed :" +
-                        "\n calories: " + String.valueOf(userStats.get(selected_Date).get("calorieCounter")) +
-                        "\n weight: " + String.valueOf(userStats.get(selected_Date).get("last_current_weight")) +
-                        "\n health point" + String.valueOf(userStats.get(selected_Date).get("health_point")));
-
+                    printStats(
+                            dataDisplay,
+                            selected_Date);
                 }
             }
         });
-
-        User.mDatabase.child("users").child(user.getUid()).child("stats").child(date).addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Map<String,String> value = (Map<String, String>) snapshot.getValue();
-                System.out.println("value = " + value);
-
-                /*if(value.equals("calorieCounter")){
-                    //userStats.get(User.getTodayDate()).put("calorieCounter", );
-                }*/
-                //System.out.println(String.valueOf(value.get("calorieCounter")));
-                System.out.println(userStats);
-                if(userStats != null){
-                    System.out.println(userStats.get(date));
-                    System.out.println("selected_Date = " + selected_Date);
-                    userStats.get(date).put("calorieCounter", String.valueOf(value.get("calorieCounter")));
-                    if(selected_Date.equals(date)) {
-                        myDate.setText(
-                                date + ": You've consumed :" +
-                                        "\n calories: " + String.valueOf(userStats.get(date).get("calorieCounter")) +
-                                        "\n weight: " + String.valueOf(userStats.get(date).get("last_current_weight")) +
-                                        "\n health point: " + String.valueOf(userStats.get(date).get("health_point")));
+        if(user != null) {
+            User.mDatabase.child("users").child(user.getUid()).child("stats").child(date).addValueEventListener(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Map<String, String> value = (Map<String, String>) snapshot.getValue();
+                    if (userStats != null) {
+                        userStats.get(date).put("calorieCounter", String.valueOf(value.get("calorieCounter")));
+                        if (selected_Date.equals(date)) {
+                            printStats(
+                                    dataDisplay,
+                                    date);
+                        }
                     }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    System.out.println(error.toString());
                 }
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println(error.toString());
-            }
+            );
         }
-
-        );
         return view;
     }
 
-
+    private void printStats(TextView textView, String date){
+        textView.setText(
+                date + ": You've consumed :" +
+                        "\n calories: " + String.valueOf(userStats.get(date).get("calorieCounter")) +
+                        "\n weight: " + String.valueOf(userStats.get(date).get("last_current_weight")) +
+                        "\n health point: " + String.valueOf(userStats.get(date).get("health_point")));
+    }
 }
