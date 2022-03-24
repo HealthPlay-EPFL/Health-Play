@@ -94,7 +94,7 @@ public class GamesMenuActivityTest {
                     }
                 }
         );
-        Espresso.onView(withId(R.id.plantButton)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.buttonCapture)).check(matches(isDisplayed()));
     }
 
 }
