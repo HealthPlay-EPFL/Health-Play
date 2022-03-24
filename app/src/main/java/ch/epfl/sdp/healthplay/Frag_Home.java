@@ -16,9 +16,11 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+
 import java.text.DecimalFormat;
 import java.util.Map;
 
+import ch.epfl.sdp.healthplay.auth.SignedInActivity;
 import ch.epfl.sdp.healthplay.database.User;
 
 /**
@@ -30,7 +32,8 @@ public class Frag_Home extends Fragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";private static Map<String, Map<String, String>> userStats;
+    private static final String ARG_PARAM2 = "param2";
+    private static Map<String, Map<String, String>> userStats;
     private static String test;
 
     private String mParam1;
@@ -76,20 +79,26 @@ public class Frag_Home extends Fragment {
         TextView myDate = (TextView) view.findViewById(R.id.my_date);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (user != null) {
-
-            readField("test","stats","2022-03-18");
-        }
-
-
-
+        User.getStats(user.getUid(), task -> {
+                    if (!task.isSuccessful()) {
+                        Log.e("ERROR", "EREREREROOORORO");
+                    }
+                    //int toAdd = User.calories;
+                    userStats = (Map<String, Map<String, String>>) task.getResult().getValue();
+                    // This bellow is to check the existence of the wanted calories
+                    // for today's date
+                    /*if (userStats != null && userStats.containsKey(User.getTodayDate())) {
+                        Map<String, Number> calo = userStats.get(User.getTodayDate());
+                        long currentCalories;
+                    }*/
+                });
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 String date = year + "-" + mFormat.format(month + 1) + "-" + mFormat.format(dayOfMonth);
                 readField("test","stats", date);
-
+                FirebaseAuth.getInstance().signOut();
                 if(test == null || test.equals("Please login") || test.equals("Nothing this date")){
                     myDate.setText(test);
                 }
@@ -100,14 +109,14 @@ public class Frag_Home extends Fragment {
                     int begin_health = test.indexOf("health_point");
                     String[] cut = test.substring(1,test.length()-1).split(",");
                     myDate.setText(
-                        /*date + ": You've consumed :" +
+                        date + ": You've consumed :" +
                         "\n calories: " + userStats.get(date).get("calories") +
                         "\n weight: " + userStats.get(date).get("last_current_weight") +
-                        "\n health point" + userStats.get(date).get("health_point"));*/
-                            date + ": \nStats :\n " +
+                        "\n health point" + userStats.get(date).get("health_point"));
+                            /*date + ": \nStats :\n " +
                                     cut[0] +
                                     "\n" + cut[1] +
-                                    "\n" + cut[2]);
+                                    "\n" + cut[2]);*/
                 }
             }
         });
