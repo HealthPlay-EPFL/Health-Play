@@ -39,6 +39,10 @@ public class CameraApi extends AppCompatActivity {
 
     private static final String STORAGE_URL = "gs://health-play-9e161.appspot.com";
     public static StorageReference storage;
+    String uploadedUrlFirst = "https://firebasestorage.googleapis.com/v0/b/health-play-9e161.appspot.com/o/";
+    String uploadedUrlSecond = "?alt=media&token=937922cf-0744-4718-8ecf-c1abdda627c8";
+    public static final String EXTRA_MESSAGE = "ch.epfl.sdp.healthplay.MESSAGE";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,6 @@ public class CameraApi extends AppCompatActivity {
         setContentView(R.layout.activity_camera_api);
 
         captureButton = findViewById(R.id.buttonCapture);
-        displayImage = findViewById(R.id.imageDisplay);
 
         storage = FirebaseStorage.getInstance(STORAGE_URL).getReference();
 
@@ -64,11 +67,10 @@ public class CameraApi extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        //Add picture to Firebase
         if (requestCode == REQUEST_IMAGE_CAPTURE){
+            //Add picture to Firebase
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath,bmOptions);
-
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 20, outputStream);
             storage.child(fileName).putBytes(outputStream.toByteArray()).addOnSuccessListener(
@@ -79,14 +81,13 @@ public class CameraApi extends AppCompatActivity {
                         }
                     }
             );
+
+            //Send image Storage Url to Plantnet activity
+            Intent intent = new Intent(this, PlantnetApi.class);
+            String message = uploadedUrlFirst + fileName + uploadedUrlSecond;
+            intent.putExtra(EXTRA_MESSAGE, message);
+            startActivity(intent);
         }
-
-
-        //Display picture in thumbnail
-        /*if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            displayImage.setImageBitmap(bitmap);
-        }*/
     }
 
     //Define File storing the picture, transition to camera and add picture to app gallery
@@ -107,16 +108,6 @@ public class CameraApi extends AppCompatActivity {
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             galleryAddPic();
-            //storageAddPic();
-            /*storage.child(fileName).putBytes(takePictureIntent.getByteArrayExtra(MediaStore.EXTRA_OUTPUT)).addOnSuccessListener(
-                    new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            System.out.println("File uploaded successfully!");
-                        }
-                    }
-            );*/
-            System.out.println(currentPhotoPath);
         }
     }
 
@@ -125,6 +116,7 @@ public class CameraApi extends AppCompatActivity {
         //Defines name for picture based on date
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         fileName = timeStamp + "_";
+        System.out.println(fileName);
 
         //Creates temporary File in app gallery
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -147,18 +139,6 @@ public class CameraApi extends AppCompatActivity {
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
-    }
-
-    //Adds picture to app gallery
-    private void storageAddPic() {
-        /*storage.child(fileName).putBytes(mediaScanIntent.getByteArrayExtra(MediaStore.EXTRA_OUTPUT)).addOnSuccessListener(
-                new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        System.out.println("File uploaded successfully!");
-                    }
-                }
-        );*/
     }
 
 
