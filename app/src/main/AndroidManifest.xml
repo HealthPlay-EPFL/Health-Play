@@ -23,9 +23,9 @@
         <activity
             android:name=".CameraApi"
             android:exported="false" />
-        <activity
+      <activity
             android:name=".ProfileSettingsActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".PlantnetApi"
             android:exported="false" />
@@ -37,8 +37,6 @@
             android:exported="false" />
         <activity
             android:name=".PlanthuntDescriptionActivity"
-            android:exported="false" />
-        <activity
             android:name=".auth.AuthUiActivity"
             android:exported="true" />
         <activity
