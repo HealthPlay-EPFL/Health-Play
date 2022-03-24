@@ -37,6 +37,8 @@
             android:exported="false" />
         <activity
             android:name=".PlanthuntDescriptionActivity"
+            android:exported="false" />
+        <activity
             android:name=".auth.AuthUiActivity"
             android:exported="true" />
         <activity
