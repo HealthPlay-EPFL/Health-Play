@@ -24,7 +24,7 @@
             android:name=".HomeScreenActivity"
             android:exported="true"></activity>
         <activity
-            android:name=".KneetagDescription"
+            android:name=".KneetagDescriptionActivity"
             android:exported="false" />
         <activity
             android:name=".auth.AuthUiActivity"
@@ -33,10 +33,10 @@
             android:name=".auth.SignedInActivity"
             android:exported="false" />
         <activity
-            android:name=".PlanthuntDescription"
+            android:name=".PlanthuntDescriptionActivity"
             android:exported="false" />
         <activity
-            android:name=".GamesMenu"
+            android:name=".GamesMenuActivity"
             android:exported="false" />
         <activity
             android:name=".BarcodeInformationActivity"
