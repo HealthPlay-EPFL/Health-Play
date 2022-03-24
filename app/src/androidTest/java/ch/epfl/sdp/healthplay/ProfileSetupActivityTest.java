@@ -26,6 +26,7 @@ public class ProfileSetupActivityTest {
     @Test
     public void intentContainsCorrectTextWhenButtonPressed() {
 
+        Intents.init();
         ViewInteraction nameView = Espresso.onView(withId(R.id.ProfileName));
         ViewInteraction idView = Espresso.onView(withId(R.id.ProfileId));
 
@@ -33,8 +34,6 @@ public class ProfileSetupActivityTest {
         nameView.perform(ViewActions.typeText("Hugo"));
 
         Espresso.closeSoftKeyboard();
-
-        Intents.init();
 
         ViewInteraction button = Espresso.onView(withId(R.id.ReadyButton));
         button.perform(ViewActions.click());
