@@ -60,37 +60,35 @@ public class BarcodeScanActivity extends AppCompatActivity {
             BarcodeScanner scanner = BarcodeScanning.getClient(options);
             scanner.process(image)
                     .addOnSuccessListener(barcodes -> {
+                        if (barcodes.isEmpty()) {
+                            // Popup dialog whenever an error occurs
+                            new AlertDialog.Builder(BarcodeScanActivity.this)
+                                    .setTitle("Error")
+                                    .setMessage("An error occurred. Please try again")
+                                    .setNeutralButton("OK", null)
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
+                            return;
+                        }
                         Intent intent = new Intent(this, BarcodeInformationActivity.class);
                         // Get the code from the barcode
                         String barcodeString;
+
                         for (Barcode barcode : barcodes) {
                             barcodeString = barcode.getRawValue();
                             intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, barcodeString);
                         }
 
-                        // When successful, take out progress bar and clear not touchable flags
-                        bar.setVisibility(View.GONE);
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
                         // Go to barcode information activity
                         startActivity(intent);
-                    })
-                    .addOnFailureListener(e -> {
-                        // When unsuccessful, take out progress bar and clear not touchable flags
-                        bar.setVisibility(View.GONE);
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                        // Popup dialog whenever an error occurs
-                        new AlertDialog.Builder(BarcodeScanActivity.this)
-                                .setTitle("Error")
-                                .setMessage("An error occurred. Please try again")
-                                .setNeutralButton("OK", null)
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
                     });
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Take out progress bar and clear not touchable flags
+        bar.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         idlingResource.decrement();
     }
 
