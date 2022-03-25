@@ -29,17 +29,18 @@ public class BarcodeScanActivityTest {
 
     @Before
     public void setup() {
+        Intents.init();
         IdlingRegistry.getInstance().register(BarcodeScanActivity.idlingResource);
     }
 
     @After
     public void finish() {
+        Intents.release();
         IdlingRegistry.getInstance().unregister(BarcodeScanActivity.idlingResource);
     }
 
     @Test
     public void testOnClick() throws InterruptedException {
-        Intents.init();
 
         ViewInteraction button = Espresso.onView(ViewMatchers.withId(R.id.get_information_from_barcode));
         button.perform(ViewActions.click());
@@ -48,12 +49,10 @@ public class BarcodeScanActivityTest {
         // Check if the intent is the correct destination
         Intents.intended(IntentMatchers.hasExtra(BarcodeInformationActivity.EXTRA_MESSAGE, "7613356135901"));
 
-        Intents.release();
     }
 
     @Test
     public void testEnterManually() {
-        Intents.init();
 
         ViewInteraction button = Espresso.onView(ViewMatchers.withId(R.id.enter_manually_button));
         button.perform(ViewActions.click());
@@ -61,6 +60,5 @@ public class BarcodeScanActivityTest {
         // Check if the intent is the correct destination
         //Intents.intended(IntentMatchers.hasComponent("ch.epfl.sdp.healthplay"));
 
-        Intents.release();
     }
 }
