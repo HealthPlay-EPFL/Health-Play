@@ -89,30 +89,7 @@ public final class Database {
      * @param calories the number of calories to add
      */
     public void addCalorie(String userId, int calories) {
-        getStats(userId, task -> {
-            if (!task.isSuccessful()) {
-                Log.e("ERROR", "EREREREROOORORO");
-            }
-            int toAdd = calories;
-            @SuppressWarnings("unchecked")
-            Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>) task.getResult().getValue();
-            // This bellow is to check the existence of the wanted calories
-            // for today's date
-            if (map != null && map.containsKey(getTodayDate())) {
-                Map<String, Number> calo = map.get(getTodayDate());
-                long currentCalories;
-                if (calo != null && calo.containsKey(CALORIE_COUNTER)) {
-                    currentCalories = Long.parseLong(String.valueOf(calo.get(CALORIE_COUNTER)));
-                    toAdd += currentCalories;
-                }
-            }
-            mDatabase.child(USERS)
-                    .child(userId)
-                    .child(STATS)
-                    .child(getTodayDate())
-                    .child(CALORIE_COUNTER)
-                    .setValue(toAdd);
-        });
+        getStats(userId, getLambdaCalorie(userId, calories));
     }
 
     /**
@@ -247,6 +224,34 @@ public final class Database {
     @NonNull
     public static String getTodayDate() {
         return format.format(new Date());
+    }
+
+    private OnCompleteListener<DataSnapshot> getLambdaCalorie(String userId, int calories) {
+        return task -> {
+            if (!task.isSuccessful()) {
+                Log.e("ERROR", "EREREREROOORORO");
+            }
+            int toAdd = calories;
+            @SuppressWarnings("unchecked")
+            Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>) task.getResult().getValue();
+            // This bellow is to check the existence of the wanted calories
+            // for today's date
+            if (map != null && map.containsKey(getTodayDate())) {
+                Map<String, Number> calo = map.get(getTodayDate());
+                long currentCalories;
+                if (calo != null && calo.containsKey(CALORIE_COUNTER)) {
+                    currentCalories = Long.parseLong(String.valueOf(calo.get(CALORIE_COUNTER)));
+                    toAdd += currentCalories;
+                }
+            }
+            mDatabase.child(USERS)
+                    .child(userId)
+                    .child(STATS)
+                    .child(getTodayDate())
+                    .child(CALORIE_COUNTER)
+                    .setValue(toAdd);
+        };
+
     }
 
 }

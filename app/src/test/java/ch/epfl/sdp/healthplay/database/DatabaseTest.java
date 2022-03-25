@@ -3,6 +3,8 @@ package ch.epfl.sdp.healthplay.database;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.when;
 
 import com.google.android.gms.tasks.Task;
@@ -230,7 +232,6 @@ public class DatabaseTest {
         when(ds.getValue()).thenReturn(addMap);
         when(dbr.child(Database.USERS).child(userId).child(Database.STATS).child(Database.CALORIE_COUNTER).setValue(75))
                 .thenReturn(putCaloriesStats("75", stats));
-
         Database db = new Database(dbr);
         db.addCalorie(userId, 35);
         assertEquals("75", stats.get(Database.CALORIE_COUNTER));
@@ -238,6 +239,19 @@ public class DatabaseTest {
 
     @Test
     public void addHealthPointTest() {
+
+        addMap = new HashMap<String, Map<String, Number>>();
+        Map<String, Number> map1 = new HashMap<>();
+        map1.put(Database.CALORIE_COUNTER, 40);
+        map1.put(Database.HEALTH_POINT, 40);
+        addMap.put(Database.getTodayDate(), map1);
+
+        when(dbr.child(Database.USERS).child(userId).child(Database.STATS).get()).thenReturn(t1);
+        when(t1.isSuccessful()).thenReturn(true);
+        when(t1.getResult()).thenReturn(ds);
+        when(ds.getValue()).thenReturn(addMap);
+        when(dbr.child(Database.USERS).child(userId).child(Database.STATS).child(Database.HEALTH_POINT).setValue(75))
+                .thenReturn(putCaloriesStats("75", stats));
         Database db = new Database(dbr);
         db.addHealthPoint(userId, 35);
         assertEquals("35", stats.get(Database.HEALTH_POINT));
