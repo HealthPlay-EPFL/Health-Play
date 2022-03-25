@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -89,6 +91,17 @@ public class Frag_Home extends Fragment {
         TextView dataDisplay = (TextView) view.findViewById(R.id.my_date);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String date = User.getTodayDate();
+        Button button = view.findViewById(R.id.switchFragButton);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentContainerView, new SettingsFragment());
+                fragmentTransaction.commit();
+            }
+        }
+        );
 
 
         //If a user is logged in, get his stats
@@ -195,4 +208,5 @@ public class Frag_Home extends Fragment {
                             "\n health point: " + String.valueOf(userStats.get(date).get(User.HEALTH_POINT)));
         }
     }
+
 }
