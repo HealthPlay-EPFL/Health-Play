@@ -193,7 +193,7 @@ public class AuthUiActivity extends AppCompatActivity
 
 
 
-        return selectedProviders;
+            return selectedProviders;
     }
 
 
