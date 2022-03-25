@@ -54,7 +54,7 @@ public class Frag_HomeTest {
      * Test that the correct string is printed if there is no user logged in
      * @throws InterruptedException
      */
-    @Test
+    /*@Test
     public void getDateNoUserTest() throws InterruptedException {
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
             FirebaseAuth.getInstance().signOut();
@@ -67,7 +67,7 @@ public class Frag_HomeTest {
                         withText("Please login")
                 )
         );
-    }
+    }*/
 
     /**
      * Test if the welcome message is printed at the creation of the view
