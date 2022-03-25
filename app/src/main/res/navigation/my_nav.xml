@@ -8,6 +8,7 @@
     <fragment
         android:id="@+id/frag_Home"
         android:name="ch.epfl.sdp.healthplay.Frag_Home"
+        android:color="@color/black"
         android:label="fragment_frag__home"
         tools:layout="@layout/fragment_frag__home" />
     <activity
