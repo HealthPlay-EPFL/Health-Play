@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.ParseDataGraph;
 import ch.epfl.sdp.healthplay.database.User;
 
@@ -208,7 +209,7 @@ public class Graph_Frag extends Fragment {
         }else {
             String userID = user.getUid();
             initGraph(userID);
-            User.mDatabase.child("users").child(user.getUid()).child("stats").addValueEventListener(new ValueEventListener() {
+            new Database().mDatabase.child("users").child(user.getUid()).child("stats").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     initGraph(userID);
@@ -230,7 +231,7 @@ public class Graph_Frag extends Fragment {
      * @param ID userID of the user
      */
     private void initGraph(String ID){
-        User.getStats(ID, (task -> {
+        new Database().getStats(ID, (task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             } else {

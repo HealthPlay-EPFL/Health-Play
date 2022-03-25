@@ -16,8 +16,8 @@ public class ParseDataGraphTest {
     private static Calendar calendar = Calendar.getInstance();
     private int[] shiftIndex = {5,6,0,1,2,3,4,5};
     private float delta = Float.MIN_VALUE;
-    private String calorieCounter = User.CALORIE_COUNTER;
-    private String healthS = User.HEALTH_POINT;
+    private String calorieCounter = Database.CALORIE_COUNTER;
+    private String healthS = Database.HEALTH_POINT;
     @Test
     public void parseWithMapNull(){
         Map<String, Map<String, Number>> map = null;

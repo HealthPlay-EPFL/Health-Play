@@ -17,8 +17,8 @@ public class ParseDataGraph {
     private float[] dataWeekHealth;
     private float[] dataMonthHealth;
     private int[] shiftIndex = {5,6,0,1,2,3,4,5};
-    private String calorieCounter = User.CALORIE_COUNTER;
-    private String healthS = User.HEALTH_POINT;
+    private String calorieCounter = Database.CALORIE_COUNTER;
+    private String healthS = Database.HEALTH_POINT;
 
     public ParseDataGraph(Map<String, Map<String, Number>> map){
         initDefaultValue();
