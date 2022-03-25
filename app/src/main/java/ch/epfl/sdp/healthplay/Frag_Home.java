@@ -35,7 +35,7 @@ public class Frag_Home extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private Map<String, Map<String, String>> userStats;
+    public static Map<String, Map<String, String>> userStats;
     private static String test;
     private String selected_Date;
 
@@ -73,6 +73,13 @@ public class Frag_Home extends Fragment {
         }
     }
 
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,6 +89,7 @@ public class Frag_Home extends Fragment {
         TextView dataDisplay = (TextView) view.findViewById(R.id.my_date);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        //If a user is logged in, get his stats
         if(user != null) {
             User.getStats(user.getUid(), task -> {
                 if (!task.isSuccessful()) {
@@ -91,6 +99,7 @@ public class Frag_Home extends Fragment {
 
             });
         }
+        //if he isn't
         else {
             userStats = null;
             FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
@@ -112,17 +121,21 @@ public class Frag_Home extends Fragment {
             );
         }
         String date = User.getTodayDate();
+        //Print a text when the date is changed
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 selected_Date = year + "-" + mFormat.format(month + 1) + "-" + mFormat.format(dayOfMonth);
+                //No user
                 if(user == null){
                     dataDisplay.setText("Please login");
                 }
+                //User but no data at all
                 else if(userStats == null) {
                     dataDisplay.setText("No stats, please begin adding calories if you want to use the calendar summary");
                 }
+                //User with data, but no data for the chosen date
                 else if(userStats.get(selected_Date) == null){
                     dataDisplay.setText("No data for this date");
                 }
@@ -133,14 +146,21 @@ public class Frag_Home extends Fragment {
                 }
             }
         });
+        //Update in real time the userStats
         if(user != null) {
             User.mDatabase.child("users").child(user.getUid()).child("stats").child(date).addValueEventListener(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    //Get the changes
                     Map<String, String> value = (Map<String, String>) snapshot.getValue();
                     if (userStats != null) {
-                        userStats.get(date).put("calorieCounter", String.valueOf(value.get("calorieCounter")));
+                        //Update all the values
+                        System.out.println(value);
+                        userStats.get(date).put(User.CALORIE_COUNTER, String.valueOf(value.get(User.CALORIE_COUNTER)));
+                        userStats.get(date).put(User.HEALTH_POINT, String.valueOf(value.get(User.HEALTH_POINT)));
+                        userStats.get(date).put(User.WEIGHT, String.valueOf(value.get(User.WEIGHT)));
+                        //print the changes only if they happened on the focused date
                         if (selected_Date.equals(date)) {
                             printStats(
                                     dataDisplay,
@@ -159,11 +179,19 @@ public class Frag_Home extends Fragment {
         return view;
     }
 
+
+    /**
+     * Print the stats of the current user in the given textView, at the Date date
+     * @param textView The textView you want to write in
+     * @param date The date you want to write to
+     */
     private void printStats(TextView textView, String date){
-        textView.setText(
-                date + ": You've consumed :" +
-                        "\n calories: " + String.valueOf(userStats.get(date).get("calorieCounter")) +
-                        "\n weight: " + String.valueOf(userStats.get(date).get("last_current_weight")) +
-                        "\n health point: " + String.valueOf(userStats.get(date).get("health_point")));
+        if(userStats != null && FirebaseAuth.getInstance() != null) {
+            textView.setText(
+                    date + ": You've consumed :" +
+                            "\n calories: " + String.valueOf(userStats.get(date).get(User.CALORIE_COUNTER)) +
+                            "\n weight: " + String.valueOf(userStats.get(date).get(User.WEIGHT)) +
+                            "\n health point: " + String.valueOf(userStats.get(date).get(User.HEALTH_POINT)));
+        }
     }
 }
