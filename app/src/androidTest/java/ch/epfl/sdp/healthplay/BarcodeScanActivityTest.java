@@ -2,6 +2,9 @@ package ch.epfl.sdp.healthplay;
 
 import static org.junit.Assert.*;
 
+import android.content.Context;
+import android.content.Intent;
+
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.ViewInteraction;
@@ -11,6 +14,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,6 +35,8 @@ public class BarcodeScanActivityTest {
     public void setup() {
         Intents.init();
         IdlingRegistry.getInstance().register(BarcodeScanActivity.idlingResource);
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
     }
 
     @After
