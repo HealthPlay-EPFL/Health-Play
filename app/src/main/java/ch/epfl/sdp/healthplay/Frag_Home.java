@@ -95,7 +95,7 @@ public class Frag_Home extends Fragment {
         if(user != null) {
             User.getStats(user.getUid(), task -> {
                 if (!task.isSuccessful()) {
-                    Log.e("ERROR", "An error happened");
+                    Log.e("ERROR", "Watch out there was an error");
                 }
                 userStats = (Map<String, Map<String, String>>) task.getResult().getValue();
 
