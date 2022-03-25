@@ -26,7 +26,7 @@ import okhttp3.HttpUrl;
 
 public class PlantnetApi extends AppCompatActivity {
     private static final String API_KEY = "2b106lfsSUXwI6p3JCdVgOXVQe";
-    String imageUrl;
+    private static String imageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

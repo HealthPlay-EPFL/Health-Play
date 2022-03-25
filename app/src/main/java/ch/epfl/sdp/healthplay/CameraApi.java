@@ -31,16 +31,15 @@ import java.util.Date;
 
 public class CameraApi extends AppCompatActivity {
 
-    Button captureButton;
-    ImageView displayImage;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    String currentPhotoPath;
-    String fileName;
+    private static Button captureButton;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static String currentPhotoPath;
+    private static String fileName;
 
     private static final String STORAGE_URL = "gs://health-play-9e161.appspot.com";
     public static StorageReference storage;
-    String uploadedUrlFirst = "https://firebasestorage.googleapis.com/v0/b/health-play-9e161.appspot.com/o/";
-    String uploadedUrlSecond = "?alt=media&token=937922cf-0744-4718-8ecf-c1abdda627c8";
+    private static final String uploadedUrlFirst = "https://firebasestorage.googleapis.com/v0/b/health-play-9e161.appspot.com/o/";
+    private static final String uploadedUrlSecond = "?alt=media&token=937922cf-0744-4718-8ecf-c1abdda627c8";
     public static final String EXTRA_MESSAGE = "ch.epfl.sdp.healthplay.MESSAGE";
 
 
