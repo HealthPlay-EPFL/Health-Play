@@ -16,25 +16,28 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.User;
+//import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
 public class ProfileSettingsActivity extends AppCompatActivity {
 
     FirebaseUser user;
 
     private void modifyText(FirebaseUser user, int layoutId, String field) {
-        User.readField(user.getUid(), field, task -> {
+        Database db = new Database();
+        db.readField(user.getUid(), field, task -> {
             if (!task.isSuccessful()) {
                 Log.e("ERROR", "ERRRORORORO");
             }
             String answer;
-            if (field.equals(User.LAST_CURRENT_WEIGHT)) {
+            if (field.equals(Database.LAST_CURRENT_WEIGHT)) {
                 answer = String.valueOf(task.getResult().getValue());
             } else {
                 answer = task.getResult().getValue(String.class);
             }
             EditText name = findViewById(layoutId);
-            if (field.equals(User.BIRTHDAY)) {
+            if (field.equals(Database.BIRTHDAY)) {
                 // Receives the date as format like 2022-03-17
                 // Must reverse the order
                 String[] date = answer.split("-");
@@ -57,33 +60,34 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
         if (user != null) {
             // Set all the hints
-            modifyText(user, R.id.modifyNameEditText, User.NAME);
-            modifyText(user, R.id.modifySurnameEditText, User.SURNAME);
-            modifyText(user, R.id.modifyUsernameEditText, User.USERNAME);
-            modifyText(user, R.id.modifyBirthDateEditText, User.BIRTHDAY);
-            modifyText(user, R.id.modifyWeightEditText, User.LAST_CURRENT_WEIGHT);
+            modifyText(user, R.id.modifyNameEditText, Database.NAME);
+            modifyText(user, R.id.modifySurnameEditText, Database.SURNAME);
+            modifyText(user, R.id.modifyUsernameEditText, Database.USERNAME);
+            modifyText(user, R.id.modifyBirthDateEditText, Database.BIRTHDAY);
+            modifyText(user, R.id.modifyWeightEditText, Database.LAST_CURRENT_WEIGHT);
         }
     }
 
     public void saveChanges(View view) {
         if (user != null) {
+            Database db = new Database();
             String uid = user.getUid();
             EditText text = findViewById(R.id.modifyNameEditText);
-            User.writeName(uid, text.getText().toString());
+            db.writeName(uid, text.getText().toString());
 
             text = findViewById(R.id.modifySurnameEditText);
-            User.writeSurname(uid, text.getText().toString());
+            db.writeSurname(uid, text.getText().toString());
 
             text = findViewById(R.id.modifyUsernameEditText);
-            User.writeUsername(uid, text.getText().toString());
+            db.writeUsername(uid, text.getText().toString());
 
             text = findViewById(R.id.modifyBirthDateEditText);
             String birthday = text.getText().toString();
             String[] date = birthday.split("/");
-            User.writeBirthday(uid, date[2] + "-" + date[1] + "-" + date[0]);
+            db.writeBirthday(uid, date[2] + "-" + date[1] + "-" + date[0]);
 
             text = findViewById(R.id.modifyWeightEditText);
-            User.writeWeight(uid, Double.parseDouble(text.getText().toString()));
+            db.writeWeight(uid, Double.parseDouble(text.getText().toString()));
         }
     }
 }

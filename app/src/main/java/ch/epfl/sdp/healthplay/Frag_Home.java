@@ -19,7 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 import java.text.DecimalFormat;
 import java.util.Map;
 
+import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.User;
+//import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -116,8 +118,9 @@ public class Frag_Home extends Fragment {
 
     //will be deleted
     public static String readField(String userId, String field, String date) {
+        Database db = new Database();
         StringBuilder result = new StringBuilder();
-        User.mDatabase.child("users").child(userId).child(field).child(date).get().addOnCompleteListener(task -> {
+        db.mDatabase.child("users").child(userId).child(field).child(date).get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             }

@@ -22,12 +22,13 @@ public class ProductInfoActivityTest {
 
     @Test
     public void intentContainsCorrectBarcodeWhenButtonPressed() {
+
+        Intents.init();
         // Get the TextView and write the test name onto it
         ViewInteraction textView = Espresso.onView(withId(R.id.barcodeText));
         textView.perform(ViewActions.typeText(TEST_CODE));
         Espresso.closeSoftKeyboard();
 
-        Intents.init();
 
         // Get the button and click on it
         ViewInteraction button = Espresso.onView(withId(R.id.findProductInfos));

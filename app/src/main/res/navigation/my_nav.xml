@@ -8,6 +8,7 @@
     <fragment
         android:id="@+id/frag_Home"
         android:name="ch.epfl.sdp.healthplay.Frag_Home"
+        android:color="@color/black"
         android:label="fragment_frag__home"
         tools:layout="@layout/fragment_frag__home" />
     <activity
@@ -26,10 +27,10 @@
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <activity
-        android:id="@+id/productInfoActivity"
-        android:name="ch.epfl.sdp.healthplay.ProductInfoActivity"
+        android:id="@+id/barcodescanActivity"
+        android:name="ch.epfl.sdp.healthplay.BarcodeScanActivity"
         android:label="activity_product_info3"
-        tools:layout="@layout/activity_product_info3" />
+        tools:layout="@layout/activity_barcode_scan" />
     <activity
         android:id="@+id/gamesMenu"
         android:name="ch.epfl.sdp.healthplay.GamesMenuActivity"
