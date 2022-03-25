@@ -27,6 +27,7 @@ import java.util.Map;
 
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.User;
+import ch.epfl.sdp.healthplay.model.Graph_Frag;
 //import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
 /**
@@ -100,7 +101,7 @@ public class Frag_Home extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentContainerView, new SettingsFragment());
+                fragmentTransaction.replace(R.id.fragmentContainerView, new Graph_Frag());
                 fragmentTransaction.commit();
             }
         }
