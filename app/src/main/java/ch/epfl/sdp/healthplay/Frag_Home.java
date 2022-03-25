@@ -42,6 +42,7 @@ public class Frag_Home extends Fragment {
     public static Map<String, Map<String, String>> userStats;
     private static String test;
     private String selected_Date;
+    private Database database = new Database();
 
     private String mParam1;
     private String mParam2;
@@ -92,7 +93,7 @@ public class Frag_Home extends Fragment {
         CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendar);
         TextView dataDisplay = (TextView) view.findViewById(R.id.my_date);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String date = User.getTodayDate();
+        String date = Database.getTodayDate();
         Button button = view.findViewById(R.id.switchFragButton);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +109,7 @@ public class Frag_Home extends Fragment {
 
         //If a user is logged in, get his stats
         if(user != null) {
-            User.getStats(user.getUid(), task -> {
+            database.getStats(user.getUid(), task -> {
                 if (!task.isSuccessful()) {
                     Log.e("ERROR", "Watch out there was an error");
                 }
@@ -124,7 +125,7 @@ public class Frag_Home extends Fragment {
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                     //Necessary since the function is executed once on the creation of the Fragment
                     if(user != null) {
-                        User.getStats(user.getUid(), task -> {
+                        database.getStats(user.getUid(), task -> {
                             if (!task.isSuccessful()) {
                                 Log.e("ERROR", "An error happened");
                             }
@@ -165,7 +166,7 @@ public class Frag_Home extends Fragment {
       
         //Update in real time the userStats
         if(user != null) {
-            User.mDatabase.child("users").child(user.getUid()).child("stats").child(date).addValueEventListener(new ValueEventListener() {
+            database.mDatabase.child("users").child(user.getUid()).child("stats").child(date).addValueEventListener(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -173,9 +174,9 @@ public class Frag_Home extends Fragment {
                     Map<String, String> value = (Map<String, String>) snapshot.getValue();
                     if (userStats != null) {
                         //Update all the values
-                        userStats.get(date).put(User.CALORIE_COUNTER, String.valueOf(value.get(User.CALORIE_COUNTER)));
-                        userStats.get(date).put(User.HEALTH_POINT, String.valueOf(value.get(User.HEALTH_POINT)));
-                        userStats.get(date).put(User.WEIGHT, String.valueOf(value.get(User.WEIGHT)));
+                        userStats.get(date).put(Database.CALORIE_COUNTER, String.valueOf(value.get(Database.CALORIE_COUNTER)));
+                        userStats.get(date).put(Database.HEALTH_POINT, String.valueOf(value.get(Database.HEALTH_POINT)));
+                        userStats.get(date).put(Database.WEIGHT, String.valueOf(value.get(Database.WEIGHT)));
 
                         //print the changes only if they happened on the focused date
                         if (selected_Date.equals(date)) {
@@ -207,9 +208,9 @@ public class Frag_Home extends Fragment {
         if(userStats != null && FirebaseAuth.getInstance() != null) {
             textView.setText(
                     date + ": You've consumed :" +
-                            "\n calories: " + String.valueOf(userStats.get(date).get(User.CALORIE_COUNTER)) +
-                            "\n weight: " + String.valueOf(userStats.get(date).get(User.WEIGHT)) +
-                            "\n health point: " + String.valueOf(userStats.get(date).get(User.HEALTH_POINT)));
+                            "\n calories: " + String.valueOf(userStats.get(date).get(Database.CALORIE_COUNTER)) +
+                            "\n weight: " + String.valueOf(userStats.get(date).get(Database.WEIGHT)) +
+                            "\n health point: " + String.valueOf(userStats.get(date).get(Database.HEALTH_POINT)));
         }
     }
 
