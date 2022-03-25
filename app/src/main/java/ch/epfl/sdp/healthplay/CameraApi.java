@@ -51,6 +51,7 @@ public class CameraApi extends AppCompatActivity {
 
         captureButton = findViewById(R.id.buttonCapture);
 
+        //Get Firebase Storage from Url
         storage = FirebaseStorage.getInstance(STORAGE_URL).getReference();
 
         //Start camera intent when clicking on Take Picture button
@@ -67,12 +68,15 @@ public class CameraApi extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        //Check request comes from camera
         if (requestCode == REQUEST_IMAGE_CAPTURE){
-            //Add picture to Firebase
+            //Convert image to byte array then to jpeg
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath,bmOptions);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+            //Add picture to Firebase
             storage.child(fileName).putBytes(outputStream.toByteArray()).addOnSuccessListener(
                     new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -82,7 +86,7 @@ public class CameraApi extends AppCompatActivity {
                     }
             );
 
-            //Send image Storage Url to Plantnet activity
+            //Send image Storage Url on Firebase to Plantnet activity
             Intent intent = new Intent(this, PlantnetApi.class);
             String message = uploadedUrlFirst + fileName + uploadedUrlSecond;
             intent.putExtra(EXTRA_MESSAGE, message);
@@ -105,6 +109,7 @@ public class CameraApi extends AppCompatActivity {
             Uri photoURI = FileProvider.getUriForFile(this,
                     "ch.epfl.sdp.healthplay.fileprovider",
                     photoFile);
+            //Add data to intent result
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             galleryAddPic();
