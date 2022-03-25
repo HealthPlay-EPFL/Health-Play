@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import ch.epfl.sdp.healthplay.auth.ProfileActivity;
+import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.User;
+//import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
 public class ProfileSetupActivity extends AppCompatActivity {
 
@@ -28,6 +30,7 @@ public class ProfileSetupActivity extends AppCompatActivity {
         EditText editAge = findViewById(R.id.ProfileAge);
         EditText editWeight= findViewById(R.id.ProfileWeight);
         EditText editId = findViewById(R.id.ProfileId);
+        Database db = new Database();
         int age;
         int weight;
         try{
@@ -40,7 +43,7 @@ public class ProfileSetupActivity extends AppCompatActivity {
 
         String username = editName.getText().toString();
         String id = editId.getText().toString();
-        User.writeNewUser(id,username, age, weight);
+        db.writeNewUser(id,username, age, weight);
         intent.putExtra(EXTRA_USERNAME, username);
         intent.putExtra(EXTRA_ID, id);
         startActivity(intent);
