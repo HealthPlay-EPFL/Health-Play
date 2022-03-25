@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ch.epfl.sdp.healthplay">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-sdk
+        tools:overrideLibrary="
+          androidx.camera.camera2, androidx.camera.core,
+          androidx.camera.view, androidx.camera.lifecycle" />
+
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -20,6 +32,10 @@
         <activity
             android:name=".HomeScreenActivity"
             android:exported="true"></activity>
+        <activity
+            android:name=".kneetag.java.LivePreviewActivity"
+            android:exported="true"></activity>
+
         <activity
             android:name=".KneetagDescription"
             android:exported="false" />
