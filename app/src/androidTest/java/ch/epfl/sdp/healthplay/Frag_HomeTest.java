@@ -50,7 +50,10 @@ public class Frag_HomeTest {
         );
     }*/
 
-
+    /**
+     * Test that the correct string is printed if there is no user logged in
+     * @throws InterruptedException
+     */
     @Test
     public void getDateNoUserTest() throws InterruptedException {
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
@@ -66,6 +69,9 @@ public class Frag_HomeTest {
         );
     }
 
+    /**
+     * Test if the welcome message is printed at the creation of the view
+     */
     @Test
     public void getWelcomeMessage() {
         onView(withId(R.id.my_date)).check(

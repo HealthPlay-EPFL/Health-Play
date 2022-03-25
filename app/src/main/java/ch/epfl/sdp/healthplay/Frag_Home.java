@@ -88,6 +88,8 @@ public class Frag_Home extends Fragment {
         CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendar);
         TextView dataDisplay = (TextView) view.findViewById(R.id.my_date);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String date = User.getTodayDate();
+
 
         //If a user is logged in, get his stats
         if(user != null) {
@@ -99,43 +101,42 @@ public class Frag_Home extends Fragment {
 
             });
         }
-        //if he isn't
+        //If the user isn't logged in yet, create userStats when it logs in
         else {
             userStats = null;
             FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
                 @Override
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    //Necessary since the function is executed once on the creation of the Fragment
                     if(user != null) {
                         User.getStats(user.getUid(), task -> {
                             if (!task.isSuccessful()) {
                                 Log.e("ERROR", "An error happened");
                             }
                             userStats = (Map<String, Map<String, String>>) task.getResult().getValue();
-                            System.out.println("user stats: "+ userStats);
                         });
-                        System.out.println("user stats: "+ userStats);
                     }
                 }
             }
 
             );
         }
-        String date = User.getTodayDate();
+
         //Print a text when the date is changed
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 selected_Date = year + "-" + mFormat.format(month + 1) + "-" + mFormat.format(dayOfMonth);
-                //No user
+                //No user logged in
                 if(user == null){
                     dataDisplay.setText("Please login");
                 }
-                //User but no data at all
+                //User is logged in but no data at all
                 else if(userStats == null) {
                     dataDisplay.setText("No stats, please begin adding calories if you want to use the calendar summary");
                 }
-                //User with data, but no data for the chosen date
+                //User logged in with data, but no data for the chosen date
                 else if(userStats.get(selected_Date) == null){
                     dataDisplay.setText("No data for this date");
                 }
@@ -156,10 +157,10 @@ public class Frag_Home extends Fragment {
                     Map<String, String> value = (Map<String, String>) snapshot.getValue();
                     if (userStats != null) {
                         //Update all the values
-                        System.out.println(value);
                         userStats.get(date).put(User.CALORIE_COUNTER, String.valueOf(value.get(User.CALORIE_COUNTER)));
                         userStats.get(date).put(User.HEALTH_POINT, String.valueOf(value.get(User.HEALTH_POINT)));
                         userStats.get(date).put(User.WEIGHT, String.valueOf(value.get(User.WEIGHT)));
+
                         //print the changes only if they happened on the focused date
                         if (selected_Date.equals(date)) {
                             printStats(
