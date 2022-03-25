@@ -2,10 +2,14 @@ package ch.epfl.sdp.healthplay;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,12 +26,19 @@ import okhttp3.HttpUrl;
 
 public class PlantnetApi extends AppCompatActivity {
     private static final String API_KEY = "2b106lfsSUXwI6p3JCdVgOXVQe";
-    private static final String IMAGE = "https://firebasestorage.googleapis.com/v0/b/test-6ab96.appspot.com/o/coquelicot.jpg?alt=media&token=6ef1cf50-2419-4ff9-a8ef-d28ce584836b";
+    private static String imageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plantnet_api);
+
+        Intent intent = getIntent();
+        imageUrl = intent.getStringExtra(CameraApi.EXTRA_MESSAGE);
+
+        final ImageView plantView = findViewById(R.id.plantImage);
+        System.out.println(imageUrl);
+        Glide.with(this).load(imageUrl).into(plantView);
 
         final Button plantButton = findViewById(R.id.plantButton);
         plantButton.setOnClickListener(
@@ -40,7 +51,7 @@ public class PlantnetApi extends AppCompatActivity {
                             public void run() {
                                 try  {
                                     //Returns built URL with given image link
-                                    String urlString = buildUrl(API_KEY, IMAGE, "flower");
+                                    String urlString = buildUrl(API_KEY, imageUrl, "flower");
                                     System.out.println(urlString);
                                     //Gets JSON object from built URL
                                     JSONObject json = readJsonFromUrl(urlString);
