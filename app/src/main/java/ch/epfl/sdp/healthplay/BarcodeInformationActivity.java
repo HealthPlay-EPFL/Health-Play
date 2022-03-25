@@ -16,9 +16,11 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
+import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.User;
 import ch.epfl.sdp.healthplay.model.Product;
 import ch.epfl.sdp.healthplay.model.ProductInfoClient;
+//import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
 public class BarcodeInformationActivity extends AppCompatActivity {
 
@@ -110,8 +112,9 @@ public class BarcodeInformationActivity extends AppCompatActivity {
     }
 
     public void addToUser(View view) {
+        Database db = new Database();
         TextView textView = findViewById(R.id.pEnergy);
         double calorie = Double.parseDouble(textView.getText().toString());
-        User.addCalorie(user.getUid(), (int) calorie);
+        db.addCalorie(user.getUid(), (int) calorie);
     }
 }
