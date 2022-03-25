@@ -27,7 +27,7 @@ public class PlantnetApiTest {
     @Rule
     public ActivityScenarioRule<PlantnetApi> testRule = new ActivityScenarioRule<>(PlantnetApi.class);
 
-    /*@Test
+    @Test
     public void planthuntButtonCorrectlyDisplaysName() throws InterruptedException {
         Espresso.onView(withId(R.id.plantButton)).perform(click());
         TimeUnit.SECONDS.sleep(3);
@@ -36,7 +36,7 @@ public class PlantnetApiTest {
                         ViewMatchers.withText("[\"Shirley poppy\",\"Common poppy\",\"Field poppy\"]")
                 )
         );
-    }*/
+    }
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
