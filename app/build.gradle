@@ -78,6 +78,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
     implementation 'com.squareup.okhttp3:okhttp:3.14.6'
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
 
 

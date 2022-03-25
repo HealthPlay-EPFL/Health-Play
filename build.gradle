@@ -22,6 +22,7 @@ allprojects {
     repositories {
         maven { url 'https://repo1.maven.org/maven2' }
         google()  // Google's Maven repository
+        maven { url 'https://jitpack.io' }
     }
 
     configurations.matching { it.name == '_internal_aapt2_binary' }.all { config ->
