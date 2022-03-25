@@ -16,6 +16,8 @@ public class ParseDataGraphTest {
     private static Calendar calendar = Calendar.getInstance();
     private int[] shiftIndex = {5,6,0,1,2,3,4,5};
     private float delta = Float.MIN_VALUE;
+    private String calorieCounter = User.CALORIE_COUNTER;
+    private String healthS = User.HEALTH_POINT;
     @Test
     public void parseWithMapNull(){
         Map<String, Map<String, Number>> map = null;
@@ -50,7 +52,7 @@ public class ParseDataGraphTest {
         Map<String, Map<String, Number>> map = new HashMap<>();
         Map<String, Number> inter = new HashMap<>();
         float expectedValue = 500;
-        inter.put(User.CALORIE_COUNTER, expectedValue);
+        inter.put(calorieCounter, expectedValue);
         Date date = new Date();
         String dateFormat = format.format(new Date());
         map.put(dateFormat, inter);
@@ -60,8 +62,8 @@ public class ParseDataGraphTest {
         expectedWeek[shiftIndex[day]] = expectedValue;
         ParseDataGraph parse = new ParseDataGraph(map);
         Assert.assertArrayEquals(expectedWeek, parse.getDataWeekCalories(), delta);
-        inter.remove(User.CALORIE_COUNTER);
-        inter.put(User.HEALTH_POINT, expectedValue);
+        inter.remove(calorieCounter);
+        inter.put(healthS, expectedValue);
         map.remove(dateFormat);
         map.put(dateFormat, inter);
         parse = new ParseDataGraph(map);
@@ -73,8 +75,8 @@ public class ParseDataGraphTest {
         Map<String, Map<String, Number>> map = new HashMap<>();
         Map<String, Number> inter = new HashMap<>();
         float expectedValue = 500;
-        inter.put(User.CALORIE_COUNTER, expectedValue);
-        inter.put(User.HEALTH_POINT, expectedValue);
+        inter.put(calorieCounter, expectedValue);
+        inter.put(healthS, expectedValue);
         Date date = new Date();
         calendar.setTime(new Date());
         int year = calendar.get(Calendar.YEAR);
@@ -87,8 +89,8 @@ public class ParseDataGraphTest {
         Map<String, Map<String, Number>> map = new HashMap<>();
         Map<String, Number> inter = new HashMap<>();
         float expectedValue = 500;
-        inter.put(User.CALORIE_COUNTER, expectedValue);
-        inter.put(User.HEALTH_POINT, expectedValue);
+        inter.put(calorieCounter, expectedValue);
+        inter.put(healthS, expectedValue);
         Date date = new Date();
         calendar.setTime(new Date());
         String dateFormat = format.format(date).substring(0, 5) + "01-01";
@@ -108,8 +110,8 @@ public class ParseDataGraphTest {
         Map<String, Map<String, Number>> map = new HashMap<>();
         Map<String, Number> inter = new HashMap<>();
         float expectedValue = 500;
-        inter.put(User.CALORIE_COUNTER, expectedValue);
-        inter.put(User.HEALTH_POINT, expectedValue);
+        inter.put(calorieCounter, expectedValue);
+        inter.put(healthS, expectedValue);
         Date date = new Date();
         calendar.setTime(new Date());
         String dateFormat = format.format(date);
@@ -173,15 +175,15 @@ public class ParseDataGraphTest {
             expectedMonthC[month] += calorie;
             expectedMonthH[month] += health;
             Map<String, Number> inter = new HashMap<>();
-            inter.put(User.CALORIE_COUNTER, calorie);
-            inter.put(User.HEALTH_POINT, health);
+            inter.put(calorieCounter, calorie);
+            inter.put(healthS, health);
             map.put(dates[i], inter);
         }
         Map<String, Number> inter = new HashMap<>();
         float calorie = 10;
         float health = 20;
-        inter.put(User.CALORIE_COUNTER, calorie);
-        inter.put(User.HEALTH_POINT, health);
+        inter.put(calorieCounter, calorie);
+        inter.put(healthS, health);
         map.put(dates[0], inter);
         map.put(dates[1], inter);
         ParseDataGraph parse = new ParseDataGraph(map);

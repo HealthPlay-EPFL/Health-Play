@@ -1,7 +1,5 @@
 package ch.epfl.sdp.healthplay.database;
 
-import android.util.Log;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +17,8 @@ public class ParseDataGraph {
     private float[] dataWeekHealth;
     private float[] dataMonthHealth;
     private int[] shiftIndex = {5,6,0,1,2,3,4,5};
+    private String calorieCounter = User.CALORIE_COUNTER;
+    private String healthS = User.HEALTH_POINT;
 
     public ParseDataGraph(Map<String, Map<String, Number>> map){
         initDefaultValue();
@@ -73,8 +73,8 @@ public class ParseDataGraph {
             float calories = 0;
             float health = 0;
             List<Float> dataParse = new ArrayList<>();
-            Number calorie = data.get(User.CALORIE_COUNTER);
-            Number healthP = data.get(User.HEALTH_POINT);
+            Number calorie = data.get(calorieCounter);
+            Number healthP = data.get(healthS);
             if(calorie!=null)
                 calories += calorie.floatValue();
             if(healthP != null)
