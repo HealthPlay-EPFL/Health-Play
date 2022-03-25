@@ -8,13 +8,16 @@
           androidx.camera.camera2, androidx.camera.core,
           androidx.camera.view, androidx.camera.lifecycle" />
 
-    <uses-feature android:name="android.hardware.camera"
-        android:required="true" />/>
+    <uses-permission android:name="android.permission.INTERNET" />
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -30,6 +33,9 @@
             android:name=".PlantnetApi"
             android:exported="false" />
         <activity
+            android:name=".CameraApi"
+            android:exported="false" />
+        <activity
             android:name=".HomeScreenActivity"
             android:exported="true"></activity>
         <activity
@@ -38,6 +44,7 @@
 
         <activity
             android:name=".KneetagDescription"
+            android:name=".KneetagDescriptionActivity"
             android:exported="false" />
         <activity
             android:name=".auth.AuthUiActivity"
@@ -46,10 +53,10 @@
             android:name=".auth.SignedInActivity"
             android:exported="false" />
         <activity
-            android:name=".PlanthuntDescription"
+            android:name=".PlanthuntDescriptionActivity"
             android:exported="false" />
         <activity
-            android:name=".GamesMenu"
+            android:name=".GamesMenuActivity"
             android:exported="false" />
         <activity
             android:name=".BarcodeInformationActivity"
@@ -73,6 +80,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="ch.epfl.sdp.healthplay.fileprovider"
+            android:exported="false"
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+
     </application>
 
 </manifest>
