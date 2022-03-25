@@ -25,7 +25,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.DecimalFormat;
 import java.util.Map;
 
+import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.User;
+//import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -160,6 +162,7 @@ public class Frag_Home extends Fragment {
                 }
             }
         });
+      
         //Update in real time the userStats
         if(user != null) {
             User.mDatabase.child("users").child(user.getUid()).child("stats").child(date).addValueEventListener(new ValueEventListener() {
@@ -181,6 +184,7 @@ public class Frag_Home extends Fragment {
                                     date);
                         }
                     }
+
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
