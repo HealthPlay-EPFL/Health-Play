@@ -11,6 +11,8 @@ import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -21,7 +23,7 @@ public class BarcodeInformationActivityTest {
     @Test
     public void testInterface() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
-        intent.putExtra(ProductInfoActivity.EXTRA_MESSAGE, TEST_CODE);
+        intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, TEST_CODE);
 
         try (ActivityScenario<BarcodeInformationActivity> ignored = ActivityScenario.launch(intent)) {
             Espresso.onView(withId(R.id.pName)).check(
@@ -41,7 +43,7 @@ public class BarcodeInformationActivityTest {
     @Test
     public void testUnknown() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
-        intent.putExtra(ProductInfoActivity.EXTRA_MESSAGE, "TEST_CODE");
+        intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, "TEST_CODE");
         try (ActivityScenario<BarcodeInformationActivity> ignored = ActivityScenario.launch(intent)) {
             Espresso.onView(withId(R.id.pName)).check(
                     ViewAssertions.matches(
@@ -55,5 +57,16 @@ public class BarcodeInformationActivityTest {
             );
         }
 
+    }
+
+    @Test
+    public void checkUserNotNull() {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
+        intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, TEST_CODE);
+
+        try (ActivityScenario<BarcodeInformationActivity> ignored = ActivityScenario.launch(intent)) {
+
+        }
     }
 }
