@@ -73,7 +73,7 @@ public class CameraApi extends AppCompatActivity {
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath,bmOptions);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
 
             //Add picture to Firebase
             storage.child(fileName).putBytes(outputStream.toByteArray()).addOnSuccessListener(
