@@ -1,6 +1,5 @@
 package ch.epfl.sdp.healthplay.auth;
 
-import static ch.epfl.sdp.healthplay.database.User.writeCalorie;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
@@ -27,7 +27,10 @@ import java.util.Map;
 import ch.epfl.sdp.healthplay.ProfileSettingsActivity;
 import ch.epfl.sdp.healthplay.ProfileSetupActivity;
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.User;
+
+//import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -38,17 +41,18 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Database db = new Database();
         if(user != null) {
-            User.mDatabase
-                    .child(User.USERS)
+            db.mDatabase
+                    .child(Database.USERS)
                     .child(user.getUid())
                     .get()
                     .addOnCompleteListener(task -> {
                         if (!task.isSuccessful()) {
                             Log.e("firebase", "Error getting data", task.getException());
                         }
-                        if(!task.getResult().hasChild(user.getUid())){
-                            User.writeNewUser(user.getUid(),"HugoBoss", 0, 0);
+                        if(!task.getResult().hasChildren()){
+                            db.writeNewUser(user.getUid(),"HugoBoss", 0, 0);
                         }
                         initUsername(user.getUid());
                         initBirthday(user.getUid());
@@ -67,8 +71,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void initBirthday(String userId) {
         TextView TextViewBirthday = findViewById(R.id.profileBirthday);
-
-        User.readField(userId, User.BIRTHDAY, (task -> {
+        Database db = new Database();
+        db.readField(userId, Database.BIRTHDAY, (task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             } else {
@@ -76,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }));
 
-        User.mDatabase.child(User.USERS).child(userId).child(User.BIRTHDAY).addValueEventListener(new ValueEventListener() {
+        db.mDatabase.child(Database.USERS).child(userId).child(Database.BIRTHDAY).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String birthday = dataSnapshot.getValue(String.class);
@@ -97,13 +101,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void initName(String userId) {
         TextView TextViewName = findViewById(R.id.profileName);
+        Database db = new Database();
 
-
-        User.readField(userId, User.NAME, (task -> {
+        db.readField(userId, Database.NAME, (task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             } else {
-                User.readField(userId, User.SURNAME, (t -> {
+                db.readField(userId, Database.SURNAME, (t -> {
                     if (!t.isSuccessful()) {
                         Log.e("firebase", "Error getting data", t.getException());
                     } else {
@@ -114,10 +118,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }));
 
-        User.mDatabase.child(User.USERS).child(userId).child(User.NAME).addValueEventListener(new ValueEventListener() {
+        db.mDatabase.child(Database.USERS).child(userId).child(Database.NAME).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User.readField(userId, User.SURNAME, (task -> {
+                db.readField(userId, Database.SURNAME, (task -> {
                     if (!task.isSuccessful()) {
                         Log.e("firebase", "Error getting data", task.getException());
                     } else {
@@ -132,11 +136,11 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        User.mDatabase.child(User.USERS).child(userId).child(User.SURNAME).addValueEventListener(new ValueEventListener() {
+        db.mDatabase.child(Database.USERS).child(userId).child(Database.SURNAME).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                User.readField(userId, User.NAME, (task -> {
+                db.readField(userId, Database.NAME, (task -> {
                     if (!task.isSuccessful()) {
                         Log.e("firebase", "Error getting data", task.getException());
                     } else {
@@ -158,8 +162,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void initUsername(String userId) {
         TextView TextViewUsername = findViewById(R.id.profileUsername);
-
-        User.readField(userId, User.USERNAME, (task -> {
+        Database db = new Database();
+        db.readField(userId, Database.USERNAME, (task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             } else {
@@ -167,7 +171,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }));
 
-        User.mDatabase.child(User.USERS).child(userId).child(User.USERNAME).addValueEventListener(new ValueEventListener() {
+        db.mDatabase.child(Database.USERS).child(userId).child(Database.USERNAME).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String username = dataSnapshot.getValue(String.class);
@@ -185,7 +189,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void initStats(String userId) {
 
-        User.getStats(userId,(task -> {
+        Database db = new Database();
+
+        db.getStats(userId,(task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             } else {
@@ -194,7 +200,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }));
 
-        User.mDatabase.child(User.USERS).child(userId).child(User.STATS).addValueEventListener(new ValueEventListener() {
+        db.mDatabase.child(Database.USERS).child(userId).child(Database.STATS).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 @SuppressWarnings("unchecked")
@@ -218,28 +224,36 @@ public class ProfileActivity extends AppCompatActivity {
         TextView TextViewStatsButton = findViewById(R.id.statsButton);
         TextView TextViewWeight = findViewById(R.id.profileWeight);
         TextView TextViewHealthPoint = findViewById(R.id.profileHealthPoint);
-        if (map!=null && map.containsKey(User.getTodayDate())) {
-            Map<String, Number> todayStats = map.get(User.getTodayDate());
+        Database db = new Database();
+
+        if (map!=null && map.containsKey(db.getTodayDate())) {
+            Map<String, Number> todayStats = map.get(db.getTodayDate());
 
             if (todayStats != null){
-                if(todayStats.containsKey(User.CALORIE_COUNTER) &&
-                        (todayStats.get(User.CALORIE_COUNTER)) != null) {
-                    String todayCalories = todayStats.get(User.CALORIE_COUNTER) + "\ndaily calories";
+                if(todayStats.containsKey(Database.CALORIE_COUNTER) &&
+                        (todayStats.get(Database.CALORIE_COUNTER)) != null) {
+                    String todayCalories = todayStats.get(Database.CALORIE_COUNTER) + "\ndaily calories";
                     TextViewStatsButton.setText(todayCalories);
                 }
                 else {
                     TextViewStatsButton.setText("0\ndaily calories");
                 }
-                if(todayStats.containsKey(User.HEALTH_POINT) &&
-                        (todayStats.get(User.HEALTH_POINT)) != null) {
-                    TextViewHealthPoint.setText(String.valueOf(todayStats.get(User.HEALTH_POINT)));
+                if(todayStats.containsKey(Database.HEALTH_POINT) &&
+                        (todayStats.get(Database.HEALTH_POINT)) != null) {
+                    TextViewHealthPoint.setText(String.valueOf(todayStats.get(Database.HEALTH_POINT)));
                 }
                 else {
-                    TextViewWeight.setText("0");
+                    db.readField(userId, Database.LAST_CURRENT_WEIGHT, (task -> {
+                        if (!task.isSuccessful()) {
+                            Log.e("firebase", "Error getting data", task.getException());
+                        } else {
+                            TextViewWeight.setText(String.valueOf(task.getResult().getValue()));
+                        }
+                    }));
                 }
-                if(todayStats.containsKey(User.WEIGHT) &&
-                        (todayStats.get(User.WEIGHT)) != null) {
-                    TextViewWeight.setText(String.valueOf(todayStats.get(User.WEIGHT)));
+                if(todayStats.containsKey(Database.WEIGHT) &&
+                        (todayStats.get(Database.WEIGHT)) != null) {
+                    TextViewWeight.setText(String.valueOf(todayStats.get(Database.WEIGHT)));
                 }
                 else {
                     TextViewHealthPoint.setText("0");
@@ -248,7 +262,13 @@ public class ProfileActivity extends AppCompatActivity {
         }
         else {
             TextViewStatsButton.setText("0\ndaily calories");
-            TextViewWeight.setText("0");
+            db.readField(userId, Database.LAST_CURRENT_WEIGHT, (task -> {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                } else {
+                    TextViewWeight.setText(String.valueOf(task.getResult().getValue()));
+                }
+            }));
             TextViewHealthPoint.setText("0");
         }
 
