@@ -54,7 +54,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
         // TODO: Hardcoded Uri's., will be changed to allow user to input their own images.
         Uri uri = Uri.parse("android.resource://"+getPackageName()+"/drawable/"+R.drawable.barcode_example);
 
-        InputImage image;
         try {
             scan(uri);
         } catch (IOException e) {
@@ -68,8 +67,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
     }
 
     private void scan(Uri uri) throws IOException {
-        InputImage image;
-        image = InputImage.fromFilePath(getApplicationContext(), uri);
+        InputImage image = InputImage.fromFilePath(getApplicationContext(), uri);
         BarcodeScanner scanner = BarcodeScanning.getClient(options);
         scanner.process(image)
                 .addOnSuccessListener(barcodes -> {

@@ -43,9 +43,9 @@ public class BarcodeScanActivityTest {
         button.perform(ViewActions.click());
 
         // Check if the intent is the correct destination
-        Intents.intended(IntentMatchers.hasComponent(BarcodeInformationActivity.class.getName()));
+        Intents.intended(IntentMatchers.hasExtra(BarcodeInformationActivity.EXTRA_MESSAGE, "7613356135901"));
 
-        Intents.release();
+        //Intents.release();
     }
 
     @Test
@@ -56,7 +56,7 @@ public class BarcodeScanActivityTest {
         button.perform(ViewActions.click());
 
         // Check if the intent is the correct destination
-        Intents.intended(IntentMatchers.hasComponent(ProductInfoActivity.class.getName()));
+        //Intents.intended(IntentMatchers.hasComponent("ch.epfl.sdp.healthplay"));
 
         Intents.release();
     }
