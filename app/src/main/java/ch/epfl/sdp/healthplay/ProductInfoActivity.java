@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ProductInfoActivity extends AppCompatActivity {
 
-    public static final String EXTRA_MESSAGE = "ch.epfl.sdp.healthplay.MESSAGE";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +19,7 @@ public class ProductInfoActivity extends AppCompatActivity {
         Intent intent = new Intent(this, BarcodeInformationActivity.class);
         EditText barText = findViewById(R.id.barcodeText);
         String message = barText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, message);
         startActivity(intent);
     }
 }
