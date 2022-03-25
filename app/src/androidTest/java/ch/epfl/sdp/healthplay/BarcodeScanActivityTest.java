@@ -18,6 +18,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.concurrent.TimeUnit;
+
 @RunWith(AndroidJUnit4.class)
 public class BarcodeScanActivityTest {
 
@@ -36,16 +38,17 @@ public class BarcodeScanActivityTest {
     }
 
     @Test
-    public void testOnClick() {
+    public void testOnClick() throws InterruptedException {
         Intents.init();
 
         ViewInteraction button = Espresso.onView(ViewMatchers.withId(R.id.get_information_from_barcode));
         button.perform(ViewActions.click());
 
+        TimeUnit.SECONDS.sleep(1);
         // Check if the intent is the correct destination
         Intents.intended(IntentMatchers.hasExtra(BarcodeInformationActivity.EXTRA_MESSAGE, "7613356135901"));
 
-        //Intents.release();
+        Intents.release();
     }
 
     @Test
