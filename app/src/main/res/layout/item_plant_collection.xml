@@ -4,15 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@color/material_red_a200">
+    android:background="@color/planthuntPlayColor">
 
-    <!--
     <ImageView
-        android:id="@+id/plantPictureView"
+        android:id="@+id/plantListImage"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@drawable/coquelicot" />
-    -->
+        android:scaleType="centerCrop"
+        android:layout_height="200dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -21,11 +19,11 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/plantName"
+            android:id="@+id/plantListName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Daisy"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="26sp"
             android:textStyle="bold"/>
         <Space
@@ -33,10 +31,10 @@
              android:layout_height="match_parent"/>
 
         <TextView
-            android:id="@+id/plantDate"
+            android:id="@+id/plantListDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:text="22 janvier 2022" />
 
 

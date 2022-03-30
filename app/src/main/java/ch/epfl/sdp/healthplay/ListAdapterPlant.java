@@ -31,15 +31,13 @@ public class ListAdapterPlant extends ArrayAdapter<Plant> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_plant_collection, parent, false);
         }
 
-        //ImageView plantView = convertView.findViewById(R.id.plantPictureView);
-        TextView plantName = convertView.findViewById(R.id.plantName);
-        TextView plantDate = convertView.findViewById(R.id.plantDate);
+        ImageView plantImage = convertView.findViewById(R.id.plantListImage);
+        TextView plantName = convertView.findViewById(R.id.plantListName);
+        TextView plantDate = convertView.findViewById(R.id.plantListDate);
 
-        //Glide.with(this).load("https://firebasestorage.googleapis.com/v0/b/health-play-9e161.appspot.com/o/C15T5QRVPLepZhX9UQvLgcglDGv2%2F20220329_152554_?alt=media&token=3271fc9a-d842-4edd-850d-3e55a6f26e29").into(plantView);
         plantName.setText(plant.name);
         plantDate.setText(plant.date);
-        //plantView.setImageResource(plant.imageId);
-        //Glide.with(this).load(plant.imagePath).into(binding.plantItemView);
+        Glide.with(getContext()).load(plant.imagePath).into(plantImage);
         System.out.println(plant.date);
 
         return convertView;

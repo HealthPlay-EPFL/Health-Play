@@ -92,7 +92,7 @@ public class CameraApi extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
 
             //Add picture to Firebase
-            storage.child(user.getUid()).child(fileName).putBytes(outputStream.toByteArray()).addOnSuccessListener(
+            storage.child("Planthunt").child(user.getUid()).child(fileName).putBytes(outputStream.toByteArray()).addOnSuccessListener(
                     new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

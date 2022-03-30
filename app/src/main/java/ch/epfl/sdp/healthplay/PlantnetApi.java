@@ -33,8 +33,7 @@ public class PlantnetApi extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plantnet_api);
 
-        Intent intent = getIntent();
-        imageUrl = intent.getStringExtra(CameraApi.EXTRA_MESSAGE);
+        imageUrl = getIntent().getStringExtra(CameraApi.EXTRA_MESSAGE);
 
         final ImageView plantView = findViewById(R.id.plantPictureImage);
         System.out.println(imageUrl);
