@@ -1,48 +1,24 @@
 package ch.epfl.sdp.healthplay;
 
-//@RunWith(MockitoJUnitRunner.class)
-public class ProfileSettingsActivityTest {
-/*
-    @Mock
-    static FirebaseUser user;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.google.firebase.auth.FirebaseAuth;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
+public class ProfileSettingsActivityTest {
     @Rule
     public ActivityScenarioRule<ProfileSettingsActivity> testRule =
             new ActivityScenarioRule<>(ProfileSettingsActivity.class);
 
     @Test
-    public void testNullUser() {
-        Mockito.when(user != null).thenReturn(false);
-        Espresso.onView(ViewMatchers.withId(R.id.modifyNameEditText)).check(
-                ViewAssertions.matches(
-                        ViewMatchers.withText("Current name")
-                )
-        );
-        Espresso.onView(ViewMatchers.withId(R.id.modifySurnameEditText)).check(
-                ViewAssertions.matches(
-                        ViewMatchers.withText("Current surname")
-                )
-        );
-        Espresso.onView(ViewMatchers.withId(R.id.modifyUsernameEditText)).check(
-                ViewAssertions.matches(
-                        ViewMatchers.withText("Current username")
-                )
-        );
-        Espresso.onView(ViewMatchers.withId(R.id.modifyBirthDateEditText)).check(
-                ViewAssertions.matches(
-                        ViewMatchers.withText("01/01/1900")
-                )
-        );
-        Espresso.onView(ViewMatchers.withId(R.id.modifyWeightEditText)).check(
-                ViewAssertions.matches(
-                        ViewMatchers.withText("0.0")
-                )
-        );
+    public void enterInfo() {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
+        // Create view with user info
     }
 
-    @Test
-    public void correctInfoDisplayedWhenUserNotNull() {
-
-    }
-*/
 }
