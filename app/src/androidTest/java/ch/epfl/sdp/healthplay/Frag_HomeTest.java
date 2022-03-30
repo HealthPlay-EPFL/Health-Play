@@ -27,10 +27,10 @@ import java.util.concurrent.TimeUnit;
 import ch.epfl.sdp.healthplay.auth.SignedInActivity;
 import ch.epfl.sdp.healthplay.database.User;
 
-@RunWith(AndroidJUnit4.class)
+//@RunWith(AndroidJUnit4.class)
 public class Frag_HomeTest {
-    @Rule
-    public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
+    //@Rule
+    //public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
 
     /*@Test
     public void getDateWithoutStatsTest() throws InterruptedException {
@@ -72,10 +72,10 @@ public class Frag_HomeTest {
     /**
      * Test if the welcome message is printed at the creation of the view
      */
-    @Test
+    /*@Test
     public void getWelcomeMessage() {
         onView(withId(R.id.my_date)).check(
                 matches(
                         withText("Welcome to the home page! \nChoose a date to check what you've consumed.")));
-    }
+    }*/
 }
