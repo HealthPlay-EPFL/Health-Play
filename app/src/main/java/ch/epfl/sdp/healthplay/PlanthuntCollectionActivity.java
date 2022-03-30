@@ -69,6 +69,7 @@ public class PlanthuntCollectionActivity extends AppCompatActivity {
                                 Date date = format.parse(item.getName().substring(0, 8));
                                 collectionDates.add(date.toString().substring(0, 10));
                             } catch (ParseException e) {
+                                collectionDates.add("No date found");
                                 e.printStackTrace();
                             }
                             collectionNames.add("Flower apparently");

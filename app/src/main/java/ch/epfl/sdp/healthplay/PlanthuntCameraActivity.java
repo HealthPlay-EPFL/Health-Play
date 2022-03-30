@@ -138,6 +138,7 @@ public class PlanthuntCameraActivity extends AppCompatActivity {
                                                 .getJSONObject(0)
                                                 .getJSONObject("species")
                                                 .getJSONArray("commonNames")
+                                                .get(0)
                                                 .toString();
 
                                         //Asynchronously outputs extracted name to text field
@@ -146,6 +147,8 @@ public class PlanthuntCameraActivity extends AppCompatActivity {
                                             public void run() {
                                                 intent.putExtra("name", commonName);
                                                 System.out.println(commonName);
+                                                storage.child("Planthunt").child(user.getUid()).child(photoFile.getName()).delete();
+                                                storage.child("Planthunt").child(user.getUid()).child(commonName + "_" + photoFile.getName()).putBytes(outputStream.toByteArray());
                                                 startActivity(intent);
                                             }
                                         });
