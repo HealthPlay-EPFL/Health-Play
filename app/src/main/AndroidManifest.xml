@@ -20,10 +20,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthPlay">
         <activity
-            android:name=".PlantCollectionItemActivity"
+            android:name=".PlanthuntCollectionItemActivity"
             android:exported="false" />
         <activity
-            android:name=".PlantCollectionActivity"
+            android:name=".PlanthuntCollectionActivity"
             android:exported="false" />
         <activity
             android:name=".BarcodeScanActivity"
@@ -32,10 +32,10 @@
             android:name=".ProfileSettingsActivity"
             android:exported="true" />
         <activity
-            android:name=".PlantnetApi"
+            android:name=".PlanthuntResultActivity"
             android:exported="false" />
         <activity
-            android:name=".CameraApi"
+            android:name=".PlanthuntCameraActivity"
             android:exported="false" />
         <activity
             android:name=".HomeScreenActivity"

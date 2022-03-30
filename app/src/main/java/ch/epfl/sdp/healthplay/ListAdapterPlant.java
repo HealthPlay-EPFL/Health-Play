@@ -38,7 +38,6 @@ public class ListAdapterPlant extends ArrayAdapter<Plant> {
         plantName.setText(plant.name);
         plantDate.setText(plant.date);
         Glide.with(getContext()).load(plant.imagePath).into(plantImage);
-        System.out.println(plant.date);
 
         return convertView;
     }

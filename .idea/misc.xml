@@ -22,6 +22,7 @@
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/drawable/play_button_left.xml" value="0.1555" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/drawable/play_button_right.xml" value="0.1555" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_camera_api.xml" value="0.264" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_camera_planthunt.xml" value="0.1" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_games_menu.xml" value="0.1" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_greeting.xml" value="0.19927536231884058" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_kneetag_description.xml" value="0.2" />
@@ -29,6 +30,7 @@
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_plant_collection.xml" value="0.264" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_plant_collection_item.xml" value="0.11594202898550725" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_planthunt_description.xml" value="0.2" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_planthunt_result.xml" value="0.10144927536231885" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_plantnet_api.xml" value="0.25" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_plantnet_test.xml" value="0.2" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/item_plant_collection.xml" value="0.264" />

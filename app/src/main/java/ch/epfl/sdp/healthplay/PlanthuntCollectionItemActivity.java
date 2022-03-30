@@ -9,12 +9,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-public class PlantCollectionItemActivity extends AppCompatActivity {
+public class PlanthuntCollectionItemActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plant_collection_item);
+        setContentView(R.layout.activity_planthunt_collection_item);
 
         Intent intent = getIntent();
         final TextView plantName = findViewById(R.id.plantItemName);

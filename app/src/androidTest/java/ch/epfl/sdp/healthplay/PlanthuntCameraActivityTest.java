@@ -1,11 +1,9 @@
 package ch.epfl.sdp.healthplay;
 
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.app.Activity;
@@ -25,13 +23,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class CameraApiTest {
+public class PlanthuntCameraActivityTest {
 
     @Rule
-    public IntentsTestRule<CameraApi> intentsRule = new IntentsTestRule<>(CameraApi.class);
+    public IntentsTestRule<PlanthuntCameraActivity> intentsRule = new IntentsTestRule<>(PlanthuntCameraActivity.class);
 
     @Rule
-    public ActivityScenarioRule<CameraApi> testRule = new ActivityScenarioRule<>(CameraApi.class);
+    public ActivityScenarioRule<PlanthuntCameraActivity> testRule = new ActivityScenarioRule<>(PlanthuntCameraActivity.class);
 
 
     @Test
