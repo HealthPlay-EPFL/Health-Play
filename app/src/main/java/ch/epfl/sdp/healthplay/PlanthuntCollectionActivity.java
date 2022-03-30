@@ -63,16 +63,16 @@ public class PlanthuntCollectionActivity extends AppCompatActivity {
                     public void onSuccess(ListResult listResult) {
                         for (StorageReference item : listResult.getItems()) {
                             String urlString = CameraApi.getImageUrl(user, item.getName());
-                            
+                            String[] parts = item.getName().split("_");
                             try {
                                 SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-                                Date date = format.parse(item.getName().substring(0, 8));
+                                Date date = format.parse(parts[1]);
                                 collectionDates.add(date.toString().substring(0, 10));
                             } catch (ParseException e) {
                                 collectionDates.add("No date found");
                                 e.printStackTrace();
                             }
-                            collectionNames.add("Flower apparently");
+                            collectionNames.add(parts[0]);
                             collectionImages.add(urlString);
 
                         }
