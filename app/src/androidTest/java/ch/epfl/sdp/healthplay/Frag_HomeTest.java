@@ -27,12 +27,12 @@ import java.util.concurrent.TimeUnit;
 import ch.epfl.sdp.healthplay.auth.SignedInActivity;
 import ch.epfl.sdp.healthplay.database.User;
 
-//@RunWith(AndroidJUnit4.class)
+@RunWith(AndroidJUnit4.class)
 public class Frag_HomeTest {
-    //@Rule
-    //public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
+    @Rule
+    public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
 
-    /*@Test
+    @Test
     public void getDateWithoutStatsTest() throws InterruptedException {
         // Force a login on the empty stats user
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
@@ -48,13 +48,13 @@ public class Frag_HomeTest {
                         withText("No stats, please begin adding calories if you want to use the calendar summary")
                 )
         );
-    }*/
+    }
 
     /**
      * Test that the correct string is printed if there is no user logged in
      * @throws InterruptedException
      */
-    /*@Test
+    @Test
     public void getDateNoUserTest() throws InterruptedException {
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
             FirebaseAuth.getInstance().signOut();
@@ -67,15 +67,15 @@ public class Frag_HomeTest {
                         withText("Please login")
                 )
         );
-    }*/
+    }
 
     /**
      * Test if the welcome message is printed at the creation of the view
      */
-    /*@Test
+    @Test
     public void getWelcomeMessage() {
         onView(withId(R.id.my_date)).check(
                 matches(
                         withText("Welcome to the home page! \nChoose a date to check what you've consumed.")));
-    }*/
+    }
 }

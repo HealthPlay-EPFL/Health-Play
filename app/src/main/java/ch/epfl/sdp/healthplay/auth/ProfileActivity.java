@@ -14,21 +14,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import ch.epfl.sdp.healthplay.ProfileSettingsActivity;
-import ch.epfl.sdp.healthplay.ProfileSetupActivity;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
-import ch.epfl.sdp.healthplay.database.User;
 
 //import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
