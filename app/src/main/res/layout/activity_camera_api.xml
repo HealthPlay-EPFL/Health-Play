@@ -11,12 +11,26 @@
         android:layout_width="215dp"
         android:layout_height="136dp"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="136dp"
         android:layout_marginEnd="100dp"
         android:backgroundTint="@color/planthuntPlayColor"
         android:text="Take picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonCollection"
+        android:layout_width="215dp"
+        android:layout_height="136dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="136dp"
+        android:backgroundTint="@color/material_purple_a700"
+        android:text="See collection"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

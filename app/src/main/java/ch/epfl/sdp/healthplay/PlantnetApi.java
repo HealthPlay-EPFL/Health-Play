@@ -36,7 +36,7 @@ public class PlantnetApi extends AppCompatActivity {
         Intent intent = getIntent();
         imageUrl = intent.getStringExtra(CameraApi.EXTRA_MESSAGE);
 
-        final ImageView plantView = findViewById(R.id.plantImage);
+        final ImageView plantView = findViewById(R.id.plantPictureImage);
         System.out.println(imageUrl);
         Glide.with(this).load(imageUrl).into(plantView);
 

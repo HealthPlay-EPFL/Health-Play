@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -42,6 +44,9 @@ public class CameraApi extends AppCompatActivity {
     private static final String uploadedUrlSecond = "?alt=media&token=937922cf-0744-4718-8ecf-c1abdda627c8";
     public static final String EXTRA_MESSAGE = "ch.epfl.sdp.healthplay.MESSAGE";
 
+    private static Button collectionButton;
+
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,9 @@ public class CameraApi extends AppCompatActivity {
         setContentView(R.layout.activity_camera_api);
 
         captureButton = findViewById(R.id.buttonCapture);
+        collectionButton = findViewById(R.id.buttonCollection);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         //Get Firebase Storage from Url
         storage = FirebaseStorage.getInstance(STORAGE_URL).getReference();
@@ -58,6 +66,14 @@ public class CameraApi extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startCameraIntent();
+            }
+        });
+
+        collectionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CameraApi.this, PlantCollectionActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -76,7 +92,7 @@ public class CameraApi extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
 
             //Add picture to Firebase
-            storage.child(fileName).putBytes(outputStream.toByteArray()).addOnSuccessListener(
+            storage.child(user.getUid()).child(fileName).putBytes(outputStream.toByteArray()).addOnSuccessListener(
                     new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -87,7 +103,8 @@ public class CameraApi extends AppCompatActivity {
 
             //Send image Storage Url on Firebase to Plantnet activity
             Intent intent = new Intent(this, PlantnetApi.class);
-            String message = uploadedUrlFirst + fileName + uploadedUrlSecond;
+            String message = uploadedUrlFirst + user.getUid() + "%2F" + fileName + uploadedUrlSecond;
+            System.out.println(message);
             intent.putExtra(EXTRA_MESSAGE, message);
             startActivity(intent);
         }
