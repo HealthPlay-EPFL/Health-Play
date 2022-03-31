@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Frag_Home">
+    tools:context=".Frag_Home"
+    >
 
     <TextView
         android:id="@+id/my_date"
@@ -14,7 +15,7 @@
 
         android:text="@string/welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
+        android:textColor="?attr/text_color"
         android:translationY="50dp" />
 
     <CalendarView
@@ -25,12 +26,15 @@
         android:minDate="03/01/2022"
         android:visibility="visible" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/switchFragButton"
+        android:backgroundTint="?attr/gradientPrimary_color"
+        android:textColor="?attr/title_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="See graphs" />
+        android:text="@string/see_graphs"
+       />
 
 
 </FrameLayout>

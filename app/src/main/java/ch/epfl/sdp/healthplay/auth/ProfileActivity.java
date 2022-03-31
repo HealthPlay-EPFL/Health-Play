@@ -3,9 +3,14 @@ package ch.epfl.sdp.healthplay.auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -38,6 +43,15 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        int mode = sharedPref.getInt(getString(R.string.saved_night_mode), AppCompatDelegate.MODE_NIGHT_NO);
+        if(mode == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.darkTheme);
+        }
+        else{
+            setTheme(R.style.AppTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -51,9 +65,9 @@ public class ProfileActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             Log.e("firebase", "Error getting data", task.getException());
                         }
-                        if(!task.getResult().hasChildren()){
+                  /*      if(!task.getResult().hasChildren()){
                             db.writeNewUser(user.getUid(),"HugoBoss", 0, 0);
-                        }
+                        }*/
                         initUsername(user.getUid());
                         initBirthday(user.getUid());
                         initStats(user.getUid());
@@ -84,9 +98,11 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String birthday = dataSnapshot.getValue(String.class);
-                String[] parts = birthday.split("-");
-                birthday = parts[2] + "/" + parts[1] +"/" + parts[0];
-                TextViewBirthday.setText(birthday);
+                if(birthday != null) {
+                    String[] parts = birthday.split("-");
+                    birthday = parts[2] + "/" + parts[1] +"/" + parts[0];
+                    TextViewBirthday.setText(birthday);
+                }
             }
 
             @Override

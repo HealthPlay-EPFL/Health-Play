@@ -17,7 +17,9 @@ package ch.epfl.sdp.healthplay.auth;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -52,6 +54,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import static com.firebase.ui.auth.AuthUI.EMAIL_LINK_PROVIDER;
 
@@ -88,6 +91,24 @@ public class SignedInActivity extends AppCompatActivity {
             mBinding.signOut.setOnClickListener(view -> signOut());
 
 
+    }
+
+    public void onClickNight(View view) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(getString(R.string.saved_night_mode), AppCompatDelegate.MODE_NIGHT_YES);
+        editor.apply();
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        setTheme(R.style.darkTheme);
+    }
+
+    public void onClickLight(View view) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(getString(R.string.saved_night_mode), AppCompatDelegate.MODE_NIGHT_NO);
+        editor.apply();
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        setTheme(R.style.AppTheme);
     }
 
     public void signOut() {

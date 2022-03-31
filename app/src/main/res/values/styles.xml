@@ -1,12 +1,51 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryVariant</item>
-        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
-        <item name="colorSecondary">@color/colorSecondary</item>
+    <!-- Light application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="profileButton_color">@color/blueButton</item>
+        <item name="text_color">@color/black</item>
+        <item name="title_color">@color/lightGray</item>
+        <item name="gradientPrimary_color">@color/colorPrimary</item>
+        <item name="gradientSecondary_color">@color/teal_200</item>
+        <item name="plantHuntGreen_color">@color/planthuntGreen</item>
+        <item name="plantHuntPlay_color">@color/planthuntPlayColor</item>
+        <item name="profileBorder_color">@color/profileBorder</item>
+        <item name="viewStats_color">#FE9F9B9B</item>
+        <item name="profileField_color">@color/colorPrimaryVariant</item>
+        <item name="profileLine_color">#FFC0C0C0</item>
+        <item name="backgroundColor">@color/white</item>
+        <item name="fragView_color">@color/white</item>
+
+
     </style>
+
+    <!-- dark application theme. -->
+    <style name="darkTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="profileButton_color">#121212</item>
+        <item name="text_color">@color/white</item>
+        <item name="title_color">@color/lightGray</item>
+        <item name="gradientPrimary_color">#181818</item>
+        <item name="gradientSecondary_color">#181818</item>
+        <item name="plantHuntGreen_color">@color/planthuntGreen</item>
+        <item name="plantHuntPlay_color">@color/planthuntPlayColor</item>
+        <item name="profileBorder_color">@color/profileBorder</item>
+        <item name="viewStats_color">#FE9F9B9B</item>
+        <item name="profileField_color">@color/colorPrimaryVariant</item>
+        <item name="profileLine_color">#FFC0C0C0</item>
+        <item name="backgroundColor">#282828</item>
+        <item name="fragView_color">@color/black</item>
+
+    </style>
+
+
+
+
+
+
+
+
+
 
     <style name="GreenTheme">
         <item name="colorPrimary">@color/material_green_500</item>
@@ -42,6 +81,5 @@
         <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginRight">16dp</item>
     </style>
-
 
 </resources>

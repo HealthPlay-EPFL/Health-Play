@@ -17,6 +17,7 @@
     <color name="blueButton">#49BEFF</color>
     <color name="colorSecondary">#FFA000</color>
     <color name="colorPrimaryVariant">#0288D1</color>
+    <color name="profileBorder">#44b080</color>
 
     <!-- Green theme -->
     <color name="material_green_50">#E8F5E9</color>
