@@ -65,7 +65,6 @@ public class BarcodeInformationActivityTest {
 
     @Test
     public void checkUserNotNull() {
-        FirebaseAuth.getInstance().signOut();
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
         intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, TEST_CODE);
@@ -77,7 +76,6 @@ public class BarcodeInformationActivityTest {
 
     @Test
     public void changeCalorieText() {
-        FirebaseAuth.getInstance().signOut();
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
         intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, TEST_CODE);
@@ -107,7 +105,6 @@ public class BarcodeInformationActivityTest {
 
     @Test
     public void addToUser() {
-        FirebaseAuth.getInstance().signOut();
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
         intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, TEST_CODE);

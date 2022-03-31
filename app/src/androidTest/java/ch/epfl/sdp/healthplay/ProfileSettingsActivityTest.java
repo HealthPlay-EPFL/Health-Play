@@ -10,9 +10,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.concurrent.TimeUnit;
 
 @RunWith(AndroidJUnit4.class)
 public class ProfileSettingsActivityTest {
@@ -22,13 +26,12 @@ public class ProfileSettingsActivityTest {
 
     @Test
     public void enterInfo() {
-        FirebaseAuth.getInstance().signOut();
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         // Create view with user info
     }
 
     @Test
-    public void saveNewInfo() {
+    public void saveNewInfo() throws InterruptedException {
         ViewInteraction text = Espresso.onView(withId(R.id.modifyNameEditText));
         text.perform(ViewActions.typeText(""));
 
@@ -46,6 +49,8 @@ public class ProfileSettingsActivityTest {
 
         ViewInteraction button = Espresso.onView((withId(R.id.button2)));
         button.perform(ViewActions.click());
+
+        TimeUnit.SECONDS.sleep(3);
     }
 
 }
