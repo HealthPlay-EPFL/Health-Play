@@ -2,9 +2,11 @@ package ch.epfl.sdp.healthplay;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,11 +18,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.epfl.sdp.healthplay.auth.ProfileActivity;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.User;
 //import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
 public class ProfileSettingsActivity extends AppCompatActivity {
+    public final static String MESSAGE = "ch.epfl.sdp.healthplay.FIRST_USER";
 
     FirebaseUser user;
 
@@ -29,6 +33,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     private String hintUsername = "";
     private String hintBirthday = "01/01/2000"; // In any case, defaults to this value
     private String hintWeight = "";
+    private boolean firstTime = false;  // This boolean is to check whether the user first created their profile
 
 
     private void modifyText(FirebaseUser user, int layoutId, String field) {
@@ -70,13 +75,21 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                     hintWeight = answer;
             }
         });
-
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
+
+        Intent intent = getIntent();
+        firstTime = intent.getBooleanExtra(MESSAGE, false);
+
+        Button button = findViewById(R.id.button2);
+        button.setText("Save changes");
+        if (firstTime) {
+            button.setText("Create profile");
+        }
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -114,6 +127,12 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             text = findViewById(R.id.modifyWeightEditText);
             textString = getOrHint(text, Database.LAST_CURRENT_WEIGHT);
             db.writeWeight(uid, Double.parseDouble(textString));
+
+            if (firstTime) {
+                startActivity(new Intent(this, HomeScreenActivity.class));
+            } else {
+                startActivity(new Intent(this, ProfileActivity.class));
+            }
         }
     }
 
