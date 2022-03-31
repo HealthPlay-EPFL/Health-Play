@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Frag_Home"
+    android:background="?attr/fragView_color"
     >
 
     <TextView
@@ -24,7 +25,11 @@
         android:layout_height="326dp"
         android:maxDate="03/31/2022"
         android:minDate="03/01/2022"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:theme="@style/CalenderViewCustom"
+        android:dateTextAppearance="@style/CalenderViewDateCustomText"
+        android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
+        />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/switchFragButton"

@@ -2,7 +2,6 @@
 
     <!-- Light application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
         <item name="profileButton_color">@color/blueButton</item>
         <item name="text_color">@color/black</item>
         <item name="title_color">@color/lightGray</item>
@@ -16,8 +15,6 @@
         <item name="profileLine_color">#FFC0C0C0</item>
         <item name="backgroundColor">@color/white</item>
         <item name="fragView_color">@color/white</item>
-
-
     </style>
 
     <!-- dark application theme. -->
@@ -31,21 +28,25 @@
         <item name="plantHuntPlay_color">@color/planthuntPlayColor</item>
         <item name="profileBorder_color">@color/profileBorder</item>
         <item name="viewStats_color">#FE9F9B9B</item>
-        <item name="profileField_color">@color/colorPrimaryVariant</item>
+        <item name="profileField_color">@color/teal_200</item>
         <item name="profileLine_color">#FFC0C0C0</item>
         <item name="backgroundColor">#282828</item>
-        <item name="fragView_color">@color/black</item>
-
+        <item name="fragView_color">#181818</item>
     </style>
 
+    <style name="CalenderViewCustom" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">@color/CalendarHighLight_color</item>
+        <item name="colorPrimary">@color/CalendarHighLight_color</item>
+    </style>
 
+    <style name="CalenderViewDateCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/CalendarDate_color</item>
+        <item name="android:weekNumberColor">@color/black</item>
+    </style>
 
-
-
-
-
-
-
+    <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/CalendarWeek_color</item>
+    </style>
 
     <style name="GreenTheme">
         <item name="colorPrimary">@color/material_green_500</item>
