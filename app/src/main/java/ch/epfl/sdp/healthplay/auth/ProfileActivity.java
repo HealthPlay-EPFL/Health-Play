@@ -89,11 +89,11 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String birthday = dataSnapshot.getValue(String.class);
-                if(birthday != null) {
+                try{
                     String[] parts = birthday.split("-");
                     birthday = parts[2] + "/" + parts[1] +"/" + parts[0];
                     TextViewBirthday.setText(birthday);
-                }
+                }catch(Exception ignored){}
             }
 
             @Override
