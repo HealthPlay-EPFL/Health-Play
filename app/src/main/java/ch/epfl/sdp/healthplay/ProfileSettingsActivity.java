@@ -2,12 +2,14 @@ package ch.epfl.sdp.healthplay;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -128,11 +130,23 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             textString = getOrHint(text, Database.LAST_CURRENT_WEIGHT);
             db.writeWeight(uid, Double.parseDouble(textString));
 
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_SHORT;
+            CharSequence toastText = "Hello toast!";
+
+            // If the user logs in for the first time, go to either the home screen
+            // or goto ProfileActivity
             if (firstTime) {
+                toastText = "Your profile has been created !";
                 startActivity(new Intent(this, HomeScreenActivity.class));
             } else {
+                toastText = "Changes have been applied.";
                 startActivity(new Intent(this, ProfileActivity.class));
             }
+
+            Toast toast = Toast.makeText(context, toastText, duration);
+            toast.show();
+            finish();
         }
     }
 
