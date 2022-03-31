@@ -22,6 +22,7 @@ public class ProfileSettingsActivityTest {
 
     @Test
     public void enterInfo() {
+        FirebaseAuth.getInstance().signOut();
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         // Create view with user info
     }
