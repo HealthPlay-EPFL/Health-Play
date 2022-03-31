@@ -180,7 +180,7 @@ public class Frag_Home extends Fragment {
                         userStats.get(date).put(Database.WEIGHT, String.valueOf(value.get(Database.WEIGHT)));
 
                         //print the changes only if they happened on the focused date
-                        if (selected_Date.equals(date)) {
+                        if (selected_Date != null && selected_Date.equals(date)) {
                             printStats(
                                     dataDisplay,
                                     date);
