@@ -13,20 +13,20 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Calendar;
 
 import ch.epfl.sdp.healthplay.auth.ProfileActivity;
 import ch.epfl.sdp.healthplay.database.Database;
-import ch.epfl.sdp.healthplay.database.User;
 //import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
 public class ProfileSettingsActivity extends AppCompatActivity {
     public final static String MESSAGE = "ch.epfl.sdp.healthplay.FIRST_USER";
+
+    private static final String PROFILE_HAS_BEEN_CREATED = "Your profile has been created !";
+    private static final String CHANGES_APPLIED = "Changes have been applied.";
+    private static final String ERROR_INCORRECT_DATE = "Error, please enter a date that is before today.";
+    private static final String ERROR_INVALID_DATE = "Error, please enter a correct date format.";
 
     FirebaseUser user;
 
@@ -123,8 +123,31 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
             text = findViewById(R.id.modifyBirthDateEditText);
             String birthday = getOrHint(text, Database.BIRTHDAY);
-            String[] date = birthday.split("/");
-            db.writeBirthday(uid, date[2] + "-" + date[1] + "-" + date[0]);
+            try {
+                // Try parsing the date
+                String[] date = birthday.split("/");
+
+                int year = Integer.parseInt(date[2]);
+                int month = Integer.parseInt(date[1]) - 1;  // Months are 0 indexed
+                int day = Integer.parseInt(date[0]);
+
+
+                // Compare if the date is less than today
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, day);
+                // Check if date makes sense
+                calendar.setLenient(false);
+                System.out.println(calendar.get(Calendar.YEAR));
+                if (!calendar.before(Calendar.getInstance())) {
+                    text.setError(ERROR_INCORRECT_DATE);
+                    return;
+                }
+                // Write to database
+                db.writeBirthday(uid, date[2] + "-" + date[1] + "-" + date[0]);
+            } catch (Exception e) {
+                text.setError(ERROR_INVALID_DATE);
+                return;
+            }
 
             text = findViewById(R.id.modifyWeightEditText);
             textString = getOrHint(text, Database.LAST_CURRENT_WEIGHT);
@@ -137,10 +160,10 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             // If the user logs in for the first time, go to either the home screen
             // or goto ProfileActivity
             if (firstTime) {
-                toastText = "Your profile has been created !";
+                toastText = PROFILE_HAS_BEEN_CREATED;
                 startActivity(new Intent(this, HomeScreenActivity.class));
             } else {
-                toastText = "Changes have been applied.";
+                toastText = CHANGES_APPLIED;
                 startActivity(new Intent(this, ProfileActivity.class));
             }
 
@@ -150,6 +173,10 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method used to check whether the user entered something in the field.
+     * If it is not the case, return the hint value in the TextView
+     */
     private String getOrHint(EditText text, String field) {
         String returnText = text.getText().toString();
         if (returnText.equals("")) {

@@ -1,5 +1,6 @@
 package ch.epfl.sdp.healthplay;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.content.Intent;
@@ -64,21 +65,24 @@ public class BarcodeInformationActivityTest {
 
     @Test
     public void checkUserNotNull() {
+        FirebaseAuth.getInstance().signOut();
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
         intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, TEST_CODE);
 
         try (ActivityScenario<BarcodeInformationActivity> ignored = ActivityScenario.launch(intent)) {
-
+            closeSoftKeyboard();
         }
     }
 
     @Test
     public void changeCalorieText() {
+        FirebaseAuth.getInstance().signOut();
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
         intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, TEST_CODE);
         try (ActivityScenario<BarcodeInformationActivity> ignored = ActivityScenario.launch(intent)) {
+            closeSoftKeyboard();
             ViewInteraction button = Espresso.onView(withId(R.id.incr_button));
             // Click increment
             button.perform(ViewActions.click());
@@ -103,15 +107,15 @@ public class BarcodeInformationActivityTest {
 
     @Test
     public void addToUser() {
+        FirebaseAuth.getInstance().signOut();
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
         intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, TEST_CODE);
         try (ActivityScenario<BarcodeInformationActivity> ignored = ActivityScenario.launch(intent)) {
+            closeSoftKeyboard();
             ViewInteraction button = Espresso.onView(withId(R.id.add_to_counter_button));
             // Click increment
             button.perform(ViewActions.click());
-
-
         }
     }
 }
