@@ -94,21 +94,22 @@ public class SignedInActivity extends AppCompatActivity {
     }
 
     public void onClickNight(View view) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(getString(R.string.saved_night_mode), AppCompatDelegate.MODE_NIGHT_YES);
-        editor.apply();
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        setMode(AppCompatDelegate.MODE_NIGHT_YES);
         setTheme(R.style.darkTheme);
     }
 
     public void onClickLight(View view) {
+        setMode(AppCompatDelegate.MODE_NIGHT_NO);
+        setTheme(R.style.AppTheme);
+    }
+
+
+    private void setMode(int mode) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(getString(R.string.saved_night_mode), AppCompatDelegate.MODE_NIGHT_NO);
+        editor.putInt(getString(R.string.saved_night_mode), mode);
         editor.apply();
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setTheme(R.style.AppTheme);
+        AppCompatDelegate.setDefaultNightMode(mode);
     }
 
     public void signOut() {
