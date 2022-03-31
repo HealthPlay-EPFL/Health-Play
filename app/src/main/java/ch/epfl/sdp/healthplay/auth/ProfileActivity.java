@@ -45,6 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         int mode = sharedPref.getInt(getString(R.string.saved_night_mode), AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(mode);
         if(mode == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.darkTheme);
         }
@@ -65,9 +66,9 @@ public class ProfileActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             Log.e("firebase", "Error getting data", task.getException());
                         }
-                  /*      if(!task.getResult().hasChildren()){
+                        if(!task.getResult().hasChildren()){
                             db.writeNewUser(user.getUid(),"HugoBoss", 0, 0);
-                        }*/
+                        }
                         initUsername(user.getUid());
                         initBirthday(user.getUid());
                         initStats(user.getUid());
