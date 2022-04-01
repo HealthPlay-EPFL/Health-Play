@@ -12,12 +12,14 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#FFF"
+        android:background="?attr/fragView_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:menu="@menu/bottom_menu"/> <!-- Set the menu, so that it takes the shape of the one created -->
+        app:menu="@menu/bottom_menu"
+        android:backgroundTint="?attr/text_color"
+       /> <!-- Set the menu, so that it takes the shape of the one created -->
 
     <fragment
         android:id="@+id/fragmentContainerView"

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".auth.ProfileActivity">
+    tools:context=".auth.ProfileActivity"
+    android:background="?attr/backgroundColor">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="170dp"
-            android:textColor="@color/lightGray"
+            android:textColor="?attr/title_color"
             android:textSize="20sp"
             android:textStyle="bold"
             />
@@ -49,14 +49,14 @@
         android:background="@drawable/rounded_button"
         android:onClick="changeProfile"
         android:textAllCaps="false"
-        android:textColor="@color/lightGray"
+        android:textColor="?attr/title_color"
         android:textSize="30sp"
         android:textStyle="bold" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="(click to view stats)"
-        android:textColor="#FE9F9B9B"
+        android:text="@string/click_to_view_stats"
+        android:textColor="?attr/viewStats_color"
         android:layout_marginTop="370dp"
         android:layout_centerHorizontal="true"
         android:textSize="11sp"
@@ -85,93 +85,85 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name"
-                android:textColor="@color/colorPrimaryVariant" />
+                android:text="@string/name"
+                android:textColor="?attr/profileField_color" />
 
 
             <TextView
                 android:id="@+id/profileName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="?attr/text_color"
                 android:textSize="18sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="13dp"
-                android:background="#FFC0C0C0" />
+                android:layout_marginTop="11dp"
+                android:background="?attr/profileLine_color" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Birthday"
-                android:textColor="@color/colorPrimaryVariant" />
+                android:textColor="?attr/profileField_color"
+                android:text="@string/birthday"/>
 
 
             <TextView
                 android:id="@+id/profileBirthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="?attr/text_color"
                 android:textSize="18sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="13dp"
-                android:background="#FFC0C0C0" />
+                android:layout_marginTop="11dp"
+                android:background="?attr/profileLine_color"/>
 
             <TextView
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Weight (kg)"
-                android:textColor="@color/colorPrimaryVariant" />
+                android:text="@string/weight_kg"
+                android:textColor="?attr/profileField_color" />
 
 
             <TextView
                 android:id="@+id/profileWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="?attr/text_color"
                 android:textSize="18sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="13dp"
-                android:background="#FFC0C0C0" />
+                android:layout_marginTop="11dp"
+                android:backgroundTint="?attr/profileLine_color"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Health Point"
-                android:textColor="@color/colorPrimaryVariant" />
+                android:text="@string/health_point"
+                android:textColor="?attr/profileField_color" />
 
 
             <TextView
                 android:id="@+id/profileHealthPoint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="?attr/text_color"
                 android:textSize="18sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="13dp"
-                android:background="#FFC0C0C0" />
+                android:background="?attr/profileLine_color" />
 
 
         </LinearLayout>
-
-
-
-
-
-
-
-
 
 </RelativeLayout>
