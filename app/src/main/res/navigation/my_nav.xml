@@ -11,16 +11,7 @@
         android:color="@color/black"
         android:label="fragment_frag__home"
         tools:layout="@layout/fragment_frag__home" />
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="ch.epfl.sdp.healthplay.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
-    <activity
-        android:id="@+id/greetingActivity"
-        android:name="ch.epfl.sdp.healthplay.GreetingActivity"
-        android:label="activity_greeting"
-        tools:layout="@layout/activity_greeting" />
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="ch.epfl.sdp.healthplay.SettingsFragment"
