@@ -10,6 +10,7 @@
         android:id="@+id/plantListImage"
         android:layout_width="match_parent"
         android:scaleType="centerCrop"
+        android:background="@drawable/coquelicot"
         android:layout_height="200dp"/>
 
     <LinearLayout
