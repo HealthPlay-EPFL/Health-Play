@@ -79,7 +79,7 @@ public class GameMenuFragment extends Fragment {
                     }
                 }
         );
-
+        //It's the button to launch the plantHunt Game
         final Button planthuntLaunchButton = view.findViewById(R.id.planthuntPlay);
         planthuntLaunchButton.setOnClickListener(
                 new View.OnClickListener() {
