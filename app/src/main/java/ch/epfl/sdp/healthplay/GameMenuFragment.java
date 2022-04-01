@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link GameMenuFragment#newInstance} factory method to
+ * Use the {@link GameMenuFragment} factory method to
  * create an instance of this fragment.
  */
 public class GameMenuFragment extends Fragment {
@@ -37,8 +37,6 @@ public class GameMenuFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment GameMenuFragment.
      */
 
@@ -85,7 +83,7 @@ public class GameMenuFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), CameraApi.class);
+                        Intent intent = new Intent(getActivity(), PlanthuntCameraActivity.class);
                         startActivity(intent);
                     }
                 }
