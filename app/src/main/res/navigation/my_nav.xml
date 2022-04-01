@@ -10,7 +10,11 @@
         android:name="ch.epfl.sdp.healthplay.Frag_Home"
         android:color="@color/black"
         android:label="fragment_frag__home"
-        tools:layout="@layout/fragment_frag__home" />
+        tools:layout="@layout/fragment_frag__home" >
+        <action
+            android:id="@+id/action_frag_Home_to_graph_Frag"
+            app:destination="@id/graph_Frag" />
+    </fragment>
     <activity
         android:id="@+id/mainActivity"
         android:name="ch.epfl.sdp.healthplay.MainActivity"
@@ -56,4 +60,8 @@
         android:name="ch.epfl.sdp.healthplay.auth.ProfileActivity"
         android:label="profile"
         tools:layout="@layout/activity_profile" />
+    <fragment
+        android:id="@+id/graph_Frag"
+        android:name="ch.epfl.sdp.healthplay.model.Graph_Frag"
+        android:label="Graph_Frag" />
 </navigation>

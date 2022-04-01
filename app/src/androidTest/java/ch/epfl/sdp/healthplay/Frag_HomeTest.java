@@ -16,8 +16,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,15 +34,15 @@ public class Frag_HomeTest {
     @Rule
     public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
 
-    /*@Test
+    @Before
+    public void before() {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("dont-delete@gmail.com", "123456");
+    }
+
+    @Test
     public void getDateWithoutStatsTest() throws InterruptedException {
         // Force a login on the empty stats user
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            FirebaseAuth.getInstance().signOut();
 
-        }
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("dont-delete@gmail.com", "123456");
-        TimeUnit.SECONDS.sleep(3);
         ViewInteraction sus = onView(Matchers.allOf(withId(R.id.calendar), hasChildCount(3)));
         sus.perform(ViewActions.click());
         onView(withId(R.id.my_date)).check(
@@ -48,13 +50,13 @@ public class Frag_HomeTest {
                         withText("No stats, please begin adding calories if you want to use the calendar summary")
                 )
         );
-    }*/
+    }
 
     /**
      * Test that the correct string is printed if there is no user logged in
      * @throws InterruptedException
      */
-    /*@Test
+    @Test
     public void getDateNoUserTest() throws InterruptedException {
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
             FirebaseAuth.getInstance().signOut();
@@ -67,6 +69,23 @@ public class Frag_HomeTest {
                         withText("Please login")
                 )
         );
+    }
+
+    /*@Test
+    public void getDataFromFirebaseTest(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            ViewInteraction sus = onView(Matchers.allOf(withId(R.id.calendar), hasChildCount(3)));
+            sus.perform(ViewActions.click());
+            onView(withId(R.id.my_date)).check(
+                    matches(
+                            withText("date + \": You've consumed :\" +\n" +
+                                    "                            \"\\n calories: \" + String.valueOf(userStats.get(date).get(Database.CALORIE_COUNTER)) +\n" +
+                                    "                            \"\\n weight: \" + String.valueOf(userStats.get(date).get(Database.WEIGHT)) +\n" +
+                                    "                            \"\\n health point: \" + String.valueOf(userStats.get(date).get(Database.HEALTH_POINT)));")
+                    )
+            );
+        }
     }*/
 
     /**

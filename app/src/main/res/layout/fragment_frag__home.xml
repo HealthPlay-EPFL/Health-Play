@@ -21,7 +21,6 @@
         android:id="@+id/calendar"
         android:layout_width="match_parent"
         android:layout_height="326dp"
-        android:maxDate="03/31/2022"
         android:minDate="03/01/2022"
         android:visibility="visible" />
 
