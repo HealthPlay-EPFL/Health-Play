@@ -37,7 +37,6 @@ public class Frag_HomeTest {
         // Force a login on the empty stats user
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
             FirebaseAuth.getInstance().signOut();
-
         }
         FirebaseAuth.getInstance().signInWithEmailAndPassword("dont-delete@gmail.com", "123456");
         TimeUnit.SECONDS.sleep(3);

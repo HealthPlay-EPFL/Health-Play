@@ -1,48 +1,56 @@
 package ch.epfl.sdp.healthplay;
 
-//@RunWith(MockitoJUnitRunner.class)
-public class ProfileSettingsActivityTest {
-/*
-    @Mock
-    static FirebaseUser user;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.google.firebase.auth.FirebaseAuth;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.util.concurrent.TimeUnit;
+
+@RunWith(AndroidJUnit4.class)
+public class ProfileSettingsActivityTest {
     @Rule
     public ActivityScenarioRule<ProfileSettingsActivity> testRule =
             new ActivityScenarioRule<>(ProfileSettingsActivity.class);
 
     @Test
-    public void testNullUser() {
-        Mockito.when(user != null).thenReturn(false);
-        Espresso.onView(ViewMatchers.withId(R.id.modifyNameEditText)).check(
-                ViewAssertions.matches(
-                        ViewMatchers.withText("Current name")
-                )
-        );
-        Espresso.onView(ViewMatchers.withId(R.id.modifySurnameEditText)).check(
-                ViewAssertions.matches(
-                        ViewMatchers.withText("Current surname")
-                )
-        );
-        Espresso.onView(ViewMatchers.withId(R.id.modifyUsernameEditText)).check(
-                ViewAssertions.matches(
-                        ViewMatchers.withText("Current username")
-                )
-        );
-        Espresso.onView(ViewMatchers.withId(R.id.modifyBirthDateEditText)).check(
-                ViewAssertions.matches(
-                        ViewMatchers.withText("01/01/1900")
-                )
-        );
-        Espresso.onView(ViewMatchers.withId(R.id.modifyWeightEditText)).check(
-                ViewAssertions.matches(
-                        ViewMatchers.withText("0.0")
-                )
-        );
+    public void enterInfo() {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
+        // Create view with user info
     }
 
     @Test
-    public void correctInfoDisplayedWhenUserNotNull() {
+    public void saveNewInfo() throws InterruptedException {
+        ViewInteraction text = Espresso.onView(withId(R.id.modifyNameEditText));
+        text.perform(ViewActions.typeText(""));
 
+        text = Espresso.onView(withId(R.id.modifySurnameEditText));
+        text.perform(ViewActions.typeText(""));
+
+        text = Espresso.onView(withId(R.id.modifyUsernameEditText));
+        text.perform(ViewActions.typeText(""));
+
+        text = Espresso.onView(withId(R.id.modifyBirthDateEditText));
+        text.perform(ViewActions.typeText(""));
+
+        text = Espresso.onView(withId(R.id.modifyWeightEditText));
+        text.perform(ViewActions.typeText(""));
+
+        ViewInteraction button = Espresso.onView((withId(R.id.button2)));
+        button.perform(ViewActions.click());
+
+        TimeUnit.SECONDS.sleep(3);
     }
-*/
+
 }
