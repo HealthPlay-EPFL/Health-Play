@@ -10,6 +10,8 @@ import android.content.Intent;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -23,9 +25,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import ch.epfl.sdp.healthplay.api.PlantnetApi;
+
 @RunWith(AndroidJUnit4.class)
 public class PlanthuntResultActivityTest {
-    private static final String TEST_TEXT = "https://firebasestorage.googleapis.com/v0/b/health-play-9e161.appspot.com/o/20220325_100859_?alt=media&token=937922cf-0744-4718-8ecf-c1abdda627c8";
+    private static final String TEST_TEXT = "flowerName";
 
     @Rule
     public ActivityScenarioRule<PlanthuntResultActivity> testRule = new ActivityScenarioRule<>(PlanthuntResultActivity.class);
@@ -33,50 +37,15 @@ public class PlanthuntResultActivityTest {
     @Test
     public void planthuntButtonCorrectlyDisplaysName() throws InterruptedException {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntResultActivity.class);
-        intent.putExtra(PlanthuntCameraActivity.EXTRA_MESSAGE, TEST_TEXT);
+        intent.putExtra("name", TEST_TEXT);
 
         Espresso.onView(withId(R.id.plantButton)).perform(click());
 
-        Espresso.onView(withId(R.id.plantDescription)).check(matches(isDisplayed()));
-
         /*Espresso.onView(withId(R.id.plantDescription)).check(
                 ViewAssertions.matches(
-                        ViewMatchers.withText("[\"Shirley poppy\",\"Common poppy\",\"Field poppy\"]")
+                        ViewMatchers.withText(TEST_TEXT)
                 )
         );*/
-    }
-
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
-
-    @Test(expected=MalformedURLException.class)
-    public void incorrectUrlFails() throws JSONException, IOException {
-        PlanthuntResultActivity.readJsonFromUrl("incorrect URL");
-    }
-
-    @Test(expected=FileNotFoundException.class)
-    public void incorrectApiKeyFails() throws JSONException, IOException {
-        PlanthuntResultActivity.readJsonFromUrl("https://my-api.plantnet.org/v2/identify/all" +
-                "?api-key=fake123" +
-                "&images=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Ftest-6ab96.appspot.com%2Fo%2Fcoquelicot.jpg%3Falt%3Dmedia%26token%3D6ef1cf50-2419-4ff9-a8ef-d28ce584836b" +
-                "&organs=flower");
-    }
-
-    @Test(expected=FileNotFoundException.class)
-    public void incorrectImageFails() throws JSONException, IOException {
-        PlanthuntResultActivity.readJsonFromUrl("https://my-api.plantnet.org/v2/identify/all" +
-                "?api-key=2b106lfsSUXwI6p3JCdVgOXVQe" +
-                "&images=fake123" +
-                "&organs=flower");
-    }
-
-    @Test(expected=FileNotFoundException.class)
-    public void incorrectOrganFails() throws JSONException, IOException {
-        PlanthuntResultActivity.readJsonFromUrl("https://my-api.plantnet.org/v2/identify/all" +
-                "?api-key=2b106lfsSUXwI6p3JCdVgOXVQe" +
-                "&images=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Ftest-6ab96.appspot.com%2Fo%2Fcoquelicot.jpg%3Falt%3Dmedia%26token%3D6ef1cf50-2419-4ff9-a8ef-d28ce584836b" +
-                "&organs=fake123");
     }
 
 
