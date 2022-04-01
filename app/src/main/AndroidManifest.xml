@@ -57,7 +57,7 @@
         <activity
             android:name=".auth.ProfileActivity"
             android:exported="false"
-            android:parentActivityName=".HomeScreenActivity"/>
+            android:parentActivityName=".HomeScreenActivity" />
         <activity
             android:name=".WelcomeScreenActivity"
             android:exported="true">
