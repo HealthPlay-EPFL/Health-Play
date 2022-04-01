@@ -8,7 +8,8 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
     <application
@@ -19,16 +20,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthPlay">
         <activity
+            android:name=".PlanthuntCollectionItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlanthuntCollectionActivity"
+            android:exported="false" />
+        <activity
             android:name=".BarcodeScanActivity"
             android:exported="true" />
         <activity
             android:name=".ProfileSettingsActivity"
             android:exported="true" />
         <activity
-            android:name=".PlantnetApi"
+            android:name=".PlanthuntResultActivity"
             android:exported="false" />
         <activity
-            android:name=".CameraApi"
+            android:name=".PlanthuntCameraActivity"
             android:exported="false" />
         <activity
             android:name=".HomeScreenActivity"
@@ -72,9 +79,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>
