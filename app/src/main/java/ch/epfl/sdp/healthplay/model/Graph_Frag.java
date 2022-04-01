@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.epfl.sdp.healthplay.Frag_Home;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.ParseDataGraph;
@@ -223,6 +225,17 @@ public class Graph_Frag extends Fragment {
                 }
             });
         }
+
+        Button button = view.findViewById(R.id.buttonSwap);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentContainerView, new Frag_Home());
+                fragmentTransaction.commit();
+            }
+        });
         return view;
     }
 
