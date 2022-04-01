@@ -28,6 +28,8 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class PlanthuntCameraActivityTest {
 
+    private static final String CAMERA_NAME = "com.android.camera2";
+
     @Rule
     public IntentsTestRule<PlanthuntCameraActivity> intentsRule = new IntentsTestRule<>(PlanthuntCameraActivity.class);
 
@@ -45,7 +47,7 @@ public class PlanthuntCameraActivityTest {
         resultData.putExtra("data", icon);
         Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
 
-        intending(toPackage("com.android.camera2")).respondWith(result);
+        intending(toPackage(CAMERA_NAME)).respondWith(result);
 
         Espresso.onView(withId(R.id.buttonCapture)).perform(click());
 

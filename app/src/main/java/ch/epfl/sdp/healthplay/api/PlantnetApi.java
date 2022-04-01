@@ -37,7 +37,9 @@ public class PlantnetApi {
         return url.toString();
     }
 
-    //Opens InputStream from URL and returns a new JSON object initialized with the InputStream content
+    /**
+    * Opens InputStream from URL and returns a new JSON object initialized with the InputStream content
+    * */
     public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
         InputStream is = new URL(url).openStream();
         try {
@@ -49,8 +51,9 @@ public class PlantnetApi {
             is.close();
         }
     }
-
-    //Returns the content of the BufferedReader concatenated into a single string
+    /**
+     * Returns the content of the BufferedReader concatenated into a single string
+     * */
     private static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
         int cp;

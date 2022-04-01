@@ -18,7 +18,10 @@ import java.util.ArrayList;
 import ch.epfl.sdp.healthplay.database.Plant;
 
 public class ListAdapterPlant extends ArrayAdapter<Plant> {
-
+    /**
+     * Overwrites the default ArrayAdapter to return a collection item from
+     * a Plant data extracted from the user collection in the database
+     **/
     public ListAdapterPlant(Context context, ArrayList<Plant> plantList){
         super(context, R.layout.item_plant_collection, plantList);
     }
@@ -27,17 +30,21 @@ public class ListAdapterPlant extends ArrayAdapter<Plant> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
         Plant plant = getItem(position);
+
+        //Check conversion possibility
         if (convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_plant_collection, parent, false);
         }
 
+        //Define collection item XML elements
         ImageView plantImage = convertView.findViewById(R.id.plantListImage);
         TextView plantName = convertView.findViewById(R.id.plantListName);
         TextView plantDate = convertView.findViewById(R.id.plantListDate);
 
-        plantName.setText(plant.name);
-        plantDate.setText(plant.date);
-        Glide.with(getContext()).load(plant.imagePath).into(plantImage);
+        //Set collection item XML elements with Plant elements
+        plantName.setText(plant.GetName());
+        plantDate.setText(plant.GetDate());
+        Glide.with(getContext()).load(plant.GetImagePath()).into(plantImage);
 
         return convertView;
     }

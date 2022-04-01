@@ -37,9 +37,9 @@ public class PlanthuntCollectionActivity extends AppCompatActivity {
     private static final String uploadedUrlFirst = "https://firebasestorage.googleapis.com/v0/b/health-play-9e161.appspot.com/o/";
     private static final String uploadedUrlSecond = "?alt=media&token=937922cf-0744-4718-8ecf-c1abdda627c8";
 
-    FirebaseUser user;
+    private FirebaseUser user;
 
-    ListView listViewPlants;
+    private ListView listViewPlants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,7 @@ public class PlanthuntCollectionActivity extends AppCompatActivity {
         List<String> collectionImages = new ArrayList<String>();
         ArrayList<Plant> collectionPlants = new ArrayList<Plant>();
 
+        //When picture has been stored on Firebase, rename it with computed plant name
         storage.child("Planthunt").child(user.getUid()).listAll().addOnSuccessListener(
                 new OnSuccessListener<ListResult>() {
                     @Override
@@ -85,6 +86,8 @@ public class PlanthuntCollectionActivity extends AppCompatActivity {
                         listViewPlants = (ListView)findViewById(R.id.plantCollectionList);
                         listViewPlants.setAdapter(listAdapter);
                         listViewPlants.setClickable(true);
+
+                        //Detect click on ListView item
                         listViewPlants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

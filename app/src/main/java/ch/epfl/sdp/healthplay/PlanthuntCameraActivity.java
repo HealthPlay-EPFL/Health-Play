@@ -43,7 +43,7 @@ public class PlanthuntCameraActivity extends AppCompatActivity {
     private static final String STORAGE_URL = "gs://health-play-9e161.appspot.com";
     public static StorageReference storage;
 
-    FirebaseUser user;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
