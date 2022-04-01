@@ -32,13 +32,13 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/switchFragButton"
-        android:backgroundTint="?attr/gradientPrimary_color"
-        android:textColor="?attr/title_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="60dp"
+        android:backgroundTint="?attr/gradientPrimary_color"
         android:text="@string/see_graphs"
-       />
+        android:textColor="?attr/title_color" />
 
 
 </FrameLayout>
