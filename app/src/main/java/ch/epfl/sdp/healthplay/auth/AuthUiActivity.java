@@ -31,6 +31,7 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.firebase.ui.auth.util.ExtraConstants;
 
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
+import ch.epfl.sdp.healthplay.ProfileSettingsActivity;
 import ch.epfl.sdp.healthplay.R;
 
 
@@ -41,6 +42,7 @@ import com.google.firebase.auth.ActionCodeSettings;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseUserMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,7 @@ import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.databinding.AuthUiLayoutBinding;
 
 public class AuthUiActivity extends AppCompatActivity
@@ -107,7 +110,8 @@ public class AuthUiActivity extends AppCompatActivity
                 .setLogo(getSelectedLogo())
                 .setAvailableProviders(getSelectedProviders())
                 .setIsSmartLockEnabled(mBinding.credentialSelectorEnabled.isChecked(),
-                        mBinding.hintSelectorEnabled.isChecked());
+                        mBinding.hintSelectorEnabled.isChecked())
+                .setAlwaysShowSignInMethodScreen(true).setIsSmartLockEnabled(false);
 
 
         return builder.build();
@@ -129,7 +133,17 @@ public class AuthUiActivity extends AppCompatActivity
     private void handleSignInResponse(int resultCode, @Nullable IdpResponse response) {
         // Successfully signed in
         if (resultCode == RESULT_OK) {
-            startActivity(new Intent(this,HomeScreenActivity.class));;
+            FirebaseUserMetadata metadata = FirebaseAuth.getInstance().getCurrentUser().getMetadata();
+            if (metadata != null && metadata.getCreationTimestamp() == metadata.getLastSignInTimestamp()) {
+                new Database().writeNewUser(FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                        "", 0, 0);
+                Intent intent = new Intent(this, ProfileSettingsActivity.class);
+                // Tell intent that the user has been created for the first time
+                intent.putExtra(ProfileSettingsActivity.MESSAGE, true);
+                startActivity(intent);
+            } else {
+                startActivity(new Intent(this, HomeScreenActivity.class));
+            }
             finish();
         } else {
             // Sign in failed
@@ -188,7 +202,7 @@ public class AuthUiActivity extends AppCompatActivity
             selectedProviders.add(new IdpConfig.EmailBuilder()
                     .setRequireName(mBinding.requireName.isChecked())
                     .setAllowNewAccounts(mBinding.allowNewEmailAccounts.isChecked())
-                    .setDefaultEmail("health.play@gmail.com")
+                    //.setDefaultEmail("health.play@gmail.com")
                     .build());
 
 

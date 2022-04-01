@@ -42,7 +42,11 @@ public class Frag_HomeTest {
     @Test
     public void getDateWithoutStatsTest() throws InterruptedException {
         // Force a login on the empty stats user
-
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            FirebaseAuth.getInstance().signOut();
+        }
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("dont-delete@gmail.com", "123456");
+        TimeUnit.SECONDS.sleep(3);
         ViewInteraction sus = onView(Matchers.allOf(withId(R.id.calendar), hasChildCount(3)));
         sus.perform(ViewActions.click());
         onView(withId(R.id.my_date)).check(

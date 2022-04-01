@@ -154,11 +154,11 @@ public class Frag_Home extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     //Get the changes
                     Map<String, String> value = (Map<String, String>) snapshot.getValue();
-                    if (userStats != null) {
+                    if (userStats != null && value != null) {
                         //Update all the values
-                        userStats.get(date).put(Database.CALORIE_COUNTER, String.valueOf(value.get(Database.CALORIE_COUNTER)));
-                        userStats.get(date).put(Database.HEALTH_POINT, String.valueOf(value.get(Database.HEALTH_POINT)));
-                        userStats.get(date).put(Database.WEIGHT, String.valueOf(value.get(Database.WEIGHT)));
+                        userStats.get(date).put(Database.CALORIE_COUNTER, String.valueOf(value.getOrDefault(Database.CALORIE_COUNTER, "Unknown")));
+                        userStats.get(date).put(Database.HEALTH_POINT, String.valueOf(value.getOrDefault(Database.HEALTH_POINT, "Unknown")));
+                        userStats.get(date).put(Database.WEIGHT, String.valueOf(value.getOrDefault(Database.WEIGHT, "Unknown")));
 
                         //print the changes only if they happened on the focused date
                         if (selectedDate != null && selectedDate.equals(date)) {
