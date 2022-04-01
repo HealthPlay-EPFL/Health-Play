@@ -53,9 +53,6 @@
             android:name=".PlanthuntDescriptionActivity"
             android:exported="false" />
         <activity
-            android:name=".GamesMenuActivity"
-            android:exported="false" />
-        <activity
             android:name=".BarcodeInformationActivity"
             android:exported="false" />
         <activity
