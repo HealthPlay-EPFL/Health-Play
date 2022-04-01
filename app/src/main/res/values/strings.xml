@@ -160,5 +160,12 @@
     <string name="button_find_product_label">Find Information</string>
     <string name="barcode_number_label">Barcode Number</string>
     <string name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed">Welcome to the home page! \nChoose a date to check what you\'ve consumed.</string>
+    <string name="birthday">Birthday</string>
+    <string name="name">Name</string>
+    <string name="weight_kg">Weight (kg)</string>
+    <string name="health_point">Health Point</string>
+    <string name="click_to_view_stats">(click to view stats)</string>
+    <string name="saved_night_mode">saved night mode</string>
+    <string name="see_graphs">See graphs</string>
 
 </resources>

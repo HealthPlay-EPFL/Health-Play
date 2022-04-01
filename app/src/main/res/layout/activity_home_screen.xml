@@ -11,8 +11,9 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
+        android:background="?attr/fragView_color"
+        android:backgroundTint="?attr/text_color"
         android:layout_height="0dp"
-        android:background="#FFF"
         app:menu="@menu/bottom_menu"
         android:scaleType="centerInside"
         app:layout_constraintTop_toBottomOf="@id/guideline"
