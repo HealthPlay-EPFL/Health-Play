@@ -41,11 +41,6 @@
         android:label="activity_games_menu"
         tools:layout="@layout/activity_games_menu" />
     <activity
-        android:id="@+id/profileSetupActivity"
-        android:name="ch.epfl.sdp.healthplay.ProfileSetupActivity"
-        android:label="activity_profile_setup"
-        tools:layout="@layout/activity_profile_setup" />
-    <activity
         android:id="@+id/SignedInActivity"
         android:name="ch.epfl.sdp.healthplay.auth.SignedInActivity"
         android:label="sign_in"
