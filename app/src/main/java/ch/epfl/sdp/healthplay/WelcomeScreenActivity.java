@@ -1,15 +1,19 @@
 package ch.epfl.sdp.healthplay;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
 import ch.epfl.sdp.healthplay.auth.AuthUiActivity;
+import ch.epfl.sdp.healthplay.auth.SignedInActivity;
 
 public class WelcomeScreenActivity extends AppCompatActivity {
 
@@ -17,6 +21,7 @@ public class WelcomeScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SignedInActivity.SetMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen);
         ImageView logo = (ImageView) findViewById(R.id.logo_image);

@@ -3,9 +3,12 @@ package ch.epfl.sdp.healthplay.auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -14,21 +17,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import ch.epfl.sdp.healthplay.ProfileSettingsActivity;
-import ch.epfl.sdp.healthplay.ProfileSetupActivity;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
-import ch.epfl.sdp.healthplay.database.User;
 
 //import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
@@ -37,6 +32,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+       SignedInActivity.SetMode(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
@@ -84,9 +81,11 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String birthday = dataSnapshot.getValue(String.class);
-                String[] parts = birthday.split("-");
-                birthday = parts[2] + "/" + parts[1] +"/" + parts[0];
-                TextViewBirthday.setText(birthday);
+                try{
+                    String[] parts = birthday.split("-");
+                    birthday = parts[2] + "/" + parts[1] +"/" + parts[0];
+                    TextViewBirthday.setText(birthday);
+                }catch(Exception ignored){}
             }
 
             @Override
