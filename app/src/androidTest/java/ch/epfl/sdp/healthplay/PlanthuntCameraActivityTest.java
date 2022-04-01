@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import androidx.test.InstrumentationRegistry;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -25,17 +26,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class CameraApiTest {
+public class PlanthuntCameraActivityTest {
+
+    private static final String CAMERA_NAME = "com.android.camera2";
 
     @Rule
-    public IntentsTestRule<CameraApi> intentsRule = new IntentsTestRule<>(CameraApi.class);
+    public IntentsTestRule<PlanthuntCameraActivity> intentsRule = new IntentsTestRule<>(PlanthuntCameraActivity.class);
 
     @Rule
-    public ActivityScenarioRule<CameraApi> testRule = new ActivityScenarioRule<>(CameraApi.class);
+    public ActivityScenarioRule<PlanthuntCameraActivity> testRule = new ActivityScenarioRule<>(PlanthuntCameraActivity.class);
 
 
     @Test
-    public void pictureUrlIsCorrectlySent(){
+    public void cameraIsCorrectlyLaunched(){
         Bitmap icon = BitmapFactory.decodeResource(
                 InstrumentationRegistry.getTargetContext().getResources(),
                 R.mipmap.ic_launcher);
@@ -44,15 +47,22 @@ public class CameraApiTest {
         resultData.putExtra("data", icon);
         Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
 
-
-        intending(toPackage("com.android.camera2")).respondWith(result);
+        intending(toPackage(CAMERA_NAME)).respondWith(result);
 
         Espresso.onView(withId(R.id.buttonCapture)).perform(click());
 
         //intended(toPackage("com.android.camera2"));
 
         //Espresso.onView(withId(R.id.plantButton)).check(matches(isDisplayed()));
+    }
 
+    @Test
+    public void collectionIsCorrectlyLaunched(){
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntCameraActivity.class);
+
+        Espresso.onView(withId(R.id.buttonCollection)).perform(click());
+
+        Espresso.onView(withId(R.id.plantCollectionList)).check(matches(isDisplayed()));
     }
 
 }

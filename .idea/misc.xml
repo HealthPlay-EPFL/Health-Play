@@ -28,14 +28,26 @@
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/drawable/play_button.xml" value="0.1555" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/drawable/play_button_left.xml" value="0.1555" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/drawable/play_button_right.xml" value="0.1555" />
-        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_games_menu.xml" value="0.264" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_camera_api.xml" value="0.264" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_camera_planthunt.xml" value="0.1" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_games_menu.xml" value="0.1" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_greeting.xml" value="0.19927536231884058" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_home_screen.xml" value="0.155622060709705" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_kneetag_description.xml" value="0.2" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_main.xml" value="0.12158054711246201" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_planhunt_camera.xml" value="0.155622060709705" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_plant_collection.xml" value="0.264" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_plant_collection_item.xml" value="0.11594202898550725" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_planthunt_collection.xml" value="0.155622060709705" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_planthunt_collection_item.xml" value="0.1" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_planthunt_description.xml" value="0.2" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_planthunt_result.xml" value="0.10144927536231885" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_plantnet_api.xml" value="0.25" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/activity_plantnet_test.xml" value="0.2" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/item_plant_collection.xml" value="0.264" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/list_item.xml" value="0.11474164133738601" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/roundcorner.xml" value="0.25" />
+        <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1185" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable-v24/custom_bg_gradient.xml" value="0.1" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/ic_anon_user_48dp.xml" value="0.1935" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.14" />

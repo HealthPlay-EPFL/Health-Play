@@ -49,7 +49,7 @@ public class GamesMenuActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(GamesMenuActivity.this, CameraApi.class);
+                        Intent intent = new Intent(GamesMenuActivity.this, PlanthuntCameraActivity.class);
                         startActivity(intent);
                     }
                 }

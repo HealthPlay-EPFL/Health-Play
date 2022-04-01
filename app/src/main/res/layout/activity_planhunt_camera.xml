@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlanthuntCameraActivity">
+
+    <Button
+        android:id="@+id/buttonCapture"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/planthuntPlayColor"
+        android:text="Take picture"
+        app:layout_constraintLeft_toRightOf="@+id/leftGuidelineCamera"
+        app:layout_constraintRight_toLeftOf="@+id/rightGuidelineCamera"
+        app:layout_constraintTop_toBottomOf="@+id/upGuidelineCamera"
+        app:layout_constraintBottom_toTopOf="@+id/upGuidelineCamera2" />
+
+    <Button
+        android:id="@+id/buttonCollection"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/material_purple_a700"
+        android:text="See collection"
+        app:layout_constraintLeft_toRightOf="@+id/leftGuidelineCamera"
+        app:layout_constraintRight_toLeftOf="@+id/rightGuidelineCamera"
+        app:layout_constraintTop_toBottomOf="@+id/downGuidelineCamera2"
+        app:layout_constraintBottom_toTopOf="@+id/downGuidelineCamera" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftGuidelineCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".2"
+        android:orientation="vertical"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightGuidelineCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".8"
+        android:orientation="vertical"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/upGuidelineCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".2"
+        android:orientation="horizontal"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/upGuidelineCamera2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".4"
+        android:orientation="horizontal"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/downGuidelineCamera2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".6"
+        android:orientation="horizontal"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/downGuidelineCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".8"
+        android:orientation="horizontal"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
