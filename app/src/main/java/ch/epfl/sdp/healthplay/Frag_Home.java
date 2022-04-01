@@ -26,7 +26,6 @@ import java.text.DecimalFormat;
 import java.util.Map;
 
 import ch.epfl.sdp.healthplay.database.Database;
-import ch.epfl.sdp.healthplay.database.User;
 import ch.epfl.sdp.healthplay.model.Graph_Frag;
 //import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
@@ -42,7 +41,7 @@ public class Frag_Home extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     public static Map<String, Map<String, String>> userStats;
     private static String test;
-    private String selected_Date;
+    private String selectedDate;
     private Database database = new Database();
 
     private String mParam1;
@@ -144,7 +143,7 @@ public class Frag_Home extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                selected_Date = year + "-" + mFormat.format(month + 1) + "-" + mFormat.format(dayOfMonth);
+                selectedDate = year + "-" + mFormat.format(month + 1) + "-" + mFormat.format(dayOfMonth);
                 //No user logged in
                 if(user == null){
                     dataDisplay.setText("Please login");
@@ -154,13 +153,13 @@ public class Frag_Home extends Fragment {
                     dataDisplay.setText("No stats, please begin adding calories if you want to use the calendar summary");
                 }
                 //User logged in with data, but no data for the chosen date
-                else if(userStats.get(selected_Date) == null){
+                else if(userStats.get(selectedDate) == null){
                     dataDisplay.setText("No data for this date");
                 }
                 else{
                     printStats(
                             dataDisplay,
-                            selected_Date);
+                            selectedDate);
                 }
             }
         });
@@ -180,7 +179,7 @@ public class Frag_Home extends Fragment {
                         userStats.get(date).put(Database.WEIGHT, String.valueOf(value.get(Database.WEIGHT)));
 
                         //print the changes only if they happened on the focused date
-                        if (selected_Date.equals(date)) {
+                        if (selectedDate != null && selectedDate.equals(date)) {
                             printStats(
                                     dataDisplay,
                                     date);

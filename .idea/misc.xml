@@ -93,10 +93,18 @@
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/menu/bottommenu.xml" value="0.264" />
         <entry key="app/src/main/res/drawable/border.xml" value="0.202" />
         <entry key="app/src/main/res/drawable/gradient.xml" value="0.202" />
+        <entry key="app/src/main/res/drawable/ic_anon_user_48dp.xml" value="0.141" />
         <entry key="app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.202" />
         <entry key="app/src/main/res/drawable/rounded_button.xml" value="0.202" />
-        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.2625259399414062" />
+        <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.16818642350557245" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_profile_settings.xml" value="0.22509057971014493" />
         <entry key="app/src/main/res/layout/activity_profile_setup.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/auth_ui_layout.xml" value="0.254888916015625" />
+        <entry key="app/src/main/res/layout/fragment_frag__home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_graph_.xml" value="0.16818642350557245" />
+        <entry key="app/src/main/res/layout/signed_in_layout.xml" value="0.2391304347826087" />
+        <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.1796875" />
       </map>
     </option>
   </component>

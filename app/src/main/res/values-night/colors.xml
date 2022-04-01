@@ -19,9 +19,10 @@
     <color name="colorPrimaryVariant">#0288D1</color>
     <color name="profileBorder">#44b080</color>
     <color name="CalendarHighLight_color">#FF03DAC5</color>
-    <color name="CalendarDate_color">@color/black</color>
-    <color name="CalendarWeek_color">@color/black</color>
-    <color name="GraphBackground">@color/white</color>
+    <color name="CalendarDate_color">@color/white</color>
+    <color name="CalendarWeek_color">@color/teal_200</color>
+    <color name="GraphBackground">@color/black</color>
+
     <!-- Green theme -->
     <color name="material_green_50">#E8F5E9</color>
     <color name="material_green_300">#AED581</color>
