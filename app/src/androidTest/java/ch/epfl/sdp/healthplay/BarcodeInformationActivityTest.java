@@ -16,6 +16,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -23,6 +24,11 @@ import org.junit.runner.RunWith;
 public class BarcodeInformationActivityTest {
     private static final String TEST_CODE = "737628064502";
     private float calorieCount = 385;
+
+    @Before
+    public void before() {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
+    }
 
     @Test
     public void testInterface() {
@@ -65,7 +71,6 @@ public class BarcodeInformationActivityTest {
 
     @Test
     public void checkUserNotNull() {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
         intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, TEST_CODE);
 
@@ -76,7 +81,6 @@ public class BarcodeInformationActivityTest {
 
     @Test
     public void changeCalorieText() {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
         intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, TEST_CODE);
         try (ActivityScenario<BarcodeInformationActivity> ignored = ActivityScenario.launch(intent)) {
@@ -105,7 +109,6 @@ public class BarcodeInformationActivityTest {
 
     @Test
     public void addToUser() {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
         intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, TEST_CODE);
         try (ActivityScenario<BarcodeInformationActivity> ignored = ActivityScenario.launch(intent)) {
