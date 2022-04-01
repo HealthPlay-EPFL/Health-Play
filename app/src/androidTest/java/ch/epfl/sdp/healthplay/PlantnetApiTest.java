@@ -48,6 +48,7 @@ public class PlantnetApiTest {
                 ViewAssertions.matches(
                         ViewMatchers.withText("[\"Shirley poppy\",\"Common poppy\",\"Field poppy\"]")
                 )
+        );*/
     }
 
     @Rule

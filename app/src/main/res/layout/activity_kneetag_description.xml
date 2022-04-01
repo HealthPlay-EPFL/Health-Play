@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".KneetagDescriptionActivity">
+    tools:context=".kneetag.KneetagDescriptionActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="431dp"
+        android:layout_height="346dp"
         android:text="
 \n
 Kneetag is a physical duel where each player has to touch his opponent's knee before his gets touched.\n
@@ -27,7 +27,13 @@ A round lasts no more than 20-30 seconds. The person who scores the most ‘tags
 Capture your fight with your phone to have a fair referee or in case you don't have a third player.\n
 "
         android:textAlignment="center"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/kneetag_start"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:text="START" />
 
 
 </LinearLayout>
