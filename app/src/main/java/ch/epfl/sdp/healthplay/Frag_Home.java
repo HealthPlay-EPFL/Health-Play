@@ -96,6 +96,7 @@ public class Frag_Home extends Fragment {
         String date = Database.getTodayDate();
         Button button = view.findViewById(R.id.switchFragButton);
 
+        //Add the onClick action to change the Frag displayed
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,8 +108,7 @@ public class Frag_Home extends Fragment {
         );
 
 
-        //If a user is logged in, get his stats
-        //If the user isn't logged in yet, create userStats when it logs in
+        //Update if logs in
         userStats = null;
         FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
@@ -195,6 +195,10 @@ public class Frag_Home extends Fragment {
         }
     }
 
+    /**
+     * Build the stats of all dates the user entered data in
+     * @param user
+     */
     private void constructUserStats(FirebaseUser user){
         if(database != null) {
             database.getStats(user.getUid(), task -> {
