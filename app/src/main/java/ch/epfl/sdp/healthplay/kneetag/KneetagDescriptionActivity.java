@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import ch.epfl.sdp.healthplay.GamesMenuActivity;
 import ch.epfl.sdp.healthplay.PlanthuntDescriptionActivity;
 import ch.epfl.sdp.healthplay.R;
-import ch.epfl.sdp.healthplay.poseestimation.MainActivity;
+
 
 public class KneetagDescriptionActivity extends AppCompatActivity {
 
@@ -26,7 +26,7 @@ public class KneetagDescriptionActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
                     }
                 }
         );
