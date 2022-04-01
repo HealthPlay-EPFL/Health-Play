@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import ch.epfl.sdp.healthplay.auth.AuthUiActivity;
+import ch.epfl.sdp.healthplay.auth.SignedInActivity;
 
 public class WelcomeScreenActivity extends AppCompatActivity {
 
@@ -20,15 +21,7 @@ public class WelcomeScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        int mode = sharedPref.getInt(getString(R.string.saved_night_mode), AppCompatDelegate.MODE_NIGHT_NO);
-        AppCompatDelegate.setDefaultNightMode(mode);
-        if(mode == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.darkTheme);
-        }
-        else{
-            setTheme(R.style.AppTheme);
-        }
+        SignedInActivity.SetMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen);
         ImageView logo = (ImageView) findViewById(R.id.logo_image);

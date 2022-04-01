@@ -103,6 +103,18 @@ public class SignedInActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
     }
 
+    public static void SetMode(Context activity) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
+        int mode = sharedPref.getInt(activity.getString(R.string.saved_night_mode), AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(mode);
+        if(mode == AppCompatDelegate.MODE_NIGHT_YES) {
+            activity.setTheme(R.style.darkTheme);
+        }
+        else{
+            activity.setTheme(R.style.AppTheme);
+        }
+    }
+
 
     private void setMode(int mode) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);

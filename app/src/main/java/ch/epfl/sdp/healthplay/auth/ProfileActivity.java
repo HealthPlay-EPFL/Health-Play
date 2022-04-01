@@ -33,15 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        int mode = sharedPref.getInt(getString(R.string.saved_night_mode), AppCompatDelegate.MODE_NIGHT_NO);
-        AppCompatDelegate.setDefaultNightMode(mode);
-        if(mode == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.darkTheme);
-        }
-        else{
-            setTheme(R.style.AppTheme);
-        }
+       SignedInActivity.SetMode(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
