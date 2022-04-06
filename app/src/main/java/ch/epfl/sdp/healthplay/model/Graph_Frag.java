@@ -34,7 +34,6 @@ import ch.epfl.sdp.healthplay.Frag_Home;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.ParseDataGraph;
-import ch.epfl.sdp.healthplay.database.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -164,6 +163,16 @@ public class Graph_Frag extends Fragment {
         prev.setOnClickListener((v) -> clickOnButton(0));
         buttonCal.setOnClickListener((v) -> clickOnButton(2));
         buttonHealth.setOnClickListener((v) -> clickOnButton(3));
+        Button button = view.findViewById(R.id.buttonSwap);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentContainerView, new Frag_Home());
+                fragmentTransaction.commit();
+            }
+        });
     }
 
     /**
@@ -225,17 +234,6 @@ public class Graph_Frag extends Fragment {
                 }
             });
         }
-
-        Button button = view.findViewById(R.id.buttonSwap);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentContainerView, new Frag_Home());
-                fragmentTransaction.commit();
-            }
-        });
         return view;
     }
 

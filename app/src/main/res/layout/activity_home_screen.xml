@@ -11,29 +11,67 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:background="?attr/fragView_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:menu="@menu/bottom_menu"
         android:backgroundTint="?attr/text_color"
-       /> <!-- Set the menu, so that it takes the shape of the one created -->
+        android:layout_height="0dp"
+        app:menu="@menu/bottom_menu"
+        android:scaleType="centerInside"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintLeft_toRightOf="@id/guideline4"
+        app:layout_constraintRight_toLeftOf="@id/guideline3"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.01" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.99" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.92" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.0" />
+        <!-- Set the menu, so that it takes the shape of the one created -->
 
     <fragment
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="409dp"
-        android:layout_height="658dp"
-        android:layout_marginBottom="1dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:navGraph="@navigation/my_nav"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@id/guideline5"
+        app:layout_constraintRight_toLeftOf="@id/guideline3"
+        app:layout_constraintLeft_toRightOf="@id/guideline4" />
+        <!--app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:navGraph="@navigation/my_nav" /> <!-- Set the navigation schema to created one -->
+        app:layout_constraintVertical_bias="0.0"-->
+        /> <!-- Set the navigation schema to created one -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

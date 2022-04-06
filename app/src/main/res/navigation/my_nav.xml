@@ -15,16 +15,6 @@
             android:id="@+id/action_frag_Home_to_graph_Frag"
             app:destination="@id/graph_Frag" />
     </fragment>
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="ch.epfl.sdp.healthplay.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
-    <activity
-        android:id="@+id/greetingActivity"
-        android:name="ch.epfl.sdp.healthplay.GreetingActivity"
-        android:label="activity_greeting"
-        tools:layout="@layout/activity_greeting" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="ch.epfl.sdp.healthplay.SettingsFragment"
@@ -35,9 +25,9 @@
         android:name="ch.epfl.sdp.healthplay.BarcodeScanActivity"
         android:label="activity_product_info3"
         tools:layout="@layout/activity_barcode_scan" />
-    <activity
+    <fragment
         android:id="@+id/gamesMenu"
-        android:name="ch.epfl.sdp.healthplay.GamesMenuActivity"
+        android:name="ch.epfl.sdp.healthplay.GameMenuFragment"
         android:label="activity_games_menu"
         tools:layout="@layout/activity_games_menu" />
     <activity
