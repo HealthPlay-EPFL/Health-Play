@@ -73,17 +73,16 @@ public class BarcodeScanActivity extends AppCompatActivity {
         cameraProvider.unbindAll();
         Preview preview = new Preview.Builder().build();
 
-        CameraSelector cameraSelector = new CameraSelector.Builder()
-                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                .build();
-
         preview.setSurfaceProvider(previewView.getSurfaceProvider());
 
         imageCapture = new ImageCapture.Builder()
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                 .build();
 
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview);
+        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this,
+                CameraSelector.DEFAULT_BACK_CAMERA,
+                imageCapture,
+                preview);
     }
 
     public void onClick(View view) throws IOException {
