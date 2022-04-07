@@ -47,7 +47,7 @@ public class BarcodeScanActivityTest {
 
     @Test
     public void testOnClick() throws InterruptedException {
-
+        TimeUnit.SECONDS.sleep(1);
         ViewInteraction button = Espresso.onView(ViewMatchers.withId(R.id.get_information_from_barcode));
         button.perform(ViewActions.click());
 

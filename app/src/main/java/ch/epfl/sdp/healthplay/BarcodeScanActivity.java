@@ -1,5 +1,13 @@
 package ch.epfl.sdp.healthplay;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
@@ -12,16 +20,6 @@ import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.test.espresso.idling.CountingIdlingResource;
-
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ProgressBar;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
@@ -94,7 +92,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-        File file = File.createTempFile("barcode_image", ".jpeg", this.getExternalFilesDir(Environment.DIRECTORY_PICTURES));
+        File file = File.createTempFile("barcode_image", ".jpeg", this.getCacheDir());
 
         ImageCapture.OutputFileOptions outputFileOptions =
                 new ImageCapture.OutputFileOptions.Builder(file).build();
@@ -114,7 +112,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 // Take out progress bar and clear not touchable flags
                 bar.setVisibility(View.GONE);
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                file.delete();
+                boolean ignored = file.delete();
                 idlingResource.decrement();
             }
 
@@ -122,6 +120,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
             public void onError(@NonNull ImageCaptureException exception) {
                 System.out.println("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
                 // Take out progress bar and clear not touchable flags
+                boolean ignored = file.delete();
                 bar.setVisibility(View.GONE);
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 idlingResource.decrement();
@@ -161,5 +160,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
     public void enterManually(View view) {
         Intent intent = new Intent(this, ProductInfoActivity.class);
         startActivity(intent);
+        finish();
     }
 }

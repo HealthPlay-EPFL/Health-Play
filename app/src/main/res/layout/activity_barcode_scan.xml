@@ -6,29 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".BarcodeScanActivity">
 
-    <androidx.camera.view.PreviewView
-        android:id="@+id/previewView2"
-        android:layout_width="match_parent"
-
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/get_information_from_barcode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="600dp"
-        android:backgroundTint="@color/colorPrimaryVariant"
-        android:onClick="onClick"
-        android:text="Take a picture"
-        android:textAllCaps="false"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -43,17 +20,56 @@
         android:layout_centerInParent="true"
         android:visibility="gone" />
 
-    <Button
-        android:id="@+id/enter_manually_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:backgroundTint="@color/colorPrimaryVariant"
-        android:onClick="enterManually"
-        android:text="Enter manually"
-        android:textAllCaps="false"
-        android:textSize="11sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/get_information_from_barcode" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="1dp">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/previewView2"
+            android:layout_width="match_parent"
+            android:layout_height="669dp"
+            android:layout_marginTop="0dp" />
+
+        <LinearLayout
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/get_information_from_barcode"
+                android:layout_width="169dp"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/colorPrimaryVariant"
+                android:onClick="onClick"
+                android:layout_marginTop="0dp"
+                android:text="Take a picture"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:layout_marginStart="10dp"/>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/enter_manually_button"
+                android:layout_width="169dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                android:backgroundTint="@color/colorPrimaryVariant"
+                android:onClick="enterManually"
+                android:text="Enter manually"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:layout_marginEnd="10dp"/>
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
