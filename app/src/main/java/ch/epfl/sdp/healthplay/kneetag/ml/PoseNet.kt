@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================
 */
 
-package ch.epfl.sdp.healthplay.poseestimation.ml
+package ch.epfl.sdp.healthplay.kneetag.ml
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -23,10 +23,10 @@ import android.os.SystemClock
 import android.util.Log
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.Interpreter
-import ch.epfl.sdp.healthplay.poseestimation.data.BodyPart
-import ch.epfl.sdp.healthplay.poseestimation.data.Device
-import ch.epfl.sdp.healthplay.poseestimation.data.KeyPoint
-import ch.epfl.sdp.healthplay.poseestimation.data.Person
+import ch.epfl.sdp.healthplay.kneetag.data.BodyPart
+import ch.epfl.sdp.healthplay.kneetag.data.Device
+import ch.epfl.sdp.healthplay.kneetag.data.KeyPoint
+import ch.epfl.sdp.healthplay.kneetag.data.Person
 import org.tensorflow.lite.gpu.GpuDelegate
 import org.tensorflow.lite.support.common.FileUtil
 import org.tensorflow.lite.support.common.ops.NormalizeOp

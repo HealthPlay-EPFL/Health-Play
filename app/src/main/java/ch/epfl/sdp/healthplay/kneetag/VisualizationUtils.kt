@@ -14,14 +14,14 @@ limitations under the License.
 ==============================================================================
 */
 
-package  ch.epfl.sdp.healthplay.poseestimation
+package  ch.epfl.sdp.healthplay.kneetag
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import ch.epfl.sdp.healthplay.poseestimation.data.BodyPart
-import ch.epfl.sdp.healthplay.poseestimation.data.Person
+import ch.epfl.sdp.healthplay.kneetag.data.BodyPart
+import ch.epfl.sdp.healthplay.kneetag.data.Person
 import kotlin.math.max
 
 object VisualizationUtils {

@@ -14,14 +14,10 @@ limitations under the License.
 ==============================================================================
 */
 
-package ch.epfl.sdp.healthplay.poseestimation.ml
+package ch.epfl.sdp.healthplay.kneetag.data
 
-import android.graphics.Bitmap
-import ch.epfl.sdp.healthplay.poseestimation.data.Person
-
-interface PoseDetector : AutoCloseable {
-
-    fun estimatePoses(bitmap: Bitmap): List<Person>
-
-    fun lastInferenceTimeNanos(): Long
+enum class Device {
+    CPU,
+    NNAPI,
+    GPU
 }

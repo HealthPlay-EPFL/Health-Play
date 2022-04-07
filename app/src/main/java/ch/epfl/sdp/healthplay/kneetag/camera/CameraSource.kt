@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================
 */
 
-package ch.epfl.sdp.healthplay.poseestimation.camera
+package ch.epfl.sdp.healthplay.kneetag.camera
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -33,12 +33,12 @@ import android.util.Log
 import android.view.Surface
 import android.view.SurfaceView
 import kotlinx.coroutines.suspendCancellableCoroutine
-import ch.epfl.sdp.healthplay.poseestimation.VisualizationUtils
-import ch.epfl.sdp.healthplay.poseestimation.YuvToRgbConverter
-import ch.epfl.sdp.healthplay.poseestimation.data.Person
+import ch.epfl.sdp.healthplay.kneetag.VisualizationUtils
+import ch.epfl.sdp.healthplay.kneetag.YuvToRgbConverter
+import ch.epfl.sdp.healthplay.kneetag.data.Person
 
-import ch.epfl.sdp.healthplay.poseestimation.ml.PoseClassifier
-import ch.epfl.sdp.healthplay.poseestimation.ml.PoseDetector
+import ch.epfl.sdp.healthplay.kneetag.ml.PoseClassifier
+import ch.epfl.sdp.healthplay.kneetag.ml.PoseDetector
 
 import java.util.*
 import kotlin.coroutines.resume

@@ -14,13 +14,11 @@ limitations under the License.
 ==============================================================================
 */
 
-package ch.epfl.sdp.healthplay.poseestimation.data
+package ch.epfl.sdp.healthplay.tracker
 
-import android.graphics.RectF
+import ch.epfl.sdp.healthplay.kneetag.data.Person
 
-data class Person(
-    var id: Int = -1, // default id is -1
-    val keyPoints: List<KeyPoint>,
-    val boundingBox: RectF? = null, // Only MoveNet MultiPose return bounding box.
-    val score: Float
+data class Track(
+    val person: Person,
+    val lastTimestamp: Long
 )

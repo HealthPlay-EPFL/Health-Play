@@ -14,11 +14,11 @@ limitations under the License.
 ==============================================================================
 */
 
-package ch.epfl.sdp.healthplay.poseestimation.tracker
+package ch.epfl.sdp.healthplay.kneetag.tracker
 
 import androidx.annotation.VisibleForTesting
-import ch.epfl.sdp.healthplay.poseestimation.data.KeyPoint
-import ch.epfl.sdp.healthplay.poseestimation.data.Person
+import ch.epfl.sdp.healthplay.kneetag.data.KeyPoint
+import ch.epfl.sdp.healthplay.kneetag.data.Person
 import ch.epfl.sdp.healthplay.tracker.AbstractTracker
 import ch.epfl.sdp.healthplay.tracker.KeyPointsTrackerParams
 import ch.epfl.sdp.healthplay.tracker.TrackerConfig

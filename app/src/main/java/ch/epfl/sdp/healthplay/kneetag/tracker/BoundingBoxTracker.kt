@@ -17,7 +17,7 @@ limitations under the License.
 package ch.epfl.sdp.healthplay.tracker
 
 import androidx.annotation.VisibleForTesting
-import ch.epfl.sdp.healthplay.poseestimation.data.Person
+import ch.epfl.sdp.healthplay.kneetag.data.Person
 import kotlin.math.max
 import kotlin.math.min
 

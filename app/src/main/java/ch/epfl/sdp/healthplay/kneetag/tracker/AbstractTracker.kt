@@ -16,7 +16,7 @@ limitations under the License.
 
 package ch.epfl.sdp.healthplay.tracker
 
-import ch.epfl.sdp.healthplay.poseestimation.data.Person
+import ch.epfl.sdp.healthplay.kneetag.data.Person
 
 
 abstract class AbstractTracker(val config: TrackerConfig) {

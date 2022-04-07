@@ -14,28 +14,8 @@ limitations under the License.
 ==============================================================================
 */
 
-package ch.epfl.sdp.healthplay.poseestimation.data
+package ch.epfl.sdp.healthplay.kneetag.data
 
-enum class BodyPart(val position: Int) {
-    NOSE(0),
-    LEFT_EYE(1),
-    RIGHT_EYE(2),
-    LEFT_EAR(3),
-    RIGHT_EAR(4),
-    LEFT_SHOULDER(5),
-    RIGHT_SHOULDER(6),
-    LEFT_ELBOW(7),
-    RIGHT_ELBOW(8),
-    LEFT_WRIST(9),
-    RIGHT_WRIST(10),
-    LEFT_HIP(11),
-    RIGHT_HIP(12),
-    LEFT_KNEE(13),
-    RIGHT_KNEE(14),
-    LEFT_ANKLE(15),
-    RIGHT_ANKLE(16);
-    companion object{
-        private val map = values().associateBy(BodyPart::position)
-        fun fromInt(position: Int): BodyPart = map.getValue(position)
-    }
-}
+import android.graphics.PointF
+
+data class KeyPoint(val bodyPart: BodyPart, var coordinate: PointF, val score: Float)

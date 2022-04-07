@@ -14,12 +14,12 @@ limitations under the License.
 ==============================================================================
 */
 
-package ch.epfl.sdp.healthplay.poseestimation.ml
+package ch.epfl.sdp.healthplay.kneetag.ml
 
 import android.content.Context
 import android.graphics.*
 import android.os.SystemClock
-import ch.epfl.sdp.healthplay.poseestimation.data.*
+import ch.epfl.sdp.healthplay.kneetag.data.*
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.gpu.GpuDelegate

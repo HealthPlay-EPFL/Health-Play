@@ -14,11 +14,14 @@ limitations under the License.
 ==============================================================================
 */
 
-package ch.epfl.sdp.healthplay.tracker
+package ch.epfl.sdp.healthplay.kneetag.ml
 
-import ch.epfl.sdp.healthplay.poseestimation.data.Person
+import android.graphics.Bitmap
+import ch.epfl.sdp.healthplay.kneetag.data.Person
 
-data class Track(
-    val person: Person,
-    val lastTimestamp: Long
-)
+interface PoseDetector : AutoCloseable {
+
+    fun estimatePoses(bitmap: Bitmap): List<Person>
+
+    fun lastInferenceTimeNanos(): Long
+}

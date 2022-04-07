@@ -14,10 +14,11 @@ limitations under the License.
 ==============================================================================
 */
 
-package ch.epfl.sdp.healthplay.poseestimation.data
+package ch.epfl.sdp.healthplay.kneetag.data
 
-enum class Device {
-    CPU,
-    NNAPI,
-    GPU
-}
+data class TorsoAndBodyDistance(
+    val maxTorsoYDistance: Float,
+    val maxTorsoXDistance: Float,
+    val maxBodyYDistance: Float,
+    val maxBodyXDistance: Float
+)

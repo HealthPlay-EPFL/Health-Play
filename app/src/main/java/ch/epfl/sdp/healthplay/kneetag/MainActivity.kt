@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================
 */
 
-package ch.epfl.sdp.healthplay.poseestimation
+package ch.epfl.sdp.healthplay.kneetag
 
 import android.Manifest
 import android.app.AlertDialog
@@ -35,10 +35,10 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ch.epfl.sdp.healthplay.R;
-import ch.epfl.sdp.healthplay.poseestimation.ml.*
-import ch.epfl.sdp.healthplay.poseestimation.camera.CameraSource
-import ch.epfl.sdp.healthplay.poseestimation.data.Device
-import ch.epfl.sdp.healthplay.poseestimation.ml.*
+import ch.epfl.sdp.healthplay.kneetag.ml.*
+import ch.epfl.sdp.healthplay.kneetag.camera.CameraSource
+import ch.epfl.sdp.healthplay.kneetag.data.Device
+import ch.epfl.sdp.healthplay.kneetag.ml.*
 
 class MainActivity : AppCompatActivity() {
     companion object {
