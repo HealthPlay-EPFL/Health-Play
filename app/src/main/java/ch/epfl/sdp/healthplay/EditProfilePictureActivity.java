@@ -6,14 +6,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,8 +33,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
-import com.squareup.picasso.Picasso;
 
+import java.io.InputStream;
 import java.util.HashMap;
 
 import ch.epfl.sdp.healthplay.auth.ProfileActivity;
@@ -38,15 +44,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfilePictureActivity extends AppCompatActivity {
 
-
     private Uri uri;
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance(Database.DATABASE_URL).getReference();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private StorageReference mStorage = FirebaseStorage.getInstance().getReference();
     private String mUri = "";
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SignedInActivity.SetMode(this);
@@ -75,15 +77,9 @@ public class EditProfilePictureActivity extends AppCompatActivity {
                 intent.launch(photoPickerIntent);
             }
         });
-
         getImage();
-    }
 
-    public void exitProfilePicture(View view) {
-        Intent intent = new Intent(this, ProfileActivity.class);
-        startActivity(intent);
     }
-
 
     private void getImage() {
         mDatabase.child(Database.USERS).child(mAuth.getCurrentUser().getUid()).child("image").addValueEventListener(new ValueEventListener() {
@@ -91,17 +87,23 @@ public class EditProfilePictureActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
                     if(snapshot.getValue() != null){
-
+                        String image = snapshot.getValue().toString();
+                        ImageView imageView = findViewById(R.id.edit_profile_picture);
+                        Glide.with(getApplicationContext()).load(image).into(imageView);
                     }
 
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
+    }
+
+    public void exitProfilePicture(View view) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        finish();
+        startActivity(intent);
     }
 
     public void saveProfilePicture(View view) {
@@ -127,20 +129,14 @@ public class EditProfilePictureActivity extends AppCompatActivity {
                    }
                }).addOnCompleteListener((OnCompleteListener<Uri>) task -> {
                 if(task.isSuccessful()) {
-                    Uri dlUri = (Uri)task.getResult();
-                    mUri = dlUri.toString();
-
-                  //  HashMap<String, Object> userMap = new HashMap<>();
-                   // userMap.put("image", mUri);
+                    mUri = ((Uri)task.getResult()).toString();
                     mDatabase.child(Database.USERS).child(mAuth.getCurrentUser().getUid()).child("image").setValue(mUri);
-
                     dialog.dismiss();
                 }
                });
             }
 
         }
-
         else {
             Toast.makeText(this, "Image not selected", Toast.LENGTH_SHORT).show();
         }
