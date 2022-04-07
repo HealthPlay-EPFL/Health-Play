@@ -47,6 +47,7 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
                 db.addUserToLobby(newLobby.getName(), newLobby.getNbrPlayers(), "testPlayer2");
                 newLobby.addPlayer();
                 db.updateLobbyTime(newLobby.getName(), 123);
+                db.updateLobbyPlayerScore(newLobby.getName(), uid, 789);
                 db.updateLobbyPlayerScore(newLobby.getName(), "whatever", 456);
             }
         });

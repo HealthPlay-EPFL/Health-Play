@@ -264,19 +264,10 @@ public final class Database {
     }
 
     public void addUserToLobby(String name, int nbrPlayers, String playerUid) {
-        String field;
-        switch(nbrPlayers){
-            case 1:
-                field = "playerUid_2";
-                break;
-            default:
-                field = "playerUid_3";
-                break;
-        }
         mDatabase
                 .child(LOBBIES)
                 .child(name)
-                .child(field)
+                .child("playerUid_" + (nbrPlayers + 1))
                 .setValue(playerUid);
         mDatabase
                 .child(LOBBIES)
@@ -294,21 +285,25 @@ public final class Database {
     }
 
     public void updateLobbyPlayerScore(String name, String playerId, int score){
-        mDatabase
-                .child(LOBBIES)
-                .child(name)
-                .child("playerScore_2")
-                .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                    @Override
-                    public void onSuccess(DataSnapshot dataSnapshot) {
-                        System.out.println(dataSnapshot.getValue().toString());
+        for (int i = 1; i < 4; i++) {
+            int finalI = i;
+            mDatabase
+                    .child(LOBBIES)
+                    .child(name)
+                    .child("playerUid_" + i)
+                    .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                @Override
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue().toString() == playerId){
+                        mDatabase
+                                .child(LOBBIES)
+                                .child(name)
+                                .child("playerScore_" + finalI)
+                                .setValue(score);
                     }
-                });
-        mDatabase
-                .child(LOBBIES)
-                .child(name)
-                .child("playerScore_2")
-                .setValue(score);
+                }
+            });
+        }
     }
 
 }
