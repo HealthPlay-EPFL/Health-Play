@@ -6,31 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".BarcodeScanActivity">
 
-    <ImageView
-        android:id="@+id/barcode_image"
-        android:layout_width="285dp"
-        android:layout_height="144dp"
-        android:layout_marginTop="100dp"
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView2"
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/barcode_example"
-        android:contentDescription="Image of a barcode" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/get_information_from_barcode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="600dp"
+        android:backgroundTint="@color/colorPrimaryVariant"
         android:onClick="onClick"
-        android:text="Get information"
+        android:text="Take a picture"
         android:textAllCaps="false"
         android:textSize="24sp"
-        android:backgroundTint="@color/colorPrimaryVariant"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/barcode_image" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -50,16 +47,13 @@
         android:id="@+id/enter_manually_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="105dp"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/colorPrimaryVariant"
         android:onClick="enterManually"
         android:text="Enter manually"
         android:textAllCaps="false"
         android:textSize="11sp"
-        android:backgroundTint="@color/colorPrimaryVariant"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/get_information_from_barcode"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/get_information_from_barcode" />
 </androidx.constraintlayout.widget.ConstraintLayout>
