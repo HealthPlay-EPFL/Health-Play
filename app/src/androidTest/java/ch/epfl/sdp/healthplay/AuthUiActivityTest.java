@@ -34,8 +34,7 @@ public class AuthUiActivityTest {
     }
     @Test
     public void authenticate()  {
-
-            onView(withId(R.id.HomeView)).check(matches(isDisplayed()));
+        init();
     }
 
 }
