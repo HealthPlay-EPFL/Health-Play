@@ -107,7 +107,9 @@
         <entry key="app/src/main/res/drawable/gradient.xml" value="0.202" />
         <entry key="app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.202" />
         <entry key="app/src/main/res/drawable/rounded_button.xml" value="0.202" />
+        <entry key="app/src/main/res/layout/activity_edit_profile_picture.xml" value="0.178125" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.2625259399414062" />
+        <entry key="app/src/main/res/layout/activity_profile_picture.xml" value="0.3842696629213483" />
         <entry key="app/src/main/res/layout/activity_profile_setup.xml" value="0.1" />
       </map>
     </option>

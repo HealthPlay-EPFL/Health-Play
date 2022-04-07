@@ -3,12 +3,9 @@ package ch.epfl.sdp.healthplay.auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -21,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
+import ch.epfl.sdp.healthplay.EditProfilePictureActivity;
 import ch.epfl.sdp.healthplay.ProfileSettingsActivity;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
@@ -63,6 +61,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void changeProfile(View view) {
         Intent intent = new Intent(this, ProfileSettingsActivity.class);
+        startActivity(intent);
+    }
+    public void changeProfilePicture(View view) {
+        Intent intent = new Intent(this, EditProfilePictureActivity.class);
         startActivity(intent);
     }
 
