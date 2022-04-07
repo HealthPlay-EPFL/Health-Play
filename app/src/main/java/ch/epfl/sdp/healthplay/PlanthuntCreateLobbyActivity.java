@@ -24,10 +24,12 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planthunt_create_lobby);
 
+        //Initialize database reference and user reference
         Database db = new Database();
         user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
 
+        //Get name and password fields in the activity
         EditText editName = findViewById(R.id.createLobbyName);
         EditText editPassword = findViewById(R.id.createLobbyPassword);
         lobbyButton = findViewById(R.id.createLobbyButton);
@@ -36,11 +38,12 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
         lobbyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Get Strings from input fields
                 String name = editName.getText().toString();
                 String password = editPassword.getText().toString();
+
+                //Initialize new lobby with received values
                 Lobby newLobby = new Lobby(name, password, uid, 180);
-                System.out.println(newLobby.getName());
-                System.out.println(newLobby.getPassword());
                 db.writeNewLobby(newLobby.getName(), newLobby.getPassword(), newLobby.getPlayerUid_1(), newLobby.getRemainingTime());
                 db.addUserToLobby(newLobby.getName(), newLobby.getNbrPlayers(), "testPlayer1");
                 newLobby.addPlayer();
