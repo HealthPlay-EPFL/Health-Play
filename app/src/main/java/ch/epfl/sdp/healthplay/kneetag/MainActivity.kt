@@ -38,7 +38,6 @@ import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.kneetag.ml.*
 import ch.epfl.sdp.healthplay.kneetag.camera.CameraSource
 import ch.epfl.sdp.healthplay.kneetag.data.Device
-import ch.epfl.sdp.healthplay.kneetag.ml.*
 
 class MainActivity : AppCompatActivity() {
     companion object {

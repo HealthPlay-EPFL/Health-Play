@@ -8,7 +8,10 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdk 31
-
+    jacoco {
+        version "0.8.7"
+        testCoverage.jacocoVersion = "0.8.7"
+    }
     defaultConfig {
         applicationId "ch.epfl.sdp.healthplay"
         minSdk 24
@@ -162,6 +165,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     reports {
         xml.enabled = true
         html.enabled = true
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
     }
 
     def fileFilter = [
@@ -186,6 +190,12 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
             'outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec', 'outputs/code_coverage/debugAndroidTest/connected/**/coverage.ec'
     ]))
 }
+
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
 
 connectedCheck {
     finalizedBy jacocoTestReport
