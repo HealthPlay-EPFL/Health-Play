@@ -167,5 +167,7 @@
     <string name="click_to_view_stats">(click to view stats)</string>
     <string name="saved_night_mode">saved night mode</string>
     <string name="see_graphs">See graphs</string>
+    <string name="take_a_picture">Scan barcode</string>
+    <string name="enter_manually">Enter manually</string>
 
 </resources>

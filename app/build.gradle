@@ -70,10 +70,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.7.1'
     implementation 'com.google.firebase:firebase-storage:20.0.1'
     implementation 'com.google.firebase:firebase-auth:21.0.2'
-    implementation "androidx.camera:camera-camera2:1.1.0-beta03"
-    implementation 'androidx.camera:camera-core:1.1.0-beta03'
-    implementation 'androidx.camera:camera-view:1.1.0-beta03'
-    implementation 'androidx.camera:camera-lifecycle:1.1.0-beta03'
+
+    def camera_version = "1.1.0-beta02"
+    implementation "androidx.camera:camera-camera2:$camera_version"
+    implementation "androidx.camera:camera-core:$camera_version"
+    implementation "androidx.camera:camera-view:$camera_version"
+    implementation "androidx.camera:camera-lifecycle:$camera_version"
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.json:json:20211205'
