@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,11 +29,15 @@ public final class Database {
     public static final String NAME = "name";
     public static final String SURNAME = "surname";
     public static final String BIRTHDAY = "birthday";
+    public static final String NBR_PLAYER = "nbrPlayers";
+    public static final String REMAINING_TIME = "remainingTime";
+    public static final String STATUS = "status";
 
     public final DatabaseReference mDatabase;
 
     public static final String STATS = "stats";
     public static final String USERS = "users";
+    public static final String LOBBIES = "lobbies";
 
     // Format used to format date when adding stats
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -252,6 +257,58 @@ public final class Database {
                     .setValue(toAdd);
         };
 
+    }
+
+    public void writeNewLobby(String name, String password, String hostUid, int remainingTime) {
+        mDatabase.child(LOBBIES).child(name).setValue(new Lobby(name, password, hostUid, remainingTime));
+    }
+
+    public void addUserToLobby(String name, int nbrPlayers, String playerUid) {
+        String field;
+        switch(nbrPlayers){
+            case 1:
+                field = "playerUid_2";
+                break;
+            default:
+                field = "playerUid_3";
+                break;
+        }
+        mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child(field)
+                .setValue(playerUid);
+        mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child(NBR_PLAYER)
+                .setValue(nbrPlayers + 1);
+    }
+
+    public void updateLobbyTime(String name, int remainingTime){
+        mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child(REMAINING_TIME)
+                .setValue(remainingTime);
+    }
+
+    public void updateLobbyPlayerScore(String name, String playerId, int score){
+        mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child("playerScore_2")
+                .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                    @Override
+                    public void onSuccess(DataSnapshot dataSnapshot) {
+                        System.out.println(dataSnapshot.getValue().toString());
+                    }
+                });
+        mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child("playerScore_2")
+                .setValue(score);
     }
 
 }
