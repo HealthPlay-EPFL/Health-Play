@@ -33,9 +33,8 @@ public class AuthUiActivityTest {
         ActivityScenario activityTest = ActivityScenario.launch(AuthUiActivity.class);
     }
     @Test
-    public void authentificate()  {
-
-       /* FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+    public void authenticate()  {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
 
             ViewInteraction idView = Espresso.onView(withId(com.firebase.ui.auth.R.id.password));
@@ -44,7 +43,7 @@ public class AuthUiActivityTest {
             idView.perform(ViewActions.click());
         }
         else
-            onView(withId(R.id.HomeView)).check(matches(isDisplayed()));*/
+            onView(withId(R.id.HomeView)).check(matches(isDisplayed()));
     }
 
 }
