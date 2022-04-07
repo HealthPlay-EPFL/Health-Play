@@ -26,7 +26,7 @@ public class KneetagDescriptionActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     }
                 }
         );
