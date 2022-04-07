@@ -85,7 +85,7 @@ public class GameMenuFragment extends Fragment {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), PlanthuntCameraActivity.class);
                         startActivity(intent);
-                    }
+                     }
                 }
         );
         return view;
