@@ -75,6 +75,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".api.PlantnetApi"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="ch.epfl.sdp.healthplay.fileprovider"
