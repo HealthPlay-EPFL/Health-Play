@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay.kneetag
+
 
 import android.content.Context
 import android.graphics.Bitmap

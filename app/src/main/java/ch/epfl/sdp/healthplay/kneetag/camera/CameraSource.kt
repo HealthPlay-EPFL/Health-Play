@@ -16,6 +16,7 @@ limitations under the License.
 
 package ch.epfl.sdp.healthplay.kneetag.camera
 
+import YuvToRgbConverter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
@@ -34,7 +35,6 @@ import android.view.Surface
 import android.view.SurfaceView
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ch.epfl.sdp.healthplay.kneetag.VisualizationUtils
-import ch.epfl.sdp.healthplay.kneetag.YuvToRgbConverter
 import ch.epfl.sdp.healthplay.kneetag.data.Person
 
 import ch.epfl.sdp.healthplay.kneetag.ml.PoseClassifier

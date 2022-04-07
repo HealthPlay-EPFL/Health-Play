@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import ch.epfl.sdp.healthplay.kneetag.MainActivity;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link GameMenuFragment} factory method to
@@ -86,6 +88,17 @@ public class GameMenuFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), PlanthuntCameraActivity.class);
                         startActivity(intent);
                      }
+                }
+        );
+        //It's the button to launch the kneetag Game
+        final Button kneetagLaunchButton = view.findViewById(R.id.kneetagPlay);
+        kneetagLaunchButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
+                    }
                 }
         );
         return view;
