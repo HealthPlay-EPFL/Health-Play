@@ -69,6 +69,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
     }
 
     private void bindPreview(ProcessCameraProvider cameraProvider) {
+        cameraProvider.unbindAll();
         Preview preview = new Preview.Builder().build();
 
         CameraSelector cameraSelector = new CameraSelector.Builder()
@@ -81,7 +82,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                 .build();
 
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageCapture);
+        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageCapture, preview);
     }
 
     public void onClick(View view) throws IOException {
