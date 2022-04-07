@@ -55,6 +55,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_barcode_scan);
         previewView = findViewById(R.id.previewView2);
 
+        // Get the camera provider of the device
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
 
         cameraProviderFuture.addListener(() -> {
@@ -82,7 +83,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                 .build();
 
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageCapture, preview);
+        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview);
     }
 
     public void onClick(View view) throws IOException {
