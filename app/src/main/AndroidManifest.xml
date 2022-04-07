@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthPlay">
         <activity
+            android:name=".FriendListItemActivity"
+            android:exported="false" />
+        <activity
             android:name=".PlanthuntCollectionItemActivity"
             android:exported="false" />
         <activity

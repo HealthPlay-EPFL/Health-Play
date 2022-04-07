@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FriendListItemActivity">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="729dp"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toRightOf="@+id/leftGuidelineItem"
+        app:layout_constraintRight_toLeftOf="@+id/rightGuidelineItem"
+        app:layout_constraintTop_toBottomOf="@+id/upGuidelineItem"
+        app:layout_constraintBottom_toTopOf="@+id/downGuidelineItem">
+
+        <ImageView
+            android:id="@+id/friendProfilePicture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Profile picture of your friend"
+            app:srcCompat="@drawable/rounded_logo" />
+
+        <TextView
+            android:id="@+id/friendName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Name of your friend"
+            android:text="friendName"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/removeFriendButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/gradientPrimary_color"
+            android:text="Remove Friend" />
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftGuidelineItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightGuidelineItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".9"
+        android:orientation="vertical"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/upGuidelineItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".1"
+        android:orientation="horizontal"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/downGuidelineItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".9"
+        android:orientation="horizontal"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

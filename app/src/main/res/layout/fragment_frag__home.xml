@@ -19,47 +19,49 @@
             android:layout_height="0dp"
             android:layout_gravity="center"
 
+            android:scaleType="centerInside"
             android:text="@string/welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="?attr/text_color"
-            android:scaleType="centerInside"
             app:layout_constraintBottom_toTopOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/guideline5"
+            app:layout_constraintLeft_toRightOf="@id/guideline4"
             app:layout_constraintRight_toLeftOf="@id/guideline3"
-            app:layout_constraintLeft_toRightOf="@id/guideline4"/>
+            app:layout_constraintTop_toBottomOf="@id/guideline5" />
 
         <CalendarView
             android:id="@+id/calendar"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="visible"
-            android:theme="@style/CalenderViewCustom"
             android:dateTextAppearance="@style/CalenderViewDateCustomText"
-            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
             android:scaleType="centerInside"
+            android:theme="@style/CalenderViewCustom"
+            android:visibility="visible"
+            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
             app:layout_constraintBottom_toTopOf="@id/guideline5"
-            app:layout_constraintTop_toBottomOf="@id/switchFragButton"
+            app:layout_constraintLeft_toRightOf="@id/guideline4"
             app:layout_constraintRight_toLeftOf="@id/guideline3"
-            app:layout_constraintLeft_toRightOf="@id/guideline4" />
+            app:layout_constraintTop_toBottomOf="@id/switchFragButton" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/switchFragButton"
-            android:backgroundTint="?attr/gradientPrimary_color"
-            android:textColor="?attr/title_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/see_graphs"
             android:layout_centerHorizontal="true"
-            app:layout_constraintRight_toLeftOf="@id/guideline3"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="?attr/gradientPrimary_color"
+            android:text="@string/see_graphs"
+            android:textColor="?attr/title_color"
             app:layout_constraintLeft_toRightOf="@id/guideline4"
+            app:layout_constraintRight_toLeftOf="@id/guideline3"
             tools:ignore="MissingConstraints" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.6" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline4"
             android:layout_width="wrap_content"
@@ -80,6 +82,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.92" />
+
+        <Button
+            android:id="@+id/FriendList_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FriendList"
+            android:backgroundTint="?attr/gradientPrimary_color"
+            tools:layout_editor_absoluteX="145dp"
+            tools:layout_editor_absoluteY="355dp"
+            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

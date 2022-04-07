@@ -95,6 +95,7 @@ public class Frag_Home extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String date = Database.getTodayDate();
         Button button = view.findViewById(R.id.switchFragButton);
+        Button friendListButton = view.findViewById(R.id.FriendList_button);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +107,15 @@ public class Frag_Home extends Fragment {
         }
         );
 
+        friendListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentContainerView, new FriendList_Frag());
+                fragmentTransaction.commit();
+            }
+        }
+        );
 
         //If a user is logged in, get his stats
         if(user != null) {
