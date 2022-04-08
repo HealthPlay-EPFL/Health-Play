@@ -280,21 +280,23 @@ public final class Database {
      * @param friendUserId
      */
     public void removeFromFriendList(String friendUserId) {
-        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             mDatabase.child(Database.USERS)
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child("friends")
                     .child(friendUserId)
                     .setValue(false);
+        }
+    }
 
-     * Creates a new lobby in the database
+    /** Creates a new lobby in the database
      *
      * @param name          the unique identifier given to the lobby
      * @param password      the password required to join the lobby
      * @param hostUid       the unique identifier of the lobby host
      * @param remainingTime the time the game will last for
      */
-    public void writeNewLobby(String name, String password, String hostUid, int remainingTime) {
+    public void writeNewLobby (String name, String password, String hostUid, int remainingTime){
         mDatabase.child(LOBBIES).child(name).setValue(new Lobby(name, password, hostUid, remainingTime));
     }
 
@@ -305,7 +307,7 @@ public final class Database {
      * @param nbrPlayers the current number of players in the lobby
      * @param playerUid  the unique identifier of the joining player
      */
-    public void addUserToLobby(String name, int nbrPlayers, String playerUid) {
+    public void addUserToLobby (String name,int nbrPlayers, String playerUid){
         mDatabase
                 .child(LOBBIES)
                 .child(name)
@@ -324,7 +326,7 @@ public final class Database {
      * @param name          the unique identifier given to the lobby
      * @param remainingTime the new remaining time in the game
      */
-    public void updateLobbyTime(String name, int remainingTime){
+    public void updateLobbyTime (String name,int remainingTime){
         mDatabase
                 .child(LOBBIES)
                 .child(name)
@@ -339,7 +341,7 @@ public final class Database {
      * @param playerUid the unique identifier of the scoring player
      * @param score     the new score of the player
      */
-    public void updateLobbyPlayerScore(String name, String playerUid, int score){
+    public void updateLobbyPlayerScore (String name, String playerUid,int score){
         for (int i = 1; i < MAX_NBR_PLAYERS + 1; i++) {
             int finalI = i;
             mDatabase
@@ -347,18 +349,17 @@ public final class Database {
                     .child(name)
                     .child("playerUid" + i)
                     .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                @Override
-                public void onSuccess(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.getValue().toString() == playerUid){
-                        mDatabase
-                                .child(LOBBIES)
-                                .child(name)
-                                .child("playerScore" + finalI)
-                                .setValue(score);
-                    }
-                }
-            });
+                        @Override
+                        public void onSuccess(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.getValue().toString() == playerUid) {
+                                mDatabase
+                                        .child(LOBBIES)
+                                        .child(name)
+                                        .child("playerScore" + finalI)
+                                        .setValue(score);
+                            }
+                        }
+                    });
         }
     }
-
 }
