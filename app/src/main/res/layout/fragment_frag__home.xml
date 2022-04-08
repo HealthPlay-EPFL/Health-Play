@@ -18,7 +18,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_gravity="center"
-
             android:scaleType="centerInside"
             android:text="@string/welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
