@@ -14,10 +14,12 @@ import android.widget.ImageView;
 
 import ch.epfl.sdp.healthplay.auth.AuthUiActivity;
 import ch.epfl.sdp.healthplay.auth.SignedInActivity;
+import ch.epfl.sdp.healthplay.database.DataCache;
 
 public class WelcomeScreenActivity extends AppCompatActivity {
 
     private Handler handler = new Handler();
+    public static DataCache cache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class WelcomeScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome_screen);
         ImageView logo = (ImageView) findViewById(R.id.logo_image);
         logo.setImageResource(R.drawable.logo);
+        cache = new DataCache(this);
         Intent intent = new Intent(this, HomeScreenActivity.class);
         //Wait 3sec before launch HomeActivity
         handler.postDelayed(new Runnable() {
