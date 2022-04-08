@@ -104,7 +104,9 @@ public class FriendList_Frag extends Fragment {
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchToFragment(new AddFriendFragment());
+                if(auth.getCurrentUser() != null ){
+                    switchToFragment(new AddFriendFragment());
+                }
             }
         }
         );
