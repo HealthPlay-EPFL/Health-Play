@@ -31,7 +31,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.healthplay.Frag_Home;
+import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.WelcomeScreenActivity;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.ParseDataGraph;
 
@@ -214,7 +216,7 @@ public class Graph_Frag extends Fragment {
         initButton();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user==null){
-            Map<String, Map<String, Number>> map = null;
+            Map<String, Map<String, Number>> map = WelcomeScreenActivity.cache.getDataMap();
             initData(map);
             initBarChart(view);
         }else {
