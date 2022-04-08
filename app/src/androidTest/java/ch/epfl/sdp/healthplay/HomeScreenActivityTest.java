@@ -23,7 +23,7 @@ public class HomeScreenActivityTest {
     @Rule
     public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void fragmentChangeTest() {
          //ViewInteraction fragment = Espresso.onView(withId(R.id.fragmentContainerView));
          ViewInteraction navigationBar = Espresso.onView(withId(R.id.bottomNavigationView));
