@@ -1,6 +1,14 @@
 <resources>
 
 
+
+    <string name="birthday">Birthday</string>
+    <string name="name">Name</string>
+    <string name="weight_kg">Weight (kg)</string>
+    <string name="health_point">Health Point</string>
+    <string name="click_to_view_stats">(click to view stats)</string>
+    <string name="saved_night_mode">saved night mode</string>
+    <string name="see_graphs">See graphs</string>
     <!-- Chooser -->
     <string name="title_auth_activity">Health-Play authentication</string>
     <string name="title_firestore_activity">Cloud Firestore Demo</string>
@@ -160,6 +168,7 @@
     <string name="button_find_product_label">Find Information</string>
     <string name="barcode_number_label">Barcode Number</string>
     <string name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed">Welcome to the home page! \nChoose a date to check what you\'ve consumed.</string>
+
     <string name="birthday">Birthday</string>
     <string name="name">Name</string>
     <string name="weight_kg">Weight (kg)</string>
@@ -170,4 +179,31 @@
     <string name="take_a_picture">Scan barcode</string>
     <string name="enter_manually">Enter manually</string>
 
+    <string name="tfe_pe_request_permission">This app needs camera permission.</string>
+    <string name="tfe_pe_tv_score">Score: %.2f</string>
+    <string name="tfe_pe_tv_model">Model: </string>
+    <string name="tfe_pe_tv_fps">Fps: %d</string>
+    <string name="tfe_pe_tv_device">Device: </string>
+    <string name="tfe_pe_tv_classification_value">- %s</string>
+    <string name="tfe_pe_tv_pose_classification">Pose Classification</string>
+    <string name="tfe_pe_tv_tracking">Tracker: </string>
+    <string name="tfe_pe_gpu_error">Movenet MultiPose does not support GPU. Fallback to CPU.</string>
+    <string-array name="tfe_pe_models_array">
+        <item>Movenet Lightning</item>
+        <item>Movenet Thunder</item>
+        <item>Movenet MultiPose</item>
+        <item>Posenet</item>
+    </string-array>
+
+    <string-array name="tfe_pe_device_name">
+        <item>CPU</item>
+        <item>GPU</item>
+        <item>NNAPI</item>
+    </string-array>
+
+    <string-array name="tfe_pe_tracker_array">
+        <item>Off</item>
+        <item>BoundingBox</item>
+        <item>Keypoint</item>
+    </string-array>
 </resources>
