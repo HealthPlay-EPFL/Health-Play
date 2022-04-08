@@ -79,6 +79,7 @@ public class AddFriendFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_friend, container, false);
         Button addFriend = view.findViewById(R.id.AddFriend);
+        Button backButton = view.findViewById(R.id.backButton);
         EditText editText = view.findViewById(R.id.friendSearch);
         List<String> allUsers = new ArrayList<>();
 
@@ -103,6 +104,15 @@ public class AddFriendFragment extends Fragment {
                     }
                 }
 
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentContainerView, new FriendList_Frag());
+                fragmentTransaction.commit();
             }
         });
         return view;
