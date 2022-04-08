@@ -69,16 +69,24 @@ public class BarcodeScanActivity extends AppCompatActivity {
         }, ContextCompat.getMainExecutor(this));
     }
 
+    /**
+     * Used to create a camera and bind the preview
+     */
     private void bindPreview(ProcessCameraProvider cameraProvider) {
+        // Unbind everything that was bind to this camera
         cameraProvider.unbindAll();
+
+        // The preview on the screen
         Preview preview = new Preview.Builder().build();
 
         preview.setSurfaceProvider(previewView.getSurfaceProvider());
 
+        // Create the image capture use case to use to take a photo
         imageCapture = new ImageCapture.Builder()
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                 .build();
 
+        // Create the camera
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this,
                 CameraSelector.DEFAULT_BACK_CAMERA,
                 imageCapture,
@@ -101,7 +109,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 new ImageCapture.OnImageSavedCallback() {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                System.out.println("YASSSSSSSSSSSSSSSS");
                 Uri uri = outputFileResults.getSavedUri();
 
                 try {
@@ -119,7 +126,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
 
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
-                System.out.println("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
                 // Take out progress bar and clear not touchable flags
                 boolean ignored = file.delete();
                 bar.setVisibility(View.GONE);
