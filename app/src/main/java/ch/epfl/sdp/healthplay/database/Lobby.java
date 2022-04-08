@@ -1,16 +1,20 @@
 package ch.epfl.sdp.healthplay.database;
 
-import java.util.Map;
-
+/**
+ * Defines a Lobby entity in Firebase that User can join to play a game together
+ */
 public class Lobby {
     private String name, password;
     private int nbrPlayers = 0;
-    private String playerUid_1, playerUid_2, playerUid_3;
-    private int playerScore_1 = 0, playerScore_2 = 0, playerScore_3 = 0;
+    private String playerUid1, playerUid2, playerUid3;
+    private int playerScore1 = 0, playerScore2 = 0, playerScore3 = 0;
     private int remainingTime;
     private static final int maxNbrPlayers = 3;
     private String status;
-  
+
+    private static final String WAITING_STRING = "waiting", READY_STRING = "ready", PLAYING_STRING = "playing", FINISHED_STRING = "finished";
+
+    //Current status of the game in the lobby
     private enum GameStatus{
         WAITING, READY, PLAYING, FINISHED;
     }
@@ -18,21 +22,22 @@ public class Lobby {
     public Lobby(String name, String password, String hostUid, int remainingTime){
         this.name = name;
         this.password = password;
-        playerUid_1 = hostUid;
-        playerScore_1 = 0;
+        playerUid1 = hostUid;
+        playerScore1 = 0;
         this.remainingTime = remainingTime;
         nbrPlayers++;
         setStatus(GameStatus.WAITING);
     }
 
+
+    //Getter methods for all fields appearing in Firebase
+
     public String getName(){
         return name;
     }
-
     public String getPassword(){
         return password;
     }
-
     public String getStatus(){
         return status;
     }
@@ -40,16 +45,16 @@ public class Lobby {
     private void setStatus(GameStatus s){
         switch (s){
             case WAITING:
-                status = "waiting";
+                status = WAITING_STRING;
                 break;
             case READY:
-                status = "ready";
+                status = READY_STRING;
                 break;
             case PLAYING:
-                status = "playing";
+                status = PLAYING_STRING;
                 break;
             default:
-                status = "finished";
+                status = FINISHED_STRING;
                 break;
         }
     }
@@ -62,24 +67,24 @@ public class Lobby {
         return remainingTime;
     }
 
-    public String getPlayerUid_1(){
-        return playerUid_1;
+    public String getPlayerUid1(){
+        return playerUid1;
     }
-    public String getPlayerUid_2(){
-        return playerUid_2;
+    public String getPlayerUid2(){
+        return playerUid2;
     }
-    public String getPlayerUid_3(){
-        return playerUid_3;
+    public String getPlayerUid3(){
+        return playerUid3;
     }
 
-    public int getPlayerScore_1(){
-        return playerScore_1;
+    public int getPlayerScore1(){
+        return playerScore1;
     }
-    public int getPlayerScore_2(){
-        return playerScore_2;
+    public int getPlayerScore2(){
+        return playerScore2;
     }
-    public int getPlayerScore_3(){
-        return playerScore_3;
+    public int getPlayerScore3(){
+        return playerScore3;
     }
 
     public void addPlayer(){

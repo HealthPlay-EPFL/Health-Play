@@ -18,7 +18,7 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
 
     private FirebaseUser user;
     private static Button lobbyButton;
-
+    private static final int TEST_1 = 180, TEST_2 = 123, TEST_3 = 789, TEST_4 = 456;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,15 +43,15 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
                 String password = editPassword.getText().toString();
 
                 //Initialize new lobby with received values
-                Lobby newLobby = new Lobby(name, password, uid, 180);
-                db.writeNewLobby(newLobby.getName(), newLobby.getPassword(), newLobby.getPlayerUid_1(), newLobby.getRemainingTime());
+                Lobby newLobby = new Lobby(name, password, uid, TEST_1);
+                db.writeNewLobby(newLobby.getName(), newLobby.getPassword(), newLobby.getPlayerUid1(), newLobby.getRemainingTime());
                 db.addUserToLobby(newLobby.getName(), newLobby.getNbrPlayers(), "testPlayer1");
                 newLobby.addPlayer();
                 db.addUserToLobby(newLobby.getName(), newLobby.getNbrPlayers(), "testPlayer2");
                 newLobby.addPlayer();
-                db.updateLobbyTime(newLobby.getName(), 123);
-                db.updateLobbyPlayerScore(newLobby.getName(), uid, 789);
-                db.updateLobbyPlayerScore(newLobby.getName(), "whatever", 456);
+                db.updateLobbyTime(newLobby.getName(), TEST_2);
+                db.updateLobbyPlayerScore(newLobby.getName(), uid, TEST_3);
+                db.updateLobbyPlayerScore(newLobby.getName(), "whatever", TEST_4);
             }
         });
 

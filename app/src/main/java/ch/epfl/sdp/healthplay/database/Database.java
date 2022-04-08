@@ -32,6 +32,7 @@ public final class Database {
     public static final String NBR_PLAYER = "nbrPlayers";
     public static final String REMAINING_TIME = "remainingTime";
     public static final String STATUS = "status";
+    public static final int MAX_NBR_PLAYERS = 3;
 
     public final DatabaseReference mDatabase;
 
@@ -282,7 +283,7 @@ public final class Database {
         mDatabase
                 .child(LOBBIES)
                 .child(name)
-                .child("playerUid_" + (nbrPlayers + 1))
+                .child("playerUid" + (nbrPlayers + 1))
                 .setValue(playerUid);
         mDatabase
                 .child(LOBBIES)
@@ -313,12 +314,12 @@ public final class Database {
      * @param score     the new score of the player
      */
     public void updateLobbyPlayerScore(String name, String playerUid, int score){
-        for (int i = 1; i < 4; i++) {
+        for (int i = 1; i < MAX_NBR_PLAYERS + 1; i++) {
             int finalI = i;
             mDatabase
                     .child(LOBBIES)
                     .child(name)
-                    .child("playerUid_" + i)
+                    .child("playerUid" + i)
                     .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                 @Override
                 public void onSuccess(DataSnapshot dataSnapshot) {
@@ -326,7 +327,7 @@ public final class Database {
                         mDatabase
                                 .child(LOBBIES)
                                 .child(name)
-                                .child("playerScore_" + finalI)
+                                .child("playerScore" + finalI)
                                 .setValue(score);
                     }
                 }
