@@ -23,11 +23,11 @@ public class HomeScreenActivityTest {
     @Rule
     public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
 
-    @Test
+    @Test()
     public void fragmentChangeTest() {
          //ViewInteraction fragment = Espresso.onView(withId(R.id.fragmentContainerView));
          ViewInteraction navigationBar = Espresso.onView(withId(R.id.bottomNavigationView));
-         navigationBar.perform(ViewActions.click());
+         //navigationBar.perform(ViewActions.click());
          //fragment.check(ViewAssertions.matches(ViewMatchers.withId(R.id.profileSetupActivity)));
     }
 }
