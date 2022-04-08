@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.healthplay.database.Database;
@@ -139,9 +140,10 @@ public class Frag_Home extends Fragment {
                 //No user logged in
                 if(user == null){
                     dataDisplay.setText("Please login");
+                    userStats = convert();
                 }
                 //User is logged in but no data at all
-                else if(userStats == null) {
+                if(userStats == null) {
                     dataDisplay.setText("No stats, please begin adding calories if you want to use the calendar summary");
                 }
                 //User logged in with data, but no data for the chosen date
@@ -218,6 +220,26 @@ public class Frag_Home extends Fragment {
                 userStats = (Map<String, Map<String, String>>) task.getResult().getValue();
             });
         }
+    }
+    /**
+     * convert map<String, map<String, Number>> to map<String, Map<String, String>>
+     * @return map for calendar in format Map<String, Map<String, String>>
+     */
+    private Map<String, Map<String, String>> convert(){
+        Map<String, Map<String, String>> inter2 = new HashMap<>();
+        Map<String, Map<String, Number>> stat = WelcomeScreenActivity.cache.getDataMap();
+        if(stat == null){
+            return null;
+        }
+        for(String date : stat.keySet()){
+            Map<String, String> inter = new HashMap<>();
+            for(String categories : stat.get(date).keySet()){
+                inter.put(categories, stat.get(date).get(categories).toString());
+            }
+            inter2.put(date, inter);
+        }
+        if(inter2.isEmpty()) return null;
+        return inter2;
     }
 
 }

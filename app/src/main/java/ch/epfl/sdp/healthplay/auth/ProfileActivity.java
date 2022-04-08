@@ -3,24 +3,27 @@ package ch.epfl.sdp.healthplay.auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
+import ch.epfl.sdp.healthplay.EditProfilePictureActivity;
 import ch.epfl.sdp.healthplay.ProfileSettingsActivity;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
@@ -29,16 +32,17 @@ import ch.epfl.sdp.healthplay.database.Database;
 
 public class ProfileActivity extends AppCompatActivity {
 
-
+    private Database db = new Database();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-       SignedInActivity.SetMode(this);
-
+        SignedInActivity.SetMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Database db = new Database();
+        getImage();
+        FirebaseUser user = mAuth.getCurrentUser();
+
         if(user != null) {
             db.mDatabase
                     .child(Database.USERS)
@@ -61,14 +65,39 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    private void getImage() {
+        db.mDatabase.child(Database.USERS).child(mAuth.getCurrentUser().getUid()).child("image").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    if(snapshot.getValue() != null){
+                        String image = snapshot.getValue().toString();
+                        ImageView imageView = findViewById(R.id.profile_picture);
+                        Glide.with(getApplicationContext()).load(image).into(imageView);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public void changeProfile(View view) {
         Intent intent = new Intent(this, ProfileSettingsActivity.class);
+        startActivity(intent);
+    }
+    public void changeProfilePicture(View view) {
+        Intent intent = new Intent(this, EditProfilePictureActivity.class);
         startActivity(intent);
     }
 
     public void initBirthday(String userId) {
         TextView TextViewBirthday = findViewById(R.id.profileBirthday);
-        Database db = new Database();
+
         db.readField(userId, Database.BIRTHDAY, (task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
@@ -100,7 +129,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void initName(String userId) {
         TextView TextViewName = findViewById(R.id.profileName);
-        Database db = new Database();
+
 
         db.readField(userId, Database.NAME, (task -> {
             if (!task.isSuccessful()) {
@@ -161,7 +190,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void initUsername(String userId) {
         TextView TextViewUsername = findViewById(R.id.profileUsername);
-        Database db = new Database();
+
         db.readField(userId, Database.USERNAME, (task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
@@ -188,7 +217,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void initStats(String userId) {
 
-        Database db = new Database();
+
 
         db.getStats(userId,(task -> {
             if (!task.isSuccessful()) {
@@ -223,10 +252,10 @@ public class ProfileActivity extends AppCompatActivity {
         TextView TextViewStatsButton = findViewById(R.id.statsButton);
         TextView TextViewWeight = findViewById(R.id.profileWeight);
         TextView TextViewHealthPoint = findViewById(R.id.profileHealthPoint);
-        Database db = new Database();
 
-        if (map!=null && map.containsKey(db.getTodayDate())) {
-            Map<String, Number> todayStats = map.get(db.getTodayDate());
+
+        if (map!=null && map.containsKey(Database.getTodayDate())) {
+            Map<String, Number> todayStats = map.get(Database.getTodayDate());
 
             if (todayStats != null){
                 if(todayStats.containsKey(Database.CALORIE_COUNTER) &&

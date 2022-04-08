@@ -21,6 +21,18 @@
         <activity
             android:name=".FriendListItemActivity"
             android:exported="false" />
+        <activity
+            android:name=".EditProfilePictureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlanthuntCreateLobbyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlanthuntCollectionItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlanthuntCollectionActivity"
+            android:exported="false" />
         <activity android:name=".kneetag.MainActivity"
             android:exported="true">
         </activity>
@@ -28,12 +40,6 @@
             android:name=".BarcodeScanActivity"
             android:exported="true" />
         <activity android:name=".PlanthuntCameraActivity">
-
-        </activity>
-        <activity android:name=".PlanthuntCollectionActivity">
-
-        </activity>
-        <activity android:name=".PlanthuntCollectionItemActivity">
 
         </activity>
         <activity android:name=".PlanthuntDescriptionActivity">
@@ -76,6 +82,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".api.PlantnetApi"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
