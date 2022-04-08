@@ -97,6 +97,7 @@ public class Frag_Home extends Fragment {
         Button button = view.findViewById(R.id.switchFragButton);
         Button friendListButton = view.findViewById(R.id.FriendList_button);
 
+        //Add the onClick action to change the Frag displayed
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,36 +118,17 @@ public class Frag_Home extends Fragment {
         }
         );
 
-        //If a user is logged in, get his stats
-        if(user != null) {
-            database.getStats(user.getUid(), task -> {
-                if (!task.isSuccessful()) {
-                    Log.e("ERROR", "Watch out there was an error");
-                }
-                userStats = (Map<String, Map<String, String>>) task.getResult().getValue();
-
-            });
-        }
-        //If the user isn't logged in yet, create userStats when it logs in
-        else {
-            userStats = null;
-            FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    //Necessary since the function is executed once on the creation of the Fragment
-                    if(user != null) {
-                        database.getStats(user.getUid(), task -> {
-                            if (!task.isSuccessful()) {
-                                Log.e("ERROR", "An error happened");
-                            }
-                            userStats = (Map<String, Map<String, String>>) task.getResult().getValue();
-                        });
-                    }
+        //Update if logs in
+        userStats = null;
+        FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                //Necessary since the function is executed once on the creation of the Fragment
+                if(user != null){
+                    constructUserStats(user);
                 }
             }
-
-            );
-        }
+        });
 
         //Print a text when the date is changed
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -173,7 +155,7 @@ public class Frag_Home extends Fragment {
                 }
             }
         });
-      
+
         //Update in real time the userStats
         if(user != null) {
             database.mDatabase.child("users").child(user.getUid()).child("stats").child(date).addValueEventListener(new ValueEventListener() {
@@ -195,7 +177,6 @@ public class Frag_Home extends Fragment {
                                     date);
                         }
                     }
-
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
@@ -221,6 +202,21 @@ public class Frag_Home extends Fragment {
                             "\n calories: " + String.valueOf(userStats.get(date).get(Database.CALORIE_COUNTER)) +
                             "\n weight: " + String.valueOf(userStats.get(date).get(Database.WEIGHT)) +
                             "\n health point: " + String.valueOf(userStats.get(date).get(Database.HEALTH_POINT)));
+        }
+    }
+
+    /**
+     * Build the stats of all dates the user entered data in
+     * @param user
+     */
+    private void constructUserStats(FirebaseUser user){
+        if(database != null) {
+            database.getStats(user.getUid(), task -> {
+                if (!task.isSuccessful()) {
+                    Log.e("ERROR", "An error happened");
+                }
+                userStats = (Map<String, Map<String, String>>) task.getResult().getValue();
+            });
         }
     }
 
