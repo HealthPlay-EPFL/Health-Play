@@ -18,6 +18,17 @@
         app:layout_constraintBottom_toTopOf="@+id/upGuidelineCamera2" />
 
     <Button
+        android:id="@+id/buttonLobby"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Create new lobby"
+        app:layout_constraintLeft_toRightOf="@+id/leftGuidelineCamera"
+        app:layout_constraintRight_toLeftOf="@+id/rightGuidelineCamera"
+        app:layout_constraintTop_toBottomOf="@+id/upGuidelineCamera3"
+        app:layout_constraintBottom_toTopOf="@+id/downGuidelineCamera3" />
+
+    <Button
         android:id="@+id/buttonCollection"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -53,14 +64,28 @@
         android:id="@+id/upGuidelineCamera2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent=".4"
+        app:layout_constraintGuide_percent=".35"
+        android:orientation="horizontal"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/upGuidelineCamera3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".42"
+        android:orientation="horizontal"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/downGuidelineCamera3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".57"
         android:orientation="horizontal"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/downGuidelineCamera2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent=".6"
+        app:layout_constraintGuide_percent=".65"
         android:orientation="horizontal"/>
 
     <androidx.constraintlayout.widget.Guideline
@@ -69,5 +94,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintGuide_percent=".8"
         android:orientation="horizontal"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
