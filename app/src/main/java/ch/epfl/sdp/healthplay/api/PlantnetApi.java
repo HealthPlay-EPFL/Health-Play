@@ -1,5 +1,7 @@
 package ch.epfl.sdp.healthplay.api;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,7 +15,7 @@ import java.nio.charset.Charset;
 
 import okhttp3.HttpUrl;
 
-public class PlantnetApi {
+public class PlantnetApi extends AppCompatActivity {
 
     public static final String API_KEY = "2b106lfsSUXwI6p3JCdVgOXVQe";
 

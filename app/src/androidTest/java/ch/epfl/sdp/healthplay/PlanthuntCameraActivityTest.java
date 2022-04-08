@@ -37,24 +37,7 @@ public class PlanthuntCameraActivityTest {
     public ActivityScenarioRule<PlanthuntCameraActivity> testRule = new ActivityScenarioRule<>(PlanthuntCameraActivity.class);
 
 
-    @Test
-    public void cameraIsCorrectlyLaunched(){
-        Bitmap icon = BitmapFactory.decodeResource(
-                InstrumentationRegistry.getTargetContext().getResources(),
-                R.mipmap.ic_launcher);
 
-        Intent resultData = new Intent();
-        resultData.putExtra("data", icon);
-        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
-
-        intending(toPackage(CAMERA_NAME)).respondWith(result);
-
-        Espresso.onView(withId(R.id.buttonCapture)).perform(click());
-
-        //intended(toPackage("com.android.camera2"));
-
-        //Espresso.onView(withId(R.id.plantButton)).check(matches(isDisplayed()));
-    }
 
     @Test
     public void collectionIsCorrectlyLaunched(){

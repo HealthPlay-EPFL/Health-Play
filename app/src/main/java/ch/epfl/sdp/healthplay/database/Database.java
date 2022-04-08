@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,11 +29,16 @@ public final class Database {
     public static final String NAME = "name";
     public static final String SURNAME = "surname";
     public static final String BIRTHDAY = "birthday";
+    public static final String NBR_PLAYER = "nbrPlayers";
+    public static final String REMAINING_TIME = "remainingTime";
+    public static final String STATUS = "status";
+    public static final int MAX_NBR_PLAYERS = 3;
 
     public final DatabaseReference mDatabase;
 
     public static final String STATS = "stats";
     public static final String USERS = "users";
+    public static final String LOBBIES = "lobbies";
 
     // Format used to format date when adding stats
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -252,6 +258,81 @@ public final class Database {
                     .setValue(toAdd);
         };
 
+    }
+
+    /**
+     * Creates a new lobby in the database
+     *
+     * @param name          the unique identifier given to the lobby
+     * @param password      the password required to join the lobby
+     * @param hostUid       the unique identifier of the lobby host
+     * @param remainingTime the time the game will last for
+     */
+    public void writeNewLobby(String name, String password, String hostUid, int remainingTime) {
+        mDatabase.child(LOBBIES).child(name).setValue(new Lobby(name, password, hostUid, remainingTime));
+    }
+
+    /**
+     * Adds a user to the database lobby
+     *
+     * @param name       the unique identifier given to the lobby
+     * @param nbrPlayers the current number of players in the lobby
+     * @param playerUid  the unique identifier of the joining player
+     */
+    public void addUserToLobby(String name, int nbrPlayers, String playerUid) {
+        mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child("playerUid" + (nbrPlayers + 1))
+                .setValue(playerUid);
+        mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child(NBR_PLAYER)
+                .setValue(nbrPlayers + 1);
+    }
+
+    /**
+     * Updates remaining in the database lobby's game
+     *
+     * @param name          the unique identifier given to the lobby
+     * @param remainingTime the new remaining time in the game
+     */
+    public void updateLobbyTime(String name, int remainingTime){
+        mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child(REMAINING_TIME)
+                .setValue(remainingTime);
+    }
+
+    /**
+     * Updates the score of a player in the lobby
+     *
+     * @param name      the unique identifier given to the lobby
+     * @param playerUid the unique identifier of the scoring player
+     * @param score     the new score of the player
+     */
+    public void updateLobbyPlayerScore(String name, String playerUid, int score){
+        for (int i = 1; i < MAX_NBR_PLAYERS + 1; i++) {
+            int finalI = i;
+            mDatabase
+                    .child(LOBBIES)
+                    .child(name)
+                    .child("playerUid" + i)
+                    .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                @Override
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue().toString() == playerUid){
+                        mDatabase
+                                .child(LOBBIES)
+                                .child(name)
+                                .child("playerScore" + finalI)
+                                .setValue(score);
+                    }
+                }
+            });
+        }
     }
 
 }
