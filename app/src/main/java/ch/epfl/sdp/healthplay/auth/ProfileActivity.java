@@ -32,18 +32,17 @@ import ch.epfl.sdp.healthplay.database.Database;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance(Database.DATABASE_URL).getReference();
+    private Database db = new Database();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-       SignedInActivity.SetMode(this);
-
+        SignedInActivity.SetMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         getImage();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Database db = new Database();
+        FirebaseUser user = mAuth.getCurrentUser();
+
         if(user != null) {
             db.mDatabase
                     .child(Database.USERS)
@@ -67,7 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void getImage() {
-        mDatabase.child(Database.USERS).child(mAuth.getCurrentUser().getUid()).child("image").addValueEventListener(new ValueEventListener() {
+        db.mDatabase.child(Database.USERS).child(mAuth.getCurrentUser().getUid()).child("image").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
@@ -98,7 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void initBirthday(String userId) {
         TextView TextViewBirthday = findViewById(R.id.profileBirthday);
-        Database db = new Database();
+
         db.readField(userId, Database.BIRTHDAY, (task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
@@ -130,7 +129,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void initName(String userId) {
         TextView TextViewName = findViewById(R.id.profileName);
-        Database db = new Database();
+
 
         db.readField(userId, Database.NAME, (task -> {
             if (!task.isSuccessful()) {
@@ -191,7 +190,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void initUsername(String userId) {
         TextView TextViewUsername = findViewById(R.id.profileUsername);
-        Database db = new Database();
+
         db.readField(userId, Database.USERNAME, (task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
@@ -218,7 +217,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void initStats(String userId) {
 
-        Database db = new Database();
+
 
         db.getStats(userId,(task -> {
             if (!task.isSuccessful()) {
@@ -253,10 +252,10 @@ public class ProfileActivity extends AppCompatActivity {
         TextView TextViewStatsButton = findViewById(R.id.statsButton);
         TextView TextViewWeight = findViewById(R.id.profileWeight);
         TextView TextViewHealthPoint = findViewById(R.id.profileHealthPoint);
-        Database db = new Database();
 
-        if (map!=null && map.containsKey(db.getTodayDate())) {
-            Map<String, Number> todayStats = map.get(db.getTodayDate());
+
+        if (map!=null && map.containsKey(Database.getTodayDate())) {
+            Map<String, Number> todayStats = map.get(Database.getTodayDate());
 
             if (todayStats != null){
                 if(todayStats.containsKey(Database.CALORIE_COUNTER) &&

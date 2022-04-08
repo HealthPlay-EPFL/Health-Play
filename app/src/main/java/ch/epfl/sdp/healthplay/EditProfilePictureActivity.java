@@ -44,11 +44,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfilePictureActivity extends AppCompatActivity {
 
-    private Uri uri;
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance(Database.DATABASE_URL).getReference();
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private StorageReference mStorage = FirebaseStorage.getInstance().getReference();
+    private  Uri uri;
+    private static DatabaseReference mDatabase = FirebaseDatabase.getInstance(Database.DATABASE_URL).getReference();
+    private static FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private static StorageReference mStorage = FirebaseStorage.getInstance().getReference();
     private String mUri = "";
+    private final static String IMAGE_NOT_SELECTED = "Image not selected";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SignedInActivity.SetMode(this);
@@ -69,18 +72,20 @@ public class EditProfilePictureActivity extends AppCompatActivity {
                     }
                 }
         );
-        findViewById(R.id.change_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.launch(photoPickerIntent);
-            }
+        findViewById(R.id.change_button).setOnClickListener(v -> {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.launch(photoPickerIntent);
         });
+
         getImage();
 
     }
 
+
+    /**
+     * Check for changes in image field of the user and change the profile picture of this activity appropriately
+     */
     private void getImage() {
         mDatabase.child(Database.USERS).child(mAuth.getCurrentUser().getUid()).child("image").addValueEventListener(new ValueEventListener() {
             @Override
@@ -100,12 +105,20 @@ public class EditProfilePictureActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * On click method for the exit button
+     * @param view
+     */
     public void exitProfilePicture(View view) {
         Intent intent = new Intent(this, ProfileActivity.class);
         finish();
         startActivity(intent);
     }
 
+    /**
+     * Save the profile picture into the database and create a new image field for the user that contains the url to the image
+     * @param view
+     */
     public void saveProfilePicture(View view) {
         ProgressDialog dialog = new ProgressDialog(this);
         dialog.setTitle("Set profile");
@@ -116,18 +129,15 @@ public class EditProfilePictureActivity extends AppCompatActivity {
 
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if(user != null) {
-                StorageTask mtask = mStorage.child("profilePicture").child(user.getUid() + "jpg").putFile(uri);
-                mtask.continueWithTask(new Continuation() {
-                   @Override
-                   public Object then(@NonNull Task task) throws Exception {
-                       if(!task.isSuccessful()) {
-                           throw task.getException();
-                       }
-                       else {
-                           return  mStorage.child("profilePicture").child(user.getUid() + "jpg").getDownloadUrl();
-                       }
-                   }
-               }).addOnCompleteListener((OnCompleteListener<Uri>) task -> {
+                StorageTask mtask = mStorage.child("profilePicture").child(user.getUid() + ".jpg").putFile(uri);
+                mtask.continueWithTask(task -> {
+                    if(!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    else {
+                        return  mStorage.child("profilePicture").child(user.getUid() + ".jpg").getDownloadUrl();
+                    }
+                }).addOnCompleteListener((OnCompleteListener<Uri>) task -> {
                 if(task.isSuccessful()) {
                     mUri = ((Uri)task.getResult()).toString();
                     mDatabase.child(Database.USERS).child(mAuth.getCurrentUser().getUid()).child("image").setValue(mUri);
@@ -138,7 +148,7 @@ public class EditProfilePictureActivity extends AppCompatActivity {
 
         }
         else {
-            Toast.makeText(this, "Image not selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, IMAGE_NOT_SELECTED, Toast.LENGTH_SHORT).show();
         }
 
     }
