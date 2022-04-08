@@ -28,6 +28,7 @@
             >
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/night"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
@@ -39,6 +40,7 @@
             </androidx.appcompat.widget.AppCompatButton>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/light"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
