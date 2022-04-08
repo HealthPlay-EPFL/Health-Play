@@ -23,14 +23,14 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:backgroundTint="?attr/gradientPrimary_color"
-            android:text="Go to Calendar" />
+            android:text="@string/go_to_calendar" />
 
         <Button
             android:id="@+id/addFriendBouton"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:backgroundTint="?attr/gradientPrimary_color"
-            android:text="Add Friend" />
+            android:text="@string/add_friend" />
 
     </LinearLayout>
 

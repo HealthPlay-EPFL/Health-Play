@@ -20,15 +20,15 @@
             android:id="@+id/friendProfilePicture"
             android:layout_width="match_parent"
             android:layout_height="198dp"
-            android:contentDescription="Profile picture of your friend"
+            android:contentDescription="@string/profile_picture_of_your_friend"
             app:srcCompat="@drawable/rounded_logo" />
 
         <TextView
             android:id="@+id/friendName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="Name of your friend"
-            android:text="friendName"
+            android:contentDescription="@string/name_of_your_friend"
+            android:text="@string/friendname"
             android:textAlignment="center"
             android:textSize="24sp" />
 
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="?attr/gradientPrimary_color"
-            android:text="Remove Friend" />
+            android:text="@string/remove_friend" />
 
     </LinearLayout>
 
