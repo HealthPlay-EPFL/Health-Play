@@ -86,31 +86,30 @@ public class FriendList_Frag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_friend_list_, container, false);
+
         Button calendarButton = view.findViewById(R.id.friendToCalendar);
         Button addFriendButton = view.findViewById(R.id.addFriendBouton);
         ListView listView = view.findViewById(R.id.friendList);
 
-
+        // Switch to the Home Fragment
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentContainerView, new Frag_Home());
-                fragmentTransaction.commit();
+            public void onClick(View v) { ;
+                switchToFragment(new Frag_Home());
             }
         }
         );
 
+        // Switch to the AddFriend Fragment
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentContainerView, new AddFriendFragment());
-                fragmentTransaction.commit();
+                switchToFragment(new AddFriendFragment());
             }
         }
         );
 
+        // Get the Friend List of the current User
         if(auth.getCurrentUser() != null) {
             database.readField(auth.getCurrentUser().getUid(), "friends", new OnCompleteListener<DataSnapshot>() {
                 @Override
@@ -121,6 +120,7 @@ public class FriendList_Frag extends Fragment {
                     for (String friend : friends.keySet()
                     ) {
                         if (!friends.get(friend)) {
+                            // We need to create another list, because you cannot forEach in a changing List
                             toRemove.add(friend);
                         } else {
                             friendList.add(new Friend(friend));
@@ -135,6 +135,7 @@ public class FriendList_Frag extends Fragment {
                 }
             });
 
+            // Listen to changes to the FriendList of the User
             database.mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("friends").addValueEventListener(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
@@ -146,6 +147,7 @@ public class FriendList_Frag extends Fragment {
                     for (String friend : value.keySet()
                     ) {
                         if (!value.get(friend)) {
+                            // We need to create another list, because you cannot forEach in a changing List
                             toRemove.add(friend);
                         } else {
                             friendList.add(new Friend(friend));
@@ -172,6 +174,12 @@ public class FriendList_Frag extends Fragment {
         return view;
     }
 
+    /**
+     * Build the List view
+     * @param view
+     * @param listView
+     * @param friendList
+     */
     private void buildListView(View view, ListView listView, List<Friend> friendList) {
         ArrayList<Friend> arrayOfUsers = new ArrayList<Friend>();
         // Create the adapter to convert the array to views
@@ -181,6 +189,12 @@ public class FriendList_Frag extends Fragment {
         adapter.addAll(friendList);
     }
 
+    /**
+     * Update the ListView adapter with the given List of Friend in parameter
+     * @param view
+     * @param listView
+     * @param friendList
+     */
     private void updateListView(View view, ListView listView, List<Friend> friendList){
         ListAdapterFriend adapter = (ListAdapterFriend)listView.getAdapter();
         if(adapter != null){
@@ -188,6 +202,16 @@ public class FriendList_Frag extends Fragment {
             adapter.addAll(friendList);
         }
 
+    }
+
+    /**
+     * Switch to the given fragment
+     * @param fragment
+     */
+    private void switchToFragment(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainerView, fragment);
+        fragmentTransaction.commit();
     }
 
 

@@ -255,12 +255,32 @@ public final class Database {
 
     }
 
+    /**
+     * Add the given friend to the Database
+     * @param friendUserId
+     */
     public void addToFriendList(String friendUserId) {
-        mDatabase.child(USERS)
-                .child(FirebaseAuth.getInstance().getUid())
-                .child("friends")
-                .child(friendUserId)
-                .setValue(true);
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+            mDatabase.child(USERS)
+                    .child(FirebaseAuth.getInstance().getUid())
+                    .child("friends")
+                    .child(friendUserId)
+                    .setValue(true);
+        }
+    }
+
+    /**
+     * Remove the given friend from the Database
+     * @param friendUserId
+     */
+    public void removeFromFriendList(String friendUserId) {
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+            mDatabase.child(Database.USERS)
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .child("friends")
+                    .child(friendUserId)
+                    .setValue(false);
+        }
     }
 
 }

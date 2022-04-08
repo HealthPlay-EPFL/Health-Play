@@ -45,10 +45,11 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> {
         TextView friendName = (TextView) convertView.findViewById(R.id.friendName);
         Button remFriendButton = convertView.findViewById(R.id.removeFriendButton);
 
+        // Remove the selected friend on the button click
         remFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeFromFriendList(friendName.getText().toString());
+                database.removeFromFriendList(friendName.getText().toString());
             }
         });
 
@@ -59,14 +60,4 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> {
         return convertView;
     }
 
-    private void removeFromFriendList(String friendUserId) {
-        System.out.println(friendUserId);
-        if(auth.getCurrentUser() != null) {
-            database.mDatabase.child(Database.USERS)
-                    .child(auth.getUid())
-                    .child("friends")
-                    .child(friendUserId)
-                    .setValue(false);
-        }
-    }
 }

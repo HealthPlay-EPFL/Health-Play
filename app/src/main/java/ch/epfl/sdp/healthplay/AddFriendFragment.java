@@ -30,7 +30,6 @@ import ch.epfl.sdp.healthplay.database.Database;
  */
 public class AddFriendFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -38,7 +37,6 @@ public class AddFriendFragment extends Fragment {
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
 
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -83,38 +81,47 @@ public class AddFriendFragment extends Fragment {
         EditText editText = view.findViewById(R.id.friendSearch);
         List<String> allUsers = new ArrayList<>();
 
+        // Get the list of all users in the Database
         database.mDatabase.child(Database.USERS).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                //System.out.println(((HashMap<String, Object>)task.getResult().getValue()).keySet());
                 allUsers.addAll(((HashMap<String, Object>)task.getResult().getValue()).keySet());
 
             }
         });
 
+        //Add a friend to database
         addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(allUsers != null){
+                    //We add it to the database iff the userId is an existing user in the database
                     if(allUsers.contains(editText.getText().toString())) {
                         database.addToFriendList(editText.getText().toString());
-                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.fragmentContainerView, new FriendList_Frag());
-                        fragmentTransaction.commit();
+                        // Go back to the FriendList
+                        backToFriendList();
                     }
                 }
 
             }
         });
 
+        // Go back to the FriendList
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentContainerView, new FriendList_Frag());
-                fragmentTransaction.commit();
+                backToFriendList();
             }
         });
         return view;
+    }
+
+    /**
+     * Switch the current fragment (AddFriendFragment) to the FriendListFragment
+     */
+    private void backToFriendList(){
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainerView, new FriendList_Frag());
+        fragmentTransaction.commit();
     }
 }
