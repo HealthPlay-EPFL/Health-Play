@@ -1,7 +1,5 @@
 package ch.epfl.sdp.healthplay;
 
-import static androidx.core.app.ActivityCompat.startActivityForResult;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -10,11 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,8 +24,6 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import ch.epfl.sdp.healthplay.api.CameraApi;
 import ch.epfl.sdp.healthplay.api.PlantnetApi;
@@ -38,6 +32,7 @@ public class PlanthuntCameraActivity extends AppCompatActivity {
 
     private static Button collectionButton;
     private static Button captureButton;
+    private static Button lobbyButton;
     private File photoFile;
 
     private static final String STORAGE_URL = "gs://health-play-9e161.appspot.com";
@@ -52,6 +47,7 @@ public class PlanthuntCameraActivity extends AppCompatActivity {
 
         captureButton = findViewById(R.id.buttonCapture);
         collectionButton = findViewById(R.id.buttonCollection);
+        lobbyButton = findViewById(R.id.buttonLobby);
 
         //Get current user reference in Firebase
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -67,10 +63,20 @@ public class PlanthuntCameraActivity extends AppCompatActivity {
             }
         });
 
+        //Start collection activity when clicking on Collection button
         collectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PlanthuntCameraActivity.this, PlanthuntCollectionActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //Start new lobby activity when clicking on Create lobby button
+        lobbyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PlanthuntCameraActivity.this, PlanthuntCreateLobbyActivity.class);
                 startActivity(intent);
             }
         });

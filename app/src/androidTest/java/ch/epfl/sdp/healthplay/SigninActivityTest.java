@@ -29,7 +29,12 @@ public class SigninActivityTest {
     }
 
     @Test
-    public void startingNewIntentAuto() throws InterruptedException {
+    public void startingNewIntentAuto() {
+        onView(withId(R.id.sign_out)).check(matches(isDisplayed()));
+        onView(withId(R.id.delete_account)).check(matches(isDisplayed()));
+        onView(withId(R.id.user_profile_picture)).check(matches(isDisplayed()));
+        onView(withId(R.id.light)).check(matches(isDisplayed()));
+        onView(withId(R.id.night)).check(matches(isDisplayed()));
 
     }
 }
