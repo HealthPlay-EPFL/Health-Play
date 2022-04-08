@@ -33,26 +33,33 @@ public class DataCache {
     private Context context;
     private Database db = new Database();
     private FirebaseAuth fa = FirebaseAuth.getInstance();
+    private String cacheName = "cacheFile.txt";
 
     public DataCache(Context context, DatabaseReference dbr, FirebaseAuth fa){
         db = new Database(dbr);
         this.fa = fa;
         init(context);
     }
-
     public DataCache(Context context){
         init(context);
     }
+
+    /**
+     * init the listener to firebaseAuth
+     * @param context for initilazation of cachedirectory
+     */
     public void init(Context context){
         this.context = context;
         fa.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = fa.getCurrentUser();
+                //if the user is not logged, read the cache file
                 if(user==null)
                     read();
                 else {
-                    db.mDatabase.child("users").child(user.getUid()).child("stats").addValueEventListener(new ValueEventListener() {
+                    //if the user logged, store the database in the cache file
+                    db.mDatabase.child(Database.USERS).child(user.getUid()).child(Database.STATS).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             store(user.getUid());
@@ -68,20 +75,29 @@ public class DataCache {
             }
         });
     }
-
+    /**
+     * readFile the file in format json
+     * @return the text of the file
+     */
     private String readFile() throws IOException{
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File(new File(context.getCacheDir(),"")+"cacheFile.txt")));
+        //Open File Input
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File(new File(context.getCacheDir(),"")+cacheName)));
+        //Create the Reader for the file
         InputStreamReader reader = new InputStreamReader(in);
         int character = 0;
         StringBuilder stringBuilder = new StringBuilder();
+        //Read
         while((character = in.read()) != -1){
             stringBuilder.append((char)character);
         }
-        Log.d("Debug lecture du fichier : ", stringBuilder.toString());
+        //Log.d("Debug lecture du fichier : ", stringBuilder.toString());
         in.close();
         return stringBuilder.toString();
     }
-
+    /**
+     * read the file in format json, convert to a Map<String, Map<String, Number>>
+     *
+     */
     private void read(){
         try {
             String jsonInput = readFile();
@@ -93,6 +109,11 @@ public class DataCache {
             e.printStackTrace();
         }
     }
+
+    /**
+     * store the database in the cache file in json format
+     * @param id String user id
+     */
     private void store(String id){
         db.getStats(id, task -> {
             if (!task.isSuccessful()) {
@@ -105,8 +126,8 @@ public class DataCache {
                 ObjectOutputStream out = null;
                 try {
                     String json = mapper.writerFor(typeRef).writeValueAsString(map);
-                    Log.d("Ecriture", json);
-                    out = new ObjectOutputStream(new FileOutputStream(new File(context.getCacheDir(),"")+"cacheFile.txt"));
+                    //Log.d("Ecriture", json);
+                    out = new ObjectOutputStream(new FileOutputStream(new File(context.getCacheDir(),"")+cacheName));
                     out.writeBytes(json);
                     out.close();
                 } catch (IOException e) {
@@ -115,6 +136,9 @@ public class DataCache {
             }
         });
     }
+    /**
+     * @return the current map in the cache
+     */
     public Map<String, Map<String, Number>> getDataMap(){
         return current_map;
     }

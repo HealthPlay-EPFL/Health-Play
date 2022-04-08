@@ -211,7 +211,10 @@ public class Frag_Home extends Fragment {
             });
         }
     }
-
+    /**
+     * convert map<String, map<String, Number>> to map<String, Map<String, String>>
+     * @return map for calendar in format Map<String, Map<String, String>>
+     */
     private Map<String, Map<String, String>> convert(){
         Map<String, Map<String, String>> inter2 = new HashMap<>();
         Map<String, Map<String, Number>> stat = WelcomeScreenActivity.cache.getDataMap();
