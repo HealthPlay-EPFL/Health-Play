@@ -2,6 +2,7 @@ package ch.epfl.sdp.healthplay;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -13,7 +14,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
+import androidx.camera.core.CameraInfo;
 import androidx.camera.core.CameraSelector;
+import androidx.camera.core.CameraX;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.Preview;
@@ -57,6 +60,11 @@ public class BarcodeScanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_barcode_scan);
         previewView = findViewById(R.id.previewView2);
 
+        // If the device has no camera, goto manual entering
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+            goToManual();
+        }
+
         // Get the camera provider of the device
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
 
@@ -81,8 +89,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
         // The preview on the screen
         Preview preview = new Preview.Builder().build();
 
-        preview.setSurfaceProvider(previewView.getSurfaceProvider());
-
         // Create the image capture use case to use to take a photo
         imageCapture = new ImageCapture.Builder()
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
@@ -93,6 +99,8 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 CameraSelector.DEFAULT_BACK_CAMERA,
                 imageCapture,
                 preview);
+
+        preview.setSurfaceProvider(previewView.getSurfaceProvider());
     }
 
     public void onClick(View view) throws IOException {
@@ -164,6 +172,10 @@ public class BarcodeScanActivity extends AppCompatActivity {
     }
 
     public void enterManually(View view) {
+        goToManual();
+    }
+
+    private void goToManual() {
         Intent intent = new Intent(this, ProductInfoActivity.class);
         startActivity(intent);
         finish();
