@@ -1,6 +1,5 @@
 package ch.epfl.sdp.healthplay;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,16 +13,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
-import androidx.camera.core.CameraInfo;
+import androidx.camera.core.CameraInfoUnavailableException;
 import androidx.camera.core.CameraSelector;
-import androidx.camera.core.CameraX;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.google.common.util.concurrent.ListenableFuture;
@@ -71,7 +68,18 @@ public class BarcodeScanActivity extends AppCompatActivity {
         cameraProviderFuture.addListener(() -> {
             try {
                 ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-                bindPreview(cameraProvider);
+                try {
+                    // Checks if the cameraProvider can provide a back camera
+                    if (cameraProvider.hasCamera(CameraSelector.DEFAULT_BACK_CAMERA)) {
+                        bindPreview(cameraProvider);
+                    } else {
+                        // If not, goto manual
+                        goToManual();
+                    }
+                } catch (CameraInfoUnavailableException e) {
+                    // If an exception is thrown, goto manual
+                    goToManual();
+                }
             } catch (ExecutionException | InterruptedException e) {
                 // No errors need to be handled for this Future.
                 // This should never be reached.
