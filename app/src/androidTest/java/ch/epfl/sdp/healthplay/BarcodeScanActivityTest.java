@@ -9,6 +9,7 @@ import static org.junit.Assert.*;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.SensorPrivacyManager;
 import android.view.View;
 
 import androidx.test.espresso.Espresso;
@@ -43,7 +44,8 @@ public class BarcodeScanActivityTest {
 
     @Rule
     public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule
-            .grant(Manifest.permission.CAMERA);
+            .grant(Manifest.permission.CAMERA,
+                    Manifest.permission_group.CAMERA);
 
     @Before
     public void setup() {
