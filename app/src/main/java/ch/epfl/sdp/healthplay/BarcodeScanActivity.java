@@ -1,5 +1,6 @@
 package ch.epfl.sdp.healthplay;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
+import androidx.camera.core.CameraInfo;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
@@ -72,6 +74,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
     /**
      * Used to create a camera and bind the preview
      */
+    @SuppressLint("RestrictedApi")
     private void bindPreview(ProcessCameraProvider cameraProvider) {
         // Unbind everything that was bind to this camera
         cameraProvider.unbindAll();
@@ -85,6 +88,10 @@ public class BarcodeScanActivity extends AppCompatActivity {
         imageCapture = new ImageCapture.Builder()
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                 .build();
+
+        for (CameraInfo info: cameraProvider.getAvailableCameraInfos()) {
+            System.out.println(info.getImplementationType());
+        }
 
         // Create the camera
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this,
