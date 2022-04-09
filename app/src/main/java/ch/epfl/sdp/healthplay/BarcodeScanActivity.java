@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -87,7 +89,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 .build();
 
         // Create the camera
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this,
+        Camera camera = cameraProvider.bindToLifecycle(this,
                 CameraSelector.DEFAULT_BACK_CAMERA,
                 imageCapture,
                 preview);
@@ -142,12 +144,9 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 .addOnSuccessListener(barcodes -> {
                     if (barcodes.isEmpty()) {
                         // Popup dialog whenever an error occurs
-                        new AlertDialog.Builder(BarcodeScanActivity.this)
-                                .setTitle("Error")
-                                .setMessage("An error occurred. Please try again")
-                                .setNeutralButton("OK", null)
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
+                        Toast toast = Toast.makeText(getApplicationContext(), "No barcode to scan.", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP, 0, 0);
+                        toast.show();
                         return;
                     }
                     Intent intent = new Intent(this, BarcodeInformationActivity.class);
