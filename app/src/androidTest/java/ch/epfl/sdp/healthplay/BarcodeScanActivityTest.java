@@ -44,22 +44,7 @@ public class BarcodeScanActivityTest {
 
     @Rule
     public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule
-            .grant(Manifest.permission.CAMERA,
-                    Manifest.permission_group.CAMERA);
-
-    @Before
-    public void setup() {
-        Intents.init();
-        IdlingRegistry.getInstance().register(BarcodeScanActivity.idlingResource);
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
-    }
-
-    @After
-    public void finish() {
-        Intents.release();
-        IdlingRegistry.getInstance().unregister(BarcodeScanActivity.idlingResource);
-    }
+            .grant(Manifest.permission.CAMERA);
 
     @Test
     public void testOnClick() throws InterruptedException {
