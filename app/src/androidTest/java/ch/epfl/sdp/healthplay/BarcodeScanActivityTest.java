@@ -1,7 +1,12 @@
-/*package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay;
 
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
+import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.*;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -18,6 +23,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.GrantPermissionRule;
 
 import org.hamcrest.Matcher;
 import org.junit.After;
@@ -35,6 +41,10 @@ public class BarcodeScanActivityTest {
     public ActivityScenarioRule<BarcodeScanActivity> testRule =
             new ActivityScenarioRule<>(BarcodeScanActivity.class);
 
+    @Rule
+    public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule
+            .grant(Manifest.permission.CAMERA);
+
     @Before
     public void setup() {
         Intents.init();
@@ -49,15 +59,15 @@ public class BarcodeScanActivityTest {
         IdlingRegistry.getInstance().unregister(BarcodeScanActivity.idlingResource);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test
     public void testOnClick() throws InterruptedException {
         TimeUnit.SECONDS.sleep(1);
         ViewInteraction button = Espresso.onView(ViewMatchers.withId(R.id.get_information_from_barcode));
-        button.perform(
+        button.check(matches(allOf(isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
-                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                        return isEnabled(); // no constraints, they are checked above
                     }
 
                     @Override
@@ -82,11 +92,11 @@ public class BarcodeScanActivityTest {
     public void testEnterManually() {
 
         ViewInteraction button = Espresso.onView(ViewMatchers.withId(R.id.enter_manually_button));
-        button.perform(
+        button.check(matches(allOf(isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
-                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                        return isEnabled(); // no constraints, they are checked above
                     }
 
                     @Override
@@ -105,4 +115,4 @@ public class BarcodeScanActivityTest {
         //Intents.intended(IntentMatchers.hasComponent("ch.epfl.sdp.healthplay"));
 
     }
-}*/
+}
