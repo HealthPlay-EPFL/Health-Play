@@ -41,6 +41,7 @@ import org.tensorflow.lite.support.image.ops.ResizeOp
 import org.tensorflow.lite.support.image.ops.ResizeWithCropOrPadOp
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import kotlin.math.ceil
+import kotlin.math.min
 
 class MoveNetMultiPose(
     private val interpreter: Interpreter,
@@ -100,7 +101,6 @@ class MoveNetMultiPose(
                         context,
                         if (type == Type.Dynamic)
                             "movenet_multipose_fp16.tflite" else ""
-                        //@TODO: (khanhlvg) Add support for fixed shape model if it's released.
                     ), options
                 ), type, gpuDelegate
             )
@@ -189,8 +189,9 @@ class MoveNetMultiPose(
      * Run tracker (if available) and process the output.
      */
     private fun postProcess(modelOutput: FloatArray): List<Person> {
+
         val persons = mutableListOf<Person>()
-        for (idx in modelOutput.indices step outputShape[2]) {
+        for (idx in (0..min(modelOutput.indices.last,outputShape[2])) step outputShape[2]) {
             val personScore = modelOutput[idx + DETECTION_SCORE_INDEX]
             if (personScore < DETECTION_THRESHOLD) continue
             val positions = modelOutput.copyOfRange(idx, idx + 51)

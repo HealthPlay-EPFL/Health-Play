@@ -5,8 +5,6 @@
       <map>
         <entry key="..\:/Users/FunProg/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_greeting.xml" value="0.25" />
         <entry key="..\:/Users/FunProg/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_barcode_information.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_barcode_scan.xml" value="0.25" />
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_barcode_information.xml" value="0.25" />
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_barcode_scan.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_greeting.xml" value="0.3328804347826087" />
@@ -53,19 +51,35 @@
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/list_item.xml" value="0.11474164133738601" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/layout/roundcorner.xml" value="0.25" />
         <entry key="..\:/Users/antoi/OneDrive/Documents/BA6/SDP/Health-Play/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1185" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable-hdpi/ic_switch_camera_white_48dp.xml" value="0.1" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable-v24/custom_bg_gradient.xml" value="0.1" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/border.xml" value="0.1" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/gradient.xml" value="0.1" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/ic_anon_user_48dp.xml" value="0.1935" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.1" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/ic_baseline_gamepad_24.xml" value="0.1" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.1" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.14" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.14" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/ic_baseline_qr_code_24.xml" value="0.14" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.1" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/play_button_left.xml" value="0.1" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/play_button_right.xml" value="0.1" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/rounded_button.xml" value="0.1" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/rounded_edge.xml" value="0.1" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_barcode_information.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_camera_api.xml" value="0.1" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_games_menu.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_greeting.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_home_screen.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_movenetmultipose.xml" value="0.3614583333333333" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_planhunt_camera.xml" value="0.3614583333333333" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_product_info3.xml" value="0.18541666666666667" />
-        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_profile.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_profile.xml" value="0.5" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_profile_settings.xml" value="0.3614583333333333" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_profile_setup.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_welcome_screen.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/auth_ui_layout.xml" value="0.5" />
@@ -73,6 +87,7 @@
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/fragment_frag__home.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/fragment_frag__profile.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/fragment_frag__scan.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/fragment_game_menu.xml" value="0.3614583333333333" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/fragment_settings.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/signed_in_layout.xml" value="0.1" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/menu/bottom_menu.xml" value="0.18541666666666667" />

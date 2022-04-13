@@ -8,25 +8,32 @@ import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Process
+import android.util.Log
 import android.view.SurfaceView
-import android.view.View
 import android.view.WindowManager
-import android.widget.*
+import android.widget.Button
+import android.widget.CompoundButton
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import ch.epfl.sdp.healthplay.R;
-import ch.epfl.sdp.healthplay.kneetag.ml.*
+import ch.epfl.sdp.healthplay.R
+import ch.epfl.sdp.healthplay.database.Database
 import ch.epfl.sdp.healthplay.kneetag.camera.CameraSource
 import ch.epfl.sdp.healthplay.kneetag.data.Device
+import ch.epfl.sdp.healthplay.kneetag.ml.PoseClassifier
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.tensorflow.lite.examples.poseestimation.ml.MoveNetMultiPose
-import org.tensorflow.lite.examples.poseestimation.ml.TrackerType
 import org.tensorflow.lite.examples.poseestimation.ml.Type
+
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -49,8 +56,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var tvScore: TextView
     private lateinit var tvFPS: TextView
+    private lateinit var database: Database
 
-
+    private val mAuth = FirebaseAuth.getInstance()
 
     private lateinit var tvClassificationValue1: TextView
     private lateinit var tvClassificationValue2: TextView
@@ -94,6 +102,13 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        database=Database()
+        val user = mAuth.currentUser
+
+        if (user != null) {
+            initUsername(user.uid)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         // keep screen on while app is running
@@ -106,19 +121,30 @@ class MainActivity : AppCompatActivity() {
         tvClassificationValue2 = findViewById(R.id.tvClassificationValue2)
         tvClassificationValue3 = findViewById(R.id.tvClassificationValue3)
 
-
-
         if (!isCameraPermissionGranted()) {
             requestPermission()
         }
+
+
     }
 
     override fun onStart() {
         super.onStart()
         openCamera()
     }
+    private fun initUsername(userId: String) {
+        val TextViewUsername = findViewById<TextView>(R.id.profileUsername)
+        database.readField(userId, Database.USERNAME, OnCompleteListener { task: Task<DataSnapshot> ->
+            if (!task.isSuccessful) {
+                Log.e("firebase", "Error getting data", task.exception)
+            } else {
+                findViewById<Button>(R.id.profileUsername).text = task.result.value.toString()
+            }
+        })
 
-    override fun onResume() {
+    }
+
+        override fun onResume() {
         cameraSource?.resume()
         super.onResume()
     }
