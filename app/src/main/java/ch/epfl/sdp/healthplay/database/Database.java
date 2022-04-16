@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public final class Database {
 
@@ -33,6 +34,9 @@ public final class Database {
     public static final String BIRTHDAY = "birthday";
     public static final String NBR_PLAYER = "nbrPlayers";
     public static final String REMAINING_TIME = "remainingTime";
+    public static final String PLAYER_UID = "playerUid";
+    public static final String PLAYER_SCORE = "playerScore";
+    public static final String PASSWORD = "password";
     public static final String STATUS = "status";
     public static final int MAX_NBR_PLAYERS = 3;
 
@@ -305,7 +309,6 @@ public final class Database {
      * Adds a user to the database lobby
      *
      * @param name       the unique identifier given to the lobby
-     * @param nbrPlayers the current number of players in the lobby
      * @param playerUid  the unique identifier of the joining player
      */
     public void addUserToLobby(String name, String playerUid){
@@ -316,7 +319,7 @@ public final class Database {
                 .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
-                int nbrPlayers = Integer.parseInt(dataSnapshot.getValue().toString()) + 1;
+                int nbrPlayers = Integer.parseInt(Objects.requireNonNull(dataSnapshot.getValue()).toString()) + 1;
                 mDatabase
                         .child(LOBBIES)
                         .child(name)
@@ -325,7 +328,7 @@ public final class Database {
                 mDatabase
                         .child(LOBBIES)
                         .child(name)
-                        .child("playerUid" + (nbrPlayers))
+                        .child(PLAYER_UID + (nbrPlayers))
                         .setValue(playerUid);
             }
         });
@@ -358,15 +361,15 @@ public final class Database {
             mDatabase
                     .child(LOBBIES)
                     .child(name)
-                    .child("playerUid" + i)
+                    .child(PLAYER_UID + i)
                     .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                         @Override
                         public void onSuccess(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getValue().toString() == playerUid) {
+                            if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(playerUid)) {
                                 mDatabase
                                         .child(LOBBIES)
                                         .child(name)
-                                        .child("playerScore" + finalI)
+                                        .child(PLAYER_SCORE + finalI)
                                         .setValue(score);
                             }
                         }
@@ -384,7 +387,7 @@ public final class Database {
         return mDatabase
                 .child(LOBBIES)
                 .child(name)
-                .child("password")
+                .child(PASSWORD)
                 .get();
     }
 }

@@ -30,10 +30,6 @@ import ch.epfl.sdp.healthplay.api.PlantnetApi;
 
 public class PlanthuntCameraActivity extends AppCompatActivity {
 
-    private static Button collectionButton;
-    private static Button captureButton;
-    private static Button createLobbyButton;
-    private static Button joinLobbyButton;
     private File photoFile;
 
     private static final String STORAGE_URL = "gs://health-play-9e161.appspot.com";
@@ -46,10 +42,10 @@ public class PlanthuntCameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planhunt_camera);
 
-        captureButton = findViewById(R.id.buttonCapture);
-        collectionButton = findViewById(R.id.buttonCollection);
-        createLobbyButton = findViewById(R.id.buttonCreateLobby);
-        joinLobbyButton = findViewById(R.id.buttonJoinlobby);
+        Button captureButton = findViewById(R.id.buttonCapture);
+        Button collectionButton = findViewById(R.id.buttonCollection);
+        Button createLobbyButton = findViewById(R.id.buttonCreateLobby);
+        Button joinLobbyButton = findViewById(R.id.buttonJoinlobby);
 
         //Get current user reference in Firebase
         user = FirebaseAuth.getInstance().getCurrentUser();

@@ -20,9 +20,7 @@ import ch.epfl.sdp.healthplay.database.Lobby;
 
 public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
 
-    private FirebaseUser user;
-    private static Button lobbyButton;
-    private static final int TEST_1 = 180, TEST_2 = 123, TEST_3 = 789, TEST_4 = 456;
+    //private static final int TEST_1 = 180, TEST_2 = 123, TEST_3 = 789, TEST_4 = 456;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +34,7 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
         EditText editName = findViewById(R.id.joinLobbyName);
         EditText editPassword = findViewById(R.id.joinLobbyPassword);
         EditText editUsername = findViewById(R.id.joinLobbyUsername);
-        lobbyButton = findViewById(R.id.joinLobbyButton);
+        Button lobbyButton = findViewById(R.id.joinLobbyButton);
 
         //Create new lobby when clicking on Create lobby button
         lobbyButton.setOnClickListener(new View.OnClickListener() {
