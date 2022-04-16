@@ -89,6 +89,13 @@ public final class Product {
     }
 
     /**
+     * Enum representing the nutriscore of a product
+     */
+    public enum Nutriscore {
+        A, B, C, D, E, UNKNOWN
+    }
+
+    /**
      * Enum representing all the available nutriments present in a product
      */
     public enum Nutriments {
@@ -146,6 +153,7 @@ public final class Product {
         CHOLESTEROL("cholesterol"),
         FIBER("fiber"),
         SODIUM("sodium"),
+        SALT("salt"),
         ALCOHOL("alcohol"), // % vol of alcohol
         VITAMIN_A("vitamin-a"),
         VITAMIN_D("vitamin-d"),
