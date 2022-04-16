@@ -29,8 +29,7 @@ public class PlanthuntCreateLobbyActivityTest {
         ViewInteraction textPassword = Espresso.onView(withId(R.id.createLobbyPassword));
         textPassword.perform(ViewActions.typeText(PASSWORD));
         Espresso.closeSoftKeyboard();
-        ViewInteraction buttonLobby = Espresso.onView(withId(R.id.createLobbyButton));
-        buttonLobby.perform(
+        Espresso.onView(withId(R.id.createLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
