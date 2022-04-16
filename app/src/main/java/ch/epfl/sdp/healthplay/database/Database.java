@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -307,17 +308,27 @@ public final class Database {
      * @param nbrPlayers the current number of players in the lobby
      * @param playerUid  the unique identifier of the joining player
      */
-    public void addUserToLobby (String name,int nbrPlayers, String playerUid){
-        mDatabase
-                .child(LOBBIES)
-                .child(name)
-                .child("playerUid" + (nbrPlayers + 1))
-                .setValue(playerUid);
+    public void addUserToLobby (String name, String playerUid){
         mDatabase
                 .child(LOBBIES)
                 .child(name)
                 .child(NBR_PLAYER)
-                .setValue(nbrPlayers + 1);
+                .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                int nbrPlayers = Integer.parseInt(dataSnapshot.getValue().toString()) + 1;
+                mDatabase
+                        .child(LOBBIES)
+                        .child(name)
+                        .child(NBR_PLAYER)
+                        .setValue(nbrPlayers);
+                mDatabase
+                        .child(LOBBIES)
+                        .child(name)
+                        .child("playerUid" + (nbrPlayers))
+                        .setValue(playerUid);
+            }
+        });
     }
 
     /**
@@ -341,7 +352,7 @@ public final class Database {
      * @param playerUid the unique identifier of the scoring player
      * @param score     the new score of the player
      */
-    public void updateLobbyPlayerScore (String name, String playerUid,int score){
+    public void updateLobbyPlayerScore (String name, String playerUid, int score){
         for (int i = 1; i < MAX_NBR_PLAYERS + 1; i++) {
             int finalI = i;
             mDatabase
@@ -361,5 +372,19 @@ public final class Database {
                         }
                     });
         }
+    }
+
+    /**
+     * Updates the score of a player in the lobby
+     *
+     * @param name      the unique identifier given to the lobby
+     * @param password  the unique password given to the lobby
+     */
+    public Task checkLobbyId (String name, String password){
+        return mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child("password")
+                .get();
     }
 }
