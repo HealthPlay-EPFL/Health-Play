@@ -308,7 +308,7 @@ public final class Database {
      * @param nbrPlayers the current number of players in the lobby
      * @param playerUid  the unique identifier of the joining player
      */
-    public void addUserToLobby (String name, String playerUid){
+    public void addUserToLobby(String name, String playerUid){
         mDatabase
                 .child(LOBBIES)
                 .child(name)
@@ -337,7 +337,7 @@ public final class Database {
      * @param name          the unique identifier given to the lobby
      * @param remainingTime the new remaining time in the game
      */
-    public void updateLobbyTime (String name,int remainingTime){
+    public void updateLobbyTime (String name, int remainingTime){
         mDatabase
                 .child(LOBBIES)
                 .child(name)

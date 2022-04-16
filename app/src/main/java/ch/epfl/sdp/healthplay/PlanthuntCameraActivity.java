@@ -32,7 +32,8 @@ public class PlanthuntCameraActivity extends AppCompatActivity {
 
     private static Button collectionButton;
     private static Button captureButton;
-    private static Button lobbyButton;
+    private static Button createLobbyButton;
+    private static Button joinLobbyButton;
     private File photoFile;
 
     private static final String STORAGE_URL = "gs://health-play-9e161.appspot.com";
@@ -47,7 +48,8 @@ public class PlanthuntCameraActivity extends AppCompatActivity {
 
         captureButton = findViewById(R.id.buttonCapture);
         collectionButton = findViewById(R.id.buttonCollection);
-        lobbyButton = findViewById(R.id.buttonLobby);
+        createLobbyButton = findViewById(R.id.buttonCreateLobby);
+        joinLobbyButton = findViewById(R.id.buttonJoinlobby);
 
         //Get current user reference in Firebase
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -72,11 +74,20 @@ public class PlanthuntCameraActivity extends AppCompatActivity {
             }
         });
 
-        //Start new lobby activity when clicking on Create lobby button
-        lobbyButton.setOnClickListener(new View.OnClickListener() {
+        //Start new create lobby activity when clicking on Create lobby button
+        createLobbyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PlanthuntCameraActivity.this, PlanthuntCreateLobbyActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //Start new join lobby activity when clicking on Join lobby button
+        joinLobbyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PlanthuntCameraActivity.this, PlanthuntJoinLobbyActivity.class);
                 startActivity(intent);
             }
         });
