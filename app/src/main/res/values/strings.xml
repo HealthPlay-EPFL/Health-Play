@@ -176,6 +176,9 @@
     <string name="tfe_pe_tv_pose_classification">Pose Classification</string>
     <string name="tfe_pe_tv_tracking">Tracker: </string>
     <string name="tfe_pe_gpu_error">Movenet MultiPose does not support GPU. Fallback to CPU.</string>
+    <string name="CongratsTop5">(Congrats you made it to the top 5)</string>
+    <string name="NoUser">No user</string>
+    <string name="UnrankedTop5">(you are currently unranked)</string>
     <string-array name="tfe_pe_models_array">
         <item>Movenet Lightning</item>
         <item>Movenet Thunder</item>

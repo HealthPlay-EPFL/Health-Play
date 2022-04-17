@@ -115,7 +115,9 @@ public final class Database {
     /**
      * Adds the given number of calories to the user's statistics. The
      * difference with {@linkplain #writeCalorie(String, int)} is that
-     * this methods add to the current value contained for the day.
+     * this methods add to the current value contained for the day. Also
+     * update the leaderBoard if the new amount of HealthPoint is more than
+     * what the current top five of players have
      *
      * @param userId   the user ID
      * @param healthPoint the number of calories to add
@@ -386,7 +388,8 @@ public final class Database {
         };
 
     }
-    public void getLeaderBoard(OnCompleteListener<DataSnapshot> onCompleteListener) {
+
+    private void getLeaderBoard(OnCompleteListener<DataSnapshot> onCompleteListener) {
         mDatabase.child(Database.LEADERBOARD)
                 .get()
                 .addOnCompleteListener(onCompleteListener);

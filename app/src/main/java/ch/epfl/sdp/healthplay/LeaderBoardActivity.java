@@ -25,19 +25,28 @@ public class LeaderBoardActivity extends AppCompatActivity {
 
     private Database db = new Database();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private TextView[] tab  = new TextView[5];
+    private final static int MAX_RANK = 5;
+    private TextView[] tab  = new TextView[MAX_RANK];
 
+    /**
+     * Setup the the leaderBoard representing the current top 5 of players based on healthy.
+     * The leaderBoard is reset daily
+     * If you are not in the current top 5 but you still earned points that day, your rank will be shown in parentheses
+     * If you haven t earned any points that day, a message saying that you are unranked will appear
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_board);
-        ArrayList<String> l = new ArrayList<>();
+        /*ArrayList<String> l = new ArrayList<>();
         l.add("a");
         HashMap<String, ArrayList<String>> map = new HashMap<>();
         map.put("80",l);
         HashMap<String,HashMap<String, ArrayList<String>>> leaderBoard = new HashMap<>();
         leaderBoard.put(Database.getTodayDate(), map);
         db.mDatabase.child(Database.LEADERBOARD).setValue(leaderBoard);
+        */
         if(mAuth.getCurrentUser() != null) {
             db.addHealthPoint(mAuth.getCurrentUser().getUid(), 40);
             tab[0] = findViewById(R.id.top1);
@@ -46,7 +55,6 @@ public class LeaderBoardActivity extends AppCompatActivity {
             tab[3] = findViewById(R.id.top4);
             tab[4] = findViewById(R.id.top5);
             initTop5();
-
         }
     }
 
@@ -70,14 +78,14 @@ public class LeaderBoardActivity extends AppCompatActivity {
                             if(e.equals(mAuth.getUid())) {
                                 myTop = top;
                             }
-                            if (count < 5){
+                            if (count < MAX_RANK){
                                 tab[count].setText(top + " / " + e + " / " + hp);
                             }
                             count++;
                         }
                     }
-                    while(count < 5) {
-                            tab[count].setText("No user");
+                    while(count < MAX_RANK) {
+                            tab[count].setText(R.string.NoUser);
                             count++;
                     }
 
@@ -87,17 +95,17 @@ public class LeaderBoardActivity extends AppCompatActivity {
                             myTopText.setText("(you are currently rank " + myTop + ")");
                         }
                         else {
-                            myTopText.setText("(Congrats you made it to the top 5)");
+                            myTopText.setText(R.string.CongratsTop5);
                         }
                     }
                     else {
-                        myTopText.setText("(you are currently unranked)");
+                        myTopText.setText(R.string.UnrankedTop5);
                     }
                 }
                 else {
                     int count = 0;
-                    while(count < 5) {
-                        tab[count].setText("No user");
+                    while(count < MAX_RANK) {
+                        tab[count].setText(R.string.NoUser);
                         count++;
                     }
                 }
