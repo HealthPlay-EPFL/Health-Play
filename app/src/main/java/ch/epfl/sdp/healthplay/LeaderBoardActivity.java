@@ -48,7 +48,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
         db.mDatabase.child(Database.LEADERBOARD).setValue(leaderBoard);
         */
         if(mAuth.getCurrentUser() != null) {
-            db.addHealthPoint(mAuth.getCurrentUser().getUid(), 40);
+           // db.addHealthPoint(mAuth.getCurrentUser().getUid(), 40);
             tab[0] = findViewById(R.id.top1);
             tab[1] = findViewById(R.id.top2);
             tab[2] = findViewById(R.id.top3);
