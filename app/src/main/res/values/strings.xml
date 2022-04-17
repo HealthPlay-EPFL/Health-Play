@@ -1,15 +1,5 @@
 <resources>
-
-
-
-    <string name="birthday">Birthday</string>
-    <string name="name">Name</string>
-    <string name="weight_kg">Weight (kg)</string>
-    <string name="health_point">Health Point</string>
-    <string name="click_to_view_stats">(click to view stats)</string>
-    <string name="saved_night_mode">saved night mode</string>
-    <string name="see_graphs">See graphs</string>
-
+    
     <!-- Chooser -->
     <string name="title_auth_activity">Health-Play authentication</string>
     <string name="title_firestore_activity">Cloud Firestore Demo</string>
