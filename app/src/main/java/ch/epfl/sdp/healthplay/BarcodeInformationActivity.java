@@ -117,6 +117,7 @@ public class BarcodeInformationActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
+                    // Trick to change dp to px as this function takes in pixels as arguments
                     params.setMargins((int) (10 * Resources.getSystem().getDisplayMetrics().density), 0, 0, 0);
 
                     textView1.setLayoutParams(params);
