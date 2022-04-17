@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -15,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -268,7 +270,7 @@ public final class Database {
     public void addToFriendList(String friendUserId) {
         if(FirebaseAuth.getInstance().getCurrentUser() != null) {
             mDatabase.child(USERS)
-                    .child(FirebaseAuth.getInstance().getUid())
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child("friends")
                     .child(friendUserId)
                     .setValue(true);
@@ -361,5 +363,20 @@ public final class Database {
                         }
                     });
         }
+    }
+
+    /**
+     * Get the friend list of the user
+     * @return a map of String to Boolean
+     */
+    public Map<String, Boolean> getFriendList(){
+        Map<String, Boolean> outputMap = new HashMap<>();
+        readField(FirebaseAuth.getInstance().getCurrentUser().getUid(), "friends", new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                outputMap.putAll((Map<String, Boolean>) task.getResult().getValue());
+            }
+        });
+        return outputMap;
     }
 }
