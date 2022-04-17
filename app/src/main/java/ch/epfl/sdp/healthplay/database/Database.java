@@ -326,25 +326,8 @@ public final class Database {
     }
 
     private void updateLeaderBoard(String userId, int toRemove) {
-        mDatabase.child(LEADERBOARD_DATE).get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                Log.e("ERROR", "there is an error with the lb date");
-            }
-            else {
-                if(task.getResult().getValue().equals(getTodayDate())) {
-                    getStats(userId,getLambdaUpdate(userId, toRemove));
-                }
-                else {
-                    ArrayList<String> l = new ArrayList<>();
-                    l.add(userId);
-                    TreeMap<String, ArrayList<String>> leaderBoardOrdered = new TreeMap<>(Database.comparator);
-                    leaderBoardOrdered.put(String.valueOf(toRemove), l);
-                    mDatabase.child(LEADERBOARD).setValue(leaderBoardOrdered);
-                    mDatabase.child(LEADERBOARD_DATE).setValue(getTodayDate());
-                }
-            }
 
-        });
+        getStats(userId,getLambdaUpdate(userId, toRemove));
 
     }
 

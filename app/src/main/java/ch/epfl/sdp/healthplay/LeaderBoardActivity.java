@@ -31,8 +31,11 @@ public class LeaderBoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_board);
-        db.mDatabase.child(Database.LEADERBOARD_DATE).setValue("ahaha");
-
+        //ArrayList<String> l = new ArrayList<>();
+        //l.add("a");
+        //TreeMap<String, ArrayList<String>> leaderBoardOrdered = new TreeMap<>(Database.comparator);
+        //leaderBoardOrdered.put("80",l);
+        //db.mDatabase.child(Database.LEADERBOARD).setValue(leaderBoardOrdered);
         if(mAuth.getCurrentUser() != null) {
             db.addHealthPoint(mAuth.getCurrentUser().getUid(), 40);
             tab[0] = findViewById(R.id.top1);
@@ -41,7 +44,6 @@ public class LeaderBoardActivity extends AppCompatActivity {
             tab[3] = findViewById(R.id.top4);
             tab[4] = findViewById(R.id.top5);
             initTop5();
-            initDate(mAuth.getCurrentUser().getUid());
 
         }
     }
@@ -97,22 +99,5 @@ public class LeaderBoardActivity extends AppCompatActivity {
 
     }
 
-    public void initDate(String userId) {
-        db.mDatabase.child(Database.LEADERBOARD_DATE).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int count = 0;
-                while(count < 5) {
-                    tab[count].setText("No user");
-                    count++;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w("firebase", "Error:onCancelled", error.toException());
-            }
-        });
-    }
 
 }
