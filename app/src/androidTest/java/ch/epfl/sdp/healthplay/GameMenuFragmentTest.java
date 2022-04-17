@@ -57,28 +57,7 @@ public class GameMenuFragmentTest {
         Espresso.onView(withId(R.id.planthuntDescription)).check(matches(isDisplayed()));
     }
 
-    @Test
-    public void kneetagDescriptionCorrectlyDisplays() {
-        Espresso.onView(withId(R.id.kneetagThumbnail)).check(matches(allOf( isEnabled(), isClickable()))).perform(
-                new ViewAction() {
-                    @Override
-                    public Matcher<View> getConstraints() {
-                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
-                    }
 
-                    @Override
-                    public String getDescription() {
-                        return "click plus button";
-                    }
-
-                    @Override
-                    public void perform(UiController uiController, View view) {
-                        view.performClick();
-                    }
-                }
-        );
-        Espresso.onView(withId(R.id.kneetagDescription)).check(matches(isDisplayed()));
-    }
 
     @Test
     public void planthuntPlayCorrectlyLaunches() {
