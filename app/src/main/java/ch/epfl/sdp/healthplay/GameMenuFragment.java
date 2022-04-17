@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,9 +61,13 @@ public class GameMenuFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), PlanthuntDescriptionActivity.class);
+                        /*Intent intent = new Intent(getActivity(), PlanthuntDescriptionActivity.class);
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), planthuntDescriptionButton, ViewCompat.getTransitionName(planthuntDescriptionButton));
-                        startActivity(intent, options.toBundle());
+                        startActivity(intent, options.toBundle());*/
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.setReorderingAllowed(true);
+                        fragmentTransaction.replace(R.id.fragmentContainerView, new PlanthuntDescriptionFragment());
+                        fragmentTransaction.commit();
                     }
                 }
         );
@@ -73,9 +78,13 @@ public class GameMenuFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), KneetagDescriptionActivity.class);
+                        /*Intent intent = new Intent(getActivity(), KneetagDescriptionActivity.class);
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), kneetagButton, ViewCompat.getTransitionName(kneetagButton));
-                        startActivity(intent, options.toBundle());
+                        startActivity(intent, options.toBundle());*/
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.setReorderingAllowed(true);
+                        fragmentTransaction.replace(R.id.fragmentContainerView, new KneetagDescriptionFragment());
+                        fragmentTransaction.commit();
                     }
                 }
         );

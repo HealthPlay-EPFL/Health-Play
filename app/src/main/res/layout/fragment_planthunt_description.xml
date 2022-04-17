@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlanthuntDescriptionFragment">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/planthuntDescription"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/plantDescButtonBack"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:background="@null"
+            android:src="@drawable/planthunt_description"
+            android:transitionName="planthunt_transition" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="
+\n
+Plant-Hunt is an exploration game where each player or team has to collect as many points as possible from taking pictures of a maximum of rare plants.\n
+The more teams also found your plants, the less points you get for it.\n
+The plants are identified directly in the app using a wifi connection or you can store the pictures and get the results as soon as you get back online.\n
+The game can be played with any number of player from 1 to 100 years old.\n
+Good luck hunting!
+"
+            android:textAlignment="center"
+            android:textColor="?attr/text_color"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+</FrameLayout>
