@@ -63,7 +63,6 @@ public class LeaderBoardActivity extends AppCompatActivity {
         db.mDatabase.child(Database.LEADERBOARD).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 @SuppressWarnings("unchecked")
                 HashMap<String,HashMap<String, ArrayList<String>>> leaderBoard = (HashMap<String,HashMap<String, ArrayList<String>>>) snapshot.getValue();
                 if(leaderBoard != null && leaderBoard.containsKey(Database.getTodayDate())) {
