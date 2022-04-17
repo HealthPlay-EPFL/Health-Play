@@ -9,8 +9,6 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,7 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthPlay">
         <activity
-            android:name=".FriendListItemActivity"
+            android:name=".LeaderBoardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FriendListItemActivity"      
             android:exported="false" />
         <activity
             android:name=".EditProfilePictureActivity"
@@ -33,21 +34,15 @@
         <activity
             android:name=".PlanthuntCollectionActivity"
             android:exported="false" />
-        <activity android:name=".kneetag.MainActivity"
-            android:exported="true">
-        </activity>
+        <activity
+            android:name=".kneetag.MainActivity"
+            android:exported="true"></activity>
         <activity
             android:name=".BarcodeScanActivity"
             android:exported="true" />
-        <activity android:name=".PlanthuntCameraActivity">
-
-        </activity>
-        <activity android:name=".PlanthuntDescriptionActivity">
-
-        </activity>
-        <activity android:name=".PlanthuntResultActivity">
-
-        </activity>
+        <activity android:name=".PlanthuntCameraActivity"></activity>
+        <activity android:name=".PlanthuntDescriptionActivity"></activity>
+        <activity android:name=".PlanthuntResultActivity"></activity>
         <activity
             android:name=".ProfileSettingsActivity"
             android:exported="true" />
@@ -82,7 +77,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".api.PlantnetApi"
             android:exported="false" />
@@ -97,5 +91,4 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
-
 </manifest>

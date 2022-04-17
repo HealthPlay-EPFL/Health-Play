@@ -223,6 +223,7 @@ public class ProfileActivity extends AppCompatActivity {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             } else {
+                @SuppressWarnings("unchecked")
                 Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>)task.getResult().getValue();
                 updateStats(map, userId);
             }

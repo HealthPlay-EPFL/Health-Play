@@ -106,17 +106,9 @@ public class DatabaseTest {
         stats.put(Database.HEALTH_POINT, healthPoint);
         return null;
     }
-    public Task<DataSnapshot> incrCalories(String calories, Map<String, String> stats) {
-        stats.put(Database.CALORIE_COUNTER, calories);
-        return null;
-    }
+
     public Task<DataSnapshot> putCalories() {
         stats.put(Database.CALORIE_COUNTER, "50");
-        return null;
-    }
-
-    public Task<DataSnapshot> putHealthPoint() {
-        stats.put(Database.HEALTH_POINT, currentHealthPoint);
         return null;
     }
 
@@ -218,6 +210,26 @@ public class DatabaseTest {
     }
 
     @Test
+    public void addHealthPointTest() {
+
+        addMap = new HashMap<String, Map<String, Number>>();
+        Map<String, Number> map1 = new HashMap<>();
+        map1.put(Database.CALORIE_COUNTER, 40);
+        map1.put(Database.HEALTH_POINT, 40);
+        addMap.put(Database.getTodayDate(), map1);
+
+        when(dbr.child(Database.USERS).child(userId).child(Database.STATS).get()).thenReturn(t1);
+        when(t1.isSuccessful()).thenReturn(true);
+        when(t1.getResult()).thenReturn(ds);
+        when(ds.getValue()).thenReturn(addMap);
+        when(dbr.child(Database.USERS).child(userId).child(Database.STATS).child(Database.HEALTH_POINT).setValue(75))
+                .thenReturn(putHealthPointStats("75", stats));
+        Database db = new Database(dbr);
+        db.addHealthPoint(userId, 35);
+        assertEquals("75", stats.get(Database.HEALTH_POINT));
+    }
+
+    @Test
     public void addCaloriesTest() {
 
         addMap = new HashMap<String, Map<String, Number>>();
@@ -237,25 +249,6 @@ public class DatabaseTest {
         assertEquals("75", stats.get(Database.CALORIE_COUNTER));
     }
 
-    @Test
-    public void addHealthPointTest() {
-
-        addMap = new HashMap<String, Map<String, Number>>();
-        Map<String, Number> map1 = new HashMap<>();
-        map1.put(Database.CALORIE_COUNTER, 40);
-        map1.put(Database.HEALTH_POINT, 40);
-        addMap.put(Database.getTodayDate(), map1);
-
-        when(dbr.child(Database.USERS).child(userId).child(Database.STATS).get()).thenReturn(t1);
-        when(t1.isSuccessful()).thenReturn(true);
-        when(t1.getResult()).thenReturn(ds);
-        when(ds.getValue()).thenReturn(addMap);
-        when(dbr.child(Database.USERS).child(userId).child(Database.STATS).child(Database.HEALTH_POINT).setValue(75))
-                .thenReturn(putCaloriesStats("75", stats));
-        Database db = new Database(dbr);
-        db.addHealthPoint(userId, 35);
-        assertEquals("35", stats.get(Database.HEALTH_POINT));
-    }
 
     @Test
     public void readFieldTest() {
@@ -310,13 +303,5 @@ public class DatabaseTest {
         assertEquals("a-01-01", map.get(userId).getBirthday());
         assertEquals(10, map.get(userId).getAge());
     }
-
-
-
-
-
-
-
-
-
+    
 }
