@@ -15,9 +15,8 @@ import ch.epfl.sdp.healthplay.database.Lobby;
 
 public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
 
-    private FirebaseUser user;
     private static Button lobbyButton;
-    private static final int TEST_1 = 180, TEST_2 = 123, TEST_3 = 789, TEST_4 = 456;
+    private static final int TEST_1 = 180;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +44,6 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
                 //Initialize new lobby with received values
                 Lobby newLobby = new Lobby(name, password, username, TEST_1);
                 db.writeNewLobby(newLobby.getName(), newLobby.getPassword(), newLobby.getPlayerUid1(), newLobby.getRemainingTime());
-                /*db.addUserToLobby(newLobby.getName(), newLobby.getNbrPlayers(), "testPlayer1");
-                newLobby.addPlayer();
-                db.addUserToLobby(newLobby.getName(), newLobby.getNbrPlayers(), "testPlayer2");
-                newLobby.addPlayer();
-                db.updateLobbyTime(newLobby.getName(), TEST_2);
-                db.updateLobbyPlayerScore(newLobby.getName(), uid, TEST_3);
-                db.updateLobbyPlayerScore(newLobby.getName(), "whatever", TEST_4);*/
             }
         });
 

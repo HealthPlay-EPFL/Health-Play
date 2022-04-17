@@ -378,7 +378,7 @@ public final class Database {
     }
 
     /**
-     * Updates the score of a player in the lobby
+     * Checks if lobby exists and given password matches correct one
      *
      * @param name      the unique identifier given to the lobby
      * @param password  the unique password given to the lobby

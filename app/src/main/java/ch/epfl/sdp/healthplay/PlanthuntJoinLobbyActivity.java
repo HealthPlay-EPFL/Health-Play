@@ -20,8 +20,6 @@ import ch.epfl.sdp.healthplay.database.Lobby;
 
 public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
 
-    //private static final int TEST_1 = 180, TEST_2 = 123, TEST_3 = 789, TEST_4 = 456;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +39,9 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Get Strings from input fields
-                String name = editName.getText().toString();
-                String password = editPassword.getText().toString();
-                String username = editUsername.getText().toString();
+                String name = getString(editName);
+                String password = getString(editPassword);
+                String username = getString(editUsername);
 
                 Task checkId = db.checkLobbyId(name, password);
                 checkId.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
@@ -56,12 +54,12 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                         }
                     }
                 });
-                /*db.addUserToLobby(newLobby.getName(), newLobby.getNbrPlayers(), "testPlayer2");
-                newLobby.addPlayer();
-                db.updateLobbyTime(newLobby.getName(), TEST_2);
-                db.updateLobbyPlayerScore(newLobby.getName(), uid, TEST_3);
-                db.updateLobbyPlayerScore(newLobby.getName(), "whatever", TEST_4);*/
+
             }
         });
+    }
+
+    private String getString(EditText text){
+        return text.getText().toString();
     }
 }
