@@ -179,6 +179,11 @@
     <string name="tfe_pe_tv_pose_classification">Pose Classification</string>
     <string name="tfe_pe_tv_tracking">Tracker: </string>
     <string name="tfe_pe_gpu_error">Movenet MultiPose does not support GPU. Fallback to CPU.</string>
+
+    <string name="CongratsTop5">(Congrats you made it to the top 5)</string>
+    <string name="NoUser">No user</string>
+    <string name="UnrankedTop5">(you are currently unranked)</string>
+
     <string name="go_to_calendar">Go to Calendar</string>
     <string name="add_friend">Add Friend</string>
     <string name="enter_the_name_of_your_friend">Enter the name of your friend</string>
@@ -187,8 +192,10 @@
     <string name="name_of_your_friend">Name of your friend</string>
     <string name="friendname">friendName</string>
     <string name="remove_friend">Remove Friend</string>
+
     <string name="image_of_the_product">Image of the product</string>
     <string name="nutriscore_of_the_product">Nutriscore of the product</string>
+
     <string-array name="tfe_pe_models_array">
         <item>Movenet Lightning</item>
         <item>Movenet Thunder</item>

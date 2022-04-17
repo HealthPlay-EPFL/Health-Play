@@ -133,6 +133,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.202" />
         <entry key="app/src/main/res/drawable/rounded_button.xml" value="0.202" />
         <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.16818642350557245" />
+        <entry key="app/src/main/res/layout/activity_leader_board.xml" value="0.31487731933593754" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_profile_settings.xml" value="0.22509057971014493" />
         <entry key="app/src/main/res/layout/activity_profile_setup.xml" value="0.1" />
