@@ -1,17 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LeaderBoardActivity">
+    tools:context=".LeaderBoardActivity"
+    android:orientation="horizontal">
 
 
     <TextView
         android:id="@+id/top1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1 : hahahahahahahhaha">
+        android:text="1 : hahaha">
     </TextView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/top2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="2 : hahaha">
+    </TextView>
+
+    <TextView
+        android:id="@+id/top3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="3 : hahaha">
+    </TextView>
+
+    <TextView
+        android:id="@+id/top4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="4 : hahaha">
+    </TextView>
+
+    <TextView
+        android:id="@+id/top5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="5 : hahaha">
+    </TextView>
+
+    <TextView
+        android:id="@+id/myTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="(you are currently unranked)">
+    </TextView>
+
+</RelativeLayout>

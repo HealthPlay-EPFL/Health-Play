@@ -41,6 +41,7 @@ public final class Database {
     public static final String REMAINING_TIME = "remainingTime";
     public static final String STATUS = "status";
     public static final String LEADERBOARD = "leaderBoard";
+    public static final String LEADERBOARD_DATE = "leaderBoardDate";
     public static final int MAX_NBR_PLAYERS = 3;
 
     public final DatabaseReference mDatabase;
@@ -49,13 +50,7 @@ public final class Database {
     public static final String USERS = "users";
     public static final String LOBBIES = "lobbies";
 
-    public static Comparator<String> comparator = new Comparator<String>() {
-
-        @Override
-        public int compare(String o1, String o2) {
-            return Long.compare(Long.parseLong(o2), Long.parseLong(o1));
-        }
-    };
+    public static Comparator<String> comparator = (o1, o2) -> Long.compare(Long.parseLong(o2), Long.parseLong(o1));
 
     // Format used to format date when adding stats
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -331,7 +326,26 @@ public final class Database {
     }
 
     private void updateLeaderBoard(String userId, int toRemove) {
-        getStats(userId,getLambdaUpdate(userId, toRemove));
+        mDatabase.child(LEADERBOARD_DATE).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("ERROR", "there is an error with the lb date");
+            }
+            else {
+                if(task.getResult().getValue().equals(getTodayDate())) {
+                    getStats(userId,getLambdaUpdate(userId, toRemove));
+                }
+                else {
+                    ArrayList<String> l = new ArrayList<>();
+                    l.add(userId);
+                    TreeMap<String, ArrayList<String>> leaderBoardOrdered = new TreeMap<>(Database.comparator);
+                    leaderBoardOrdered.put(String.valueOf(toRemove), l);
+                    mDatabase.child(LEADERBOARD).setValue(leaderBoardOrdered);
+                    mDatabase.child(LEADERBOARD_DATE).setValue(getTodayDate());
+                }
+            }
+
+        });
+
     }
 
     private OnCompleteListener<DataSnapshot> getLambdaUpdate(String userId, int toRemove) {
@@ -356,7 +370,6 @@ public final class Database {
                             @SuppressWarnings("unchecked")
                             HashMap<String, ArrayList<String>> leaderBoard = (HashMap<String, ArrayList<String>>)t.getResult().getValue();
                             if(leaderBoard != null) {
-
                                 TreeMap<String, ArrayList<String>> leaderBoardOrdered = new TreeMap<>(Database.comparator);
                                 leaderBoardOrdered.putAll(leaderBoard);
                                 ArrayList<String> l = leaderBoardOrdered.containsKey(hp) ? leaderBoardOrdered.get(hp) : new ArrayList<>();
@@ -374,6 +387,7 @@ public final class Database {
                     });
 
                 }
+
             }
         };
 
@@ -383,6 +397,5 @@ public final class Database {
                 .get()
                 .addOnCompleteListener(onCompleteListener);
     }
-
 
 }
