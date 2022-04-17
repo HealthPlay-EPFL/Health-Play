@@ -1,6 +1,7 @@
 package ch.epfl.sdp.healthplay.database;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -12,10 +13,17 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
+
+import ch.epfl.sdp.healthplay.LeaderBoardActivity;
+import ch.epfl.sdp.healthplay.R;
 
 public final class Database {
 
@@ -32,6 +40,7 @@ public final class Database {
     public static final String NBR_PLAYER = "nbrPlayers";
     public static final String REMAINING_TIME = "remainingTime";
     public static final String STATUS = "status";
+    public static final String LEADERBOARD = "leaderBoard";
     public static final int MAX_NBR_PLAYERS = 3;
 
     public final DatabaseReference mDatabase;
@@ -39,6 +48,14 @@ public final class Database {
     public static final String STATS = "stats";
     public static final String USERS = "users";
     public static final String LOBBIES = "lobbies";
+
+    public static Comparator<String> comparator = new Comparator<String>() {
+
+        @Override
+        public int compare(String o1, String o2) {
+            return Long.compare(Long.parseLong(o2), Long.parseLong(o1));
+        }
+    };
 
     // Format used to format date when adding stats
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -108,6 +125,7 @@ public final class Database {
      */
     public void addHealthPoint(String userId, int healthPoint) {
         getStats(userId, getLambda(userId, healthPoint, HEALTH_POINT));
+        updateLeaderBoard(userId, healthPoint);
     }
 
     public void writeAge(String userId, int age) {
@@ -311,5 +329,60 @@ public final class Database {
             });
         }
     }
+
+    private void updateLeaderBoard(String userId, int toRemove) {
+        getStats(userId,getLambdaUpdate(userId, toRemove));
+    }
+
+    private OnCompleteListener<DataSnapshot> getLambdaUpdate(String userId, int toRemove) {
+        return task -> {
+            if (!task.isSuccessful()) {
+                Log.e("ERROR", "EREREREROOORORO");
+            }
+
+            @SuppressWarnings("unchecked")
+            Map<String, Map<String, Number>> mapStats = (Map<String, Map<String, Number>>) task.getResult().getValue();
+
+            if (mapStats != null && mapStats.containsKey(Database.getTodayDate())) {
+                Map<String, Number> currentStats = mapStats.get(Database.getTodayDate());
+                String hp;
+                if (currentStats != null && currentStats.containsKey(Database.HEALTH_POINT)) {
+                    hp = String.valueOf(currentStats.get(Database.HEALTH_POINT));
+
+                    getLeaderBoard(t -> {
+                        if (!t.isSuccessful()) {
+                            Log.e("firebase", "Error getting data", t.getException());
+                        } else {
+                            @SuppressWarnings("unchecked")
+                            HashMap<String, ArrayList<String>> leaderBoard = (HashMap<String, ArrayList<String>>)t.getResult().getValue();
+                            if(leaderBoard != null) {
+
+                                TreeMap<String, ArrayList<String>> leaderBoardOrdered = new TreeMap<>(Database.comparator);
+                                leaderBoardOrdered.putAll(leaderBoard);
+                                ArrayList<String> l = leaderBoardOrdered.containsKey(hp) ? leaderBoardOrdered.get(hp) : new ArrayList<>();
+                                String hpPre = String.valueOf(Long.parseLong(hp) - toRemove);
+                                ArrayList<String> lPre = leaderBoardOrdered.containsKey(hpPre) ? leaderBoardOrdered.get(hpPre) : new ArrayList<>();
+                                lPre.remove(userId);
+                                l.add(userId);
+                                leaderBoardOrdered.put(hp,l);
+                                mDatabase.child(LEADERBOARD).setValue(leaderBoardOrdered);
+                            }
+
+                        }
+
+
+                    });
+
+                }
+            }
+        };
+
+    }
+    public void getLeaderBoard(OnCompleteListener<DataSnapshot> onCompleteListener) {
+        mDatabase.child(Database.LEADERBOARD)
+                .get()
+                .addOnCompleteListener(onCompleteListener);
+    }
+
 
 }
