@@ -1,6 +1,7 @@
 package ch.epfl.sdp.healthplay;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -93,8 +95,44 @@ public class BarcodeInformationActivity extends AppCompatActivity {
         TextView pEnergy = findViewById(R.id.pEnergy);
         pEnergy.setText(energy.get());
 
-        TextView pGenericName = findViewById(R.id.pGenericName);
-        pGenericName.setText(p.getGenericName());
+        if (p != null) {
+            TextView pGenericName = findViewById(R.id.pGenericName);
+            pGenericName.setText(p.getGenericName());
+            LinearLayout parentLayout = findViewById(R.id.informationLayout);
+
+            for (Product.Nutriments nutriments: Product.Nutriments.values()) {
+
+                double serving = p.getNutrimentServing(nutriments);
+                if (serving > 0) {
+                    // Create new layout for the new fields
+                    LinearLayout linearLayout = new LinearLayout(this);
+                    linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+                    parentLayout.addView(linearLayout);
+
+                    // Get the text of the nutriment
+                    TextView textView1 = new TextView(this);
+                    textView1.setText(String.format("%s:", nutriments.getName()));
+                    textView1.setTextSize(20);
+
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+                    params.setMargins((int) (10 * Resources.getSystem().getDisplayMetrics().density), 0, 0, 0);
+
+                    textView1.setLayoutParams(params);
+
+                    linearLayout.addView(textView1);
+
+                    TextView textView2 = new TextView(this);
+                    textView2.setText(String.format(
+                            Double.toString(p.getNutrimentServing(nutriments)), Locale.ENGLISH));
+                    textView2.setTextSize(20);
+                    textView2.setLayoutParams(params);
+
+                    linearLayout.addView(textView2);
+                }
+            }
+        }
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 

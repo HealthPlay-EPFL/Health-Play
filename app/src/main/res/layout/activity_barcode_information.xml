@@ -92,63 +92,78 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/quantity_name"
-                    android:layout_width="80dp"
-                    android:layout_height="28dp"
-                    android:text="Quantity:"
-                    android:textSize="20sp"
-                    android:layout_marginStart="10dp"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.138"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.526"
-                    tools:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/quantity_name2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="28dp"
-                    android:text="1"
-                    android:textAlignment="center"
-                    android:textSize="20sp"
-                    android:layout_marginStart="10dp"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.526"
-                    tools:visibility="visible" />
-            </LinearLayout>
-
 
             <LinearLayout
+                android:id="@+id/informationLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="80dp"
-                    android:layout_height="28dp"
-                    android:text="@string/product_energy_label"
-                    android:textSize="20sp"
-                    android:layout_marginStart="10dp" />
-                <TextView
-                    android:id="@+id/pEnergy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:textSize="20sp" />
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/quantity_name"
+                        android:layout_width="80dp"
+                        android:layout_height="28dp"
+                        android:text="Quantity:"
+                        android:textSize="20sp"
+                        android:layout_marginStart="10dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.138"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.526"
+                        tools:visibility="visible" />
 
+                    <TextView
+                        android:id="@+id/quantity_name2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="28dp"
+                        android:text="1"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:layout_marginStart="10dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.498"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.526"
+                        tools:visibility="visible" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="80dp"
+                        android:layout_height="28dp"
+                        android:text="@string/product_energy_label"
+                        android:textSize="20sp"
+                        android:layout_marginStart="10dp" />
+                    <TextView
+                        android:id="@+id/pEnergy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:textSize="20sp"
+                        android:layout_marginStart="10dp" />
+
+                    <TextView
+                        android:id="@+id/pEnergyUnit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:textSize="20sp"
+                        android:layout_marginStart="10dp"
+                        android:text="KCal (per 100g)"/>
+                </LinearLayout>
+            </LinearLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
