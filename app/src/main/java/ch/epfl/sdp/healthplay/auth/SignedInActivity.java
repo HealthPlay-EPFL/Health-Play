@@ -44,7 +44,9 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.TwitterAuthProvider;
 import com.google.firebase.auth.UserInfo;
 
+import ch.epfl.sdp.healthplay.EditProfilePictureActivity;
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
+import ch.epfl.sdp.healthplay.LeaderBoardActivity;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.databinding.SignedInLayoutBinding;
@@ -103,6 +105,11 @@ public class SignedInActivity extends AppCompatActivity {
     public void onClickLight(View view) {
         setMode(AppCompatDelegate.MODE_NIGHT_NO);
         setTheme(R.style.AppTheme);
+    }
+
+    public void onClickLeaderBoard(View view) {
+        Intent intent = new Intent(this, LeaderBoardActivity.class);
+        startActivity(intent);
     }
 
     public static void SetMode(Context activity) {
