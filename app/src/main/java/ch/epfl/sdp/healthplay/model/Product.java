@@ -30,13 +30,13 @@ public final class Product {
 
     // JSON object containing the information of the product
     private final JSONObject product;
-    // This map contains the
-    private final Map<String, Object> nutriments = new HashMap<>();
+    // This map contains the nutriments
+    private final JSONObject nutriments;
 
     private Product(String json) throws JSONException {
         // This also checks that the JSON contains the "product" name.
         product = new JSONObject(json).getJSONObject("product");
-        nutriments.putAll((Map<String, Object>) product.getJSONObject(NUTRIMENTS));
+        nutriments = product.getJSONObject(NUTRIMENTS);
     }
 
     /**
@@ -104,7 +104,11 @@ public final class Product {
      * @return the value for 100g of the product for the given nutriment
      */
     public double getNutriment100Grams(Nutriments nutriment) {
-        return (double) nutriments.getOrDefault(nutriment.name+nutriment.G_100, UNKNOWN_VALUE);
+        try {
+            return nutriments.getDouble(nutriment.name + Nutriments.G_100);
+        } catch (JSONException e) {
+            return UNKNOWN_VALUE;
+        }
     }
 
     /**
@@ -117,7 +121,11 @@ public final class Product {
      * @return the value of the product for the given nutriment
      */
     public double getNutrimentServing(Nutriments nutriment) {
-        return (double) nutriments.getOrDefault(nutriment.name+nutriment.SERVING, UNKNOWN_VALUE);
+        try {
+            return nutriments.getDouble(nutriment.name + Nutriments.SERVING);
+        } catch (JSONException e) {
+            return UNKNOWN_VALUE;
+        }
     }
 
     /**
@@ -130,7 +138,11 @@ public final class Product {
      * @return the value of the product for the given nutriment
      */
     public String getNutrimentUnit(Nutriments nutriment) {
-        return (String) nutriments.getOrDefault(nutriment.name+nutriment.UNIT, UNKNOWN_NAME);
+        try {
+            return nutriments.getString(nutriment.name + Nutriments.UNIT);
+        } catch (JSONException e) {
+            return UNKNOWN_NAME;
+        }
     }
 
     /**
@@ -143,7 +155,28 @@ public final class Product {
      * @return the value of the product for the given nutriment
      */
     public double getNutrimentValue(Nutriments nutriment) {
-        return (double) nutriments.getOrDefault(nutriment.name+nutriment.VALUE, UNKNOWN_VALUE);
+        try {
+            return nutriments.getDouble(nutriment.name + Nutriments.VALUE);
+        } catch (JSONException e) {
+            return UNKNOWN_VALUE;
+        }
+    }
+
+    /**
+     * Get the value (without any extensions) for the given nutriment (i.e. the whole product)
+     * of the product for if present. Returns -1 if the value for the
+     * given nutriment is not present. <br>
+     * See {@link Nutriments} to see all the available nutriments.
+     *
+     * @param nutriment the nutriment
+     * @return the value of the product for the given nutriment
+     */
+    public double getNutriment(Nutriments nutriment) {
+        try {
+            return nutriments.getDouble(nutriment.name);
+        } catch (JSONException e) {
+            return UNKNOWN_VALUE;
+        }
     }
 
     /**
@@ -158,7 +191,7 @@ public final class Product {
      */
     public enum Nutriments {
         ENERGY("energy"),
-        ENERGY_KCAL("energy_kcal"),
+        ENERGY_KCAL("energy-kcal"),
         PROTEINS("proteins"),
         CASEIN("casein"),
         SERUM_PROTEIN("serum-proteins"),
@@ -267,6 +300,7 @@ public final class Product {
     }
 }
 /*
+Here is an example of the nutriments one can get
 {
    "calcium":0.038,
    "calcium_100g":0.038,
