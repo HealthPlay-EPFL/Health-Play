@@ -31,11 +31,13 @@ public class LeaderBoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_board);
-        //ArrayList<String> l = new ArrayList<>();
-        //l.add("a");
-        //TreeMap<String, ArrayList<String>> leaderBoardOrdered = new TreeMap<>(Database.comparator);
-        //leaderBoardOrdered.put("80",l);
-        //db.mDatabase.child(Database.LEADERBOARD).setValue(leaderBoardOrdered);
+        ArrayList<String> l = new ArrayList<>();
+        l.add("a");
+        HashMap<String, ArrayList<String>> map = new HashMap<>();
+        map.put("80",l);
+        HashMap<String,HashMap<String, ArrayList<String>>> leaderBoard = new HashMap<>();
+        leaderBoard.put(Database.getTodayDate(), map);
+        db.mDatabase.child(Database.LEADERBOARD).setValue(leaderBoard);
         if(mAuth.getCurrentUser() != null) {
             db.addHealthPoint(mAuth.getCurrentUser().getUid(), 40);
             tab[0] = findViewById(R.id.top1);
@@ -55,10 +57,10 @@ public class LeaderBoardActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 @SuppressWarnings("unchecked")
-                HashMap<String, ArrayList<String>> leaderBoard = (HashMap<String, ArrayList<String>>) snapshot.getValue();
-                if(leaderBoard != null) {
+                HashMap<String,HashMap<String, ArrayList<String>>> leaderBoard = (HashMap<String,HashMap<String, ArrayList<String>>>) snapshot.getValue();
+                if(leaderBoard != null && leaderBoard.containsKey(Database.getTodayDate())) {
                     TreeMap<String, ArrayList<String>> leaderBoardOrdered = new TreeMap<>(Database.comparator);
-                    leaderBoardOrdered.putAll(leaderBoard);
+                    leaderBoardOrdered.putAll(leaderBoard.get(Database.getTodayDate()));
                     int count = 0;
                     int myTop = 0;
                     for (TreeMap.Entry<String, ArrayList<String>> entry : leaderBoardOrdered.entrySet()) {
@@ -87,6 +89,16 @@ public class LeaderBoardActivity extends AppCompatActivity {
                         else {
                             myTopText.setText("(Congrats you made it to the top 5)");
                         }
+                    }
+                    else {
+                        myTopText.setText("(you are currently unranked)");
+                    }
+                }
+                else {
+                    int count = 0;
+                    while(count < 5) {
+                        tab[count].setText("No user");
+                        count++;
                     }
                 }
             }

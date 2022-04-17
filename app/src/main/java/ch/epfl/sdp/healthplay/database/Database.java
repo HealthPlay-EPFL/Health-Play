@@ -11,6 +11,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -351,17 +353,26 @@ public final class Database {
                             Log.e("firebase", "Error getting data", t.getException());
                         } else {
                             @SuppressWarnings("unchecked")
-                            HashMap<String, ArrayList<String>> leaderBoard = (HashMap<String, ArrayList<String>>)t.getResult().getValue();
-                            if(leaderBoard != null) {
-                                TreeMap<String, ArrayList<String>> leaderBoardOrdered = new TreeMap<>(Database.comparator);
-                                leaderBoardOrdered.putAll(leaderBoard);
-                                ArrayList<String> l = leaderBoardOrdered.containsKey(hp) ? leaderBoardOrdered.get(hp) : new ArrayList<>();
+                            HashMap<String,HashMap<String, ArrayList<String>>> leaderBoard = (HashMap<String,HashMap<String, ArrayList<String>>>)t.getResult().getValue();
+                            if(leaderBoard != null && leaderBoard.containsKey(getTodayDate())) {
+
+                                ArrayList<String> l = leaderBoard.get(getTodayDate()).containsKey(hp) ? leaderBoard.get(getTodayDate()).get(hp) : new ArrayList<>();
                                 String hpPre = String.valueOf(Long.parseLong(hp) - toRemove);
-                                ArrayList<String> lPre = leaderBoardOrdered.containsKey(hpPre) ? leaderBoardOrdered.get(hpPre) : new ArrayList<>();
+                                ArrayList<String> lPre = leaderBoard.get(getTodayDate()).containsKey(hpPre) ? leaderBoard.get(getTodayDate()).get(hpPre) : new ArrayList<>();
                                 lPre.remove(userId);
                                 l.add(userId);
-                                leaderBoardOrdered.put(hp,l);
-                                mDatabase.child(LEADERBOARD).setValue(leaderBoardOrdered);
+                                leaderBoard.get(getTodayDate()).put(hp,l);
+                                mDatabase.child(LEADERBOARD).setValue(leaderBoard);
+                            }
+                            else if(leaderBoard != null) {
+                                HashMap<String, ArrayList<String>> map = new HashMap<>();
+                                ArrayList<String> l = new ArrayList<>();
+                                l.add(userId);
+                                map.put(hp, l);
+                                leaderBoard = new HashMap<>();
+                                leaderBoard.put(getTodayDate(), map);
+                                mDatabase.child(LEADERBOARD).setValue(leaderBoard);
+
                             }
 
                         }
