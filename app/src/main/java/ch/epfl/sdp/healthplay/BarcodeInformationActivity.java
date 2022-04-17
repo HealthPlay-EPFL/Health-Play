@@ -1,17 +1,23 @@
 package ch.epfl.sdp.healthplay;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -24,8 +30,9 @@ import ch.epfl.sdp.healthplay.model.ProductInfoClient;
 
 public class BarcodeInformationActivity extends AppCompatActivity {
 
-    private final AtomicReference<String> productName = new AtomicReference<>("Unknown");
-    private final AtomicReference<String> energy = new AtomicReference<>("Unknown");
+    private final AtomicReference<String> productName = new AtomicReference<>(Product.UNKNOWN_NAME);
+    private final AtomicReference<String> energy = new AtomicReference<>(Product.UNKNOWN_NAME);
+    private Product p;
     private FirebaseUser user;
 
     public static final String EXTRA_MESSAGE = "ch.epfl.sdp.healthplay.MESSAGE";
@@ -38,9 +45,24 @@ public class BarcodeInformationActivity extends AppCompatActivity {
                 Optional<Product> p = Product.of(client.getInfo());
                 if (p.isPresent()) {
                     Product product = p.get();
+                    this.p = product;
                     productName.set(product.getName());
                     int value = product.getKCalEnergy();
                     energy.set(value < 0 ? "Unknown" : Integer.toString(value));
+
+                    // Load the image of the product into the view
+                    ImageView image = findViewById(R.id.pImage);
+                    String imageUrl = product.getImageURL();
+                    if (!imageUrl.equals(Product.UNKNOWN_NAME)) {
+                        URL url = new URL(product.getImageURL());
+                        Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                        image.setImageBitmap(bitmap);
+                    }
+
+                    image = findViewById(R.id.imageNutriscore);
+                    int imageRes = product.getNutriscore().getRes();
+                    image.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(),
+                            imageRes));
                 }
 
             } catch (IOException ignored) {
@@ -70,6 +92,9 @@ public class BarcodeInformationActivity extends AppCompatActivity {
 
         TextView pEnergy = findViewById(R.id.pEnergy);
         pEnergy.setText(energy.get());
+
+        TextView pGenericName = findViewById(R.id.pGenericName);
+        pGenericName.setText(p.getGenericName());
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 

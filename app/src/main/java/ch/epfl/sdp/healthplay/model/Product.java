@@ -3,9 +3,13 @@ package ch.epfl.sdp.healthplay.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+
+import ch.epfl.sdp.healthplay.R;
 
 /**
  * Class representing a product
@@ -27,6 +31,8 @@ public final class Product {
 
     private static final String NUTRIMENTS = "nutriments";
     private static final String ENERGY_KCAL = "energy-kcal";
+    private static final String IMAGE_URL = "image_url";
+    private static final String NUTRISCORE_GRADE = "nutriscore_grade";
 
     // JSON object containing the information of the product
     private final JSONObject product;
@@ -92,6 +98,19 @@ public final class Product {
             return product.getJSONObject(NUTRIMENTS).getInt(ENERGY_KCAL);
         } catch (JSONException e) {
             return UNKNOWN_VALUE;
+        }
+    }
+
+    /**
+     * Get the string to the image url of the product
+     *
+     * @return the string of the image url. If non, returns UNKNOWN
+     */
+    public String getImageURL() {
+        try {
+            return product.getString(IMAGE_URL);
+        } catch (JSONException e) {
+            return UNKNOWN_NAME;
         }
     }
 
@@ -180,10 +199,66 @@ public final class Product {
     }
 
     /**
+     * Get the nutriscore of the product
+     *
+     * @return the nutriscore of the product
+     */
+    public Nutriscore getNutriscore() {
+        try {
+            return Nutriscore.getFromString(product.getString(NUTRISCORE_GRADE));
+        } catch (JSONException e) {
+            return Nutriscore.UNKNOWN;
+        }
+    }
+
+    /**
      * Enum representing the nutriscore of a product
      */
     public enum Nutriscore {
-        A, B, C, D, E, UNKNOWN
+        A(R.drawable.ic_nutriscore_a),
+        B(R.drawable.ic_nutriscore_b),
+        C(R.drawable.ic_nutriscore_c),
+        D(R.drawable.ic_nutriscore_d),
+        E(R.drawable.ic_nutriscore_e),
+        UNKNOWN(R.drawable.ic_nutriscore_unknown);
+
+        private final int res;
+
+        Nutriscore(int res) {
+            this.res = res;
+        }
+
+        /**
+         * Get the resource id for the image of the nutriscore
+         *
+         * @return the resource id for the image of the nutriscore
+         */
+        public int getRes() {
+            return res;
+        }
+
+        /**
+         * Gets the nutriscore given a string represenation of that score
+         *
+         * @param score the string representation of the score
+         * @return the nutriscore
+         */
+        public static Nutriscore getFromString(String score) {
+            switch (score.toLowerCase()) {
+                case "a":
+                    return A;
+                case "b":
+                    return B;
+                case "c":
+                    return C;
+                case "d":
+                    return D;
+                case "e":
+                    return E;
+                default:
+                    return UNKNOWN;
+            }
+        }
     }
 
     /**
