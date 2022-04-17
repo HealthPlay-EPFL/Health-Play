@@ -90,7 +90,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
 
                     TextView myTopText = findViewById(R.id.myTop);
                     if(myTop > 0) {
-                        if(myTop > 5) {
+                        if(myTop > MAX_RANK) {
                             myTopText.setText("(you are currently rank " + myTop + ")");
                         }
                         else {

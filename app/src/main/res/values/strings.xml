@@ -1,5 +1,5 @@
 <resources>
-    
+
     <!-- Chooser -->
     <string name="title_auth_activity">Health-Play authentication</string>
     <string name="title_firestore_activity">Cloud Firestore Demo</string>
