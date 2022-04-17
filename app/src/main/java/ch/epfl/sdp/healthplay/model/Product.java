@@ -3,6 +3,8 @@ package ch.epfl.sdp.healthplay.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -28,10 +30,13 @@ public final class Product {
 
     // JSON object containing the information of the product
     private final JSONObject product;
+    // This map contains the
+    private final Map<String, Object> nutriments = new HashMap<>();
 
     private Product(String json) throws JSONException {
         // This also checks that the JSON contains the "product" name.
         product = new JSONObject(json).getJSONObject("product");
+        nutriments.putAll((Map<String, Object>) product.getJSONObject(NUTRIMENTS));
     }
 
     /**
@@ -79,6 +84,8 @@ public final class Product {
      * Get the amount of KCal per 100g within the product
      *
      * @return the amount of energy in the product in KCal
+     * @deprecated this method does the same since the introduction of the
+     * {@linkplain #getNutriment100Grams(Nutriments)}
      */
     public int getKCalEnergy() {
         try {
@@ -86,6 +93,57 @@ public final class Product {
         } catch (JSONException e) {
             return UNKNOWN_VALUE;
         }
+    }
+
+    /**
+     * Get the value for 100g of the product for the given nutriment if present. Returns
+     * -1 if the value for the given nutriment is not present.<br>
+     * See {@link Nutriments} to see all the available nutriments.
+     *
+     * @param nutriment the nutriment
+     * @return the value for 100g of the product for the given nutriment
+     */
+    public double getNutriment100Grams(Nutriments nutriment) {
+        return (double) nutriments.getOrDefault(nutriment.name+nutriment.G_100, UNKNOWN_VALUE);
+    }
+
+    /**
+     * Get the value for the serving size (i.e. the whole product) of the product for
+     * the given nutriment if present. Returns -1 if the value for the
+     * given nutriment is not present. <br>
+     * See {@link Nutriments} to see all the available nutriments.
+     *
+     * @param nutriment the nutriment
+     * @return the value of the product for the given nutriment
+     */
+    public double getNutrimentServing(Nutriments nutriment) {
+        return (double) nutriments.getOrDefault(nutriment.name+nutriment.SERVING, UNKNOWN_VALUE);
+    }
+
+    /**
+     * Get the unit for the given nutriment of the product.
+     * if present. Returns "UNKNOWN" if the value for the
+     * given nutriment is not present. <br>
+     * See {@link Nutriments} to see all the available nutriments.
+     *
+     * @param nutriment the nutriment
+     * @return the value of the product for the given nutriment
+     */
+    public String getNutrimentUnit(Nutriments nutriment) {
+        return (String) nutriments.getOrDefault(nutriment.name+nutriment.UNIT, UNKNOWN_NAME);
+    }
+
+    /**
+     * Get the value for the given nutriment (i.e. the whole product) of the product for
+     * if present. Returns -1 if the value for the
+     * given nutriment is not present. <br>
+     * See {@link Nutriments} to see all the available nutriments.
+     *
+     * @param nutriment the nutriment
+     * @return the value of the product for the given nutriment
+     */
+    public double getNutrimentValue(Nutriments nutriment) {
+        return (double) nutriments.getOrDefault(nutriment.name+nutriment.VALUE, UNKNOWN_VALUE);
     }
 
     /**
