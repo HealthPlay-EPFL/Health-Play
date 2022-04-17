@@ -12,7 +12,7 @@
         android:id="@+id/top1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1 : hahaha">
+        >
     </TextView>
 
     <TextView
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="2 : hahaha">
+        >
     </TextView>
 
     <TextView
@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="3 : hahaha">
+        >
     </TextView>
 
     <TextView
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
-        android:text="4 : hahaha">
+        >
     </TextView>
 
     <TextView
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="5 : hahaha">
+        >
     </TextView>
 
     <TextView
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="(you are currently unranked)">
+        >
     </TextView>
 
 </RelativeLayout>
