@@ -192,14 +192,14 @@
     <string name="name_of_your_friend">Name of your friend</string>
     <string name="friendname">friendName</string>
     <string name="remove_friend">Remove Friend</string>
-<<<<<<< HEAD
+
     <string name="start">START</string>
 =======
 
     <string name="image_of_the_product">Image of the product</string>
     <string name="nutriscore_of_the_product">Nutriscore of the product</string>
 
->>>>>>> 6f55cf327acd0fed0f3778747958b8f2af98688a
+
     <string-array name="tfe_pe_models_array">
         <item>Movenet Lightning</item>
         <item>Movenet Thunder</item>
