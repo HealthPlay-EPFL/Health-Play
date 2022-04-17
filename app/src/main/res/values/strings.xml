@@ -187,6 +187,7 @@
     <string name="name_of_your_friend">Name of your friend</string>
     <string name="friendname">friendName</string>
     <string name="remove_friend">Remove Friend</string>
+    <string name="start">START</string>
     <string-array name="tfe_pe_models_array">
         <item>Movenet Lightning</item>
         <item>Movenet Thunder</item>
@@ -204,5 +205,13 @@
         <item>Off</item>
         <item>BoundingBox</item>
         <item>Keypoint</item>
+    </string-array>
+
+    <string-array name="numbers">
+        <item>One</item>
+        <item>Two</item>
+        <item>Three</item>
+        <item>Four</item>
+        <item>Five</item>
     </string-array>
 </resources>

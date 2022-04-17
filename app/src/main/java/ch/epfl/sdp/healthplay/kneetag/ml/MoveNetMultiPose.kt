@@ -58,6 +58,9 @@ class MoveNetMultiPose(
     private var scaleWidth: Int = 0
     private var lastInferenceTimeNanos: Long = -1
     private var tracker: AbstractTracker? = null
+    public var leftPerson: Person? = null
+    public var rightPerson: Person? = null
+    public var started = false
 
     companion object {
         private const val DYNAMIC_MODEL_TARGET_INPUT_SIZE = 256
@@ -90,9 +93,6 @@ class MoveNetMultiPose(
                         gpuDelegate = GpuDelegate()
                         options.addDelegate(gpuDelegate)
                     }
-                }
-                else -> {
-                    // nothing to do
                 }
             }
             return MoveNetMultiPose(
@@ -191,7 +191,7 @@ class MoveNetMultiPose(
     private fun postProcess(modelOutput: FloatArray): List<Person> {
 
         val persons = mutableListOf<Person>()
-        for (idx in (0..min(modelOutput.indices.last,outputShape[2])) step outputShape[2]) {
+        for (idx in (0..min(modelOutput.indices.last, outputShape[2])) step outputShape[2]) {
             val personScore = modelOutput[idx + DETECTION_SCORE_INDEX]
             if (personScore < DETECTION_THRESHOLD) continue
             val positions = modelOutput.copyOfRange(idx, idx + 51)
@@ -214,6 +214,20 @@ class MoveNetMultiPose(
                     score = personScore
                 )
             )
+            if (persons.size == 2) {
+
+                if (persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x < persons[0].keyPoints[BodyPart.NOSE.position].coordinate.y) {
+                    leftPerson = persons[0]
+                    rightPerson = persons[1]
+                } else {
+                    leftPerson = persons[0]
+                    rightPerson = persons[1]
+                }
+            }else{
+                leftPerson = null
+                rightPerson = null
+            }
+
         }
 
         if (persons.isEmpty()) return emptyList()
@@ -254,22 +268,6 @@ class MoveNetMultiPose(
         }
     }
 
-    /**
-     * Create and set tracker.
-     */
-    fun setTracker(trackerType: TrackerType) {
-        tracker = when (trackerType) {
-            TrackerType.BOUNDING_BOX -> {
-                BoundingBoxTracker()
-            }
-            TrackerType.KEYPOINTS -> {
-                KeyPointsTracker()
-            }
-            TrackerType.OFF -> {
-                null
-            }
-        }
-    }
 
     /**
      * Run TFlite model and Returns a list of "Person" corresponding to the input image.
@@ -309,6 +307,3 @@ enum class Type {
     Dynamic, Fixed
 }
 
-enum class TrackerType {
-    OFF, BOUNDING_BOX, KEYPOINTS
-}

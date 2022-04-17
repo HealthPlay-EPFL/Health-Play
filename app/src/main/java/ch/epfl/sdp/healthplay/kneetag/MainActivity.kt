@@ -1,5 +1,3 @@
-
-
 package ch.epfl.sdp.healthplay.kneetag
 
 import android.Manifest
@@ -10,11 +8,9 @@ import android.os.Bundle
 import android.os.Process
 import android.util.Log
 import android.view.SurfaceView
+import android.view.View
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.CompoundButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -22,6 +18,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.healthplay.R
 import ch.epfl.sdp.healthplay.database.Database
+import ch.epfl.sdp.healthplay.database.Friend
 import ch.epfl.sdp.healthplay.kneetag.camera.CameraSource
 import ch.epfl.sdp.healthplay.kneetag.data.Device
 import ch.epfl.sdp.healthplay.kneetag.ml.PoseClassifier
@@ -35,37 +32,34 @@ import org.tensorflow.lite.examples.poseestimation.ml.MoveNetMultiPose
 import org.tensorflow.lite.examples.poseestimation.ml.Type
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     companion object {
         private const val FRAGMENT_DIALOG = "dialog"
+
     }
 
     /** A [SurfaceView] for camera preview.   */
     private lateinit var surfaceView: SurfaceView
 
-    /** Default pose estimation model is 1 (MoveNet Thunder)
-     * 0 == MoveNet Lightning model
-     * 1 == MoveNet Thunder model
-     * 2 == MoveNet MultiPose model
-     * 3 == PoseNet model
-     **/
     private var modelPos = 0
 
     /** Default device is CPU */
     private var device = Device.CPU
-
+    private var friends: MutableList<String> = mutableListOf();
     private lateinit var tvScore: TextView
     private lateinit var tvFPS: TextView
     private lateinit var database: Database
 
-    private val mAuth = FirebaseAuth.getInstance()
 
+    private val mAuth = FirebaseAuth.getInstance()
+    private lateinit var poseDetector: MoveNetMultiPose
     private lateinit var tvClassificationValue1: TextView
     private lateinit var tvClassificationValue2: TextView
     private lateinit var tvClassificationValue3: TextView
-
+    private val friendList: MutableList<Friend> = ArrayList()
     private var cameraSource: CameraSource? = null
     private var isClassifyPose = false
+    private var name: String = ""
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -86,28 +80,31 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
-
-
-
-
-
-
-
-    private var setClassificationListener =
-        CompoundButton.OnCheckedChangeListener { _, isChecked ->
-
-            isClassifyPose = isChecked
-            isPoseClassifier()
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        database=Database()
+        // Inflate the layout for this fragment
+        database = Database()
         val user = mAuth.currentUser
 
         if (user != null) {
             initUsername(user.uid)
+        }
+
+        // Get the Friend List of the current User
+        if (user != null) {
+            database.readField(
+                user.getUid(), "friends"
+            ) { task ->
+                val mut = task.result.value as Map<String, Boolean>
+                friends.addAll(mut.keys)
+                for (friend in mut.keys) {
+
+                    friendList.add(Friend(friend))
+
+
+                }
+
+            }
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -120,31 +117,79 @@ class MainActivity : AppCompatActivity() {
         tvClassificationValue1 = findViewById(R.id.tvClassificationValue1)
         tvClassificationValue2 = findViewById(R.id.tvClassificationValue2)
         tvClassificationValue3 = findViewById(R.id.tvClassificationValue3)
+        friends = mutableListOf("Anonymous", "YOU")
+        var spinner = findViewById<Spinner>(R.id.friends)
 
+        val adapter: ArrayAdapter<String> =
+            ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, friends)
+//set the spinners adapter to the previously created one.
+//set the spinners adapter to the previously created one.
+        spinner.setAdapter(adapter)
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = this
+        var spinnerCopy = findViewById<Spinner>(R.id.friendsCopy)
+        spinnerCopy.adapter = adapter
+        spinnerCopy.onItemSelectedListener = this
         if (!isCameraPermissionGranted()) {
             requestPermission()
         }
 
+        //It's the button to launch the kneetag Game
+        val kneetagLaunchButton: Button = findViewById<Button>(R.id.startGame)
+        kneetagLaunchButton.setOnClickListener {
+            var text = "The 2 players are not valid"
+            val left = spinner.selectedItem.toString()
+            val right = spinnerCopy.selectedItem.toString()
+            if (check(left) and check(right)){
+                text="Unranked game started"
+                poseDetector.started = true
+
+                }
+
+            if((left=="YOU" && !check(right)) or (right=="YOU" && !check(left))) {
+                poseDetector.started = true
+                text="Ranked game started"
+            }
+
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+
+        }
 
     }
+
+    fun check(string: String): Boolean {
+        return string == "" || string == "YOU"
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+        val text = parent.getItemAtPosition(position).toString()
+        Toast.makeText(parent.context, text, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onStart() {
         super.onStart()
         openCamera()
     }
+
     private fun initUsername(userId: String) {
-        val TextViewUsername = findViewById<TextView>(R.id.profileUsername)
-        database.readField(userId, Database.USERNAME, OnCompleteListener { task: Task<DataSnapshot> ->
-            if (!task.isSuccessful) {
-                Log.e("firebase", "Error getting data", task.exception)
-            } else {
-                findViewById<Button>(R.id.profileUsername).text = task.result.value.toString()
-            }
-        })
+
+        database.readField(
+            userId,
+            Database.USERNAME,
+            OnCompleteListener { task: Task<DataSnapshot> ->
+                if (!task.isSuccessful) {
+                    Log.e("firebase", "Error getting data", task.exception)
+                } else {
+
+                    name = task.result.value.toString()
+                }
+            })
 
     }
 
-        override fun onResume() {
+    override fun onResume() {
         cameraSource?.resume()
         super.onResume()
     }
@@ -163,6 +208,7 @@ class MainActivity : AppCompatActivity() {
             Process.myUid()
         ) == PackageManager.PERMISSION_GRANTED
     }
+
 
     // open camera
     private fun openCamera() {
@@ -216,44 +262,23 @@ class MainActivity : AppCompatActivity() {
         cameraSource?.setClassifier(if (isClassifyPose) PoseClassifier.create(this) else null)
     }
 
-    // Initialize spinners to let user select model/accelerator/tracker.
-    private fun initSpinner() {
-    }
-
-
-
-
-
-
-
     private fun createPoseEstimator() {
         // For MoveNet MultiPose, hide score and disable pose classifier as the model returns
         // multiple Person instances.
-        val poseDetector = when (modelPos) {
+        poseDetector =
 
-            0 -> {
 
-                // Movenet MultiPose Dynamic does not support GPUDelegate
-                if (device == Device.GPU) {
-                    showToast(getString(R.string.tfe_pe_gpu_error))
-                }
+            MoveNetMultiPose.create(
+                this,
+                device,
+                Type.Dynamic
+            )
 
-                MoveNetMultiPose.create(
-                    this,
-                    device,
-                    Type.Dynamic
-                )
-            }
-
-            else -> {
-                null
-            }
-        }
-        poseDetector?.let { detector ->
+        poseDetector.let { detector ->
             cameraSource?.setDetector(detector)
         }
-    }
 
+    }
 
 
     private fun requestPermission() {
@@ -275,9 +300,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-    }
 
     /**
      * Shows an error message dialog.
