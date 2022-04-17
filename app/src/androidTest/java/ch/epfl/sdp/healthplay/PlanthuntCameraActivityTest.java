@@ -39,7 +39,7 @@ public class PlanthuntCameraActivityTest {
 
 
 
-    @Test
+    @Test()
     public void collectionIsCorrectlyLaunched(){
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntCameraActivity.class);
 

@@ -34,7 +34,8 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.526" />
+        app:layout_constraintVertical_bias="0.526"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/quantity_name"
@@ -48,7 +49,8 @@
         app:layout_constraintHorizontal_bias="0.138"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.526" />
+        app:layout_constraintVertical_bias="0.526"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/pName"
@@ -91,12 +93,14 @@
         android:text="+"
         android:textSize="34sp"
         android:visibility="invisible"
+        android:backgroundTint="@color/colorPrimaryVariant"
         app:layout_constraintBottom_toTopOf="@+id/incr_button2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.956" />
+        app:layout_constraintVertical_bias="0.956"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/incr_button2"
@@ -105,17 +109,20 @@
         android:layout_marginBottom="36dp"
         android:onClick="decrement"
         android:text="-"
+        android:backgroundTint="@color/colorPrimaryVariant"
         android:textSize="34sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/add_to_counter_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/add_to_counter_button"
         android:layout_width="215dp"
         android:layout_height="56dp"
+        android:backgroundTint="@color/colorPrimaryVariant"
         android:onClick="addToUser"
         android:text="Add to my counter"
         android:visibility="invisible"
@@ -123,5 +130,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.917" />
+        app:layout_constraintVertical_bias="0.917"
+        tools:ignore="TextContrastCheck"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
