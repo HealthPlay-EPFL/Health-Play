@@ -95,7 +95,7 @@ public final class Database {
      * @param calories the number of calories to add
      */
     public void addCalorie(String userId, int calories) {
-        getStats(userId, getLambdaCalorie(userId, calories));
+        getStats(userId, getLambda(userId, calories, CALORIE_COUNTER));
     }
 
     /**
@@ -107,30 +107,7 @@ public final class Database {
      * @param healthPoint the number of calories to add
      */
     public void addHealthPoint(String userId, int healthPoint) {
-        getStats(userId, task -> {
-            if (!task.isSuccessful()) {
-                Log.e("ERROR", "EREREREROOORORO");
-            }
-            int toAdd = healthPoint;
-            @SuppressWarnings("unchecked")
-            Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>) task.getResult().getValue();
-            // This bellow is to check the existence of the wanted calories
-            // for today's date
-            if (map != null && map.containsKey(getTodayDate())) {
-                Map<String, Number> calo = map.get(getTodayDate());
-                long currentHealthPoint;
-                if (calo != null && calo.containsKey(HEALTH_POINT)) {
-                    currentHealthPoint = Long.parseLong(String.valueOf(calo.get(HEALTH_POINT)));
-                    toAdd += currentHealthPoint;
-                }
-            }
-            mDatabase.child(USERS)
-                    .child(userId)
-                    .child(STATS)
-                    .child(getTodayDate())
-                    .child(HEALTH_POINT)
-                    .setValue(toAdd);
-        });
+        getStats(userId, getLambda(userId, healthPoint, HEALTH_POINT));
     }
 
     public void writeAge(String userId, int age) {
@@ -232,12 +209,12 @@ public final class Database {
         return format.format(new Date());
     }
 
-    private OnCompleteListener<DataSnapshot> getLambdaCalorie(String userId, int calories) {
+    private OnCompleteListener<DataSnapshot> getLambda(String userId, int inc, String field) {
         return task -> {
             if (!task.isSuccessful()) {
                 Log.e("ERROR", "EREREREROOORORO");
             }
-            int toAdd = calories;
+            int toAdd = inc;
             @SuppressWarnings("unchecked")
             Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>) task.getResult().getValue();
             // This bellow is to check the existence of the wanted calories
@@ -245,8 +222,8 @@ public final class Database {
             if (map != null && map.containsKey(getTodayDate())) {
                 Map<String, Number> calo = map.get(getTodayDate());
                 long currentCalories;
-                if (calo != null && calo.containsKey(CALORIE_COUNTER)) {
-                    currentCalories = Long.parseLong(String.valueOf(calo.get(CALORIE_COUNTER)));
+                if (calo != null && calo.containsKey(field)) {
+                    currentCalories = Long.parseLong(String.valueOf(calo.get(field)));
                     toAdd += currentCalories;
                 }
             }
@@ -254,7 +231,7 @@ public final class Database {
                     .child(userId)
                     .child(STATS)
                     .child(getTodayDate())
-                    .child(CALORIE_COUNTER)
+                    .child(field)
                     .setValue(toAdd);
         };
 
