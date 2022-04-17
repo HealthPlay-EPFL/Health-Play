@@ -20,6 +20,9 @@
             android:name=".LeaderBoardActivity"
             android:exported="false" />
         <activity
+            android:name=".FriendListItemActivity"      
+            android:exported="false" />
+        <activity
             android:name=".EditProfilePictureActivity"
             android:exported="false" />
         <activity
@@ -88,5 +91,3 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
-
-</manifest>

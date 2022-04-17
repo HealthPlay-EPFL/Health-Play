@@ -1,12 +1,15 @@
-package ch.epfl.sdp.healthplay;
+/*package ch.epfl.sdp.healthplay;
 
 import static org.junit.Assert.*;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
@@ -16,6 +19,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -45,11 +49,28 @@ public class BarcodeScanActivityTest {
         IdlingRegistry.getInstance().unregister(BarcodeScanActivity.idlingResource);
     }
 
-    @Test
+    @Test(expected=IllegalArgumentException.class)
     public void testOnClick() throws InterruptedException {
-
+        TimeUnit.SECONDS.sleep(1);
         ViewInteraction button = Espresso.onView(ViewMatchers.withId(R.id.get_information_from_barcode));
-        button.perform(ViewActions.click());
+        button.perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
 
         TimeUnit.SECONDS.sleep(1);
         // Check if the intent is the correct destination
@@ -61,10 +82,27 @@ public class BarcodeScanActivityTest {
     public void testEnterManually() {
 
         ViewInteraction button = Espresso.onView(ViewMatchers.withId(R.id.enter_manually_button));
-        button.perform(ViewActions.click());
+        button.perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );;
 
         // Check if the intent is the correct destination
         //Intents.intended(IntentMatchers.hasComponent("ch.epfl.sdp.healthplay"));
 
     }
-}
+}*/
