@@ -7,6 +7,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.stringContainsInOrder;
 
 import android.content.Intent;
 import android.view.View;
@@ -96,7 +97,24 @@ public class BarcodeInformationActivityTest {
             closeSoftKeyboard();
             ViewInteraction button = Espresso.onView(withId(R.id.incr_button));
             // Click increment
-            button.perform(ViewActions.click());
+            button.check(matches(allOf( isEnabled(), isClickable()))).perform(
+                    ViewActions.scrollTo(), new ViewAction() {
+                        @Override
+                        public Matcher<View> getConstraints() {
+                            return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                        }
+
+                        @Override
+                        public String getDescription() {
+                            return "click plus button";
+                        }
+
+                        @Override
+                        public void perform(UiController uiController, View view) {
+                            view.performClick();
+                        }
+                    }
+            );
 
             Espresso.onView(withId(R.id.pEnergy)).check(
                     ViewAssertions.matches(
@@ -107,7 +125,7 @@ public class BarcodeInformationActivityTest {
             button = Espresso.onView(withId(R.id.incr_button2));
             // Click decrement
             button.check(matches(allOf( isEnabled(), isClickable()))).perform(
-                    new ViewAction() {
+                    ViewActions.scrollTo(), new ViewAction() {
                         @Override
                         public Matcher<View> getConstraints() {
                             return ViewMatchers.isEnabled(); // no constraints, they are checked above
@@ -142,7 +160,7 @@ public class BarcodeInformationActivityTest {
             ViewInteraction button = Espresso.onView(withId(R.id.add_to_counter_button));
             // Click increment
             button.check(matches(allOf( isEnabled(), isClickable()))).perform(
-                    new ViewAction() {
+                    ViewActions.scrollTo(), new ViewAction() {
                         @Override
                         public Matcher<View> getConstraints() {
                             return ViewMatchers.isEnabled(); // no constraints, they are checked above
