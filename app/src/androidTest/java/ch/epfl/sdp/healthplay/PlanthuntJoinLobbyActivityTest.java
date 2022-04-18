@@ -22,23 +22,23 @@ import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class PlanthuntCreateLobbyActivityTest {
+public class PlanthuntJoinLobbyActivityTest {
     private static final String NAME = "test";
     private static final String PASSWORD = "password";
 
 
     @Rule
-    public ActivityScenarioRule<PlanthuntCreateLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntCreateLobbyActivity.class);
+    public ActivityScenarioRule<PlanthuntJoinLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntJoinLobbyActivity.class);
 
     @Test
-    public void lobbyIsCorrectlyCreated() {
-        ViewInteraction textName = Espresso.onView(withId(R.id.createLobbyName));
+    public void lobbyIsCorrectlyJoined() {
+        ViewInteraction textName = Espresso.onView(withId(R.id.joinLobbyName));
         textName.perform(ViewActions.typeText(NAME));
         Espresso.closeSoftKeyboard();
-        ViewInteraction textPassword = Espresso.onView(withId(R.id.createLobbyPassword));
+        ViewInteraction textPassword = Espresso.onView(withId(R.id.joinLobbyPassword));
         textPassword.perform(ViewActions.typeText(PASSWORD));
         Espresso.closeSoftKeyboard();
-        Espresso.onView(withId(R.id.createLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+        Espresso.onView(withId(R.id.joinLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
@@ -57,6 +57,6 @@ public class PlanthuntCreateLobbyActivityTest {
                 }
         );
 
-        Espresso.onView(withId(R.id.createLobbyButton)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.joinLobbyButton)).check(matches(isDisplayed()));
     }
 }

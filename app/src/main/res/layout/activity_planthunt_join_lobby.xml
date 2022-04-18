@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlanthuntCreateLobbyActivity">
+    tools:context=".PlanthuntJoinLobbyActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,12 +25,12 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:layout_marginTop="50dp"
-                android:text="Create new lobby"
+                android:text="Join existing lobby"
                 android:textAlignment="center"
                 android:textSize="48sp" />
 
             <EditText
-                android:id="@+id/createLobbyName"
+                android:id="@+id/joinLobbyName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -41,7 +41,7 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/createLobbyPassword"
+                android:id="@+id/joinLobbyPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -51,7 +51,7 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/createLobbyUsername"
+                android:id="@+id/joinLobbyUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -62,13 +62,13 @@
                 android:inputType="textPersonName" />
 
             <Button
-                android:id="@+id/createLobbyButton"
+                android:id="@+id/joinLobbyButton"
                 android:layout_width="200dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="100dp"
                 android:backgroundTint="@color/material_purple_a700"
-                android:text="Create lobby" />
+                android:text="Join lobby" />
         </LinearLayout>
     </LinearLayout>
 
