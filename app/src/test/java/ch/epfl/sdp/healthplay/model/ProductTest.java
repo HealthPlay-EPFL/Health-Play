@@ -80,4 +80,58 @@ public class ProductTest {
         Product p = optionalProduct.get();
         assertEquals(Product.UNKNOWN_VALUE, p.getKCalEnergy());
     }
+
+    @Test
+    public void testNutrimentName() {
+        Product.Nutriments nutriment = Product.Nutriments.ALCOHOL;
+        assertEquals(nutriment.getName(), "alcohol");
+    }
+
+    @Test
+    public void testGet100Grams() {
+        Optional<Product> optionalProduct = Product.of(CORRECT_JSON);
+        assertTrue(optionalProduct.isPresent());
+        Product p = optionalProduct.get();
+        //"energy-kcal"
+        for (Product.Nutriments nutriment: Product.Nutriments.values()) {
+            assertEquals(Product.UNKNOWN_VALUE, p.getNutriment100Grams(nutriment), 0.1);
+        }
+    }
+
+    @Test
+    public void testGetServing() {
+        Optional<Product> optionalProduct = Product.of(CORRECT_JSON);
+        assertTrue(optionalProduct.isPresent());
+        Product p = optionalProduct.get();
+        assertEquals(Product.UNKNOWN_VALUE, p.getNutrimentServing(Product.Nutriments.ENERGY_KCAL),
+                0.1);
+    }
+
+    @Test
+    public void testGetUnit() {
+        Optional<Product> optionalProduct = Product.of(CORRECT_JSON);
+        assertTrue(optionalProduct.isPresent());
+        Product p = optionalProduct.get();
+        assertEquals(Product.UNKNOWN_NAME, p.getNutrimentUnit(Product.Nutriments.ENERGY_KCAL));
+    }
+
+    @Test
+    public void testGetValue() {
+        Optional<Product> optionalProduct = Product.of(CORRECT_JSON);
+        assertTrue(optionalProduct.isPresent());
+        Product p = optionalProduct.get();
+        assertEquals(Product.UNKNOWN_VALUE, p.getNutrimentValue(Product.Nutriments.ENERGY_KCAL),
+                0.1);
+    }
+
+    @Test
+    public void testGet() {
+        Optional<Product> optionalProduct = Product.of(CORRECT_JSON);
+        assertTrue(optionalProduct.isPresent());
+        Product p = optionalProduct.get();
+        assertEquals(385, p.getNutriment(Product.Nutriments.ENERGY_KCAL),
+                0.1);
+        assertEquals(Product.UNKNOWN_VALUE, p.getNutriment(Product.Nutriments.SALT),
+                0.1);
+    }
 }
