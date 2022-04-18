@@ -17,6 +17,9 @@ package="ch.epfl.sdp.healthplay">
     android:supportsRtl="true"
     android:theme="@style/Theme.HealthPlay">
     <activity
+        android:name=".AddFriendListItem"
+        android:exported="false" />
+    <activity
         android:name=".FriendListItemActivity"
         android:exported="false" />
     <activity
@@ -76,14 +79,12 @@ package="ch.epfl.sdp.healthplay">
         android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
-
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
     <activity
         android:name=".api.PlantnetApi"
         android:exported="false" />
-
     <provider
         android:name="androidx.core.content.FileProvider"
         android:authorities="ch.epfl.sdp.healthplay.fileprovider"

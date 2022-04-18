@@ -96,7 +96,6 @@ public class EditProfilePictureActivity extends AppCompatActivity {
                         ImageView imageView = findViewById(R.id.edit_profile_picture);
                         Glide.with(getApplicationContext()).load(image).into(imageView);
                     }
-
                 }
             }
             @Override

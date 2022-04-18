@@ -12,8 +12,8 @@
 
         <EditText
             android:id="@+id/friendSearch"
-            android:layout_width="411dp"
-            android:layout_height="191dp"
+            android:layout_width="414dp"
+            android:layout_height="88dp"
             android:clickable="true"
             android:cursorVisible="true"
             android:focusable="true"
@@ -26,30 +26,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/AddFriend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="158dp"
-            android:layout_marginEnd="159dp"
-            android:layout_marginBottom="455dp"
-            android:text="@string/add_friend"
-            android:backgroundTint="?attr/gradientPrimary_color"
+        <LinearLayout
+            android:layout_width="411dp"
+            android:layout_height="645dp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.482"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/friendSearch"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/friendSearch">
 
-        <Button
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?attr/gradientPrimary_color"
-            android:text="@string/go_back"
-            tools:layout_editor_absoluteX="163dp"
-            tools:layout_editor_absoluteY="325dp"
-            tools:ignore="MissingConstraints" />
+            <ListView
+                android:id="@+id/allUserList"
+                android:layout_width="match_parent"
+                android:layout_height="547dp"
+                android:smoothScrollbar="false" />
+
+            <Button
+                android:id="@+id/AddFriend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="?attr/gradientPrimary_color"
+                android:text="@string/add_friend" />
+
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="?attr/gradientPrimary_color"
+                android:text="@string/go_back"
+                tools:ignore="MissingConstraints" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

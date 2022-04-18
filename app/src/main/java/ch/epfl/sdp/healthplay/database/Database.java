@@ -267,7 +267,7 @@ public final class Database {
     public void addToFriendList(String friendUserId) {
         if(FirebaseAuth.getInstance().getCurrentUser() != null) {
             mDatabase.child(USERS)
-                    .child(FirebaseAuth.getInstance().getUid())
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child("friends")
                     .child(friendUserId)
                     .setValue(true);
@@ -372,7 +372,21 @@ public final class Database {
     }
 
     /**
-     * Checks if lobby exists and given password matches correct one
+     * Get the friend list of the user
+     * @return a map of String to Boolean
+     */
+    public Map<String, Boolean> getFriendList() {
+        Map<String, Boolean> outputMap = new HashMap<>();
+        readField(FirebaseAuth.getInstance().getCurrentUser().getUid(), "friends", new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                outputMap.putAll((Map<String, Boolean>) task.getResult().getValue());
+            }
+        });
+        return outputMap;
+    }
+
+     /** Checks if lobby exists and given password matches correct one
      *
      * @param name      the unique identifier given to the lobby
      * @param password  the unique password given to the lobby
@@ -385,6 +399,11 @@ public final class Database {
                 .get();
     }
 
+    /**
+     * Update the LeaderBoard
+     * @param userId
+     * @param toRemove
+     */
     private void updateLeaderBoard(String userId, int toRemove) {
 
         getStats(userId,getLambdaUpdate(userId, toRemove));
@@ -450,5 +469,4 @@ public final class Database {
                 .get()
                 .addOnCompleteListener(onCompleteListener);
     }
-
 }
