@@ -1,95 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ch.epfl.sdp.healthplay">
+package="ch.epfl.sdp.healthplay">
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission
+    android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    android:maxSdkVersion="18" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.HealthPlay">
-        <activity
-            android:name=".PlanthuntJoinLobbyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".FriendListItemActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EditProfilePictureActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PlanthuntCreateLobbyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PlanthuntCollectionItemActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PlanthuntCollectionActivity"
-            android:exported="false" />
-        <activity
-            android:name=".kneetag.MainActivity"
-            android:exported="true"></activity>
-        <activity
-            android:name=".BarcodeScanActivity"
-            android:exported="true" />
-        <activity android:name=".PlanthuntCameraActivity"></activity>
-        <activity android:name=".PlanthuntDescriptionActivity"></activity>
-        <activity android:name=".PlanthuntResultActivity"></activity>
-        <activity
-            android:name=".ProfileSettingsActivity"
-            android:exported="true" />
-        <activity
-            android:name=".HomeScreenActivity"
-            android:exported="true" />
-        <activity
-            android:name=".KneetagDescriptionActivity"
-            android:exported="false" />
-        <activity
-            android:name=".auth.AuthUiActivity"
-            android:exported="true" />
-        <activity
-            android:name=".auth.SignedInActivity"
-            android:exported="false" />
-        <activity
-            android:name=".BarcodeInformationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProductInfoActivity"
-            android:exported="true" />
-        <activity
-            android:name=".auth.ProfileActivity"
-            android:exported="false"
-            android:parentActivityName=".HomeScreenActivity" />
-        <activity
-            android:name=".WelcomeScreenActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<application
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:supportsRtl="true"
+    android:theme="@style/Theme.HealthPlay">
+    <activity
+        android:name=".FriendListItemActivity"
+        android:exported="false" />
+    <activity
+        android:name=".EditProfilePictureActivity"
+        android:exported="false" />
+    <activity
+        android:name=".PlanthuntCreateLobbyActivity"
+        android:exported="false" />
+    <activity
+        android:name=".PlanthuntJoinLobbyActivity"
+        android:exported="false" />
+    <activity
+        android:name=".PlanthuntCollectionItemActivity"
+        android:exported="false" />
+    <activity
+        android:name=".PlanthuntCollectionActivity"
+        android:exported="false" />
+    <activity
+        android:name=".kneetag.MainActivity"
+        android:exported="true"></activity>
+    <activity
+        android:name=".BarcodeScanActivity"
+        android:exported="true" />
+    <activity android:name=".PlanthuntCameraActivity"></activity>
+    <activity android:name=".PlanthuntDescriptionActivity"></activity>
+    <activity android:name=".PlanthuntResultActivity"></activity>
+    <activity
+        android:name=".ProfileSettingsActivity"
+        android:exported="true" />
+    <activity
+        android:name=".HomeScreenActivity"
+        android:exported="true" />
+    <activity
+        android:name=".KneetagDescriptionActivity"
+        android:exported="false" />
+    <activity
+        android:name=".auth.AuthUiActivity"
+        android:exported="true" />
+    <activity
+        android:name=".auth.SignedInActivity"
+        android:exported="false" />
+    <activity
+        android:name=".BarcodeInformationActivity"
+        android:exported="false" />
+    <activity
+        android:name=".ProductInfoActivity"
+        android:exported="true" />
+    <activity
+        android:name=".auth.ProfileActivity"
+        android:exported="false"
+        android:parentActivityName=".HomeScreenActivity" />
+    <activity
+        android:name=".WelcomeScreenActivity"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".api.PlantnetApi"
-            android:exported="false" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+    <activity
+        android:name=".api.PlantnetApi"
+        android:exported="false" />
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="ch.epfl.sdp.healthplay.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-    </application>
-
+    <provider
+        android:name="androidx.core.content.FileProvider"
+        android:authorities="ch.epfl.sdp.healthplay.fileprovider"
+        android:exported="false"
+        android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/file_paths" />
+    </provider>
+</application>
 </manifest>
