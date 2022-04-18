@@ -375,7 +375,7 @@ public final class Database {
      * Get the friend list of the user
      * @return a map of String to Boolean
      */
-    public Map<String, Boolean> getFriendList(){
+    public Map<String, Boolean> getFriendList() {
         Map<String, Boolean> outputMap = new HashMap<>();
         readField(FirebaseAuth.getInstance().getCurrentUser().getUid(), "friends", new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -384,8 +384,9 @@ public final class Database {
             }
         });
         return outputMap;
+    }
 
-     * Checks if lobby exists and given password matches correct one
+     /** Checks if lobby exists and given password matches correct one
      *
      * @param name      the unique identifier given to the lobby
      * @param password  the unique password given to the lobby
@@ -398,6 +399,11 @@ public final class Database {
                 .get();
     }
 
+    /**
+     * Update the LeaderBoard
+     * @param userId
+     * @param toRemove
+     */
     private void updateLeaderBoard(String userId, int toRemove) {
 
         getStats(userId,getLambdaUpdate(userId, toRemove));
