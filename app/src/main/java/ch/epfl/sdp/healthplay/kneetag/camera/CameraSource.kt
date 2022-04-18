@@ -19,10 +19,7 @@ package ch.epfl.sdp.healthplay.kneetag.camera
 import YuvToRgbConverter
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.ImageFormat
-import android.graphics.Matrix
-import android.graphics.Rect
+import android.graphics.*
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraDevice
@@ -31,18 +28,20 @@ import android.media.ImageReader
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
+import android.view.Display
 import android.view.Surface
 import android.view.SurfaceView
-import kotlinx.coroutines.suspendCancellableCoroutine
+import android.view.WindowManager
+import androidx.core.content.ContextCompat.getSystemService
 import ch.epfl.sdp.healthplay.kneetag.VisualizationUtils
 import ch.epfl.sdp.healthplay.kneetag.data.Person
-
 import ch.epfl.sdp.healthplay.kneetag.ml.PoseClassifier
 import ch.epfl.sdp.healthplay.kneetag.ml.PoseDetector
-
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+
 
 class CameraSource(
     private val surfaceView: SurfaceView,
@@ -50,6 +49,7 @@ class CameraSource(
 ) {
 
     companion object {
+
         private const val PREVIEW_WIDTH = 640
         private const val PREVIEW_HEIGHT = 480
 
@@ -93,6 +93,8 @@ class CameraSource(
     private var cameraId: String = ""
 
     suspend fun initCamera() {
+
+
         camera = openCamera(cameraManager, cameraId)
         imageReader =
             ImageReader.newInstance(PREVIEW_WIDTH, PREVIEW_HEIGHT, ImageFormat.YUV_420_888, 3)
