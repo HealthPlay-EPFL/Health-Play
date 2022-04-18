@@ -179,23 +179,17 @@ public class ProfileSettingsFragment extends Fragment {
             // or goto ProfileActivity
             if (firstTime) {
                 toastText = PROFILE_HAS_BEEN_CREATED;
-                //startActivity(new Intent(this, HomeScreenActivity.class));
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.setReorderingAllowed(true);
-                fragmentTransaction.replace(R.id.fragmentContainerView, new ProfileFragment());
-                fragmentTransaction.commit();
             } else {
                 toastText = CHANGES_APPLIED;
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.setReorderingAllowed(true);
-                fragmentTransaction.replace(R.id.fragmentContainerView, new ProfileFragment());
-                fragmentTransaction.commit();
-                //startActivity(new Intent(this, ProfileActivity.class));
             }
+
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.setReorderingAllowed(true);
+            fragmentTransaction.replace(R.id.fragmentContainerView, new ProfileFragment());
+            fragmentTransaction.commit();
 
             Toast toast = Toast.makeText(context, toastText, duration);
             toast.show();
-            //finish();
         }
     }
 

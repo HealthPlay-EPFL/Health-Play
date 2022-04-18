@@ -30,9 +30,6 @@ public class KneetagDescriptionFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        /*Intent intent = new Intent(getActivity(), PlanthuntDescriptionActivity.class);
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), planthuntDescriptionButton, ViewCompat.getTransitionName(planthuntDescriptionButton));
-                        startActivity(intent, options.toBundle());*/
                         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                         fragmentTransaction.setReorderingAllowed(true);
                         fragmentTransaction.replace(R.id.fragmentContainerView, new GameMenuFragment());

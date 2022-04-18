@@ -45,19 +45,23 @@ public class ProfileSettingsFragmentTest {
     @Test
     public void saveNewInfo() throws InterruptedException {
         ViewInteraction text = Espresso.onView(withId(R.id.modifyNameEditText));
-        text.perform(ViewActions.typeText("test"));
+        String test = "test";
+        text.perform(ViewActions.typeText(test), ViewActions.closeSoftKeyboard());
 
+        test = "null";
         text = Espresso.onView(withId(R.id.modifySurnameEditText));
-        text.perform(ViewActions.typeText("null"));
+        text.perform(ViewActions.typeText(test), ViewActions.closeSoftKeyboard());
 
         text = Espresso.onView(withId(R.id.modifyUsernameEditText));
-        text.perform(ViewActions.typeText("null"));
+        text.perform(ViewActions.typeText(test), ViewActions.closeSoftKeyboard());
 
+        test = "2000-01-01";
         text = Espresso.onView(withId(R.id.modifyBirthDateEditText));
-        text.perform(ViewActions.typeText("2000-01-01"));
+        text.perform(ViewActions.typeText(test), ViewActions.closeSoftKeyboard());
 
+        test = "65";
         text = Espresso.onView(withId(R.id.modifyWeightEditText));
-        text.perform(ViewActions.typeText("65"));
+        text.perform(ViewActions.typeText(test), ViewActions.closeSoftKeyboard());
 
         Espresso.onView(withId(R.id.button2)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {

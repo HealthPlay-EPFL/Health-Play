@@ -158,11 +158,14 @@ public class BarcodeScanFragment extends Fragment {
         scanner.process(image)
                 .addOnSuccessListener(barcodes -> {
                     if (barcodes.isEmpty()) {
+                        String error = "Error";
+                        String message = "An error occurred. Please try again";
+                        String OK = "OK";
                         // Popup dialog whenever an error occurs
                         new AlertDialog.Builder(getContext())
-                                .setTitle("Error")
-                                .setMessage("An error occurred. Please try again")
-                                .setNeutralButton("OK", null)
+                                .setTitle(error)
+                                .setMessage(message)
+                                .setNeutralButton(OK, null)
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();
                         return;

@@ -109,9 +109,6 @@ public class ProfileFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        /*Intent intent = new Intent(getActivity(), KneetagDescriptionActivity.class);
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), kneetagButton, ViewCompat.getTransitionName(kneetagButton));
-                        startActivity(intent, options.toBundle());*/
                         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                         fragmentTransaction.setReorderingAllowed(true);
                         fragmentTransaction.replace(R.id.fragmentContainerView, new ProfileSettingsFragment());

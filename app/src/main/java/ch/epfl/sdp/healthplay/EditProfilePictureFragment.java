@@ -38,6 +38,9 @@ import ch.epfl.sdp.healthplay.auth.SignedInActivity;
 import ch.epfl.sdp.healthplay.database.Database;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * EditProfilePicture is a fragment to change the profile's photo with a personal photo on own phone.
+ */
 public class EditProfilePictureFragment extends Fragment {
 
     private Uri uri;
