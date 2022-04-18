@@ -36,6 +36,7 @@
                 android:text="Night"
                 android:textAllCaps="false">
 
+
             </androidx.appcompat.widget.AppCompatButton>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -47,6 +48,7 @@
                 android:onClick="onClickLight"
                 android:text="Light"
                 android:textAllCaps="false">
+
 
             </androidx.appcompat.widget.AppCompatButton>
 
