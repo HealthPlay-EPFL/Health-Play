@@ -21,11 +21,10 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/black"
-            >
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/night"
@@ -36,6 +35,7 @@
                 android:onClick="onClickNight"
                 android:text="Night"
                 android:textAllCaps="false">
+
 
             </androidx.appcompat.widget.AppCompatButton>
 
@@ -49,7 +49,16 @@
                 android:text="Light"
                 android:textAllCaps="false">
 
+
             </androidx.appcompat.widget.AppCompatButton>
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickLeaderBoard"
+                android:text="LeaderBoard" />
 
         </LinearLayout>
 
