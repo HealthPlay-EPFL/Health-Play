@@ -427,9 +427,9 @@ public final class Database {
                                 ArrayList<String> l = new ArrayList<>();
                                 l.add(userId);
                                 map.put(hp, l);
-                                leaderBoard = new HashMap<>();
-                                leaderBoard.put(getTodayDate(), map);
-                                mDatabase.child(LEADERBOARD).setValue(leaderBoard);
+                                HashMap<String,HashMap<String, ArrayList<String>>> currentLeaderBoard = new HashMap<>();
+                                currentLeaderBoard.put(getTodayDate(), map);
+                                mDatabase.child(LEADERBOARD).setValue(currentLeaderBoard);
 
                             }
 
