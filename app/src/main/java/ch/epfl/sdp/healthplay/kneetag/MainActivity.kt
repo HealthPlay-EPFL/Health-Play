@@ -41,11 +41,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     /** A [SurfaceView] for camera preview.   */
     private lateinit var surfaceView: SurfaceView
 
-    private var modelPos = 0
-
     /** Default device is CPU */
     private var device = Device.CPU
-    private var friends: MutableList<String> = mutableListOf();
+    private var friends: MutableList<String> = mutableListOf()
     private lateinit var tvScore: TextView
     private lateinit var tvFPS: TextView
     private lateinit var database: Database
@@ -85,46 +83,39 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         // Inflate the layout for this fragment
         database = Database()
         val user = mAuth.currentUser
-
         if (user != null) {
             initUsername(user.uid)
         }
-
         // Get the Friend List of the current User
         if (user != null) {
             database.readField(
-                user.getUid(), "friends"
+                user.uid, "friends"
             ) { task ->
                 val mut = task.result.value as Map<String, Boolean>
                 friends.addAll(mut.keys)
                 for (friend in mut.keys) {
 
                     friendList.add(Friend(friend))
-
-
                 }
-
             }
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-         // keep screen on while app is running
+        // keep screen on while app is running
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         tvScore = findViewById(R.id.tvScore)
         tvFPS = findViewById(R.id.tvFps)
-
         surfaceView = findViewById(R.id.surfaceView)
         tvClassificationValue1 = findViewById(R.id.tvClassificationValue1)
         tvClassificationValue2 = findViewById(R.id.tvClassificationValue2)
         tvClassificationValue3 = findViewById(R.id.tvClassificationValue3)
         friends = mutableListOf("Anonymous", "YOU")
         var spinner = findViewById<Spinner>(R.id.friends)
-
         val adapter: ArrayAdapter<String> =
             ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, friends)
 //set the spinners adapter to the previously created one.
 //set the spinners adapter to the previously created one.
-        spinner.setAdapter(adapter)
+        spinner.adapter = adapter
         spinner.adapter = adapter
         spinner.onItemSelectedListener = this
         var spinnerCopy = findViewById<Spinner>(R.id.friendsCopy)
@@ -133,26 +124,21 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         if (!isCameraPermissionGranted()) {
             requestPermission()
         }
-
         //It's the button to launch the kneetag Game
         val kneetagLaunchButton: Button = findViewById<Button>(R.id.startGame)
         kneetagLaunchButton.setOnClickListener {
             var text = "The 2 players are not valid"
             val left = spinner.selectedItem.toString()
             val right = spinnerCopy.selectedItem.toString()
-            if (check(left) and check(right)){
-                text="Unranked game started"
+            if (check(left) and check(right)) {
+                text = "Unranked game started"
                 poseDetector.started = true
-
-                }
-
-            if((left=="YOU" && !check(right)) or (right=="YOU" && !check(left))) {
-                poseDetector.started = true
-                text="Ranked game started"
             }
-
+            if ((left == "YOU" && !check(right)) or (right == "YOU" && !check(left))) {
+                poseDetector.started = true
+                text = "Ranked game started"
+            }
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-
         }
 
     }
@@ -182,7 +168,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 if (!task.isSuccessful) {
                     Log.e("firebase", "Error getting data", task.exception)
                 } else {
-
                     name = task.result.value.toString()
                 }
             })
@@ -219,7 +204,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                         override fun onFPSListener(fps: Int) {
                             tvFPS.text = getString(R.string.tfe_pe_tv_fps, fps)
                         }
-
                         override fun onDetectedInfo(
                             personScore: Float?,
                             poseLabels: List<Pair<String, Float>>?
@@ -266,20 +250,15 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         // For MoveNet MultiPose, hide score and disable pose classifier as the model returns
         // multiple Person instances.
         poseDetector =
-
-
             MoveNetMultiPose.create(
                 this,
                 device,
                 Type.Dynamic
             )
-
         poseDetector.let { detector ->
             cameraSource?.setDetector(detector)
         }
-
     }
-
 
     private fun requestPermission() {
         when (PackageManager.PERMISSION_GRANTED) {
@@ -315,10 +294,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 .create()
 
         companion object {
-
             @JvmStatic
             private val ARG_MESSAGE = "message"
-
             @JvmStatic
             fun newInstance(message: String): ErrorDialog = ErrorDialog().apply {
                 arguments = Bundle().apply { putString(ARG_MESSAGE, message) }
