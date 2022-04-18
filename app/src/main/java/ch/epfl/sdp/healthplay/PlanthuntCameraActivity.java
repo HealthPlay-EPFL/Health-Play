@@ -30,9 +30,6 @@ import ch.epfl.sdp.healthplay.api.PlantnetApi;
 
 public class PlanthuntCameraActivity extends AppCompatActivity {
 
-    private static Button collectionButton;
-    private static Button captureButton;
-    private static Button lobbyButton;
     private File photoFile;
 
     private static final String STORAGE_URL = "gs://health-play-9e161.appspot.com";
@@ -45,9 +42,10 @@ public class PlanthuntCameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planhunt_camera);
 
-        captureButton = findViewById(R.id.buttonCapture);
-        collectionButton = findViewById(R.id.buttonCollection);
-        lobbyButton = findViewById(R.id.buttonLobby);
+        Button captureButton = findViewById(R.id.buttonCapture);
+        Button collectionButton = findViewById(R.id.buttonCollection);
+        Button createLobbyButton = findViewById(R.id.buttonCreateLobby);
+        Button joinLobbyButton = findViewById(R.id.buttonJoinlobby);
 
         //Get current user reference in Firebase
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -72,11 +70,20 @@ public class PlanthuntCameraActivity extends AppCompatActivity {
             }
         });
 
-        //Start new lobby activity when clicking on Create lobby button
-        lobbyButton.setOnClickListener(new View.OnClickListener() {
+        //Start new create lobby activity when clicking on Create lobby button
+        createLobbyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PlanthuntCameraActivity.this, PlanthuntCreateLobbyActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //Start new join lobby activity when clicking on Join lobby button
+        joinLobbyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PlanthuntCameraActivity.this, PlanthuntJoinLobbyActivity.class);
                 startActivity(intent);
             }
         });

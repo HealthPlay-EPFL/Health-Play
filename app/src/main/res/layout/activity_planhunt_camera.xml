@@ -6,95 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".PlanthuntCameraActivity">
 
-    <Button
-        android:id="@+id/buttonCapture"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:backgroundTint="@color/planthuntPlayColor"
-        android:text="Take picture"
-        app:layout_constraintLeft_toRightOf="@+id/leftGuidelineCamera"
-        app:layout_constraintRight_toLeftOf="@+id/rightGuidelineCamera"
-        app:layout_constraintTop_toBottomOf="@+id/upGuidelineCamera"
-        app:layout_constraintBottom_toTopOf="@+id/upGuidelineCamera2" />
-
-    <Button
-        android:id="@+id/buttonLobby"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="Create new lobby"
-        app:layout_constraintLeft_toRightOf="@+id/leftGuidelineCamera"
-        app:layout_constraintRight_toLeftOf="@+id/rightGuidelineCamera"
-        app:layout_constraintTop_toBottomOf="@+id/upGuidelineCamera3"
-        app:layout_constraintBottom_toTopOf="@+id/downGuidelineCamera3" />
-
-    <Button
-        android:id="@+id/buttonCollection"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:backgroundTint="@color/material_purple_a700"
-        android:text="See collection"
-        app:layout_constraintLeft_toRightOf="@+id/leftGuidelineCamera"
-        app:layout_constraintRight_toLeftOf="@+id/rightGuidelineCamera"
-        app:layout_constraintTop_toBottomOf="@+id/downGuidelineCamera2"
-        app:layout_constraintBottom_toTopOf="@+id/downGuidelineCamera" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/leftGuidelineCamera"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent=".2"
-        android:orientation="vertical"/>
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/rightGuidelineCamera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent=".8"
-        android:orientation="vertical"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/upGuidelineCamera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent=".2"
-        android:orientation="horizontal"/>
+            <Button
+                android:id="@+id/buttonCapture"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:backgroundTint="@color/planthuntPlayColor"
+                android:text="Take picture" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/upGuidelineCamera2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent=".35"
-        android:orientation="horizontal"/>
+            <Button
+                android:id="@+id/buttonCreateLobby"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Create new lobby" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/upGuidelineCamera3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent=".42"
-        android:orientation="horizontal"/>
+            <Button
+                android:id="@+id/buttonJoinlobby"
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/downGuidelineCamera3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent=".57"
-        android:orientation="horizontal"/>
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Join existing lobby" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/downGuidelineCamera2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent=".65"
-        android:orientation="horizontal"/>
+            <Button
+                android:id="@+id/buttonCollection"
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/downGuidelineCamera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent=".8"
-        android:orientation="horizontal"/>
-
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:backgroundTint="@color/material_purple_a700"
+                android:text="See collection" />
+        </LinearLayout>
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
