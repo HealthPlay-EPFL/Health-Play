@@ -21,10 +21,6 @@
             android:exported="false" />
         <activity
             android:name=".FriendListItemActivity"
-            android:name=".LeaderBoardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".FriendListItemActivity"
             android:exported="false" />
         <activity
             android:name=".EditProfilePictureActivity"
@@ -40,13 +36,13 @@
             android:exported="false" />
         <activity
             android:name=".kneetag.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".BarcodeScanActivity"
             android:exported="true" />
-        <activity android:name=".PlanthuntCameraActivity"></activity>
-        <activity android:name=".PlanthuntDescriptionActivity"></activity>
-        <activity android:name=".PlanthuntResultActivity"></activity>
+        <activity android:name=".PlanthuntCameraActivity" />
+        <activity android:name=".PlanthuntDescriptionActivity" />
+        <activity android:name=".PlanthuntResultActivity" />
         <activity
             android:name=".ProfileSettingsActivity"
             android:exported="true" />
