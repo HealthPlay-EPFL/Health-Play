@@ -21,6 +21,10 @@
             android:exported="false" />
         <activity
             android:name=".FriendListItemActivity"
+            android:name=".LeaderBoardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FriendListItemActivity"
             android:exported="false" />
         <activity
             android:name=".EditProfilePictureActivity"

@@ -1,14 +1,17 @@
 package ch.epfl.sdp.healthplay.auth;
 
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,29 +20,42 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
 import ch.epfl.sdp.healthplay.EditProfilePictureActivity;
+import ch.epfl.sdp.healthplay.EditProfilePictureFragment;
+import ch.epfl.sdp.healthplay.KneetagDescriptionFragment;
+import ch.epfl.sdp.healthplay.PlanthuntDescriptionFragment;
 import ch.epfl.sdp.healthplay.ProfileSettingsActivity;
+import ch.epfl.sdp.healthplay.ProfileSettingsFragment;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 
-//import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
-
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileFragment extends Fragment {
 
     private Database db = new Database();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    private View view;
 
-        SignedInActivity.SetMode(this);
+    public ProfileFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
+        SignedInActivity.SetMode(getContext());
+        super.onCreate(savedInstanceState);
+        initButton();
         getImage();
         FirebaseUser user = mAuth.getCurrentUser();
 
@@ -63,6 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
                     });
 
         }
+        return view;
     }
 
     private void getImage() {
@@ -72,8 +89,8 @@ public class ProfileActivity extends AppCompatActivity {
                 if(snapshot.exists()) {
                     if(snapshot.getValue() != null){
                         String image = snapshot.getValue().toString();
-                        ImageView imageView = findViewById(R.id.profile_picture);
-                        Glide.with(getApplicationContext()).load(image).into(imageView);
+                        ImageView imageView = view.findViewById(R.id.profile_picture);
+                        Glide.with(getContext()).load(image).into(imageView);
                     }
 
                 }
@@ -86,17 +103,32 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    public void changeProfile(View view) {
-        Intent intent = new Intent(this, ProfileSettingsActivity.class);
-        startActivity(intent);
-    }
-    public void changeProfilePicture(View view) {
-        Intent intent = new Intent(this, EditProfilePictureActivity.class);
-        startActivity(intent);
+    private void initButton(){
+        Button statsButton = view.findViewById(R.id.statsButton);
+        statsButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.setReorderingAllowed(true);
+                        fragmentTransaction.replace(R.id.fragmentContainerView, new ProfileSettingsFragment());
+                        fragmentTransaction.commit();
+                    }
+                }
+        );
+        view.findViewById(R.id.changeButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.setReorderingAllowed(true);
+                fragmentTransaction.replace(R.id.fragmentContainerView, new EditProfilePictureFragment());
+                fragmentTransaction.commit();
+            }
+        });
     }
 
     public void initBirthday(String userId) {
-        TextView TextViewBirthday = findViewById(R.id.profileBirthday);
+        TextView TextViewBirthday = view.findViewById(R.id.profileBirthday);
 
         db.readField(userId, Database.BIRTHDAY, (task -> {
             if (!task.isSuccessful()) {
@@ -128,7 +160,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     public void initName(String userId) {
-        TextView TextViewName = findViewById(R.id.profileName);
+        TextView TextViewName = view.findViewById(R.id.profileName);
 
 
         db.readField(userId, Database.NAME, (task -> {
@@ -189,7 +221,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void initUsername(String userId) {
-        TextView TextViewUsername = findViewById(R.id.profileUsername);
+        TextView TextViewUsername = view.findViewById(R.id.profileUsername);
 
         db.readField(userId, Database.USERNAME, (task -> {
             if (!task.isSuccessful()) {
@@ -223,7 +255,6 @@ public class ProfileActivity extends AppCompatActivity {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             } else {
-                @SuppressWarnings("unchecked")
                 Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>)task.getResult().getValue();
                 updateStats(map, userId);
             }
@@ -250,9 +281,9 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     public void updateStats(Map<String, Map<String, Number>> map, String userId) {
-        TextView TextViewStatsButton = findViewById(R.id.statsButton);
-        TextView TextViewWeight = findViewById(R.id.profileWeight);
-        TextView TextViewHealthPoint = findViewById(R.id.profileHealthPoint);
+        TextView TextViewStatsButton = view.findViewById(R.id.statsButton);
+        TextView TextViewWeight = view.findViewById(R.id.profileWeight);
+        TextView TextViewHealthPoint = view.findViewById(R.id.profileHealthPoint);
 
 
         if (map!=null && map.containsKey(Database.getTodayDate())) {
