@@ -65,6 +65,9 @@ package="ch.epfl.sdp.healthplay">
         android:name=".BarcodeInformationActivity"
         android:exported="false" />
     <activity
+        android:name=".LeaderBoardActivity"
+        android:exported="false" />
+    <activity
         android:name=".ProductInfoActivity"
         android:exported="true" />
     <activity
