@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    tools:context=".AddFriendListItem">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toRightOf="@+id/leftGuidelineItem"
+        app:layout_constraintRight_toLeftOf="@+id/rightGuidelineItem"
+        app:layout_constraintTop_toBottomOf="@+id/upGuidelineItem"
+        app:layout_constraintBottom_toTopOf="@+id/downGuidelineItem">
+
+        <ImageView
+            android:id="@+id/friendProfilePictureAdd"
+            android:layout_width="match_parent"
+            android:layout_height="198dp"
+            android:contentDescription="@string/profile_picture_of_your_friend"
+            app:srcCompat="@drawable/rounded_logo"
+            android:focusable="false"/>
+
+        <TextView
+            android:id="@+id/friendNameAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/name_of_your_friend"
+            android:text="@string/friendname"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:focusable="false"/>
+
+        <Button
+            android:id="@+id/addFriendItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/gradientPrimary_color"
+            android:text="@string/add_friend"
+            android:focusable="false"/>
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftGuidelineItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightGuidelineItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".9"
+        android:orientation="vertical"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/upGuidelineItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".1"
+        android:orientation="horizontal"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/downGuidelineItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".9"
+        android:orientation="horizontal"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="start">START</string>
+=======
+    <string name="CongratsTop5">(Congrats you made it to the top 5)</string>
+    <string name="NoUser">No user</string>
+    <string name="UnrankedTop5">(you are currently unranked)</string>
+
+</resources>

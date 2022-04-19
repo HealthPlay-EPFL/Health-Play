@@ -1,22 +1,34 @@
 package ch.epfl.sdp.healthplay.database;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
+
+import ch.epfl.sdp.healthplay.LeaderBoardActivity;
+import ch.epfl.sdp.healthplay.R;
 
 public final class Database {
 
@@ -32,7 +44,12 @@ public final class Database {
     public static final String BIRTHDAY = "birthday";
     public static final String NBR_PLAYER = "nbrPlayers";
     public static final String REMAINING_TIME = "remainingTime";
+    public static final String PLAYER_UID = "playerUid";
+    public static final String PLAYER_SCORE = "playerScore";
+    public static final String PASSWORD = "password";
     public static final String STATUS = "status";
+    public static final String LEADERBOARD = "leaderBoard";
+    public static final String LEADERBOARD_DATE = "leaderBoardDate";
     public static final int MAX_NBR_PLAYERS = 3;
 
     public final DatabaseReference mDatabase;
@@ -40,6 +57,8 @@ public final class Database {
     public static final String STATS = "stats";
     public static final String USERS = "users";
     public static final String LOBBIES = "lobbies";
+
+    public static Comparator<String> comparator = (o1, o2) -> Long.compare(Long.parseLong(o2), Long.parseLong(o1));
 
     // Format used to format date when adding stats
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -96,42 +115,22 @@ public final class Database {
      * @param calories the number of calories to add
      */
     public void addCalorie(String userId, int calories) {
-        getStats(userId, getLambdaCalorie(userId, calories));
+        getStats(userId, getLambda(userId, calories, CALORIE_COUNTER));
     }
 
     /**
      * Adds the given number of calories to the user's statistics. The
      * difference with {@linkplain #writeCalorie(String, int)} is that
-     * this methods add to the current value contained for the day.
+     * this methods add to the current value contained for the day. Also
+     * update the leaderBoard if the new amount of HealthPoint is more than
+     * what the current top five of players have
      *
      * @param userId   the user ID
      * @param healthPoint the number of calories to add
      */
     public void addHealthPoint(String userId, int healthPoint) {
-        getStats(userId, task -> {
-            if (!task.isSuccessful()) {
-                Log.e("ERROR", "EREREREROOORORO");
-            }
-            int toAdd = healthPoint;
-            @SuppressWarnings("unchecked")
-            Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>) task.getResult().getValue();
-            // This bellow is to check the existence of the wanted calories
-            // for today's date
-            if (map != null && map.containsKey(getTodayDate())) {
-                Map<String, Number> calo = map.get(getTodayDate());
-                long currentHealthPoint;
-                if (calo != null && calo.containsKey(HEALTH_POINT)) {
-                    currentHealthPoint = Long.parseLong(String.valueOf(calo.get(HEALTH_POINT)));
-                    toAdd += currentHealthPoint;
-                }
-            }
-            mDatabase.child(USERS)
-                    .child(userId)
-                    .child(STATS)
-                    .child(getTodayDate())
-                    .child(HEALTH_POINT)
-                    .setValue(toAdd);
-        });
+        getStats(userId, getLambda(userId, healthPoint, HEALTH_POINT));
+        updateLeaderBoard(userId, healthPoint);
     }
 
     public void writeAge(String userId, int age) {
@@ -233,12 +232,12 @@ public final class Database {
         return format.format(new Date());
     }
 
-    private OnCompleteListener<DataSnapshot> getLambdaCalorie(String userId, int calories) {
+    private OnCompleteListener<DataSnapshot> getLambda(String userId, int inc, String field) {
         return task -> {
             if (!task.isSuccessful()) {
                 Log.e("ERROR", "EREREREROOORORO");
             }
-            int toAdd = calories;
+            int toAdd = inc;
             @SuppressWarnings("unchecked")
             Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>) task.getResult().getValue();
             // This bellow is to check the existence of the wanted calories
@@ -246,8 +245,8 @@ public final class Database {
             if (map != null && map.containsKey(getTodayDate())) {
                 Map<String, Number> calo = map.get(getTodayDate());
                 long currentCalories;
-                if (calo != null && calo.containsKey(CALORIE_COUNTER)) {
-                    currentCalories = Long.parseLong(String.valueOf(calo.get(CALORIE_COUNTER)));
+                if (calo != null && calo.containsKey(field)) {
+                    currentCalories = Long.parseLong(String.valueOf(calo.get(field)));
                     toAdd += currentCalories;
                 }
             }
@@ -255,7 +254,7 @@ public final class Database {
                     .child(userId)
                     .child(STATS)
                     .child(getTodayDate())
-                    .child(CALORIE_COUNTER)
+                    .child(field)
                     .setValue(toAdd);
         };
 
@@ -268,7 +267,7 @@ public final class Database {
     public void addToFriendList(String friendUserId) {
         if(FirebaseAuth.getInstance().getCurrentUser() != null) {
             mDatabase.child(USERS)
-                    .child(FirebaseAuth.getInstance().getUid())
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child("friends")
                     .child(friendUserId)
                     .setValue(true);
@@ -304,20 +303,29 @@ public final class Database {
      * Adds a user to the database lobby
      *
      * @param name       the unique identifier given to the lobby
-     * @param nbrPlayers the current number of players in the lobby
      * @param playerUid  the unique identifier of the joining player
      */
-    public void addUserToLobby (String name,int nbrPlayers, String playerUid){
-        mDatabase
-                .child(LOBBIES)
-                .child(name)
-                .child("playerUid" + (nbrPlayers + 1))
-                .setValue(playerUid);
+    public void addUserToLobby(String name, String playerUid){
         mDatabase
                 .child(LOBBIES)
                 .child(name)
                 .child(NBR_PLAYER)
-                .setValue(nbrPlayers + 1);
+                .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                int nbrPlayers = Integer.parseInt(Objects.requireNonNull(dataSnapshot.getValue()).toString()) + 1;
+                mDatabase
+                        .child(LOBBIES)
+                        .child(name)
+                        .child(NBR_PLAYER)
+                        .setValue(nbrPlayers);
+                mDatabase
+                        .child(LOBBIES)
+                        .child(name)
+                        .child(PLAYER_UID + (nbrPlayers))
+                        .setValue(playerUid);
+            }
+        });
     }
 
     /**
@@ -326,7 +334,7 @@ public final class Database {
      * @param name          the unique identifier given to the lobby
      * @param remainingTime the new remaining time in the game
      */
-    public void updateLobbyTime (String name,int remainingTime){
+    public void updateLobbyTime (String name, int remainingTime){
         mDatabase
                 .child(LOBBIES)
                 .child(name)
@@ -341,25 +349,124 @@ public final class Database {
      * @param playerUid the unique identifier of the scoring player
      * @param score     the new score of the player
      */
-    public void updateLobbyPlayerScore (String name, String playerUid,int score){
+    public void updateLobbyPlayerScore (String name, String playerUid, int score){
         for (int i = 1; i < MAX_NBR_PLAYERS + 1; i++) {
             int finalI = i;
             mDatabase
                     .child(LOBBIES)
                     .child(name)
-                    .child("playerUid" + i)
+                    .child(PLAYER_UID + i)
                     .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                         @Override
                         public void onSuccess(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getValue().toString() == playerUid) {
+                            if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(playerUid)) {
                                 mDatabase
                                         .child(LOBBIES)
                                         .child(name)
-                                        .child("playerScore" + finalI)
+                                        .child(PLAYER_SCORE + finalI)
                                         .setValue(score);
                             }
                         }
                     });
         }
+    }
+
+    /**
+     * Get the friend list of the user
+     * @return a map of String to Boolean
+     */
+    public Map<String, Boolean> getFriendList() {
+        Map<String, Boolean> outputMap = new HashMap<>();
+        readField(FirebaseAuth.getInstance().getCurrentUser().getUid(), "friends", new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                outputMap.putAll((Map<String, Boolean>) task.getResult().getValue());
+            }
+        });
+        return outputMap;
+    }
+
+     /** Checks if lobby exists and given password matches correct one
+     *
+     * @param name      the unique identifier given to the lobby
+     * @param password  the unique password given to the lobby
+     */
+    public Task checkLobbyId (String name, String password){
+        return mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child(PASSWORD)
+                .get();
+    }
+
+    /**
+     * Update the LeaderBoard
+     * @param userId
+     * @param toRemove
+     */
+    private void updateLeaderBoard(String userId, int toRemove) {
+
+        getStats(userId,getLambdaUpdate(userId, toRemove));
+
+    }
+
+    private OnCompleteListener<DataSnapshot> getLambdaUpdate(String userId, int toRemove) {
+        return task -> {
+            if (!task.isSuccessful()) {
+                Log.e("ERROR", "EREREREROOORORO");
+            }
+
+            @SuppressWarnings("unchecked")
+            Map<String, Map<String, Number>> mapStats = (Map<String, Map<String, Number>>) task.getResult().getValue();
+
+            if (mapStats != null && mapStats.containsKey(Database.getTodayDate())) {
+                Map<String, Number> currentStats = mapStats.get(Database.getTodayDate());
+                String hp;
+                if (currentStats != null && currentStats.containsKey(Database.HEALTH_POINT)) {
+                    hp = String.valueOf(currentStats.get(Database.HEALTH_POINT));
+
+                    getLeaderBoard(t -> {
+                        if (!t.isSuccessful()) {
+                            Log.e("firebase", "Error getting data", t.getException());
+                        } else {
+                            @SuppressWarnings("unchecked")
+                            HashMap<String,HashMap<String, ArrayList<String>>> leaderBoard = (HashMap<String,HashMap<String, ArrayList<String>>>)t.getResult().getValue();
+                            if(leaderBoard != null && leaderBoard.containsKey(getTodayDate())) {
+
+                                ArrayList<String> l = leaderBoard.get(getTodayDate()).containsKey(hp) ? leaderBoard.get(getTodayDate()).get(hp) : new ArrayList<>();
+                                String hpPre = String.valueOf(Long.parseLong(hp) - toRemove);
+                                ArrayList<String> lPre = leaderBoard.get(getTodayDate()).containsKey(hpPre) ? leaderBoard.get(getTodayDate()).get(hpPre) : new ArrayList<>();
+                                lPre.remove(userId);
+                                l.add(userId);
+                                leaderBoard.get(getTodayDate()).put(hp,l);
+                                mDatabase.child(LEADERBOARD).setValue(leaderBoard);
+                            }
+                            else if(leaderBoard != null) {
+                                HashMap<String, ArrayList<String>> map = new HashMap<>();
+                                ArrayList<String> l = new ArrayList<>();
+                                l.add(userId);
+                                map.put(hp, l);
+                                HashMap<String,HashMap<String, ArrayList<String>>> currentLeaderBoard = new HashMap<>();
+                                currentLeaderBoard.put(getTodayDate(), map);
+                                mDatabase.child(LEADERBOARD).setValue(currentLeaderBoard);
+
+                            }
+
+                        }
+
+
+                    });
+
+                }
+
+            }
+        };
+
+    }
+
+    private void getLeaderBoard(OnCompleteListener<DataSnapshot> onCompleteListener) {
+        mDatabase.child(Database.LEADERBOARD)
+                .get()
+                .addOnCompleteListener(onCompleteListener);
     }
 }
