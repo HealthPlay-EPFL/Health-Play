@@ -193,8 +193,12 @@
     <string name="friendname">friendName</string>
     <string name="remove_friend">Remove Friend</string>
 
+    <string name="start">START</string>
+=======
+
     <string name="image_of_the_product">Image of the product</string>
     <string name="nutriscore_of_the_product">Nutriscore of the product</string>
+
 
     <string-array name="tfe_pe_models_array">
         <item>Movenet Lightning</item>
@@ -213,5 +217,13 @@
         <item>Off</item>
         <item>BoundingBox</item>
         <item>Keypoint</item>
+    </string-array>
+
+    <string-array name="numbers">
+        <item>One</item>
+        <item>Two</item>
+        <item>Three</item>
+        <item>Four</item>
+        <item>Five</item>
     </string-array>
 </resources>
