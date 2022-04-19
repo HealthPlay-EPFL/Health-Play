@@ -16,11 +16,6 @@
             app:destination="@id/graph_Frag" />
     </fragment>
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="ch.epfl.sdp.healthplay.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
-    <fragment
         android:id="@+id/barcodescanActivity"
         android:name="ch.epfl.sdp.healthplay.BarcodeScanFragment"
         android:label="activity_product_info3"
