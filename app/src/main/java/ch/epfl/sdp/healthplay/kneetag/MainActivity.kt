@@ -107,9 +107,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         tvScore = findViewById(R.id.tvScore)
         tvFPS = findViewById(R.id.tvFps)
         surfaceView = findViewById(R.id.surfaceView)
-        tvClassificationValue1 = findViewById(R.id.tvClassificationValue1)
-        tvClassificationValue2 = findViewById(R.id.tvClassificationValue2)
-        tvClassificationValue3 = findViewById(R.id.tvClassificationValue3)
+
         friends = mutableListOf("Anonymous", "YOU")
         var spinner = findViewById<Spinner>(R.id.friends)
         val adapter: ArrayAdapter<String> =
@@ -165,12 +163,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-
-        val text = parent.getItemAtPosition(position).toString()
-        Toast.makeText(parent.getContext(),
-            "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
-            Toast.LENGTH_SHORT).show();
-        poseDetector.leftPerson=Pair(poseDetector.leftPerson.first,text)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -254,6 +246,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     cameraSource?.initCamera()
                 }
             }
+
             createPoseEstimator()
         }
     }

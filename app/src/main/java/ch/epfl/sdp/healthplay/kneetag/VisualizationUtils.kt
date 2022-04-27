@@ -69,13 +69,18 @@ object VisualizationUtils {
     ): Bitmap {
         val paintCircle = Paint().apply {
             strokeWidth = CIRCLE_RADIUS
-            color = Color.RED
+            color = Color.BLUE
             style = Paint.Style.FILL
         }
         val paintLine = Paint().apply {
             strokeWidth = LINE_WIDTH
-            color = Color.RED
+            color = Color.BLUE
             style = Paint.Style.STROKE
+        }
+        val paintCircleKnee = Paint().apply {
+            strokeWidth = CIRCLE_RADIUS
+            color = Color.RED
+            style = Paint.Style.FILL
         }
 
         val paintText = Paint().apply {
@@ -95,6 +100,7 @@ object VisualizationUtils {
                 originalSizeCanvas.drawLine(pointA.x, pointA.y, pointB.x, pointB.y, paintLine)
             }
 
+
             person.keyPoints.forEach { point ->
                 originalSizeCanvas.drawCircle(
                     point.coordinate.x,
@@ -102,7 +108,15 @@ object VisualizationUtils {
                     CIRCLE_RADIUS,
                     paintCircle
                 )
+                if(point.bodyPart==BodyPart.LEFT_KNEE||point.bodyPart==BodyPart.RIGHT_KNEE)
+                    originalSizeCanvas.drawCircle(
+                        point.coordinate.x,
+                        point.coordinate.y,
+                        CIRCLE_RADIUS*2,
+                        paintCircleKnee
+                    )
             }
+
             }
 
         if (persons.size == 2) {

@@ -39,13 +39,14 @@ package="ch.epfl.sdp.healthplay">
         android:exported="false" />
     <activity
         android:name=".kneetag.MainActivity"
-        android:exported="true"></activity>
+        android:exported="true"
+        android:screenOrientation="landscape" />
     <activity
         android:name=".BarcodeScanActivity"
         android:exported="true" />
-    <activity android:name=".PlanthuntCameraActivity"></activity>
-    <activity android:name=".PlanthuntDescriptionActivity"></activity>
-    <activity android:name=".PlanthuntResultActivity"></activity>
+    <activity android:name=".PlanthuntCameraActivity" />
+    <activity android:name=".PlanthuntDescriptionActivity" />
+    <activity android:name=".PlanthuntResultActivity" />
     <activity
         android:name=".ProfileSettingsActivity"
         android:exported="true" />

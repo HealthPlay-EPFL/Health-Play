@@ -28,11 +28,8 @@ import android.media.ImageReader
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
-import android.view.Display
 import android.view.Surface
 import android.view.SurfaceView
-import android.view.WindowManager
-import androidx.core.content.ContextCompat.getSystemService
 import ch.epfl.sdp.healthplay.kneetag.VisualizationUtils
 import ch.epfl.sdp.healthplay.kneetag.data.Person
 import ch.epfl.sdp.healthplay.kneetag.ml.PoseClassifier
