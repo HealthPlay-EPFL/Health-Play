@@ -222,20 +222,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                             poseLabels: List<Pair<String, Float>>?
                         ) {
                             tvScore.text = getString(R.string.tfe_pe_tv_score, personScore ?: 0f)
-                            poseLabels?.sortedByDescending { it.second }?.let {
-                                tvClassificationValue1.text = getString(
-                                    R.string.tfe_pe_tv_classification_value,
-                                    convertPoseLabels(if (it.isNotEmpty()) it[0] else null)
-                                )
-                                tvClassificationValue2.text = getString(
-                                    R.string.tfe_pe_tv_classification_value,
-                                    convertPoseLabels(if (it.size >= 2) it[1] else null)
-                                )
-                                tvClassificationValue3.text = getString(
-                                    R.string.tfe_pe_tv_classification_value,
-                                    convertPoseLabels(if (it.size >= 3) it[2] else null)
-                                )
-                            }
                         }
 
                     }).apply {
@@ -244,11 +230,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 isPoseClassifier()
                 lifecycleScope.launch(Dispatchers.Main) {
                     cameraSource?.initCamera()
+                    cameraSource
                 }
             }
 
             createPoseEstimator()
         }
+
     }
 
     private fun convertPoseLabels(pair: Pair<String, Float>?): String {
