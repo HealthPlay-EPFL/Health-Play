@@ -58,8 +58,8 @@ class MoveNetMultiPose(
     private var scaleWidth: Int = 0
     private var lastInferenceTimeNanos: Long = -1
     private var tracker: AbstractTracker? = null
-    public var leftPerson: Person? = null
-    public var rightPerson: Person? = null
+    public var leftPerson: Pair<Person?,String> = Pair(null,"Anonymous")
+    public var rightPerson: Pair<Person?,String> = Pair(null,"Anonymous")
     public var started = false
 
     companion object {
@@ -216,16 +216,20 @@ class MoveNetMultiPose(
             )
             if (persons.size == 2) {
 
-                if (persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x < persons[0].keyPoints[BodyPart.NOSE.position].coordinate.y) {
-                    leftPerson = persons[0]
-                    rightPerson = persons[1]
+
+                if (persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x < persons[1].keyPoints[BodyPart.NOSE.position].coordinate.x) {
+                    System.out.println("1:" + persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x.toString() + " "+persons[1].keyPoints[BodyPart.NOSE.position].coordinate.x )
+                    leftPerson = Pair(persons[0],leftPerson.second)
+
+                    rightPerson = Pair(persons[1],rightPerson.second)
                 } else {
-                    leftPerson = persons[0]
-                    rightPerson = persons[1]
+                    System.out.println("2:" +persons[1].keyPoints[BodyPart.NOSE.position].coordinate.x.toString() + " "+persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x )
+                    leftPerson = Pair(persons[1],leftPerson.second)
+                    rightPerson = Pair(persons[0],rightPerson.second)
                 }
             }else{
-                leftPerson = null
-                rightPerson = null
+                leftPerson = Pair(null,leftPerson.second)
+                rightPerson = Pair(null,rightPerson.second)
             }
 
         }

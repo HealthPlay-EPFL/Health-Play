@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.tensorflow.lite.examples.poseestimation.ml.MoveNetMultiPose
@@ -117,10 +118,26 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 //set the spinners adapter to the previously created one.
         spinner.adapter = adapter
         spinner.adapter = adapter
-        spinner.onItemSelectedListener = this
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val text = parent?.getItemAtPosition(position).toString()
+                poseDetector.leftPerson=Pair(poseDetector.leftPerson.first,text)
+            }
+        }
         var spinnerCopy = findViewById<Spinner>(R.id.friendsCopy)
         spinnerCopy.adapter = adapter
-        spinnerCopy.onItemSelectedListener = this
+        spinnerCopy.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val text = parent?.getItemAtPosition(position).toString()
+                poseDetector.rightPerson=Pair(poseDetector.rightPerson.first,text)
+            }
+        }
         if (!isCameraPermissionGranted()) {
             requestPermission()
         }
@@ -144,12 +161,16 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     fun check(string: String): Boolean {
-        return string == "" || string == "YOU"
+        return string == "Anonymous" || string == "YOU"
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+
         val text = parent.getItemAtPosition(position).toString()
-        Toast.makeText(parent.context, text, Toast.LENGTH_SHORT).show()
+        Toast.makeText(parent.getContext(),
+            "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
+            Toast.LENGTH_SHORT).show();
+        poseDetector.leftPerson=Pair(poseDetector.leftPerson.first,text)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}

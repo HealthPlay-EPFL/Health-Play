@@ -63,7 +63,9 @@ object VisualizationUtils {
     fun drawBodyKeypoints(
         input: Bitmap,
         persons: List<Person>,
-        isTrackerEnabled: Boolean = false
+        leftPerson: Pair<Person?,String>,
+        rightPerson: Pair<Person?,String>
+
     ): Bitmap {
         val paintCircle = Paint().apply {
             strokeWidth = CIRCLE_RADIUS
@@ -78,28 +80,15 @@ object VisualizationUtils {
 
         val paintText = Paint().apply {
             textSize = PERSON_ID_TEXT_SIZE
-            color = Color.BLUE
-            textAlign = Paint.Align.LEFT
+            color = Color.BLACK
+            textAlign = Paint.Align.CENTER
         }
 
         val output = input.copy(Bitmap.Config.ARGB_8888, true)
         val originalSizeCanvas = Canvas(output)
         persons.forEach { person ->
             // draw person id if tracker is enable
-            if (isTrackerEnabled) {
-                person.boundingBox?.let {
-                    val personIdX = max(0f, it.left)
-                    val personIdY = max(0f, it.top)
 
-                    originalSizeCanvas.drawText(
-                        person.id.toString(),
-                        personIdX,
-                        personIdY - PERSON_ID_MARGIN,
-                        paintText
-                    )
-                    originalSizeCanvas.drawRect(it, paintLine)
-                }
-            }
             bodyJoints.forEach {
                 val pointA = person.keyPoints[it.first.position].coordinate
                 val pointB = person.keyPoints[it.second.position].coordinate
@@ -114,6 +103,17 @@ object VisualizationUtils {
                     paintCircle
                 )
             }
+            }
+
+        if (persons.size == 2) {
+            originalSizeCanvas.drawText(
+                leftPerson.second, leftPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.x,
+                leftPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.y - 30, paintText
+            )
+            originalSizeCanvas.drawText(
+                rightPerson.second, rightPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.x,
+                rightPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.y - 30, paintText
+            )
         }
         return output
     }

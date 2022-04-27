@@ -22,8 +22,7 @@
                 android:id="@+id/friends"
                 android:layout_width="170dp"
                 android:layout_height="50dp"
-                android:background="@android:drawable/btn_dropdown"
-                android:spinnerMode="dropdown" />
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <Button
                 android:id="@+id/startGame"
@@ -46,7 +45,7 @@
         <SurfaceView
             android:id="@+id/surfaceView"
             android:layout_width="match_parent"
-            android:layout_height="600dp" />
+            android:layout_height="605dp" />
 
     </LinearLayout>
 

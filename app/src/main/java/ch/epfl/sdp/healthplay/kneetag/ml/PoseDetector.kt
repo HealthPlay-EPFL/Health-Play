@@ -21,6 +21,7 @@ import ch.epfl.sdp.healthplay.kneetag.data.Person
 
 interface PoseDetector : AutoCloseable {
 
+
     fun estimatePoses(bitmap: Bitmap): List<Person>
 
     fun lastInferenceTimeNanos(): Long

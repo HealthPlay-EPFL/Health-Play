@@ -11,6 +11,7 @@ import ch.epfl.sdp.healthplay.kneetag.ml.PoseNet
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.tensorflow.lite.examples.poseestimation.ml.MoveNetMultiPose
 
 @RunWith(AndroidJUnit4::class)
 class PosenetTest {
@@ -21,7 +22,7 @@ class PosenetTest {
         private const val ACCEPTABLE_ERROR = 37f
     }
 
-    private lateinit var poseDetector: PoseDetector
+    private lateinit var poseDetector: MoveNetMultiPose
     private lateinit var appContext: Context
     private lateinit var expectedDetectionResult: List<Map<BodyPart, PointF>>
 

@@ -36,8 +36,9 @@ import androidx.core.content.ContextCompat.getSystemService
 import ch.epfl.sdp.healthplay.kneetag.VisualizationUtils
 import ch.epfl.sdp.healthplay.kneetag.data.Person
 import ch.epfl.sdp.healthplay.kneetag.ml.PoseClassifier
-import ch.epfl.sdp.healthplay.kneetag.ml.PoseDetector
+
 import kotlinx.coroutines.suspendCancellableCoroutine
+import org.tensorflow.lite.examples.poseestimation.ml.MoveNetMultiPose
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -59,7 +60,7 @@ class CameraSource(
     }
 
     private val lock = Any()
-    private var detector: PoseDetector? = null
+    private var detector: MoveNetMultiPose? = null
     private var classifier: PoseClassifier? = null
     private var isTrackerEnabled = false
     private var yuvConverter: YuvToRgbConverter = YuvToRgbConverter(surfaceView.context)
@@ -179,7 +180,7 @@ class CameraSource(
         }
     }
 
-    fun setDetector(detector: PoseDetector) {
+    fun setDetector(detector: MoveNetMultiPose) {
         synchronized(lock) {
             if (this.detector != null) {
                 this.detector?.close()
@@ -272,7 +273,7 @@ class CameraSource(
 
         val outputBitmap = VisualizationUtils.drawBodyKeypoints(
             bitmap,
-            persons.filter { it.score > MIN_CONFIDENCE }, isTrackerEnabled
+            persons.filter { it.score > MIN_CONFIDENCE }, detector!!.leftPerson, detector!!.rightPerson
         )
 
         val holder = surfaceView.holder
