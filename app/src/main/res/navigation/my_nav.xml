@@ -15,7 +15,7 @@
             android:id="@+id/action_frag_Home_to_graph_Frag"
             app:destination="@id/graph_Frag" />
     </fragment>
-    <activity
+    <fragment
         android:id="@+id/barcodescanActivity"
         android:name="ch.epfl.sdp.healthplay.BarcodeScanFragment"
         android:label="activity_product_info3"
