@@ -245,10 +245,9 @@ public final class Database {
             Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>) task.getResult().getValue();
             // This bellow is to check the existence of the wanted calories
             // for today's date
-            long currentCalories = 0;
+            double currentCalories = 0;
             if (map != null && map.containsKey(getTodayDate())) {
                 Map<String, Number> calo = map.get(getTodayDate());
-                double currentCalories;
                 if (calo != null && calo.containsKey(field)) {
                     currentCalories = Double.parseDouble(String.valueOf(calo.get(field)));
                     toAdd += currentCalories;
@@ -265,7 +264,7 @@ public final class Database {
                         }
                         else {
                              if(field.equals(HEALTH_POINT)) {
-                                updateLeaderBoard(userId, inc);
+                                updateLeaderBoard(userId, (int) inc);
                         }
                         }
                      });

@@ -36,6 +36,7 @@ public class BarcodeInformationActivity extends AppCompatActivity {
     private final AtomicReference<String> productName = new AtomicReference<>(Product.UNKNOWN_NAME);
     private final AtomicReference<String> energy = new AtomicReference<>(Product.UNKNOWN_NAME);
     private Product p;
+    private String productString;
     private FirebaseUser user;
 
     public static final String EXTRA_MESSAGE = "ch.epfl.sdp.healthplay.MESSAGE";
@@ -45,7 +46,8 @@ public class BarcodeInformationActivity extends AppCompatActivity {
         return new Thread(() -> {
             try {
                 ProductInfoClient client = new ProductInfoClient(barcode);
-                Optional<Product> p = Product.of(client.getInfo());
+                productString = client.getInfo();
+                Optional<Product> p = Product.of(productString);
                 if (p.isPresent()) {
                     Product product = p.get();
                     this.p = product;
@@ -167,6 +169,14 @@ public class BarcodeInformationActivity extends AppCompatActivity {
             findViewById(R.id.quantity_name2).setVisibility(View.VISIBLE);
             findViewById(R.id.add_to_counter_button).setVisibility(View.VISIBLE);
         }
+
+        // If the text is clicked, start more information activity
+        TextView tv = findViewById(R.id.showAdditionalInfo);
+        tv.setOnClickListener(v -> {
+            Intent newIntent = new Intent(this, AdditionalProductInformationActivity.class);
+            newIntent.putExtra(EXTRA_MESSAGE, productString);
+            startActivity(newIntent);
+        });
     }
 
     private void changeValue(boolean divide) {

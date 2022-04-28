@@ -18,6 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthPlay">
         <activity
+            android:name=".AdditionalProductInformationActivity"
+            android:exported="false"
+            android:parentActivityName=".BarcodeInformationActivity"/>
+        <activity
             android:name=".ViewProfileActivity"
             android:exported="false" />
         <activity
