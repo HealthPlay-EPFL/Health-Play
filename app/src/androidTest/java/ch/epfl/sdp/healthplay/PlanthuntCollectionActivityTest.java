@@ -56,6 +56,7 @@ public class PlanthuntCollectionActivityTest {
         assertEquals(actual, expected);
     }*/
 
+    /*
     @Test
     public void itemIsCorrectlyDisplayed(){
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntCollectionItemActivity.class);
@@ -67,5 +68,6 @@ public class PlanthuntCollectionActivityTest {
         //Espresso.onView(withId(R.id.buttonCapture)).check();
 
     }
+    */
 
 }
