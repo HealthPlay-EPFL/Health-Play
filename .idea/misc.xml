@@ -131,16 +131,23 @@
         <entry key="app/src/main/res/drawable/gradient.xml" value="0.202" />
         <entry key="app/src/main/res/drawable/ic_anon_user_48dp.xml" value="0.141" />
         <entry key="app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.202" />
+        <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/rounded_button.xml" value="0.202" />
         <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.16818642350557245" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_profile_settings.xml" value="0.22509057971014493" />
         <entry key="app/src/main/res/layout/activity_profile_setup.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_view_profile.xml" value="0.12454710144927536" />
         <entry key="app/src/main/res/layout/auth_ui_layout.xml" value="0.254888916015625" />
         <entry key="app/src/main/res/layout/fragment_frag__home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_graph_.xml" value="0.16818642350557245" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.39221014492753625" />
+        <entry key="app/src/main/res/layout/fragment_view_profile.xml" value="0.12454710144927536" />
         <entry key="app/src/main/res/layout/signed_in_layout.xml" value="0.2391304347826087" />
+        <entry key="app/src/main/res/menu/ViewProfileMenu.xml" value="0.25462962962962965" />
         <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.1796875" />
+        <entry key="app/src/main/res/menu/top_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/view_profile_menu.xml" value="0.25462962962962965" />
       </map>
     </option>
   </component>

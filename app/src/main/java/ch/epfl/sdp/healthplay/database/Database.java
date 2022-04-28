@@ -48,7 +48,6 @@ public final class Database {
     public static final String PLAYER_UID = "playerUid";
     public static final String PLAYER_SCORE = "playerScore";
     public static final String PASSWORD = "password";
-    public static final String STATUS = "status";
     public static final String LEADERBOARD = "leaderBoard";
     public static final String LEADERBOARD_DATE = "leaderBoardDate";
     public static final String NUTRIMENTS = "nutriments";
@@ -125,18 +124,16 @@ public final class Database {
     }
 
     /**
-     * Adds the given number of calories to the user's statistics. The
-     * difference with {@linkplain #writeCalorie(String, int)} is that
-     * this methods add to the current value contained for the day. Also
+     * Adds the given number of healthPoints to the user's statistics.
+     * This methods add to the current value contained for the day, it also
      * update the leaderBoard if the new amount of HealthPoint is more than
      * what the current top five of players have
      *
-     * @param userId   the user ID
+     * @param userId the user ID
      * @param healthPoint the number of calories to add
      */
     public void addHealthPoint(String userId, int healthPoint) {
         getStats(userId, getLambda(userId, healthPoint, HEALTH_POINT));
-        updateLeaderBoard(userId, healthPoint);
     }
 
     public void writeAge(String userId, int age) {
@@ -248,6 +245,7 @@ public final class Database {
             Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>) task.getResult().getValue();
             // This bellow is to check the existence of the wanted calories
             // for today's date
+            long currentCalories = 0;
             if (map != null && map.containsKey(getTodayDate())) {
                 Map<String, Number> calo = map.get(getTodayDate());
                 double currentCalories;
@@ -261,7 +259,16 @@ public final class Database {
                     .child(STATS)
                     .child(getTodayDate())
                     .child(field)
-                    .setValue(toAdd);
+                    .setValue(toAdd).addOnCompleteListener(taks -> {
+                        if (!task.isSuccessful()) {
+                            Log.e("ERROR", "EREREREROOORORO");
+                        }
+                        else {
+                             if(field.equals(HEALTH_POINT)) {
+                                updateLeaderBoard(userId, inc);
+                        }
+                        }
+                     });
         };
 
     }
@@ -408,11 +415,10 @@ public final class Database {
     /**
      * Update the LeaderBoard
      * @param userId
-     * @param toRemove
      */
     private void updateLeaderBoard(String userId, int toRemove) {
 
-        getStats(userId,getLambdaUpdate(userId, toRemove));
+        getStats(userId,getLambdaUpdate(userId,toRemove));
 
     }
 
@@ -438,7 +444,6 @@ public final class Database {
                             @SuppressWarnings("unchecked")
                             HashMap<String,HashMap<String, ArrayList<String>>> leaderBoard = (HashMap<String,HashMap<String, ArrayList<String>>>)t.getResult().getValue();
                             if(leaderBoard != null && leaderBoard.containsKey(getTodayDate())) {
-
                                 ArrayList<String> l = leaderBoard.get(getTodayDate()).containsKey(hp) ? leaderBoard.get(getTodayDate()).get(hp) : new ArrayList<>();
                                 String hpPre = String.valueOf(Long.parseLong(hp) - toRemove);
                                 ArrayList<String> lPre = leaderBoard.get(getTodayDate()).containsKey(hpPre) ? leaderBoard.get(getTodayDate()).get(hpPre) : new ArrayList<>();
