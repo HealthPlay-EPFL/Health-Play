@@ -101,7 +101,7 @@ public class GameMenuFragmentTest {
                     }
                 }
         );
-        Espresso.onView(withId(R.id.buttonCapture)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.planthuntMainPlay)).check(matches(isDisplayed()));
     }
 
 }

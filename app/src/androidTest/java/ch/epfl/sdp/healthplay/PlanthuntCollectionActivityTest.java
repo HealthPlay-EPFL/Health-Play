@@ -34,16 +34,16 @@ public class PlanthuntCollectionActivityTest {
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
     }
 
-    @Test
+    /*@Test
     public void itemIsCorrectlyLaunched(){
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntCameraActivity.class);
 
-        /*onData(allOf()).atPosition(0).
+        onData(allOf()).atPosition(0).
                 onChildView(withId(R.id.plantCollectionList)).
                 perform(click());
 
-        Espresso.onView(withId(R.id.plantItemName)).check(matches(isDisplayed()));*/
-    }
+        Espresso.onView(withId(R.id.plantItemName)).check(matches(isDisplayed()));
+    }*/
 
     @Test
     public void getImageUrlWorks(){
