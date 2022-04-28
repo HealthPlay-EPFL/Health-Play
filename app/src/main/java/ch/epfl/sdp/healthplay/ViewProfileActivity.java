@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay.auth;
+package ch.epfl.sdp.healthplay;
 
 
 import androidx.annotation.NonNull;
@@ -23,12 +23,14 @@ import java.util.Map;
 import ch.epfl.sdp.healthplay.EditProfilePictureActivity;
 import ch.epfl.sdp.healthplay.ProfileSettingsActivity;
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.auth.SignedInActivity;
 import ch.epfl.sdp.healthplay.database.Database;
 
 //import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ViewProfileActivity extends AppCompatActivity {
 
+    public final static String MESSAGE = "id";
     private Database db = new Database();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     @Override
@@ -36,34 +38,34 @@ public class ProfileActivity extends AppCompatActivity {
 
         SignedInActivity.SetMode(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-        getImage();
-        FirebaseUser user = mAuth.getCurrentUser();
+        setContentView(R.layout.activity_view_profile);
 
-        if(user != null) {
+        Intent intent = getIntent();
+        String userId = intent.getStringExtra(MESSAGE);
+        getImage(userId);
             db.mDatabase
                     .child(Database.USERS)
-                    .child(user.getUid())
+                    .child(userId)
                     .get()
                     .addOnCompleteListener(task -> {
                         if (!task.isSuccessful()) {
                             Log.e("firebase", "Error getting data", task.getException());
                         }
                         if(!task.getResult().hasChildren()){
-                            db.writeNewUser(user.getUid(),"HugoBoss", 0, 0);
+                            db.writeNewUser(userId,"HugoBoss", 0, 0);
                         }
-                        initUsername(user.getUid());
-                        initBirthday(user.getUid());
-                        initStats(user.getUid());
-                        initName(user.getUid());
+                        initUsername(userId);
+                        initBirthday(userId);
+                        initStats(userId);
+                        initName(userId);
 
                     });
 
-        }
+
     }
 
-    private void getImage() {
-        db.mDatabase.child(Database.USERS).child(mAuth.getCurrentUser().getUid()).child("image").addValueEventListener(new ValueEventListener() {
+    private void getImage(String userId) {
+        db.mDatabase.child(Database.USERS).child(userId).child("image").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
@@ -83,14 +85,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    public void changeProfile(View view) {
-        Intent intent = new Intent(this, ProfileSettingsActivity.class);
-        startActivity(intent);
-    }
-    public void changeProfilePicture(View view) {
-        Intent intent = new Intent(this, EditProfilePictureActivity.class);
-        startActivity(intent);
-    }
 
     public void initBirthday(String userId) {
         TextView TextViewBirthday = findViewById(R.id.profileBirthday);
@@ -186,7 +180,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void initUsername(String userId) {
-        TextView TextViewUsername = findViewById(R.id.friends);
+        TextView TextViewUsername = findViewById(R.id.profileUsername);
 
         db.readField(userId, Database.USERNAME, (task -> {
             if (!task.isSuccessful()) {
@@ -213,6 +207,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void initStats(String userId) {
+
+
 
         db.getStats(userId,(task -> {
             if (!task.isSuccessful()) {
@@ -274,6 +270,7 @@ public class ProfileActivity extends AppCompatActivity {
                     TextViewWeight.setText(String.valueOf(todayStats.get(Database.WEIGHT)));
                 }
                 else {
+
                     db.readField(userId, Database.LAST_CURRENT_WEIGHT, (task -> {
                         if (!task.isSuccessful()) {
                             Log.e("firebase", "Error getting data", task.getException());
