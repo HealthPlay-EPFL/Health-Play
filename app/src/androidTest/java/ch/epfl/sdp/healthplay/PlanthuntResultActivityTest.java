@@ -21,8 +21,10 @@ import ch.epfl.sdp.healthplay.planthunt.PlanthuntResultActivity;
 public class PlanthuntResultActivityTest {
     private static final String TEST_TEXT = "flowerName";
 
+    /*
     @Rule
     public ActivityScenarioRule<PlanthuntResultActivity> testRule = new ActivityScenarioRule<>(PlanthuntResultActivity.class);
+    */
 
     /*
     @Test
