@@ -1,51 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LeaderBoardActivity"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
 
-    <TextView
+    <Button
         android:id="@+id/top1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/NoUser"
+        android:textAllCaps="false"
+        android:textStyle="bold"
         >
-    </TextView>
 
-    <TextView
+    </Button>
+
+    <Button
         android:id="@+id/top2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:text="@string/NoUser"
+        android:textAllCaps="false"
+        android:textStyle="bold"
         >
-    </TextView>
+    </Button>
 
-    <TextView
+    <Button
         android:id="@+id/top3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:text="@string/NoUser"
+        android:textAllCaps="false"
+        android:textStyle="bold"
         >
-    </TextView>
+    </Button>
 
-    <TextView
+    <Button
         android:id="@+id/top4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
+        android:text="@string/NoUser"
+        android:textAllCaps="false"
+        android:textStyle="bold"
         >
-    </TextView>
+    </Button>
 
-    <TextView
+    <Button
         android:id="@+id/top5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
+        android:text="@string/NoUser"
+        android:textAllCaps="false"
+        android:textStyle="bold"
         >
-    </TextView>
+    </Button>
 
     <TextView
         android:id="@+id/myTop"
@@ -55,4 +71,4 @@
         >
     </TextView>
 
-</RelativeLayout>
+</LinearLayout>
