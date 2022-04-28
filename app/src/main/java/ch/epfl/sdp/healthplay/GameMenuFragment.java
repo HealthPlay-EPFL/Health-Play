@@ -13,8 +13,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import ch.epfl.sdp.healthplay.kneetag.MainActivity;
-import ch.epfl.sdp.healthplay.planthunt.PlanthuntCameraActivity;
 import ch.epfl.sdp.healthplay.planthunt.PlanthuntDescriptionFragment;
+import ch.epfl.sdp.healthplay.planthunt.PlanthuntMainActivity;
 
 public class GameMenuFragment extends Fragment {
 
@@ -39,6 +39,7 @@ public class GameMenuFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        assert getFragmentManager() != null;
                         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                         fragmentTransaction.setReorderingAllowed(true);
                         fragmentTransaction.replace(R.id.fragmentContainerView, new PlanthuntDescriptionFragment());
@@ -53,6 +54,7 @@ public class GameMenuFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        assert getFragmentManager() != null;
                         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                         fragmentTransaction.setReorderingAllowed(true);
                         fragmentTransaction.replace(R.id.fragmentContainerView, new KneetagDescriptionFragment());
@@ -60,13 +62,13 @@ public class GameMenuFragment extends Fragment {
                     }
                 }
         );
-        //It's the button to launch the plantHunt Game
+        //It's the button to launch the planthunt Game
         final Button planthuntLaunchButton = view.findViewById(R.id.planthuntPlay);
         planthuntLaunchButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), PlanthuntCameraActivity.class);
+                        Intent intent = new Intent(getActivity(), PlanthuntMainActivity.class);
                         startActivity(intent);
                      }
                 }
