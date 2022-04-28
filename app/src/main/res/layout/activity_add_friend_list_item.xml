@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="400dp"
-    tools:context=".FriendListItemActivity">
+    tools:context=".AddFriendListItem">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toTopOf="@+id/downGuidelineItem">
 
         <ImageView
-            android:id="@+id/friendProfilePicture"
+            android:id="@+id/friendProfilePictureAdd"
             android:layout_width="match_parent"
             android:layout_height="198dp"
             android:contentDescription="@string/profile_picture_of_your_friend"
@@ -25,7 +25,7 @@
             android:focusable="false"/>
 
         <TextView
-            android:id="@+id/friendName"
+            android:id="@+id/friendNameAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="@string/name_of_your_friend"
@@ -35,11 +35,11 @@
             android:focusable="false"/>
 
         <Button
-            android:id="@+id/removeFriendButton"
+            android:id="@+id/addFriendItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="?attr/gradientPrimary_color"
-            android:text="@string/remove_friend"
+            android:text="@string/add_friend"
             android:focusable="false"/>
 
     </LinearLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ch.epfl.sdp.healthplay">
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -30,6 +31,10 @@
             android:exported="false" />
         <activity
             android:name=".planthunt.PlanthuntMainActivity"
+            android:name=".ViewProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddFriendListItem"
             android:exported="false" />
         <activity
             android:name=".FriendListItemActivity"
@@ -75,6 +80,9 @@
             android:exported="false" />
         <activity
             android:name=".BarcodeInformationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LeaderBoardActivity"
             android:exported="false" />
         <activity
             android:name=".ProductInfoActivity"
