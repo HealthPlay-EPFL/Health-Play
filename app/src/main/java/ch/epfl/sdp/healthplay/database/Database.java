@@ -29,6 +29,7 @@ import java.util.TreeMap;
 
 import ch.epfl.sdp.healthplay.LeaderBoardActivity;
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.model.Product;
 
 public final class Database {
 
@@ -50,6 +51,7 @@ public final class Database {
     public static final String STATUS = "status";
     public static final String LEADERBOARD = "leaderBoard";
     public static final String LEADERBOARD_DATE = "leaderBoardDate";
+    public static final String NUTRIMENTS = "nutriments";
     public static final int MAX_NBR_PLAYERS = 3;
 
     public final DatabaseReference mDatabase;
@@ -116,6 +118,10 @@ public final class Database {
      */
     public void addCalorie(String userId, int calories) {
         getStats(userId, getLambda(userId, calories, CALORIE_COUNTER));
+    }
+
+    public void addNutrimentField(String userId, Product.Nutriments nutriment, double value) {
+        getStats(userId, getLambda(userId, value, nutriment.getName()));
     }
 
     /**
@@ -232,21 +238,21 @@ public final class Database {
         return format.format(new Date());
     }
 
-    private OnCompleteListener<DataSnapshot> getLambda(String userId, int inc, String field) {
+    private OnCompleteListener<DataSnapshot> getLambda(String userId, double inc, String field) {
         return task -> {
             if (!task.isSuccessful()) {
                 Log.e("ERROR", "EREREREROOORORO");
             }
-            int toAdd = inc;
+            double toAdd = inc;
             @SuppressWarnings("unchecked")
             Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>) task.getResult().getValue();
             // This bellow is to check the existence of the wanted calories
             // for today's date
             if (map != null && map.containsKey(getTodayDate())) {
                 Map<String, Number> calo = map.get(getTodayDate());
-                long currentCalories;
+                double currentCalories;
                 if (calo != null && calo.containsKey(field)) {
-                    currentCalories = Long.parseLong(String.valueOf(calo.get(field)));
+                    currentCalories = Double.parseDouble(String.valueOf(calo.get(field)));
                     toAdd += currentCalories;
                 }
             }

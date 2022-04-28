@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -112,7 +114,9 @@ public class BarcodeInformationActivity extends AppCompatActivity {
 
                     // Get the text of the nutriment
                     TextView textView1 = new TextView(this);
-                    textView1.setText(String.format("%s:", nutriments.getName()));
+                    String name = nutriments.getName();
+                    String nameToDisplay = name.substring(0, 1).toUpperCase() + name.substring(1);
+                    textView1.setText(String.format("%s:", nameToDisplay));
                     textView1.setTextSize(20);
 
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -215,6 +219,18 @@ public class BarcodeInformationActivity extends AppCompatActivity {
         Database db = new Database();
         TextView textView = findViewById(R.id.pEnergy);
         double calorie = Double.parseDouble(textView.getText().toString());
-        db.addCalorie(user.getUid(), (int) calorie);
+        if (((Switch) findViewById(R.id.pEnergyUnitSwitch)).isChecked())
+            db.addCalorie(user.getUid(), (int) calorie);
+
+        for (Product.Nutriments nutriments: Product.Nutriments.values()) {
+            double serving = p.getNutrimentServing(nutriments);
+            if (serving > 0) {
+                if (((SwitchCompat) findViewById(R.id.informationLayout).findViewWithTag(nutriments.getName()+"_switch")).isChecked())
+                    db.addNutrimentField(user.getUid(), nutriments, serving);
+            }
+        }
+
+        Toast t = Toast.makeText(getApplicationContext(), "Information saved on the profile !", Toast.LENGTH_SHORT);
+        t.show();
     }
 }
