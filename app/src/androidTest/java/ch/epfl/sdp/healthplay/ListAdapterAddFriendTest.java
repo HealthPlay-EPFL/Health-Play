@@ -8,5 +8,6 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class ListAdapterAddFriendTest {
+//Don't care, everything is checked in FriendListFrag & AddFriendFrag
 
 }

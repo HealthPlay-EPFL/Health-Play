@@ -17,10 +17,10 @@ package="ch.epfl.sdp.healthplay">
     android:supportsRtl="true"
     android:theme="@style/Theme.HealthPlay">
     <activity
-        android:name=".AddFriendListItem"
+        android:name=".friendlist.AddFriendListItem"
         android:exported="false" />
     <activity
-        android:name=".FriendListItemActivity"
+        android:name=".friendlist.FriendListItemActivity"
         android:exported="false" />
     <activity
         android:name=".EditProfilePictureActivity"
