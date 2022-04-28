@@ -45,6 +45,7 @@ public class PlanthuntCollectionActivityTest {
         Espresso.onView(withId(R.id.plantItemName)).check(matches(isDisplayed()));
     }*/
 
+    /*
     @Test
     public void getImageUrlWorks(){
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntCameraActivity.class);
@@ -53,7 +54,7 @@ public class PlanthuntCollectionActivityTest {
 
         String actual = CameraApi.getImageUrl(user, "whatever.jpg");
         assertEquals(actual, expected);
-    }
+    }*/
 
     @Test
     public void itemIsCorrectlyDisplayed(){
