@@ -3,9 +3,11 @@ package ch.epfl.sdp.healthplay.kneetag
 import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Process
+
 import android.util.Log
 import android.view.SurfaceView
 import android.view.View
@@ -26,18 +28,20 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.tensorflow.lite.examples.poseestimation.ml.MoveNetMultiPose
 import org.tensorflow.lite.examples.poseestimation.ml.Type
 
 
-class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class MainActivity : AppCompatActivity(),
+    CompoundButton.OnCheckedChangeListener {
     companion object {
         private const val FRAGMENT_DIALOG = "dialog"
 
     }
+
+    public val CAMERA_ORIENTATION = "ch.epfl.sdp.healthplay.kneetag.MainActivity.CAMERA_ORIENTATION"
 
     /** A [SurfaceView] for camera preview.   */
     private lateinit var surfaceView: SurfaceView
@@ -49,12 +53,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var tvFPS: TextView
     private lateinit var database: Database
 
-
+    private var message: Boolean=false
     private val mAuth = FirebaseAuth.getInstance()
     private lateinit var poseDetector: MoveNetMultiPose
-    private lateinit var tvClassificationValue1: TextView
-    private lateinit var tvClassificationValue2: TextView
-    private lateinit var tvClassificationValue3: TextView
     private val friendList: MutableList<Friend> = ArrayList()
     private var cameraSource: CameraSource? = null
     private var isClassifyPose = false
@@ -77,7 +78,15 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     .show(supportFragmentManager, FRAGMENT_DIALOG)
             }
         }
+    //When the switch button is pressed change the camera between BACK/FRONT
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
 
+        val intent = Intent(this, MainActivity::class.java)
+
+        intent.putExtra(CAMERA_ORIENTATION,true);
+        startActivity(intent);
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -100,10 +109,23 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 }
             }
         }
-        super.onCreate(savedInstanceState)
+
+
+
+            super.onCreate(savedInstanceState)
+        layoutCreation()
+    }
+
+    fun layoutCreation(){
+
         setContentView(R.layout.activity_main)
         // keep screen on while app is running
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+
+        // attaching data adapter to spinner
+        val facingSwitch = findViewById<ToggleButton>(R.id.facing_switch)
+        facingSwitch.setOnCheckedChangeListener(this)
         tvScore = findViewById(R.id.tvScore)
         tvFPS = findViewById(R.id.tvFps)
         surfaceView = findViewById(R.id.surfaceView)
@@ -116,24 +138,34 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 //set the spinners adapter to the previously created one.
         spinner.adapter = adapter
         spinner.adapter = adapter
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val text = parent?.getItemAtPosition(position).toString()
-                poseDetector.leftPerson=Pair(poseDetector.leftPerson.first,text)
+                poseDetector.leftPerson = Pair(poseDetector.leftPerson.first, text)
             }
         }
         var spinnerCopy = findViewById<Spinner>(R.id.friendsCopy)
         spinnerCopy.adapter = adapter
-        spinnerCopy.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        spinnerCopy.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val text = parent?.getItemAtPosition(position).toString()
-                poseDetector.rightPerson=Pair(poseDetector.rightPerson.first,text)
+                poseDetector.rightPerson = Pair(poseDetector.rightPerson.first, text)
             }
         }
         if (!isCameraPermissionGranted()) {
@@ -158,18 +190,20 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     }
 
+
+
     fun check(string: String): Boolean {
         return string == "Anonymous" || string == "YOU"
     }
 
-    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-    }
 
-    override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onStart() {
+        val intent = intent
+        message = intent.getBooleanExtra(CAMERA_ORIENTATION,false)
+
         super.onStart()
-        openCamera()
+        openCamera(message)
     }
 
     private fun initUsername(userId: String) {
@@ -192,11 +226,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onResume()
     }
 
-    override fun onPause() {
-        cameraSource?.close()
-        cameraSource = null
-        super.onPause()
-    }
+
 
     // check if permission is granted or not.
     private fun isCameraPermissionGranted(): Boolean {
@@ -208,15 +238,21 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
 
-    // open camera
-    private fun openCamera() {
+    /**
+     * Starts or restarts the camera source, if it exists. If the camera source doesn't exist yet
+     * (e.g., because onResume was called before the camera source was created), this will be called
+     * again when the camera source is created.
+     */
+    private fun openCamera(orientation: Boolean = false) {
+
         if (isCameraPermissionGranted()) {
             if (cameraSource == null) {
                 cameraSource =
-                    CameraSource(surfaceView, object : CameraSource.CameraSourceListener {
+                    CameraSource(surfaceView,orientation, object : CameraSource.CameraSourceListener {
                         override fun onFPSListener(fps: Int) {
                             tvFPS.text = getString(R.string.tfe_pe_tv_fps, fps)
                         }
+
                         override fun onDetectedInfo(
                             personScore: Float?,
                             poseLabels: List<Pair<String, Float>>?
@@ -239,10 +275,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     }
 
-    private fun convertPoseLabels(pair: Pair<String, Float>?): String {
-        if (pair == null) return "empty"
-        return "${pair.first} (${String.format("%.2f", pair.second)})"
-    }
+
 
     private fun isPoseClassifier() {
         cameraSource?.setClassifier(if (isClassifyPose) PoseClassifier.create(this) else null)
@@ -298,6 +331,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         companion object {
             @JvmStatic
             private val ARG_MESSAGE = "message"
+
             @JvmStatic
             fun newInstance(message: String): ErrorDialog = ErrorDialog().apply {
                 arguments = Bundle().apply { putString(ARG_MESSAGE, message) }

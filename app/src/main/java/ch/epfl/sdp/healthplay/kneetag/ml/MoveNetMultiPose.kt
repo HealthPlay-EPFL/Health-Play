@@ -58,7 +58,9 @@ class MoveNetMultiPose(
     private var scaleWidth: Int = 0
     private var lastInferenceTimeNanos: Long = -1
     private var tracker: AbstractTracker? = null
+    //leftPerson name is updated when the spinner change and the Person is updated when 2 persons are detected
     public var leftPerson: Pair<Person?,String> = Pair(null,"Anonymous")
+    //rightPerson name is updated when the spinner change and the Person is updated when 2 persons are detected
     public var rightPerson: Pair<Person?,String> = Pair(null,"Anonymous")
     public var started = false
 

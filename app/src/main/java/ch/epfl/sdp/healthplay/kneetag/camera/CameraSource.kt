@@ -19,7 +19,11 @@ package ch.epfl.sdp.healthplay.kneetag.camera
 import YuvToRgbConverter
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.ImageFormat
+import android.graphics.Matrix
+import android.graphics.Rect
+import android.hardware.Camera
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraDevice
@@ -33,7 +37,6 @@ import android.view.SurfaceView
 import ch.epfl.sdp.healthplay.kneetag.VisualizationUtils
 import ch.epfl.sdp.healthplay.kneetag.data.Person
 import ch.epfl.sdp.healthplay.kneetag.ml.PoseClassifier
-
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.tensorflow.lite.examples.poseestimation.ml.MoveNetMultiPose
 import java.util.*
@@ -43,7 +46,10 @@ import kotlin.coroutines.resumeWithException
 
 class CameraSource(
     private val surfaceView: SurfaceView,
-    private val listener: CameraSourceListener? = null
+    private val orientation: Boolean=false,
+
+    private val listener: CameraSourceListener? = null ,
+
 ) {
 
     companion object {
@@ -55,6 +61,7 @@ class CameraSource(
         private const val MIN_CONFIDENCE = .2f
         private const val TAG = "Camera Source"
     }
+
 
     private val lock = Any()
     private var detector: MoveNetMultiPose? = null
@@ -78,7 +85,7 @@ class CameraSource(
     private var imageReader: ImageReader? = null
 
     /** The [CameraDevice] that will be opened in this fragment */
-    private var camera: CameraDevice? = null
+    public var camera: CameraDevice? = null
 
     /** Internal reference to the ongoing [CameraCaptureSession] configured with our parameters */
     private var session: CameraCaptureSession? = null
@@ -94,6 +101,7 @@ class CameraSource(
 
 
         camera = openCamera(cameraManager, cameraId)
+
         imageReader =
             ImageReader.newInstance(PREVIEW_WIDTH, PREVIEW_HEIGHT, ImageFormat.YUV_420_888, 3)
         imageReader?.setOnImageAvailableListener({ reader ->
@@ -147,6 +155,7 @@ class CameraSource(
             }, null)
         }
 
+
     @SuppressLint("MissingPermission")
     private suspend fun openCamera(manager: CameraManager, cameraId: String): CameraDevice =
         suspendCancellableCoroutine { cont ->
@@ -167,10 +176,9 @@ class CameraSource(
         for (cameraId in cameraManager.cameraIdList) {
             val characteristics = cameraManager.getCameraCharacteristics(cameraId)
 
-            // We don't use a front facing camera in this sample.
             val cameraDirection = characteristics.get(CameraCharacteristics.LENS_FACING)
-            if (cameraDirection != null &&
-                cameraDirection == CameraCharacteristics.LENS_FACING_FRONT
+
+            if ((cameraDirection == CameraCharacteristics.LENS_FACING_FRONT && !orientation)||(cameraDirection == CameraCharacteristics.LENS_FACING_BACK && orientation)
             ) {
                 continue
             }

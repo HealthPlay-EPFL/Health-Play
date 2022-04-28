@@ -27,9 +27,8 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="89dp"
-                android:backgroundTint="#000000"
-  />
+                android:layout_height="66dp"
+                android:backgroundTint="#000000" />
 
             <Spinner
                 android:id="@+id/friends"
@@ -84,6 +83,16 @@
                 android:orientation="horizontal">
 
             </LinearLayout>
+
+            <ToggleButton
+                android:id="@+id/facing_switch"
+                android:layout_width="75dp"
+                android:layout_height="58dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:background="@drawable/ic_switch_camera_white_48dp"
+                android:checked="false"
+                android:textOff=""
+                android:textOn="" />
 
         </LinearLayout>
 

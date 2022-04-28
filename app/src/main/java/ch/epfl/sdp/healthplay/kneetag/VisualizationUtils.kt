@@ -108,6 +108,7 @@ object VisualizationUtils {
                     CIRCLE_RADIUS,
                     paintCircle
                 )
+                //exception with red color to get a better view of the knee.
                 if(point.bodyPart==BodyPart.LEFT_KNEE||point.bodyPart==BodyPart.RIGHT_KNEE)
                     originalSizeCanvas.drawCircle(
                         point.coordinate.x,
@@ -118,7 +119,7 @@ object VisualizationUtils {
             }
 
             }
-
+        // display the name of the player at their positions
         if (persons.size == 2) {
             originalSizeCanvas.drawText(
                 leftPerson.second, leftPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.x,
