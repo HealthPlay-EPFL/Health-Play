@@ -1,6 +1,8 @@
 package ch.epfl.sdp.healthplay;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -60,10 +63,10 @@ public class ListAdapterAddFriend extends ArrayAdapter<Friend> implements Filter
 
         // Add the friend to the user friend list
         addFriendButton.setOnClickListener(new View.OnClickListener() {
-            String fName = friendName.getText().toString();
 
             @Override
             public void onClick(View v) {
+                String fName = (String) friendName.getText();
                 database.addToFriendList(fName);
                 Snackbar mySnackbar = Snackbar.make(finalConvertView, "Friend " + fName + " added", Snackbar.LENGTH_SHORT);
                 mySnackbar.show();

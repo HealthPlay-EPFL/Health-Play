@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +31,7 @@ import java.util.Map;
 
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Friend;
+import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -90,12 +93,13 @@ public class FriendList_Frag extends Fragment {
         Button calendarButton = view.findViewById(R.id.friendToCalendar);
         Button addFriendButton = view.findViewById(R.id.addFriendBouton);
         ListView listView = view.findViewById(R.id.friendList);
+        FragmentManager fragmentManager = getParentFragmentManager();
 
         // Switch to the Home Fragment
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { ;
-                switchToFragment(new Frag_Home());
+                FragmentNavigation.switchToFragment(fragmentManager, new Frag_Home());
             }
         }
         );
@@ -105,7 +109,11 @@ public class FriendList_Frag extends Fragment {
             @Override
             public void onClick(View v) {
                 if(auth.getCurrentUser() != null ){
-                    switchToFragment(new AddFriendFragment());
+                    FragmentNavigation.switchToFragment(fragmentManager, new AddFriendFragment());
+                }
+                else{
+                    Snackbar mySnackbar = Snackbar.make(view, "Cannot add friends when offline", Snackbar.LENGTH_SHORT);
+                    mySnackbar.show();
                 }
             }
         }
@@ -198,16 +206,6 @@ public class FriendList_Frag extends Fragment {
             adapter.addAll(friendList);
         }
 
-    }
-
-    /**
-     * Switch to the given fragment
-     * @param fragment
-     */
-    private void switchToFragment(Fragment fragment){
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainerView, fragment);
-        fragmentTransaction.commit();
     }
 
 

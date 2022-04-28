@@ -14,7 +14,7 @@
         <ListView
             android:id="@+id/friendList"
             android:layout_width="match_parent"
-            android:layout_height="724dp">
+            android:layout_height="510dp">
 
         </ListView>
 
@@ -27,9 +27,9 @@
 
         <Button
             android:id="@+id/addFriendBouton"
+            android:backgroundTint="?attr/gradientPrimary_color"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:backgroundTint="?attr/gradientPrimary_color"
             android:text="@string/add_friend" />
 
     </LinearLayout>

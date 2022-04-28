@@ -38,8 +38,8 @@
             android:id="@+id/removeFriendButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/gradientPrimary_color"
             android:text="@string/remove_friend"
+            android:backgroundTint="?attr/gradientPrimary_color"
             android:focusable="false"/>
 
     </LinearLayout>
