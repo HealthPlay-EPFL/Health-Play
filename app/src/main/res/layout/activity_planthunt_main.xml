@@ -53,6 +53,9 @@
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/play_button"
+                android:elevation="0dp"
+                android:outlineSpotShadowColor="@color/fui_transparent"
+                android:outlineAmbientShadowColor="@color/fui_transparent"
                 android:rotation="180"
                 android:scaleX="1.8"
                 android:translationX="35dp" />
