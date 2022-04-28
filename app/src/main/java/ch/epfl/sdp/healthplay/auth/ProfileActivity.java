@@ -37,39 +37,31 @@ public class ProfileActivity extends AppCompatActivity {
         SignedInActivity.SetMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        getImage();
         FirebaseUser user = mAuth.getCurrentUser();
 
         if(user != null) {
-            db.mDatabase
-                    .child(Database.USERS)
-                    .child(user.getUid())
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (!task.isSuccessful()) {
-                            Log.e("firebase", "Error getting data", task.getException());
-                        }
-                        if(!task.getResult().hasChildren()){
-                            db.writeNewUser(user.getUid(),"HugoBoss", 0, 0);
-                        }
-                        initUsername(user.getUid());
-                        initBirthday(user.getUid());
-                        initStats(user.getUid());
-                        initName(user.getUid());
-
-                    });
-
+            ImageView imageView = findViewById(R.id.profile_picture);
+            getImage(user.getUid(), imageView);
+            TextView TextViewUsername = findViewById(R.id.friends);
+            initUsername(user.getUid(), TextViewUsername);
+            TextView TextViewBirthday = findViewById(R.id.profileBirthday);
+            initBirthday(user.getUid(), TextViewBirthday);
+            TextView TextViewStatsButton = findViewById(R.id.statsButton);
+            TextView TextViewWeight = findViewById(R.id.profileWeight);
+            TextView TextViewHealthPoint = findViewById(R.id.profileHealthPoint);
+            initStats(user.getUid(), TextViewStatsButton, TextViewWeight, TextViewHealthPoint);
+            TextView TextViewName = findViewById(R.id.profileName);
+            initName(user.getUid(), TextViewName);
         }
     }
 
-    private void getImage() {
-        db.mDatabase.child(Database.USERS).child(mAuth.getCurrentUser().getUid()).child("image").addValueEventListener(new ValueEventListener() {
+    public void getImage(String userId, ImageView imageView) {
+        db.mDatabase.child(Database.USERS).child(userId).child("image").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
                     if(snapshot.getValue() != null){
                         String image = snapshot.getValue().toString();
-                        ImageView imageView = findViewById(R.id.profile_picture);
                         Glide.with(getApplicationContext()).load(image).into(imageView);
                     }
 
@@ -92,8 +84,8 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void initBirthday(String userId) {
-        TextView TextViewBirthday = findViewById(R.id.profileBirthday);
+    public void initBirthday(String userId, TextView TextViewBirthday) {
+
 
         db.readField(userId, Database.BIRTHDAY, (task -> {
             if (!task.isSuccessful()) {
@@ -124,9 +116,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 
-    public void initName(String userId) {
-        TextView TextViewName = findViewById(R.id.profileName);
-
+    public void initName(String userId, TextView TextViewName) {
 
         db.readField(userId, Database.NAME, (task -> {
             if (!task.isSuccessful()) {
@@ -185,8 +175,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void initUsername(String userId) {
-        TextView TextViewUsername = findViewById(R.id.friends);
+    public void initUsername(String userId, TextView TextViewUsername) {
 
         db.readField(userId, Database.USERNAME, (task -> {
             if (!task.isSuccessful()) {
@@ -212,7 +201,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    public void initStats(String userId) {
+    public void initStats(String userId, TextView TextViewStatsButton,  TextView TextViewWeight, TextView TextViewHealthPoint) {
 
         db.getStats(userId,(task -> {
             if (!task.isSuccessful()) {
@@ -220,7 +209,7 @@ public class ProfileActivity extends AppCompatActivity {
             } else {
                 @SuppressWarnings("unchecked")
                 Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>)task.getResult().getValue();
-                updateStats(map, userId);
+                updateStats(map, userId, TextViewStatsButton, TextViewWeight, TextViewHealthPoint);
             }
         }));
 
@@ -230,7 +219,7 @@ public class ProfileActivity extends AppCompatActivity {
                 @SuppressWarnings("unchecked")
                 Map<String, Map<String, Number>> stats = (Map<String, Map<String, Number>>)dataSnapshot.getValue();
                 if(stats != null) {
-                    updateStats(stats,userId);
+                    updateStats(stats,userId, TextViewStatsButton, TextViewWeight, TextViewHealthPoint);
                 }
             }
 
@@ -244,11 +233,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-    public void updateStats(Map<String, Map<String, Number>> map, String userId) {
-        TextView TextViewStatsButton = findViewById(R.id.statsButton);
-        TextView TextViewWeight = findViewById(R.id.profileWeight);
-        TextView TextViewHealthPoint = findViewById(R.id.profileHealthPoint);
-
+    public void updateStats(Map<String, Map<String, Number>> map, String userId, TextView TextViewStatsButton,  TextView TextViewWeight, TextView TextViewHealthPoint) {
 
         if (map!=null && map.containsKey(Database.getTodayDate())) {
             Map<String, Number> todayStats = map.get(Database.getTodayDate());
@@ -298,5 +283,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     }
+
+
 
 }

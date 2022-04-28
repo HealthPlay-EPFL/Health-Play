@@ -246,7 +246,6 @@ public final class Database {
                     toAdd += currentCalories;
                 }
             }
-            long finalCurrentCalories = currentCalories;
             mDatabase.child(USERS)
                     .child(userId)
                     .child(STATS)
@@ -258,7 +257,7 @@ public final class Database {
                         }
                         else {
                              if(field.equals(HEALTH_POINT)) {
-                                updateLeaderBoard(userId, finalCurrentCalories);
+                                updateLeaderBoard(userId, inc);
                         }
                         }
                      });
@@ -409,13 +408,13 @@ public final class Database {
      * Update the LeaderBoard
      * @param userId
      */
-    private void updateLeaderBoard(String userId, long prevHealthPoint) {
+    private void updateLeaderBoard(String userId, int toRemove) {
 
-        getStats(userId,getLambdaUpdate(userId,prevHealthPoint));
+        getStats(userId,getLambdaUpdate(userId,toRemove));
 
     }
 
-    private OnCompleteListener<DataSnapshot> getLambdaUpdate(String userId, long prevHealthPoint) {
+    private OnCompleteListener<DataSnapshot> getLambdaUpdate(String userId, int toRemove) {
         return task -> {
             if (!task.isSuccessful()) {
                 Log.e("ERROR", "EREREREROOORORO");
@@ -438,7 +437,7 @@ public final class Database {
                             HashMap<String,HashMap<String, ArrayList<String>>> leaderBoard = (HashMap<String,HashMap<String, ArrayList<String>>>)t.getResult().getValue();
                             if(leaderBoard != null && leaderBoard.containsKey(getTodayDate())) {
                                 ArrayList<String> l = leaderBoard.get(getTodayDate()).containsKey(hp) ? leaderBoard.get(getTodayDate()).get(hp) : new ArrayList<>();
-                                String hpPre = String.valueOf(prevHealthPoint);
+                                String hpPre = String.valueOf(Long.parseLong(hp) - toRemove);
                                 ArrayList<String> lPre = leaderBoard.get(getTodayDate()).containsKey(hpPre) ? leaderBoard.get(getTodayDate()).get(hpPre) : new ArrayList<>();
                                 lPre.remove(userId);
                                 l.add(userId);
