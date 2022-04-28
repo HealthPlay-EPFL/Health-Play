@@ -4,14 +4,11 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +25,6 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import ch.epfl.sdp.healthplay.database.Database;
-import ch.epfl.sdp.healthplay.database.User;
 import ch.epfl.sdp.healthplay.model.Product;
 import ch.epfl.sdp.healthplay.model.ProductInfoClient;
 //import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
@@ -91,6 +87,8 @@ public class BarcodeInformationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        // Get the authenticated user if any
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         TextView pName = findViewById(R.id.pName);
         pName.setText(productName.get());
@@ -148,13 +146,14 @@ public class BarcodeInformationActivity extends AppCompatActivity {
                     );
                     s.setPaddingRelative(0, 0, (int) (10 * Resources.getSystem().getDisplayMetrics().density), 0);
                     s.setLayoutParams(switchParams);
+                    s.setChecked(true);
 
-                    linearLayout.addView(s);
+                    // If the user is logged in, allow the choice
+                    if (user != null)
+                        linearLayout.addView(s);
                 }
             }
         }
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
 
         // Check if a user is logged in and allow them to save the calorie counter
         if (user != null) {
@@ -166,7 +165,7 @@ public class BarcodeInformationActivity extends AppCompatActivity {
         }
     }
 
-    private void changeCalorieText(boolean divide) {
+    private void changeValue(boolean divide) {
         TextView textView = findViewById(R.id.pEnergy);
         TextView counter = findViewById(R.id.quantity_name2);
         String calorieText = textView.getText().toString();
@@ -177,21 +176,39 @@ public class BarcodeInformationActivity extends AppCompatActivity {
             counter.setText(String.format(Integer.toString(quantity - 1), Locale.ENGLISH));
             String newText = String.format(Double.toString(newCalorie), Locale.ENGLISH);
             textView.setText(newText);
+            for (Product.Nutriments nutriments: Product.Nutriments.values()) {
+                double serving = p.getNutrimentServing(nutriments);
+                if (serving > 0) {
+                    textView = findViewById(R.id.informationLayout).findViewWithTag(nutriments.getName());
+                    calorieText = textView.getText().toString();
+                    newCalorie = Double.parseDouble(calorieText) / 2.0;
+                    textView.setText(String.format(Double.toString(newCalorie), Locale.ENGLISH));
+                }
+            }
         } else if (!divide) {
             newCalorie = 2.0 * Double.parseDouble(calorieText);
             counter.setText(String.format(Integer.toString(quantity + 1), Locale.ENGLISH));
             String newText = String.format(Double.toString(newCalorie), Locale.ENGLISH);
             textView.setText(newText);
+            for (Product.Nutriments nutriments: Product.Nutriments.values()) {
+                double serving = p.getNutrimentServing(nutriments);
+                if (serving > 0) {
+                    textView = findViewById(R.id.informationLayout).findViewWithTag(nutriments.getName());
+                    calorieText = textView.getText().toString();
+                    newCalorie = Double.parseDouble(calorieText) * 2.0;
+                    textView.setText(String.format(Double.toString(newCalorie), Locale.ENGLISH));
+                }
+            }
         }
 
     }
 
     public void increment(View view) {
-        changeCalorieText(false);
+        changeValue(false);
     }
 
     public void decrement(View view) {
-        changeCalorieText(true);
+        changeValue(true);
     }
 
     public void addToUser(View view) {

@@ -173,6 +173,7 @@
                         android:layout_weight="1"
                         android:paddingEnd="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        android:checked="true"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
                 </LinearLayout>
             </LinearLayout>
@@ -220,7 +221,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="50dp">
                 <Button
                     android:id="@+id/add_to_counter_button"
                     android:layout_width="215dp"
