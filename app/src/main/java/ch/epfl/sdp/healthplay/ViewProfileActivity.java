@@ -31,9 +31,6 @@ import ch.epfl.sdp.healthplay.database.Database;
 public class ViewProfileActivity extends ProfileActivity {
 
     public final static String MESSAGE = "id";
-    private Database db = new Database();
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
     /**
      * Profile of one of the top 5 player (cannot modify it).
      * Click on one of the LeaderBoard names, then click View Profile to access this view.
