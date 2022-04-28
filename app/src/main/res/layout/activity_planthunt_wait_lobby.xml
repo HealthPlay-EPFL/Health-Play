@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".planthunt.PlanthuntResultActivity">
+    tools:context=".planthunt.PlanthuntWaitLobbyActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,6 +37,21 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
+        <ImageView
+            android:id="@+id/waitLobbyGif"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:scaleX="2"
+            android:scaleY="2"
+            android:src="@drawable/loading_planthunt" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,15 +64,14 @@
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
                 android:fontFamily="@font/alata"
-                android:text="Scores"
+                android:text="Connected players"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="60sp" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@color/planthuntDarkGreen" />
+                android:layout_height="10dp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button7"
@@ -65,10 +79,10 @@
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
                 android:fontFamily="@font/alata"
-                android:text="Baptiste\n37 points"
-                android:drawableEnd="@drawable/crown_icon"
+                android:drawableEnd="@drawable/check_icon"
                 android:drawableTint="@color/white"
                 android:paddingEnd="40dp"
+                android:text="Baptiste"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="36sp" />
@@ -76,8 +90,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/planthuntDarkGreen" />
+                android:layout_height="2dp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button8"
@@ -85,15 +98,17 @@
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
                 android:fontFamily="@font/alata"
-                android:text="Antoine\n32 points"
+                android:drawableEnd="@drawable/check_icon"
+                android:drawableTint="@color/white"
+                android:paddingEnd="40dp"
+                android:text="Antoine"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="36sp" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/planthuntDarkGreen" />
+                android:layout_height="2dp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button9"
@@ -101,15 +116,17 @@
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
                 android:fontFamily="@font/alata"
-                android:text="Etienne\n27 points"
+                android:drawableEnd="@drawable/check_icon"
+                android:drawableTint="@color/white"
+                android:paddingEnd="40dp"
+                android:text="Etienne"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="36sp" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/planthuntDarkGreen" />
+                android:layout_height="2dp" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -119,7 +136,7 @@
             android:layout_gravity="center"
             android:backgroundTint="@color/planthuntLightGreen"
             android:fontFamily="@font/alata"
-            android:text="Leave"
+            android:text="Ready"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="36sp" />

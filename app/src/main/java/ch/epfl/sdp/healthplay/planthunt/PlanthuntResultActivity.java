@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.planthunt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +21,7 @@ import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.api.PlantnetApi;
 import okhttp3.HttpUrl;
 

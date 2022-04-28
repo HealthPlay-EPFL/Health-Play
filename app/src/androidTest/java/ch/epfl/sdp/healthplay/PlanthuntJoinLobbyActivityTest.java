@@ -6,7 +6,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
-import static org.junit.Assert.*;
 
 import android.view.View;
 
@@ -21,6 +20,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
+
+import ch.epfl.sdp.healthplay.planthunt.PlanthuntJoinLobbyActivity;
 
 public class PlanthuntJoinLobbyActivityTest {
     private static final String NAME = "test";

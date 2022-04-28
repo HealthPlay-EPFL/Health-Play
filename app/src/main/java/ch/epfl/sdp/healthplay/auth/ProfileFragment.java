@@ -1,6 +1,5 @@
 package ch.epfl.sdp.healthplay.auth;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,11 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
-import ch.epfl.sdp.healthplay.EditProfilePictureActivity;
 import ch.epfl.sdp.healthplay.EditProfilePictureFragment;
-import ch.epfl.sdp.healthplay.KneetagDescriptionFragment;
-import ch.epfl.sdp.healthplay.PlanthuntDescriptionFragment;
-import ch.epfl.sdp.healthplay.ProfileSettingsActivity;
 import ch.epfl.sdp.healthplay.ProfileSettingsFragment;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;

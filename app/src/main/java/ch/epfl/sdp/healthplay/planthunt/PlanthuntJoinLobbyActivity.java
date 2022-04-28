@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.planthunt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 
 import java.util.Objects;
 
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Lobby;
 

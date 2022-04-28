@@ -3,8 +3,6 @@ package ch.epfl.sdp.healthplay;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -15,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import ch.epfl.sdp.healthplay.kneetag.MainActivity;
+import ch.epfl.sdp.healthplay.planthunt.PlanthuntCameraActivity;
+import ch.epfl.sdp.healthplay.planthunt.PlanthuntDescriptionFragment;
 
 public class GameMenuFragment extends Fragment {
 
