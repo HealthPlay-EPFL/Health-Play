@@ -7,13 +7,16 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -129,8 +132,24 @@ public class BarcodeInformationActivity extends AppCompatActivity {
                             Double.toString(p.getNutrimentServing(nutriments)), Locale.ENGLISH));
                     textView2.setTextSize(20);
                     textView2.setLayoutParams(params);
+                    // Set the tag of the textview to find it later
+                    textView2.setTag(nutriments.getName());
 
                     linearLayout.addView(textView2);
+
+                    // Create the switch
+                    SwitchCompat s = new SwitchCompat(this);
+                    s.setText("");
+                    s.setTag(nutriments.getName()+"_switch");
+                    LinearLayout.LayoutParams switchParams = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            1
+                    );
+                    s.setPaddingRelative(0, 0, (int) (10 * Resources.getSystem().getDisplayMetrics().density), 0);
+                    s.setLayoutParams(switchParams);
+
+                    linearLayout.addView(s);
                 }
             }
         }
