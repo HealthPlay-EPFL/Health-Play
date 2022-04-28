@@ -6,11 +6,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import ch.epfl.sdp.healthplay.database.Database;
+import ch.epfl.sdp.healthplay.database.Friend;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,32 +87,43 @@ public class AddFriendFragment extends Fragment {
         Button addFriend = view.findViewById(R.id.AddFriend);
         Button backButton = view.findViewById(R.id.backButton);
         EditText editText = view.findViewById(R.id.friendSearch);
+        ListView listView = view.findViewById(R.id.allUserList);
+
         List<String> allUsers = new ArrayList<>();
+        //ListAdapterFriend adapter;
+        if(auth.getCurrentUser() != null) {
+            // Get the list of all users in the Database
+            database.mDatabase.child(Database.USERS).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    //List<String> allUsers = new ArrayList<>(((HashMap<String, Object>) task.getResult().getValue()).keySet());
+                    allUsers.addAll(((HashMap<String, Object>) task.getResult().getValue()).keySet());
+                    List<Friend> allPossibleFriend = new ArrayList<>();
 
-        // Get the list of all users in the Database
-        database.mDatabase.child(Database.USERS).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                allUsers.addAll(((HashMap<String, Object>)task.getResult().getValue()).keySet());
-
-            }
-        });
-
-        //Add a friend to database
-        addFriend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(allUsers != null){
-                    //We add it to the database iff the userId is an existing user in the database
-                    if(allUsers.contains(editText.getText().toString())) {
-                        database.addToFriendList(editText.getText().toString());
-                        // Go back to the FriendList
-                        backToFriendList();
+                    for(String user: allUsers){
+                        allPossibleFriend.add(new Friend(user));
                     }
-                }
 
-            }
-        });
+                    buildListView(view, listView, allPossibleFriend);
+                }
+            });
+
+            //Add a friend to database
+            addFriend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (allUsers != null) {
+                        //We add it to the database iff the userId is an existing user in the database
+                        if (allUsers.contains(editText.getText().toString())) {
+                            database.addToFriendList(editText.getText().toString());
+                            // Go back to the FriendList
+                            backToFriendList();
+                        }
+                    }
+
+                }
+            });
+        }
 
         // Go back to the FriendList
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +132,32 @@ public class AddFriendFragment extends Fragment {
                 backToFriendList();
             }
         });
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                ((ListAdapterAddFriend)listView.getAdapter()).getFilter().filter(s);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Friend friend = (Friend) listView.getItemAtPosition(position);
+                editText.setText(friend.getUserName());
+            }
+        });
+
         return view;
     }
 
@@ -124,4 +169,13 @@ public class AddFriendFragment extends Fragment {
         fragmentTransaction.replace(R.id.fragmentContainerView, new FriendList_Frag());
         fragmentTransaction.commit();
     }
+
+    private void buildListView(View view, ListView listView, List<Friend> friendList) {
+        ArrayList<Friend> arrayOfUsers = new ArrayList<Friend>(friendList);
+        // Create the adapter to convert the array to views
+        ListAdapterAddFriend adapter = new ListAdapterAddFriend(view.getContext(), arrayOfUsers);
+        // Attach the adapter to a ListView
+        listView.setAdapter(adapter);
+    }
+
 }

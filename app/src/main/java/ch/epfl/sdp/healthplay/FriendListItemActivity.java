@@ -12,8 +12,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import ch.epfl.sdp.healthplay.database.Database;
 
 public class FriendListItemActivity extends AppCompatActivity {
-    private final FirebaseAuth auth = FirebaseAuth.getInstance();
-    private final Database database = new Database();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

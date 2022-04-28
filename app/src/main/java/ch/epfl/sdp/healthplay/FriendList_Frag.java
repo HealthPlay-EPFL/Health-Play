@@ -113,29 +113,23 @@ public class FriendList_Frag extends Fragment {
 
         // Get the Friend List of the current User
         if(auth.getCurrentUser() != null) {
-            database.readField(auth.getCurrentUser().getUid(), "friends", new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    friends = (Map<String, Boolean>) task.getResult().getValue();
-                    List<String> toRemove = new ArrayList<>();
-                    List<Friend> friendList = new ArrayList<Friend>();
-                    for (String friend : friends.keySet()
-                    ) {
-                        if (!friends.get(friend)) {
-                            // We need to create another list, because you cannot forEach in a changing List
-                            toRemove.add(friend);
-                        } else {
-                            friendList.add(new Friend(friend));
-                        }
-                    }
-                    for (String rem : toRemove
-                    ) {
-                        friends.remove(rem);
-                    }
-
-                    buildListView(view, listView, friendList);
+            friends = database.getFriendList();
+            List<String> toRemove = new ArrayList<>();
+            List<Friend> friendList = new ArrayList<Friend>();
+            for (String friend : friends.keySet()
+            ) {
+                if (!friends.get(friend)) {
+                    // We need to create another list, because you cannot forEach in a changing List
+                    toRemove.add(friend);
+                } else {
+                    friendList.add(new Friend(friend));
                 }
-            });
+            }
+            for (String rem : toRemove
+            ) {
+                friends.remove(rem);
+            }
+            buildListView(view, listView, friendList);
 
             // Listen to changes to the FriendList of the User
             database.mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("friends").addValueEventListener(new ValueEventListener() {
@@ -182,7 +176,7 @@ public class FriendList_Frag extends Fragment {
      * @param listView
      * @param friendList
      */
-    private void buildListView(View view, ListView listView, List<Friend> friendList) {
+    public void buildListView(View view, ListView listView, List<Friend> friendList) {
         ArrayList<Friend> arrayOfUsers = new ArrayList<Friend>();
         // Create the adapter to convert the array to views
         ListAdapterFriend adapter = new ListAdapterFriend(view.getContext(), arrayOfUsers);

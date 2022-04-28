@@ -17,4 +17,10 @@ public class Friend {
         this.userName = userName;
     }
 
+    @Override
+    public String toString() {
+        return "Friend{" +
+                "userName='" + userName + '\'' +
+                '}';
+    }
 }
