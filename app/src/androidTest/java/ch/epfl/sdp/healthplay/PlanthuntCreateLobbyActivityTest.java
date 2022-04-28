@@ -33,13 +33,13 @@ public class PlanthuntCreateLobbyActivityTest {
 
     @Test
     public void lobbyIsCorrectlyCreated() {
-        ViewInteraction textName = Espresso.onView(withId(R.id.createLobbyName));
+        ViewInteraction textName = Espresso.onView(withId(R.id.planthuntCreateLobbyName));
         textName.perform(ViewActions.typeText(NAME));
         Espresso.closeSoftKeyboard();
-        ViewInteraction textPassword = Espresso.onView(withId(R.id.createLobbyPassword));
+        ViewInteraction textPassword = Espresso.onView(withId(R.id.planthuntCreateLobbyPassword));
         textPassword.perform(ViewActions.typeText(PASSWORD));
         Espresso.closeSoftKeyboard();
-        Espresso.onView(withId(R.id.createLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+        Espresso.onView(withId(R.id.planthuntCreateLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
@@ -58,6 +58,6 @@ public class PlanthuntCreateLobbyActivityTest {
                 }
         );
 
-        Espresso.onView(withId(R.id.createLobbyButton)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.planthuntCreateLobbyButton)).check(matches(isDisplayed()));
     }
 }

@@ -13,7 +13,7 @@
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
-        android:background="@color/material_green_300"
+        android:background="@color/planthuntDarkGreen"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,7 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/dancing_script"
+            android:fontFamily="@font/alata"
             android:text="New plant!"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
@@ -41,7 +41,7 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:id="@+id/newPlantImage"
+            android:id="@+id/planthuntPlantImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/coquelicot" />
@@ -52,24 +52,23 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/newPlantName"
+            android:id="@+id/planthuntPlantName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/dancing_script"
+            android:fontFamily="@font/alata"
             android:text="You found a poppy!"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="48sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/newPlantButton"
-            android:layout_width="200dp"
+            android:id="@+id/planthuntPlantContinue"
+            android:layout_width="250dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:background="@drawable/rounded_button"
-            android:backgroundTint="@color/material_green_500"
-            android:fontFamily="@font/dancing_script"
+            android:backgroundTint="@color/planthuntLightGreen"
+            android:fontFamily="@font/alata"
             android:text="Keep hunting"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"

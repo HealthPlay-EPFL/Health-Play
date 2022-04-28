@@ -43,7 +43,7 @@
             android:layout_weight="1" />
 
         <EditText
-            android:id="@+id/createLobbyName"
+            android:id="@+id/planthuntCreateLobbyName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -62,7 +62,7 @@
             android:layout_weight="1" />
 
         <EditText
-            android:id="@+id/createLobbyPassword"
+            android:id="@+id/planthuntCreateLobbyPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -81,7 +81,7 @@
             android:layout_weight="1" />
 
         <EditText
-            android:id="@+id/createLobbyUsername"
+            android:id="@+id/planthuntCreateLobbyUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -101,7 +101,7 @@
             android:layout_weight="1" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/createLobbyButton"
+            android:id="@+id/planthuntCreateLobbyButton"
             android:layout_width="200dp"
             android:layout_height="100dp"
             android:layout_gravity="center"

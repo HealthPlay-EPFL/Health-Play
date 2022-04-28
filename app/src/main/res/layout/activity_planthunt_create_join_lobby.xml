@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button4"
+            android:id="@+id/planthuntCreateLobbyMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -32,7 +32,7 @@
             android:textSize="48sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button6"
+            android:id="@+id/planthuntJoinLobbyMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -3,7 +3,7 @@
 
     <item
         android:drawable="@drawable/crown"
-        android:width="50dp"
+        android:width="60dp"
         android:height="50dp"
         />
 

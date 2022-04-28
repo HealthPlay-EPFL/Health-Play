@@ -7,9 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Lobby;
@@ -28,10 +25,10 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
         Database db = new Database();
 
         //Get name and password fields in the activity
-        EditText editName = findViewById(R.id.createLobbyName);
-        EditText editPassword = findViewById(R.id.createLobbyPassword);
-        EditText editUsername = findViewById(R.id.createLobbyUsername);
-        lobbyButton = findViewById(R.id.createLobbyButton);
+        EditText editName = findViewById(R.id.planthuntCreateLobbyName);
+        EditText editPassword = findViewById(R.id.planthuntCreateLobbyPassword);
+        EditText editUsername = findViewById(R.id.planthuntCreateLobbyUsername);
+        lobbyButton = findViewById(R.id.planthuntCreateLobbyButton);
 
         //Create new lobby when clicking on Create lobby button
         lobbyButton.setOnClickListener(new View.OnClickListener() {

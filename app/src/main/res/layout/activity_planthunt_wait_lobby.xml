@@ -130,7 +130,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/createLobbyButton"
+            android:id="@+id/planthuntCreateLobbyButton"
             android:layout_width="200dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
