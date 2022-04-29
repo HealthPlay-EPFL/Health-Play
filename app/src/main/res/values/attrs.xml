@@ -1,18 +1,22 @@
 <resources>
     <declare-styleable name="ds">
-        <attr name="profileButton_color" format="color"/>
-        <attr name="text_color" format="color"/>
-        <attr name="title_color" format="color"/>
-        <attr name="gradientPrimary_color" format="color"/>
-        <attr name="gradientSecondary_color" format="color"/>
-        <attr name="plantHuntGreen_color" format="color"/>
-        <attr name="plantHuntPlay_color" format="color"/>
-        <attr name="profileBorder_color" format="color"/>
-        <attr name="viewStats_color" format="color"/>
-        <attr name="profileField_color" format="color"/>
-        <attr name="profileLine_color" format="color"/>
-        <attr name="backgroundColor" format="color"/>
-        <attr name="fragView_color" format="color"/>
+        <attr name="profileButton_color" format="color" />
+        <attr name="text_color" format="color" />
+        <attr name="title_color" format="color" />
+        <attr name="gradientPrimary_color" format="color" />
+        <attr name="gradientSecondary_color" format="color" />
+        <attr name="plantHuntGreen_color" format="color" />
+        <attr name="plantHuntPlay_color" format="color" />
+        <attr name="profileBorder_color" format="color" />
+        <attr name="viewStats_color" format="color" />
+        <attr name="profileField_color" format="color" />
+        <attr name="profileLine_color" format="color" />
+        <attr name="backgroundColor" format="color" />
+        <attr name="fragView_color" format="color" />
 
+    </declare-styleable>
+    <declare-styleable name="FullscreenAttrs">
+        <attr name="fullscreenBackgroundColor" format="color" />
+        <attr name="fullscreenTextColor" format="color" />
     </declare-styleable>
 </resources>

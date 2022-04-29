@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.planthunt;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -25,6 +25,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.api.CameraApi;
 import ch.epfl.sdp.healthplay.api.PlantnetApi;
 

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.planthunt;
 
 import android.os.Bundle;
 
@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
+import ch.epfl.sdp.healthplay.GameMenuFragment;
+import ch.epfl.sdp.healthplay.R;
 
 public class PlanthuntDescriptionFragment extends Fragment {
 
