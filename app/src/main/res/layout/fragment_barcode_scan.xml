@@ -82,17 +82,62 @@
                 <!--app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">-->
 
+                <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guidelineH"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guidelineH1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="1" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guidelineV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.05" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guidelineV1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.4" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guidelineV2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.6" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guidelineV3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.95" />
+
                 <Button
                     android:id="@+id/get_information_from_barcode"
-                    android:layout_width="169dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="0dp"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:backgroundTint="@color/colorPrimaryVariant"
                     android:text="@string/take_a_picture"
                     android:textAllCaps="false"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@id/guidelineH1"
+                    app:layout_constraintTop_toBottomOf="@id/guidelineH"
+                    app:layout_constraintRight_toLeftOf="@id/guidelineV1"
+                    app:layout_constraintLeft_toRightOf="@id/guidelineV"/>
 
                 <Space
                     android:layout_width="0dp"
@@ -101,15 +146,19 @@
 
                 <Button
                     android:id="@+id/enter_manually_button"
-                    android:layout_width="169dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:backgroundTint="@color/colorPrimaryVariant"
                     android:text="@string/enter_manually"
                     android:textAllCaps="false"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@id/guidelineH1"
+                    app:layout_constraintTop_toBottomOf="@id/guidelineH"
+                    app:layout_constraintRight_toLeftOf="@id/guidelineV3"
+                    app:layout_constraintLeft_toRightOf="@id/guidelineV2"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
