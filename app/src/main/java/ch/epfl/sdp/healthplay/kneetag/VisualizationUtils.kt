@@ -63,8 +63,8 @@ object VisualizationUtils {
     fun drawBodyKeypoints(
         input: Bitmap,
         persons: List<Person>,
-        leftPerson: Pair<Person?,String>?,
-        rightPerson: Pair<Person?,String>?
+        leftPerson: Pair<Person?,String>,
+        rightPerson: Pair<Person?,String>
 
     ): Bitmap {
         val paintCircle = Paint().apply {
@@ -122,11 +122,11 @@ object VisualizationUtils {
         // display the name of the player at their positions
         if (persons.size == 2) {
             originalSizeCanvas.drawText(
-                leftPerson!!.second, leftPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.x,
+                leftPerson.second, leftPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.x,
                 leftPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.y - 30, paintText
             )
             originalSizeCanvas.drawText(
-                rightPerson!!.second, rightPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.x,
+                rightPerson.second, rightPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.x,
                 rightPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.y - 30, paintText
             )
         }

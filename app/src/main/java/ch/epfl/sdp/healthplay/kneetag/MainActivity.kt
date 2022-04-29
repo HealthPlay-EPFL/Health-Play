@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(),
 
     }
 
-    public val CAMERA_ORIENTATION = "ch.epfl.sdp.healthplay.kneetag.MainActivity.CAMERA_ORIENTATION"
+    val CAMERA_ORIENTATION = "ch.epfl.sdp.healthplay.kneetag.MainActivity.CAMERA_ORIENTATION"
 
     /** A [SurfaceView] for camera preview.   */
     private lateinit var surfaceView: SurfaceView
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(),
     private lateinit var tvFPS: TextView
     private lateinit var database: Database
 
-    private var message: Boolean=false
+    private var message: Boolean = false
     private val mAuth = FirebaseAuth.getInstance()
     private lateinit var poseDetector: MoveNetMultiPose
     private val friendList: MutableList<Friend> = ArrayList()
@@ -78,19 +78,18 @@ class MainActivity : AppCompatActivity(),
                     .show(supportFragmentManager, FRAGMENT_DIALOG)
             }
         }
+
     //When the switch button is pressed change the camera between BACK/FRONT
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
 
         val intent = Intent(this, MainActivity::class.java)
-
-        intent.putExtra(CAMERA_ORIENTATION,true);
-        startActivity(intent);
+        intent.putExtra(CAMERA_ORIENTATION, !message)
+        startActivity(intent)
+        this.finish()
 
     }
-
+    //Initialize the friendList + Create the layout
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        // Inflate the layout for this fragment
         database = Database()
         val user = mAuth.currentUser
         if (user != null) {
@@ -104,24 +103,19 @@ class MainActivity : AppCompatActivity(),
                 val mut = task.result.value as Map<String, Boolean>
                 friends.addAll(mut.keys)
                 for (friend in mut.keys) {
-
                     friendList.add(Friend(friend))
                 }
             }
         }
-
-
-
-            super.onCreate(savedInstanceState)
+        super.onCreate(savedInstanceState)
         layoutCreation()
     }
 
-    fun layoutCreation(){
+    fun layoutCreation() {
 
         setContentView(R.layout.activity_main)
         // keep screen on while app is running
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-
 
         // attaching data adapter to spinner
         val facingSwitch = findViewById<ToggleButton>(R.id.facing_switch)
@@ -134,10 +128,9 @@ class MainActivity : AppCompatActivity(),
         var spinner = findViewById<Spinner>(R.id.friends)
         val adapter: ArrayAdapter<String> =
             ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, friends)
-//set the spinners adapter to the previously created one.
-//set the spinners adapter to the previously created one.
+        //set the spinners adapter to the previously created one.
         spinner.adapter = adapter
-        spinner.adapter = adapter
+        //Set the left person
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
@@ -154,6 +147,7 @@ class MainActivity : AppCompatActivity(),
         }
         var spinnerCopy = findViewById<Spinner>(R.id.friendsCopy)
         spinnerCopy.adapter = adapter
+        //Set the right person
         spinnerCopy.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
@@ -191,16 +185,14 @@ class MainActivity : AppCompatActivity(),
     }
 
 
-
     fun check(string: String): Boolean {
         return string == "Anonymous" || string == "YOU"
     }
 
 
-
     override fun onStart() {
         val intent = intent
-        message = intent.getBooleanExtra(CAMERA_ORIENTATION,false)
+        message = intent.getBooleanExtra(CAMERA_ORIENTATION, false)
 
         super.onStart()
         openCamera(message)
@@ -218,14 +210,12 @@ class MainActivity : AppCompatActivity(),
                     name = task.result.value.toString()
                 }
             })
-
     }
 
     override fun onResume() {
         cameraSource?.resume()
         super.onResume()
     }
-
 
 
     // check if permission is granted or not.
@@ -248,19 +238,23 @@ class MainActivity : AppCompatActivity(),
         if (isCameraPermissionGranted()) {
             if (cameraSource == null) {
                 cameraSource =
-                    CameraSource(surfaceView,orientation, object : CameraSource.CameraSourceListener {
-                        override fun onFPSListener(fps: Int) {
-                            tvFPS.text = getString(R.string.tfe_pe_tv_fps, fps)
-                        }
+                    CameraSource(
+                        surfaceView,
+                        orientation,
+                        object : CameraSource.CameraSourceListener {
+                            override fun onFPSListener(fps: Int) {
+                                tvFPS.text = getString(R.string.tfe_pe_tv_fps, fps)
+                            }
 
-                        override fun onDetectedInfo(
-                            personScore: Float?,
-                            poseLabels: List<Pair<String, Float>>?
-                        ) {
-                            tvScore.text = getString(R.string.tfe_pe_tv_score, personScore ?: 0f)
-                        }
+                            override fun onDetectedInfo(
+                                personScore: Float?,
+                                poseLabels: List<Pair<String, Float>>?
+                            ) {
+                                tvScore.text =
+                                    getString(R.string.tfe_pe_tv_score, personScore ?: 0f)
+                            }
 
-                    }).apply {
+                        }).apply {
                         prepareCamera()
                     }
                 isPoseClassifier()
@@ -274,7 +268,6 @@ class MainActivity : AppCompatActivity(),
         }
 
     }
-
 
 
     private fun isPoseClassifier() {
@@ -324,10 +317,9 @@ class MainActivity : AppCompatActivity(),
             AlertDialog.Builder(activity)
                 .setMessage(requireArguments().getString(ARG_MESSAGE))
                 .setPositiveButton(android.R.string.ok) { _, _ ->
-                    // do nothing
+                // do nothing
                 }
                 .create()
-
         companion object {
             @JvmStatic
             private val ARG_MESSAGE = "message"

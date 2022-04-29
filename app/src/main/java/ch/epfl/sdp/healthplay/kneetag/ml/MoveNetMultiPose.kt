@@ -193,6 +193,7 @@ class MoveNetMultiPose(
     private fun postProcess(modelOutput: FloatArray): List<Person> {
 
         val persons = mutableListOf<Person>()
+        //Detect a maximum of 2 personss
         for (idx in (0..min(modelOutput.indices.last, outputShape[2])) step outputShape[2]) {
             val personScore = modelOutput[idx + DETECTION_SCORE_INDEX]
             if (personScore < DETECTION_THRESHOLD) continue
@@ -216,6 +217,7 @@ class MoveNetMultiPose(
                     score = personScore
                 )
             )
+            //Initialize the left and right person if the number of person displayed is 2
             if (persons.size == 2) {
 
 
