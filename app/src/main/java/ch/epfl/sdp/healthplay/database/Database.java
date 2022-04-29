@@ -29,6 +29,7 @@ import java.util.TreeMap;
 
 import ch.epfl.sdp.healthplay.LeaderBoardActivity;
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.model.Product;
 
 public final class Database {
 
@@ -48,6 +49,8 @@ public final class Database {
     public static final String PLAYER_SCORE = "playerScore";
     public static final String PASSWORD = "password";
     public static final String LEADERBOARD = "leaderBoard";
+    public static final String LEADERBOARD_DATE = "leaderBoardDate";
+    public static final String NUTRIMENTS = "nutriments";
     public static final int MAX_NBR_PLAYERS = 3;
 
     public final DatabaseReference mDatabase;
@@ -114,6 +117,10 @@ public final class Database {
      */
     public void addCalorie(String userId, int calories) {
         getStats(userId, getLambda(userId, calories, CALORIE_COUNTER));
+    }
+
+    public void addNutrimentField(String userId, Product.Nutriments nutriment, double value) {
+        getStats(userId, getLambda(userId, value, nutriment.getName()));
     }
 
     /**
@@ -228,21 +235,21 @@ public final class Database {
         return format.format(new Date());
     }
 
-    private OnCompleteListener<DataSnapshot> getLambda(String userId, int inc, String field) {
+    private OnCompleteListener<DataSnapshot> getLambda(String userId, double inc, String field) {
         return task -> {
             if (!task.isSuccessful()) {
                 Log.e("ERROR", "EREREREROOORORO");
             }
-            int toAdd = inc;
+            double toAdd = inc;
             @SuppressWarnings("unchecked")
             Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>) task.getResult().getValue();
             // This bellow is to check the existence of the wanted calories
             // for today's date
-            long currentCalories = 0;
+            double currentCalories = 0;
             if (map != null && map.containsKey(getTodayDate())) {
                 Map<String, Number> calo = map.get(getTodayDate());
                 if (calo != null && calo.containsKey(field)) {
-                    currentCalories = Long.parseLong(String.valueOf(calo.get(field)));
+                    currentCalories = Double.parseDouble(String.valueOf(calo.get(field)));
                     toAdd += currentCalories;
                 }
             }
@@ -257,7 +264,7 @@ public final class Database {
                         }
                         else {
                              if(field.equals(HEALTH_POINT)) {
-                                updateLeaderBoard(userId, inc);
+                                updateLeaderBoard(userId, (int) inc);
                         }
                         }
                      });

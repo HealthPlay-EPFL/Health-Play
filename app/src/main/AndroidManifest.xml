@@ -84,6 +84,10 @@
             android:name=".BarcodeInformationActivity"
             android:exported="false" />
         <activity
+            android:name=".AdditionalProductInformationActivity"
+            android:exported="false"
+            android:parentActivityName=".BarcodeInformationActivity"/>
+        <activity
             android:name=".LeaderBoardActivity"
             android:exported="false" />
         <activity
@@ -116,5 +120,4 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
-
 </manifest>
