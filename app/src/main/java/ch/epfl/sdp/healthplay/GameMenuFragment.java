@@ -46,7 +46,7 @@ public class GameMenuFragment extends Fragment {
                             fragmentTransaction.commit();
                         }
                         else{
-                            System.out.println("Fragment is null!");
+                            throw new NullPointerException();
                         }
                     }
                 }
@@ -64,7 +64,7 @@ public class GameMenuFragment extends Fragment {
                             fragmentTransaction.replace(R.id.fragmentContainerView, new KneetagDescriptionFragment());
                             fragmentTransaction.commit();}
                         else{
-                            System.out.println("Fragment is null!");
+                            throw new NullPointerException();
                         }
                     }
                 }
