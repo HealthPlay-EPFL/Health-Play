@@ -24,7 +24,7 @@ import ch.epfl.sdp.healthplay.EditProfilePictureActivity;
 import ch.epfl.sdp.healthplay.ProfileSettingsActivity;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.auth.ProfileActivity;
-import ch.epfl.sdp.healthplay.auth.SignedInActivity;
+import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 import ch.epfl.sdp.healthplay.database.Database;
 
 
@@ -38,7 +38,7 @@ public class ViewProfileActivity extends ProfileActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        SignedInActivity.SetMode(this);
+        SignedInFragment.SetMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_profile);
 

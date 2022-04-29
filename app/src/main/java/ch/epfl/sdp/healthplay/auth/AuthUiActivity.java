@@ -32,6 +32,7 @@ import com.firebase.ui.auth.util.ExtraConstants;
 
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.ProfileSettingsActivity;
+import ch.epfl.sdp.healthplay.ProfileSettingsFragment;
 import ch.epfl.sdp.healthplay.R;
 
 
@@ -133,13 +134,13 @@ public class AuthUiActivity extends AppCompatActivity
     private void handleSignInResponse(int resultCode, @Nullable IdpResponse response) {
         // Successfully signed in
         if (resultCode == RESULT_OK) {
+            Intent intent = new Intent(this, HomeScreenActivity.class);
             FirebaseUserMetadata metadata = FirebaseAuth.getInstance().getCurrentUser().getMetadata();
             if (metadata != null && metadata.getCreationTimestamp() == metadata.getLastSignInTimestamp()) {
                 new Database().writeNewUser(FirebaseAuth.getInstance().getCurrentUser().getUid(),
                         "", 0, 0);
-                Intent intent = new Intent(this, ProfileSettingsActivity.class);
                 // Tell intent that the user has been created for the first time
-                intent.putExtra(ProfileSettingsActivity.MESSAGE, true);
+                intent.putExtra(ProfileSettingsFragment.MESSAGE, true);
                 startActivity(intent);
             } else {
                 startActivity(new Intent(this, HomeScreenActivity.class));

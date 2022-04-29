@@ -38,7 +38,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 import ch.epfl.sdp.healthplay.auth.ProfileActivity;
-import ch.epfl.sdp.healthplay.auth.SignedInActivity;
+import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 import ch.epfl.sdp.healthplay.database.Database;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -54,7 +54,7 @@ public class EditProfilePictureActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SignedInActivity.SetMode(this);
+        SignedInFragment.SetMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile_picture);
         CircleImageView profilePictureView = findViewById(R.id.edit_profile_picture);

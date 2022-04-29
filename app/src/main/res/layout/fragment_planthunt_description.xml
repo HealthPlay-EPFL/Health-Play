@@ -13,14 +13,65 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.0" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineH1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.38" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineH2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineV1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="1" />
+
         <ImageButton
             android:id="@+id/plantDescButtonBack"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="0dp"
             android:scaleType="centerCrop"
             android:background="@null"
             android:src="@drawable/planthunt_description"
-            android:transitionName="planthunt_transition" />
+            android:transitionName="planthunt_transition"
+            app:layout_constraintBottom_toTopOf="@id/guidelineH1"
+            app:layout_constraintLeft_toRightOf="@id/guidelineV"
+            app:layout_constraintRight_toLeftOf="@id/guidelineV1"
+            app:layout_constraintTop_toBottomOf="@id/guidelineH"/>
+
+            <ScrollView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/guidelineH2"
+                app:layout_constraintLeft_toRightOf="@id/guidelineV"
+                app:layout_constraintRight_toLeftOf="@id/guidelineV1"
+                app:layout_constraintTop_toBottomOf="@id/guidelineH1">
 
         <TextView
             android:layout_width="match_parent"
@@ -36,7 +87,8 @@ Good luck hunting!
             android:textAlignment="center"
             android:textColor="?attr/text_color"
             android:textSize="20sp" />
-
+            </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 

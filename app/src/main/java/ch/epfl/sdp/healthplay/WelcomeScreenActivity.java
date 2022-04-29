@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import ch.epfl.sdp.healthplay.auth.AuthUiActivity;
-import ch.epfl.sdp.healthplay.auth.SignedInActivity;
+import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 import ch.epfl.sdp.healthplay.database.DataCache;
 
 public class WelcomeScreenActivity extends AppCompatActivity {
@@ -23,7 +23,7 @@ public class WelcomeScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SignedInActivity.SetMode(this);
+        SignedInFragment.SetMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen);
         ImageView logo = (ImageView) findViewById(R.id.logo_image);
