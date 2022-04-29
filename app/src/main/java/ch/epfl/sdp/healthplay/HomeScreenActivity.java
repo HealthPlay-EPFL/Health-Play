@@ -12,13 +12,13 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import ch.epfl.sdp.healthplay.auth.SignedInActivity;
+import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 
 public class HomeScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SignedInActivity.SetMode(this);
+        SignedInFragment.SetMode(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);

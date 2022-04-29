@@ -10,10 +10,50 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.0" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineH1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.15" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineH2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineH3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="1" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.0" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineV1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="1" />
+
         <EditText
             android:id="@+id/friendSearch"
-            android:layout_width="414dp"
-            android:layout_height="88dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:clickable="true"
             android:cursorVisible="true"
             android:focusable="true"
@@ -22,39 +62,63 @@
             android:singleLine="true"
             android:textAlignment="center"
             android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColorHint="?attr/text_color"
+            android:backgroundTint="?attr/text_color"
+            app:layout_constraintBottom_toTopOf="@id/guidelineH1"
+            app:layout_constraintTop_toBottomOf="@id/guidelineH"
+            app:layout_constraintLeft_toRightOf="@id/guidelineV"
+            app:layout_constraintRight_toLeftOf="@id/guidelineV1"/>
 
         <LinearLayout
-            android:layout_width="411dp"
-            android:layout_height="645dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/friendSearch">
+            app:layout_constraintBottom_toTopOf="@id/guidelineH2"
+            app:layout_constraintTop_toBottomOf="@id/guidelineH1"
+            app:layout_constraintLeft_toRightOf="@id/guidelineV"
+            app:layout_constraintRight_toLeftOf="@id/guidelineV1">
 
             <ListView
                 android:id="@+id/allUserList"
                 android:layout_width="match_parent"
-                android:layout_height="547dp"
+                android:layout_height="match_parent"
                 android:smoothScrollbar="false" />
-
-            <Button
-                android:id="@+id/AddFriend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="?attr/gradientPrimary_color"
-                android:text="@string/add_friend" />
-
-            <Button
-                android:id="@+id/backButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="?attr/gradientPrimary_color"
-                android:text="@string/go_back"
-                tools:ignore="MissingConstraints" />
         </LinearLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineV2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.4" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineV3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.6" />
+
+        <Button
+            android:id="@+id/AddFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/gradientPrimary_color"
+            android:text="@string/add_friend"
+            app:layout_constraintBottom_toTopOf="@id/guidelineH3"
+            app:layout_constraintTop_toBottomOf="@id/guidelineH2"
+            app:layout_constraintLeft_toRightOf="@id/guidelineV"
+            app:layout_constraintRight_toLeftOf="@id/guidelineV2"/>
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/gradientPrimary_color"
+            android:text="@string/go_back"
+            app:layout_constraintBottom_toTopOf="@id/guidelineH3"
+            app:layout_constraintTop_toBottomOf="@id/guidelineH2"
+            app:layout_constraintLeft_toRightOf="@id/guidelineV3"
+            app:layout_constraintRight_toLeftOf="@id/guidelineV1"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
