@@ -27,6 +27,8 @@ import ch.epfl.sdp.healthplay.kneetag.data.BodyPart
 import ch.epfl.sdp.healthplay.kneetag.data.Device
 import ch.epfl.sdp.healthplay.kneetag.data.KeyPoint
 import ch.epfl.sdp.healthplay.kneetag.data.Person
+import org.tensorflow.lite.examples.poseestimation.ml.MoveNetMultiPose
+import org.tensorflow.lite.examples.poseestimation.ml.Type
 import org.tensorflow.lite.gpu.GpuDelegate
 import org.tensorflow.lite.support.common.FileUtil
 import org.tensorflow.lite.support.common.ops.NormalizeOp
@@ -46,7 +48,7 @@ class PoseNet(private val interpreter: Interpreter, private var gpuDelegate: Gpu
         private const val TAG = "Posenet"
         private const val MODEL_FILENAME = "posenet.tflite"
 
-        fun create(context: Context, device: Device): PoseNet {
+        fun create(context: Context, device: Device): MoveNetMultiPose {
             val options = Interpreter.Options()
             var gpuDelegate: GpuDelegate? = null
             options.setNumThreads(CPU_NUM_THREADS)
@@ -59,13 +61,13 @@ class PoseNet(private val interpreter: Interpreter, private var gpuDelegate: Gpu
                 }
                 Device.NNAPI -> options.setUseNNAPI(true)
             }
-            return PoseNet(
+            return MoveNetMultiPose(
                 Interpreter(
                     FileUtil.loadMappedFile(
                         context,
                         MODEL_FILENAME
                     ), options
-                ),
+                ), Type.Dynamic,
                 gpuDelegate
             )
         }
