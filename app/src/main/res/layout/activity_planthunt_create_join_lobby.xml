@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".planthunt.PlanthuntCreateJoinLobbyActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/planthuntCreateLobbyMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/planthuntDarkGreen"
+            android:drawableStart="@drawable/search_icon"
+            android:drawableTint="@color/white"
+            android:drawableTintMode="src_atop"
+            android:fontFamily="@font/alata"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="Host a new lobby"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="48sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/planthuntJoinLobbyMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/planthuntLightGreen"
+            android:drawableStart="@drawable/add_icon"
+            android:drawableTint="@color/white"
+            android:drawableTintMode="src_atop"
+            android:fontFamily="@font/alata"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="Join an existing lobby"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="48sp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

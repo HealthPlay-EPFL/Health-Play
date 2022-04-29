@@ -4,72 +4,114 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlanthuntJoinLobbyActivity">
+    tools:context=".planthunt.PlanthuntJoinLobbyActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/planthuntDarkGreen"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <Space
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginTop="50dp"
-                android:text="Join existing lobby"
-                android:textAlignment="center"
-                android:textSize="48sp" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:fontFamily="@font/alata"
+            android:padding="10dp"
+            android:text="Join an existing lobby"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="72sp" />
 
-            <EditText
-                android:id="@+id/joinLobbyName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginTop="50dp"
-                android:ems="10"
-                tools:text="Enter lobby name"
-                android:inputType="textPersonName" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
-            <EditText
-                android:id="@+id/joinLobbyPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="50dp"
-                android:ems="10"
-                tools:text="Enter lobby password"
-                android:inputType="textPersonName" />
+        <EditText
+            android:id="@+id/planthuntJoinLobbyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:fontFamily="@font/alata"
+            android:hint="Enter lobby name"
+            android:inputType="textPersonName"
+            android:paddingStart="40dp"
+            android:textColorHint="@color/white" />
 
-            <EditText
-                android:id="@+id/joinLobbyUsername"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginTop="100dp"
-                android:ems="10"
-                tools:text="Enter your username"
-                android:inputType="textPersonName" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/joinLobbyButton"
-                android:layout_width="200dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="100dp"
-                android:backgroundTint="@color/material_purple_a700"
-                android:text="Join lobby" />
-        </LinearLayout>
+        <EditText
+            android:id="@+id/planthuntJoinLobbyPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableStart="@drawable/lock_icon"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/white"
+            android:ems="10"
+            android:fontFamily="@font/alata"
+            android:hint="Enter lobby password"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/white" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <EditText
+            android:id="@+id/planthuntJoinLobbyUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:drawableStart="@drawable/profile_icon"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/white"
+            android:ems="10"
+            android:fontFamily="@font/alata"
+            android:hint="Enter any username"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/white" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/planthuntJoinLobbyButton"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/planthuntLightGreen"
+            android:fontFamily="@font/alata"
+            android:text="Join lobby"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
