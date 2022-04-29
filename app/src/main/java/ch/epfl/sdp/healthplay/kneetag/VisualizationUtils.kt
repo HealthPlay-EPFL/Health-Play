@@ -63,48 +63,43 @@ object VisualizationUtils {
     fun drawBodyKeypoints(
         input: Bitmap,
         persons: List<Person>,
-        isTrackerEnabled: Boolean = false
+        leftPerson: Pair<Person?,String>,
+        rightPerson: Pair<Person?,String>
+
     ): Bitmap {
         val paintCircle = Paint().apply {
             strokeWidth = CIRCLE_RADIUS
-            color = Color.RED
+            color = Color.BLUE
             style = Paint.Style.FILL
         }
         val paintLine = Paint().apply {
             strokeWidth = LINE_WIDTH
-            color = Color.RED
+            color = Color.BLUE
             style = Paint.Style.STROKE
+        }
+        val paintCircleKnee = Paint().apply {
+            strokeWidth = CIRCLE_RADIUS
+            color = Color.RED
+            style = Paint.Style.FILL
         }
 
         val paintText = Paint().apply {
             textSize = PERSON_ID_TEXT_SIZE
-            color = Color.BLUE
-            textAlign = Paint.Align.LEFT
+            color = Color.BLACK
+            textAlign = Paint.Align.CENTER
         }
 
         val output = input.copy(Bitmap.Config.ARGB_8888, true)
         val originalSizeCanvas = Canvas(output)
         persons.forEach { person ->
             // draw person id if tracker is enable
-            if (isTrackerEnabled) {
-                person.boundingBox?.let {
-                    val personIdX = max(0f, it.left)
-                    val personIdY = max(0f, it.top)
 
-                    originalSizeCanvas.drawText(
-                        person.id.toString(),
-                        personIdX,
-                        personIdY - PERSON_ID_MARGIN,
-                        paintText
-                    )
-                    originalSizeCanvas.drawRect(it, paintLine)
-                }
-            }
             bodyJoints.forEach {
                 val pointA = person.keyPoints[it.first.position].coordinate
                 val pointB = person.keyPoints[it.second.position].coordinate
                 originalSizeCanvas.drawLine(pointA.x, pointA.y, pointB.x, pointB.y, paintLine)
             }
+
 
             person.keyPoints.forEach { point ->
                 originalSizeCanvas.drawCircle(
@@ -113,7 +108,27 @@ object VisualizationUtils {
                     CIRCLE_RADIUS,
                     paintCircle
                 )
+                //exception with red color to get a better view of the knee.
+                if(point.bodyPart==BodyPart.LEFT_KNEE||point.bodyPart==BodyPart.RIGHT_KNEE)
+                    originalSizeCanvas.drawCircle(
+                        point.coordinate.x,
+                        point.coordinate.y,
+                        CIRCLE_RADIUS*2,
+                        paintCircleKnee
+                    )
             }
+
+            }
+        // display the name of the player at their positions
+        if (persons.size == 2) {
+            originalSizeCanvas.drawText(
+                leftPerson.second, leftPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.x,
+                leftPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.y - 30, paintText
+            )
+            originalSizeCanvas.drawText(
+                rightPerson.second, rightPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.x,
+                rightPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.y - 30, paintText
+            )
         }
         return output
     }
