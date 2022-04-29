@@ -83,4 +83,9 @@
         <item name="android:layout_marginRight">16dp</item>
     </style>
 
+    <style name="Widget.Theme.HealthPlay.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
 </resources>
