@@ -88,6 +88,7 @@
                 android:layout_marginTop="10dp"
                 android:textSize="24sp"
                 android:paddingHorizontal="10dp"
+                android:layout_marginBottom="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -101,7 +102,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp">
                     <TextView
                         android:id="@+id/quantity_name"
                         android:layout_width="80dp"
@@ -134,6 +136,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.526"
                         tools:visibility="visible" />
+
                 </LinearLayout>
 
 
@@ -162,8 +165,32 @@
                         android:textSize="20sp"
                         android:layout_marginStart="10dp"
                         android:text="KCal (per 100g)"/>
+
+                    <Switch
+                        android:id="@+id/pEnergyUnitSwitch"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingEnd="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:checked="true"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
                 </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/showAdditionalInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textAlignment="textEnd"
+                android:paddingRight="10dp"
+                android:text="Show additional information"
+                android:layout_marginVertical="30dp"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:focusable="true" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -208,7 +235,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="100dp">
                 <Button
                     android:id="@+id/add_to_counter_button"
                     android:layout_width="215dp"
