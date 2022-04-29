@@ -71,7 +71,6 @@ public class SignedInFragment extends Fragment {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
             startActivity(AuthUiActivity.createIntent(getActivity()));
-            //finish();
             return view;
         }
         mBinding = FragmentSignedInBinding.inflate(inflater);
@@ -101,6 +100,10 @@ public class SignedInFragment extends Fragment {
         startActivity(intent);
     }
 
+    /**
+     * Set the appTheme Light/Dark for one context
+     * @param activity reference of the context
+     */
     public static void SetMode(Context activity) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
         int mode = sharedPref.getInt(activity.getString(R.string.saved_night_mode), AppCompatDelegate.MODE_NIGHT_NO);
@@ -128,7 +131,6 @@ public class SignedInFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         startActivity(new Intent(getContext(), HomeScreenActivity.class));
-                        //finish();
                         return;
                     } else {
                         Log.w(TAG, "signOut:failure", task.getException());
@@ -150,10 +152,13 @@ public class SignedInFragment extends Fragment {
 
 
     public void deleteAccountClicked() {
+        String messageDelete = "Are you sure you want to delete this account?";
+        String yes = "Yes, nuke it!";
+        String no = "No";
         new MaterialAlertDialogBuilder(getContext())
-                .setMessage("Are you sure you want to delete this account?")
-                .setPositiveButton("Yes, nuke it!", (dialogInterface, i) -> deleteAccount())
-                .setNegativeButton("No", null)
+                .setMessage(messageDelete)
+                .setPositiveButton(yes, (dialogInterface, i) -> deleteAccount())
+                .setNegativeButton(no, null)
                 .show();
     }
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -166,7 +171,6 @@ public class SignedInFragment extends Fragment {
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
                         startActivity(new Intent(getActivity(),HomeScreenActivity.class));
-                        //finish();
                     } else {
                         showSnackbar(R.string.delete_account_failed);
                     }
@@ -176,18 +180,20 @@ public class SignedInFragment extends Fragment {
     private void populateProfile(@Nullable IdpResponse response) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        mBinding.userEmail.setText(
-                TextUtils.isEmpty(user.getEmail()) ? "No email" : user.getEmail());
-        mBinding.userPhoneNumber.setText(
-                TextUtils.isEmpty(user.getPhoneNumber()) ? "No phone number" : user.getPhoneNumber());
-        mBinding.userDisplayName.setText(
-                TextUtils.isEmpty(user.getDisplayName()) ? "No display name" : user.getDisplayName());
+        String email = TextUtils.isEmpty(user.getEmail()) ? "No email" : user.getEmail();
+        String phone = TextUtils.isEmpty(user.getPhoneNumber()) ? "No phone number" : user.getPhoneNumber();
+        String display = TextUtils.isEmpty(user.getDisplayName()) ? "No display name" : user.getDisplayName();
+
+        mBinding.userEmail.setText(email);
+        mBinding.userPhoneNumber.setText(phone);
+        mBinding.userDisplayName.setText(display);
 
         if (response == null) {
             mBinding.userIsNew.setVisibility(View.GONE);
         } else {
             mBinding.userIsNew.setVisibility(View.VISIBLE);
-            mBinding.userIsNew.setText(response.isNewUser() ? "New user" : "Existing user");
+            String userDisplay = response.isNewUser() ? "New user" : "Existing user";
+            mBinding.userIsNew.setText(userDisplay);
         }
 
         List<String> providers = new ArrayList<>();

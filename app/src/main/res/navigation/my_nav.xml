@@ -31,7 +31,7 @@
         android:label="sign_in"
         tools:layout="@layout/signed_in_layout" />-->
     <fragment
-        android:id="@+id/SignedInActivity"
+        android:id="@+id/SignedInFragment"
         android:name="ch.epfl.sdp.healthplay.auth.SignedInFragment"
         android:label="sign_in"
         tools:layout="@layout/fragment_signed_in" />
