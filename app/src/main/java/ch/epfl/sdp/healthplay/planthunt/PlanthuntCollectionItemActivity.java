@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.planthunt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import ch.epfl.sdp.healthplay.R;
 
 public class PlanthuntCollectionItemActivity extends AppCompatActivity {
 

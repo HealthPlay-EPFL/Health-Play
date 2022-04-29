@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.planthunt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,18 +15,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ch.epfl.sdp.healthplay.ListAdapterPlant;
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.api.CameraApi;
-import ch.epfl.sdp.healthplay.api.PlantnetApi;
 import ch.epfl.sdp.healthplay.database.Plant;
 
 public class PlanthuntCollectionActivity extends AppCompatActivity {
