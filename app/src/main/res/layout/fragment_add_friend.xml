@@ -61,9 +61,7 @@
             android:inputType="text"
             android:singleLine="true"
             android:textAlignment="center"
-            android:textColorHint="#78909C"
             android:textSize="30sp"
-
             android:textColorHint="?attr/text_color"
             android:backgroundTint="?attr/text_color"
             app:layout_constraintBottom_toTopOf="@id/guidelineH1"
