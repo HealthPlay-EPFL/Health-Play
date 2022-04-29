@@ -58,8 +58,10 @@ class MoveNetMultiPose(
     private var scaleWidth: Int = 0
     private var lastInferenceTimeNanos: Long = -1
     private var tracker: AbstractTracker? = null
-    public var leftPerson: Person? = null
-    public var rightPerson: Person? = null
+    //leftPerson name is updated when the spinner change and the Person is updated when 2 persons are detected
+    public var leftPerson: Pair<Person?,String> = Pair(null,"Anonymous")
+    //rightPerson name is updated when the spinner change and the Person is updated when 2 persons are detected
+    public var rightPerson: Pair<Person?,String> = Pair(null,"Anonymous")
     public var started = false
 
     companion object {
@@ -191,6 +193,7 @@ class MoveNetMultiPose(
     private fun postProcess(modelOutput: FloatArray): List<Person> {
 
         val persons = mutableListOf<Person>()
+        //Detect a maximum of 2 personss
         for (idx in (0..min(modelOutput.indices.last, outputShape[2])) step outputShape[2]) {
             val personScore = modelOutput[idx + DETECTION_SCORE_INDEX]
             if (personScore < DETECTION_THRESHOLD) continue
@@ -214,18 +217,23 @@ class MoveNetMultiPose(
                     score = personScore
                 )
             )
+            //Initialize the left and right person if the number of person displayed is 2
             if (persons.size == 2) {
 
-                if (persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x < persons[0].keyPoints[BodyPart.NOSE.position].coordinate.y) {
-                    leftPerson = persons[0]
-                    rightPerson = persons[1]
+
+                if (persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x < persons[1].keyPoints[BodyPart.NOSE.position].coordinate.x) {
+                    System.out.println("1:" + persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x.toString() + " "+persons[1].keyPoints[BodyPart.NOSE.position].coordinate.x )
+                    leftPerson = Pair(persons[0],leftPerson.second)
+
+                    rightPerson = Pair(persons[1],rightPerson.second)
                 } else {
-                    leftPerson = persons[0]
-                    rightPerson = persons[1]
+                    System.out.println("2:" +persons[1].keyPoints[BodyPart.NOSE.position].coordinate.x.toString() + " "+persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x )
+                    leftPerson = Pair(persons[1],leftPerson.second)
+                    rightPerson = Pair(persons[0],rightPerson.second)
                 }
             }else{
-                leftPerson = null
-                rightPerson = null
+                leftPerson = Pair(null,leftPerson.second)
+                rightPerson = Pair(null,rightPerson.second)
             }
 
         }
