@@ -68,38 +68,8 @@ public class AddFriendFragmentTest {
     @Before
     public void before() throws InterruptedException{
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
-        onView(withId(R.id.FriendList_button)).perform(new ViewAction() {
-            @Override
-            public Matcher<View> getConstraints() {
-                return ViewMatchers.isEnabled(); // no constraints, they are checked above
-            }
-
-            @Override
-            public String getDescription() {
-                return "click plus button";
-            }
-
-            @Override
-            public void perform(UiController uiController, View view) {
-                view.performClick();
-            }
-        });
-        onView(withId(R.id.addFriendBouton)).perform(new ViewAction() {
-            @Override
-            public Matcher<View> getConstraints() {
-                return ViewMatchers.isEnabled(); // no constraints, they are checked above
-            }
-
-            @Override
-            public String getDescription() {
-                return "click plus button";
-            }
-
-            @Override
-            public void perform(UiController uiController, View view) {
-                view.performClick();
-            }
-        });
+        onView(withId(R.id.FriendList_button)).perform(click());
+        onView(withId(R.id.addFriendBouton)).perform(click());
     }
 
     @Test
@@ -154,7 +124,7 @@ public class AddFriendFragmentTest {
 
     @Test
     public void addFriend() throws InterruptedException {
-        onData(anything()).inAdapterView(withId(R.id.allUserList)).atPosition(1).onChildView(withId(R.id.addFriendItem)).perform(
+        onData(anything()).inAdapterView(withId(R.id.allUserList)).atPosition(0).onChildView(withId(R.id.addFriendItem)).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
@@ -163,7 +133,7 @@ public class AddFriendFragmentTest {
 
                     @Override
                     public String getDescription() {
-                        return "click plus button";
+                        return "click add button";
                     }
 
                     @Override
