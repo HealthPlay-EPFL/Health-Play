@@ -3,8 +3,6 @@ package ch.epfl.sdp.healthplay;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -15,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import ch.epfl.sdp.healthplay.kneetag.MainActivity;
+import ch.epfl.sdp.healthplay.planthunt.PlanthuntDescriptionFragment;
+import ch.epfl.sdp.healthplay.planthunt.PlanthuntMainActivity;
 
 public class GameMenuFragment extends Fragment {
 
@@ -39,10 +39,15 @@ public class GameMenuFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.setReorderingAllowed(true);
-                        fragmentTransaction.replace(R.id.fragmentContainerView, new PlanthuntDescriptionFragment());
-                        fragmentTransaction.commit();
+                        if (getFragmentManager() != null){
+                            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                            fragmentTransaction.setReorderingAllowed(true);
+                            fragmentTransaction.replace(R.id.fragmentContainerView, new PlanthuntDescriptionFragment());
+                            fragmentTransaction.commit();
+                        }
+                        else{
+                            System.out.println("Fragment is null!");
+                        }
                     }
                 }
         );
@@ -53,20 +58,24 @@ public class GameMenuFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.setReorderingAllowed(true);
-                        fragmentTransaction.replace(R.id.fragmentContainerView, new KneetagDescriptionFragment());
-                        fragmentTransaction.commit();
+                        if (getFragmentManager() != null){
+                            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                            fragmentTransaction.setReorderingAllowed(true);
+                            fragmentTransaction.replace(R.id.fragmentContainerView, new KneetagDescriptionFragment());
+                            fragmentTransaction.commit();}
+                        else{
+                            System.out.println("Fragment is null!");
+                        }
                     }
                 }
         );
-        //It's the button to launch the plantHunt Game
+        //It's the button to launch the planthunt Game
         final Button planthuntLaunchButton = view.findViewById(R.id.planthuntPlay);
         planthuntLaunchButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), PlanthuntCameraActivity.class);
+                        Intent intent = new Intent(getActivity(), PlanthuntMainActivity.class);
                         startActivity(intent);
                      }
                 }

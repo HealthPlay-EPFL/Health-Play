@@ -6,12 +6,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,7 +27,6 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import ch.epfl.sdp.healthplay.database.Database;
-import ch.epfl.sdp.healthplay.database.User;
 import ch.epfl.sdp.healthplay.model.Product;
 import ch.epfl.sdp.healthplay.model.ProductInfoClient;
 //import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
@@ -33,6 +36,7 @@ public class BarcodeInformationActivity extends AppCompatActivity {
     private final AtomicReference<String> productName = new AtomicReference<>(Product.UNKNOWN_NAME);
     private final AtomicReference<String> energy = new AtomicReference<>(Product.UNKNOWN_NAME);
     private Product p;
+    private String productString;
     private FirebaseUser user;
 
     public static final String EXTRA_MESSAGE = "ch.epfl.sdp.healthplay.MESSAGE";
@@ -42,7 +46,8 @@ public class BarcodeInformationActivity extends AppCompatActivity {
         return new Thread(() -> {
             try {
                 ProductInfoClient client = new ProductInfoClient(barcode);
-                Optional<Product> p = Product.of(client.getInfo());
+                productString = client.getInfo();
+                Optional<Product> p = Product.of(productString);
                 if (p.isPresent()) {
                     Product product = p.get();
                     this.p = product;
@@ -86,6 +91,8 @@ public class BarcodeInformationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        // Get the authenticated user if any
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         TextView pName = findViewById(R.id.pName);
         pName.setText(productName.get());
@@ -109,7 +116,9 @@ public class BarcodeInformationActivity extends AppCompatActivity {
 
                     // Get the text of the nutriment
                     TextView textView1 = new TextView(this);
-                    textView1.setText(String.format("%s:", nutriments.getName()));
+                    String name = nutriments.getName();
+                    String nameToDisplay = name.substring(0, 1).toUpperCase() + name.substring(1);
+                    textView1.setText(String.format("%s:", nameToDisplay));
                     textView1.setTextSize(20);
 
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -127,13 +136,30 @@ public class BarcodeInformationActivity extends AppCompatActivity {
                             Double.toString(p.getNutrimentServing(nutriments)), Locale.ENGLISH));
                     textView2.setTextSize(20);
                     textView2.setLayoutParams(params);
+                    // Set the tag of the textview to find it later
+                    textView2.setTag(nutriments.getName());
 
                     linearLayout.addView(textView2);
+
+                    // Create the switch
+                    SwitchCompat s = new SwitchCompat(this);
+                    s.setText("");
+                    s.setTag(nutriments.getName()+"_switch");
+                    LinearLayout.LayoutParams switchParams = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            1
+                    );
+                    s.setPaddingRelative(0, 0, (int) (10 * Resources.getSystem().getDisplayMetrics().density), 0);
+                    s.setLayoutParams(switchParams);
+                    s.setChecked(true);
+
+                    // If the user is logged in, allow the choice
+                    if (user != null)
+                        linearLayout.addView(s);
                 }
             }
         }
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
 
         // Check if a user is logged in and allow them to save the calorie counter
         if (user != null) {
@@ -143,9 +169,17 @@ public class BarcodeInformationActivity extends AppCompatActivity {
             findViewById(R.id.quantity_name2).setVisibility(View.VISIBLE);
             findViewById(R.id.add_to_counter_button).setVisibility(View.VISIBLE);
         }
+
+        // If the text is clicked, start more information activity
+        TextView tv = findViewById(R.id.showAdditionalInfo);
+        tv.setOnClickListener(v -> {
+            Intent newIntent = new Intent(this, AdditionalProductInformationActivity.class);
+            newIntent.putExtra(EXTRA_MESSAGE, productString);
+            startActivity(newIntent);
+        });
     }
 
-    private void changeCalorieText(boolean divide) {
+    private void changeValue(boolean divide) {
         TextView textView = findViewById(R.id.pEnergy);
         TextView counter = findViewById(R.id.quantity_name2);
         String calorieText = textView.getText().toString();
@@ -156,27 +190,57 @@ public class BarcodeInformationActivity extends AppCompatActivity {
             counter.setText(String.format(Integer.toString(quantity - 1), Locale.ENGLISH));
             String newText = String.format(Double.toString(newCalorie), Locale.ENGLISH);
             textView.setText(newText);
+            for (Product.Nutriments nutriments: Product.Nutriments.values()) {
+                double serving = p.getNutrimentServing(nutriments);
+                if (serving > 0) {
+                    textView = findViewById(R.id.informationLayout).findViewWithTag(nutriments.getName());
+                    calorieText = textView.getText().toString();
+                    newCalorie = Double.parseDouble(calorieText) / 2.0;
+                    textView.setText(String.format(Double.toString(newCalorie), Locale.ENGLISH));
+                }
+            }
         } else if (!divide) {
             newCalorie = 2.0 * Double.parseDouble(calorieText);
             counter.setText(String.format(Integer.toString(quantity + 1), Locale.ENGLISH));
             String newText = String.format(Double.toString(newCalorie), Locale.ENGLISH);
             textView.setText(newText);
+            for (Product.Nutriments nutriments: Product.Nutriments.values()) {
+                double serving = p.getNutrimentServing(nutriments);
+                if (serving > 0) {
+                    textView = findViewById(R.id.informationLayout).findViewWithTag(nutriments.getName());
+                    calorieText = textView.getText().toString();
+                    newCalorie = Double.parseDouble(calorieText) * 2.0;
+                    textView.setText(String.format(Double.toString(newCalorie), Locale.ENGLISH));
+                }
+            }
         }
 
     }
 
     public void increment(View view) {
-        changeCalorieText(false);
+        changeValue(false);
     }
 
     public void decrement(View view) {
-        changeCalorieText(true);
+        changeValue(true);
     }
 
     public void addToUser(View view) {
         Database db = new Database();
         TextView textView = findViewById(R.id.pEnergy);
         double calorie = Double.parseDouble(textView.getText().toString());
-        db.addCalorie(user.getUid(), (int) calorie);
+        if (((Switch) findViewById(R.id.pEnergyUnitSwitch)).isChecked())
+            db.addCalorie(user.getUid(), (int) calorie);
+
+        for (Product.Nutriments nutriments: Product.Nutriments.values()) {
+            double serving = p.getNutrimentServing(nutriments);
+            if (serving > 0) {
+                if (((SwitchCompat) findViewById(R.id.informationLayout).findViewWithTag(nutriments.getName()+"_switch")).isChecked())
+                    db.addNutrimentField(user.getUid(), nutriments, serving);
+            }
+        }
+
+        Toast t = Toast.makeText(getApplicationContext(), "Information saved on the profile !", Toast.LENGTH_SHORT);
+        t.show();
     }
 }
