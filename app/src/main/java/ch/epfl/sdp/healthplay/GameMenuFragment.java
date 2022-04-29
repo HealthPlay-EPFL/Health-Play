@@ -39,15 +39,11 @@ public class GameMenuFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (getFragmentManager() != null){
-                            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                            fragmentTransaction.setReorderingAllowed(true);
-                            fragmentTransaction.replace(R.id.fragmentContainerView, new PlanthuntDescriptionFragment());
-                            fragmentTransaction.commit();
-                        }
-                        else{
-                            System.out.println("Fragment is null!");
-                        }
+                        assert getFragmentManager() != null;
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.setReorderingAllowed(true);
+                        fragmentTransaction.replace(R.id.fragmentContainerView, new PlanthuntDescriptionFragment());
+                        fragmentTransaction.commit();
                     }
                 }
         );
@@ -58,14 +54,11 @@ public class GameMenuFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (getFragmentManager() != null){
-                            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                            fragmentTransaction.setReorderingAllowed(true);
-                            fragmentTransaction.replace(R.id.fragmentContainerView, new KneetagDescriptionFragment());
-                            fragmentTransaction.commit();}
-                        else{
-                            System.out.println("Fragment is null!");
-                        }
+                        assert getFragmentManager() != null;
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.setReorderingAllowed(true);
+                        fragmentTransaction.replace(R.id.fragmentContainerView, new KneetagDescriptionFragment());
+                        fragmentTransaction.commit();
                     }
                 }
         );
