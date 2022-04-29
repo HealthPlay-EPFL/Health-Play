@@ -303,6 +303,13 @@ public class ProfileFragment extends Fragment {
                     TextViewHealthPoint.setText(String.valueOf(todayStats.get(Database.HEALTH_POINT)));
                 }
                 else {
+                    TextViewHealthPoint.setText("0");
+                }
+                if(todayStats.containsKey(Database.WEIGHT) &&
+                        (todayStats.get(Database.WEIGHT)) != null) {
+                    TextViewWeight.setText(String.valueOf(todayStats.get(Database.WEIGHT)));
+                }
+                else {
                     db.readField(userId, Database.LAST_CURRENT_WEIGHT, (task -> {
                         if (!task.isSuccessful()) {
                             Log.e("firebase", "Error getting data", task.getException());
@@ -310,13 +317,6 @@ public class ProfileFragment extends Fragment {
                             TextViewWeight.setText(String.valueOf(task.getResult().getValue()));
                         }
                     }));
-                }
-                if(todayStats.containsKey(Database.WEIGHT) &&
-                        (todayStats.get(Database.WEIGHT)) != null) {
-                    TextViewWeight.setText(String.valueOf(todayStats.get(Database.WEIGHT)));
-                }
-                else {
-                    TextViewHealthPoint.setText("0");
                 }
             }
         }

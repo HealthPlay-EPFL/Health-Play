@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/viewProfile"
+        android:title="@string/view_profile" />
+    <item android:id="@+id/addFriendLeaderBoard"
+        android:title="@string/add_to_friendlist" />
+
+</menu>
