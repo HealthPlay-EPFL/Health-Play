@@ -18,7 +18,11 @@ import org.mockito.MockitoAnnotations;
 import java.util.HashMap;
 import java.util.Map;
 import android.util.Log;
+
+import static ch.epfl.sdp.healthplay.database.Database.NUTRIMENTS;
 import static ch.epfl.sdp.healthplay.database.Database.getTodayDate;
+
+import ch.epfl.sdp.healthplay.model.Product;
 
 
 public class DatabaseTest {
@@ -100,6 +104,10 @@ public class DatabaseTest {
     }
     public Task<Void> putCaloriesStats(String calories, Map<String, String> stats) {
         stats.put(Database.CALORIE_COUNTER, calories);
+        return null;
+    }
+    public Task<Void> putNutrimentsStats(String calories, Map<String, String> stats) {
+        stats.put(Product.Nutriments.ALCOHOL.getName(), calories);
         return null;
     }
     public Task<Void> putHealthPointStats(String healthPoint, Map<String, String> stats) {
@@ -247,6 +255,27 @@ public class DatabaseTest {
         Database db = new Database(dbr);
         db.addCalorie(userId, 35);
         assertEquals("75", stats.get(Database.CALORIE_COUNTER));
+    }
+
+    @Test
+    public void addNutrimentsFieldTest() {
+
+        addMap = new HashMap<String, Map<String, Number>>();
+        Map<String, Number> map1 = new HashMap<>();
+        map1.put(Database.CALORIE_COUNTER, 40);
+        map1.put(Database.HEALTH_POINT, 40);
+        map1.put(Product.Nutriments.ALCOHOL.getName(), 40);
+        addMap.put(Database.getTodayDate(), map1);
+
+        when(dbr.child(Database.USERS).child(userId).child(Database.STATS).get()).thenReturn(t1);
+        when(t1.isSuccessful()).thenReturn(true);
+        when(t1.getResult()).thenReturn(ds);
+        when(ds.getValue()).thenReturn(addMap);
+        when(dbr.child(Database.USERS).child(userId).child(Database.STATS).child(Product.Nutriments.ALCOHOL.getName()).setValue(75))
+                .thenReturn(putNutrimentsStats("75", stats));
+        Database db = new Database(dbr);
+        db.addNutrimentField(userId, Product.Nutriments.ALCOHOL,35);
+        assertEquals("75", stats.get(Product.Nutriments.ALCOHOL.getName()));
     }
 
 

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.planthunt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +21,7 @@ import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.api.PlantnetApi;
 import okhttp3.HttpUrl;
 
@@ -34,7 +35,7 @@ public class PlanthuntResultActivity extends AppCompatActivity {
 
         imageUrl = getIntent().getStringExtra("url");
 
-        final ImageView plantView = findViewById(R.id.plantPictureImage);
+        final ImageView plantView = findViewById(R.id.planthuntPlantImage);
         System.out.println(imageUrl);
         Glide.with(this).load(imageUrl).into(plantView);
 
