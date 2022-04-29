@@ -34,7 +34,7 @@ import com.google.firebase.storage.StorageTask;
 
 import ch.epfl.sdp.healthplay.auth.ProfileActivity;
 import ch.epfl.sdp.healthplay.auth.ProfileFragment;
-import ch.epfl.sdp.healthplay.auth.SignedInActivity;
+import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 import ch.epfl.sdp.healthplay.database.Database;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -64,7 +64,7 @@ public class EditProfilePictureFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_edit_profile_picture, container, false);
-        SignedInActivity.SetMode(getContext());
+        SignedInFragment.SetMode(getContext());
         CircleImageView profilePictureView = view.findViewById(R.id.edit_profile_picture);
 
         ActivityResultLauncher<Intent> intent = registerForActivityResult(
