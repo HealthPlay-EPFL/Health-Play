@@ -194,10 +194,13 @@
     <string name="remove_friend">Remove Friend</string>
 
     <string name="start">START</string>
-=======
+    =======
 
     <string name="image_of_the_product">Image of the product</string>
     <string name="nutriscore_of_the_product">Nutriscore of the product</string>
+    <string name="NoUserInLb">no user has earned healthPoints today</string>
+    <string name="view_profile">View profile</string>
+    <string name="add_to_friendlist">add to friendlist</string>
 
 
     <string-array name="tfe_pe_models_array">
@@ -226,4 +229,6 @@
         <item>Four</item>
         <item>Five</item>
     </string-array>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
