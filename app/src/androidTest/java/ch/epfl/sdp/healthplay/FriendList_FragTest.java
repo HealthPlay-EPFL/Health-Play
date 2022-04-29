@@ -66,13 +66,47 @@ public class FriendList_FragTest {
 
     @Test
     public void backToCalendarTest(){
-        Espresso.onView(withId(R.id.friendToCalendar)).check(matches(allOf( isEnabled(), isClickable()))).perform(ViewActions.click());
+        Espresso.onView(withId(R.id.friendToCalendar)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click Calendar button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
         Espresso.onView(withId(R.id.FriendList_button)).check(matches(isDisplayed()));
     }
 
     @Test
     public void goToAddFriendFragTest(){
-        Espresso.onView(withId(R.id.addFriendBouton)).check(matches(allOf( isEnabled(), isClickable()))).perform(ViewActions.click());
+        Espresso.onView(withId(R.id.addFriendBouton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click add friend button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
         Espresso.onView(withId(R.id.backButton)).check(matches(isDisplayed()));
     }
 

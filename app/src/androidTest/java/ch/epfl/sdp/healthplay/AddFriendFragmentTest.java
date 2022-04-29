@@ -74,7 +74,24 @@ public class AddFriendFragmentTest {
 
     @Test
     public void backToFriendListTest(){
-        onView(withId(R.id.backButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(click());
+        Espresso.onView(withId(R.id.backButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
         onView(withId(R.id.addFriendBouton)).check(matches(isDisplayed()));
     }
 
@@ -107,7 +124,25 @@ public class AddFriendFragmentTest {
 
     @Test
     public void addFriend() throws InterruptedException {
-        onData(anything()).inAdapterView(withId(R.id.allUserList)).atPosition(1).onChildView(withId(R.id.addFriendItem)).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.allUserList)).atPosition(1).onChildView(withId(R.id.addFriendItem)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+
         Database database = new Database();
         Map<String, Boolean> map = database.getFriendList();
         TimeUnit.SECONDS.sleep(1);
