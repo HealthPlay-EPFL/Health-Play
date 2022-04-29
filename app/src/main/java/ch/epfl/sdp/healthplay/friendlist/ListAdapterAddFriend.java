@@ -36,7 +36,7 @@ public class ListAdapterAddFriend extends ArrayAdapter<Friend> implements Filter
     private final Database database = new Database();
     private final List<Friend> noUpdateItems;
 
-    public ListAdapterAddFriend(Context context, ArrayList<Friend> friendList) {
+    public ListAdapterAddFriend(Context context, List<Friend> friendList) {
         super(context, R.layout.fragment_add_friend, friendList);
         noUpdateItems = new ArrayList<>(friendList);
     }
@@ -123,7 +123,7 @@ public class ListAdapterAddFriend extends ArrayAdapter<Friend> implements Filter
             protected FilterResults performFiltering(CharSequence constraint) {
 
                 FilterResults results = new FilterResults();
-                ArrayList<Friend> FilteredArrayNames = new ArrayList<>();
+                List<Friend> FilteredArrayNames = new ArrayList<>();
 
                 constraint = constraint.toString().toLowerCase();
                 // Check for each element in the Friend list that the UserId starts with the constraint

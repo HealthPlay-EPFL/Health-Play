@@ -1,5 +1,7 @@
 package ch.epfl.sdp.healthplay.navigation;
 
+import android.util.Log;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -16,6 +18,9 @@ public class FragmentNavigation {
             fragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainerView, fragment, null)
                     .commit();
+        }
+        else{
+            Log.e("FRAGMEN SWITCH", "Couldn't switch fragment because either the fragment manager or the fragement is null");
         }
     }
 }

@@ -32,7 +32,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
     private final Database database = new Database();
     private final List<Friend> noUpdateItems;
 
-    public ListAdapterFriend(Context context, ArrayList<Friend> friendList) {
+    public ListAdapterFriend(Context context, List<Friend> friendList) {
         super(context, R.layout.fragment_friend_list_, friendList);
         noUpdateItems = new ArrayList<>(friendList);
     }

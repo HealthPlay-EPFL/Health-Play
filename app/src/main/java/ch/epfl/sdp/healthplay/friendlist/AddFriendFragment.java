@@ -158,13 +158,13 @@ public class AddFriendFragment extends Fragment {
      * @param friendList
      */
     public void buildListView(View view, ListView listView, List<Friend> friendList) {
-        ArrayList<Friend> arrayOfUsers = new ArrayList<>(friendList);
+        List<Friend> arrayOfUsers = new ArrayList<>(friendList);
 
         // Sort Friend by their name
         Collections.sort(arrayOfUsers, new Comparator<Friend>() {
             @Override
-            public int compare(Friend m1, Friend m2) {
-                return (int) m1.getUserName().charAt(0) - (int) m2.getUserName().charAt(0);
+            public int compare(Friend f1, Friend f2) {
+                return f1.getUserName().compareTo(f2.getUserName());
             }
         });
 
