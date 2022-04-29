@@ -68,8 +68,38 @@ public class AddFriendFragmentTest {
     @Before
     public void before() throws InterruptedException{
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
-        onView(withId(R.id.FriendList_button)).perform(click());
-        onView(withId(R.id.addFriendBouton)).perform(click());
+        onView(withId(R.id.FriendList_button)).perform(new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return ViewMatchers.isEnabled(); // no constraints, they are checked above
+            }
+
+            @Override
+            public String getDescription() {
+                return "click plus button";
+            }
+
+            @Override
+            public void perform(UiController uiController, View view) {
+                view.performClick();
+            }
+        });
+        onView(withId(R.id.addFriendBouton)).perform(new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return ViewMatchers.isEnabled(); // no constraints, they are checked above
+            }
+
+            @Override
+            public String getDescription() {
+                return "click plus button";
+            }
+
+            @Override
+            public void perform(UiController uiController, View view) {
+                view.performClick();
+            }
+        });
     }
 
     @Test
