@@ -62,6 +62,7 @@ object VisualizationUtils {
     )
 
     // Draw line and point indicate body pose
+    //result indicate if there is a winner and if the winner is the left or right player
     fun drawBodyKeypoints(
         input: Bitmap,
         persons: List<Person>,

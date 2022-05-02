@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +27,10 @@ public class FinishScreen extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_finishscreen);
+        setContentView(R.layout.activity_gameended);
+        //display the winner
+        TextView text=findViewById(R.id.winner_display);
+        text.setText("And the winner is "+ getIntent().getStringExtra(WINNER));
         //rerun the game
         findViewById(R.id.restart).setOnClickListener(
                 new View.OnClickListener() {

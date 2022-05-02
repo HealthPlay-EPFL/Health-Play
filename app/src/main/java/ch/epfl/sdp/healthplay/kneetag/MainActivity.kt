@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity(),
                 val left = spinner.selectedItem.toString()
                 val right = spinnerCopy.selectedItem.toString()
                 if (poseDetector.leftPerson.first != null
-                    && poseDetector.rightPerson.first != null
+                    && poseDetector.rightPerson.first != null && !(left=="Anonymous" && right=="Anonymous")
                 ) {
                     if (check(left) and check(right)) {
                         cameraSource!!.gameState = cameraSource!!.UNRANKED_GAME
@@ -252,7 +252,7 @@ class MainActivity : AppCompatActivity(),
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    fun winMessage(result:Int) {
+    fun gameEndedScreen(result:Int) {
         val intent = Intent(this, FinishScreen::class.java)
 
         if(result==1)

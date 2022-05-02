@@ -23,7 +23,6 @@ import android.graphics.Bitmap
 import android.graphics.ImageFormat
 import android.graphics.Matrix
 import android.graphics.Rect
-import android.hardware.Camera
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraDevice
@@ -34,7 +33,6 @@ import android.os.HandlerThread
 import android.util.Log
 import android.view.Surface
 import android.view.SurfaceView
-import android.widget.Toast
 import ch.epfl.sdp.healthplay.kneetag.MainActivity
 import ch.epfl.sdp.healthplay.kneetag.VisualizationUtils
 import ch.epfl.sdp.healthplay.kneetag.data.Person
@@ -294,7 +292,7 @@ class CameraSource(
 
         if(result!=0 && debug){
             debug=false
-            main.winMessage(result)}
+            main.gameEndedScreen(result)}
 
 
         val holder = surfaceView.holder
