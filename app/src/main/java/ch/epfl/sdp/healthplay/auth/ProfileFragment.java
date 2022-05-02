@@ -103,34 +103,14 @@ public class ProfileFragment extends Fragment {
 
     private void initButton(){
         Button statsButton = view.findViewById(R.id.statsButton);
-        statsButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.setReorderingAllowed(true);
-                        fragmentTransaction.replace(R.id.fragmentContainerView, new ProfileSettingsFragment());
-                        fragmentTransaction.commit();
-                    }
-                }
-        );
-        view.findViewById(R.id.changeButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.setReorderingAllowed(true);
-                fragmentTransaction.replace(R.id.fragmentContainerView, new EditProfilePictureFragment());
-                fragmentTransaction.commit();
-            }
-        });
+
+        statsButton.setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new ProfileSettingsFragment()));
+
+        view.findViewById(R.id.changeButton).setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new EditProfilePictureFragment()));
 
         FloatingActionButton goToQRCode = view.findViewById(R.id.goToQRCode);
-        goToQRCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentNavigation.switchToFragment(getParentFragmentManager(), new QrCodeFragment());
-            }
-        });
+
+        goToQRCode.setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new QrCodeFragment()));
     }
 
     public void initBirthday(String userId) {

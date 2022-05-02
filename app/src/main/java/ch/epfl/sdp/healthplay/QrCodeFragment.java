@@ -60,12 +60,7 @@ public class QrCodeFragment extends Fragment {
         Bitmap myBitmap = QRCode.from(FirebaseAuth.getInstance().getCurrentUser().getUid()).bitmap();
         qrCode.setImageBitmap(myBitmap);
 
-        goBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentNavigation.switchToFragment(getParentFragmentManager(), new ProfileFragment());
-            }
-        });
+        goBackButton.setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new ProfileFragment()));
 
         return view;
     }
