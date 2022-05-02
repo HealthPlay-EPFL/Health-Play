@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.healthplay.database.Database;
+import ch.epfl.sdp.healthplay.friendlist.FriendList_Frag;
 import ch.epfl.sdp.healthplay.model.Graph_Frag;
 //import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 

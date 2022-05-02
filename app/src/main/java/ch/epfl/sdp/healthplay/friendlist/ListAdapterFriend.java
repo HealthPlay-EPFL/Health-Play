@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.friendlist;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -22,6 +22,7 @@ import com.google.firebase.database.DataSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Friend;
 
@@ -31,7 +32,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
     private final Database database = new Database();
     private final List<Friend> noUpdateItems;
 
-    public ListAdapterFriend(Context context, ArrayList<Friend> friendList) {
+    public ListAdapterFriend(Context context, List<Friend> friendList) {
         super(context, R.layout.fragment_friend_list_, friendList);
         noUpdateItems = new ArrayList<>(friendList);
     }

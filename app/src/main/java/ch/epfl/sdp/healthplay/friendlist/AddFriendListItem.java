@@ -1,8 +1,10 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.friendlist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import ch.epfl.sdp.healthplay.R;
 
 public class AddFriendListItem extends AppCompatActivity {
 

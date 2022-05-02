@@ -3,12 +3,23 @@ package ch.epfl.sdp.healthplay;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.hamcrest.Matchers.allOf;
+
+import android.view.View;
+
 import androidx.annotation.NonNull;
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -18,6 +29,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
@@ -36,7 +48,7 @@ public class Frag_HomeTest {
 
     @Before
     public void before() {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("dont-delete@gmail.com", "123456");
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
     }
 
     @Test
@@ -73,8 +85,6 @@ public class Frag_HomeTest {
 
     /*@Test
     public void getDataFromFirebaseTest(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("")
-        if(user != null) {
             ViewInteraction sus = onView(Matchers.allOf(withId(R.id.calendar), hasChildCount(3)));
             sus.perform(ViewActions.click());
             onView(withId(R.id.my_date)).check(
@@ -86,7 +96,6 @@ public class Frag_HomeTest {
                     )
             );
 
-        }
     }*/
 
     /**
@@ -97,5 +106,51 @@ public class Frag_HomeTest {
         onView(withId(R.id.my_date)).check(
                 matches(
                         withText("Welcome to the home page! \nChoose a date to check what you've consumed.")));
+    }
+
+    @Test
+    public void goToFriendList(){
+        Espresso.onView(withId(R.id.FriendList_button)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click go to friend list";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+        Espresso.onView(withId(R.id.addFriendBouton)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void goToGraphs(){
+        Espresso.onView(withId(R.id.switchFragButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click go to friend list";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+        Espresso.onView(withId(R.id.buttonSwap)).check(matches(isDisplayed()));
     }
 }
