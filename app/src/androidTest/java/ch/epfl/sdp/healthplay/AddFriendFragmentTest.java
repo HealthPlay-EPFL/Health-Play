@@ -72,13 +72,7 @@ public class AddFriendFragmentTest {
         onView(withId(R.id.FriendList_button)).perform(click());
         onView(withId(R.id.addFriendBouton)).perform(click());
     }
-
-    @Test
-    public void isCompletelyDisplayed(){
-        onView(withId(R.id.backButton)).check(matches(ViewMatchers.isCompletelyDisplayed()));
-        onView(withId(R.id.allUserList)).check(matches(ViewMatchers.isCompletelyDisplayed()));
-        onView(withId(R.id.friendSearch)).check(matches(ViewMatchers.isCompletelyDisplayed()));
-    }
+    
 
     @Test
     public void backToFriendListTest(){
