@@ -69,8 +69,15 @@ public class AddFriendFragmentTest {
     @Before
     public void before() throws InterruptedException{
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
-        onView(withId(R.id.FriendList_button)).perform(scrollTo(), click());
-        onView(withId(R.id.addFriendBouton)).perform(scrollTo(), click());
+        onView(withId(R.id.FriendList_button)).perform(click());
+        onView(withId(R.id.addFriendBouton)).perform(click());
+    }
+
+    @Test
+    public void isCompletelyDisplayed(){
+        onView(withId(R.id.backButton)).check(matches(ViewMatchers.isCompletelyDisplayed()));
+        onView(withId(R.id.allUserList)).check(matches(ViewMatchers.isCompletelyDisplayed()));
+        onView(withId(R.id.friendSearch)).check(matches(ViewMatchers.isCompletelyDisplayed()));
     }
 
     @Test
