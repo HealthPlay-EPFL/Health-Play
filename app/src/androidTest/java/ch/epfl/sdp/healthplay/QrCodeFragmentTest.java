@@ -6,6 +6,7 @@ import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
+import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
@@ -53,6 +54,11 @@ public class QrCodeFragmentTest {
     public void backToProfile(){
         Espresso.onView(withId(R.id.backToProfileButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(click());
         onView(withId(R.id.statsButton)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void allClear(){
+        Espresso.onView(withId(R.id.backToProfileButton)).check(matches(ViewMatchers.isCompletelyDisplayed()));
     }
 
 }
