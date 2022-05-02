@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,8 +26,10 @@ import java.util.Map;
 
 import ch.epfl.sdp.healthplay.EditProfilePictureFragment;
 import ch.epfl.sdp.healthplay.ProfileSettingsFragment;
+import ch.epfl.sdp.healthplay.QrCodeFragment;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
+import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
 
 public class ProfileFragment extends Fragment {
 
@@ -118,6 +121,14 @@ public class ProfileFragment extends Fragment {
                 fragmentTransaction.setReorderingAllowed(true);
                 fragmentTransaction.replace(R.id.fragmentContainerView, new EditProfilePictureFragment());
                 fragmentTransaction.commit();
+            }
+        });
+
+        FloatingActionButton goToQRCode = view.findViewById(R.id.goToQRCode);
+        goToQRCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentNavigation.switchToFragment(getParentFragmentManager(), new QrCodeFragment());
             }
         });
     }

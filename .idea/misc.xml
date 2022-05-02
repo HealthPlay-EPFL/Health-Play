@@ -109,6 +109,7 @@
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.139" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/drawable/rounded_button.xml" value="0.121" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/drawable/side_nav_bar.xml" value="0.139" />
+        <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_add_friend_list_item.xml" value="0.16995947315096252" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_barcode_information.xml" value="0.13858695652173914" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_event_edit.xml" value="0.10462962962962963" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_friend_list_item.xml" value="0.2604501607717042" />
@@ -132,7 +133,8 @@
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/content_test.xml" value="0.1" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/content_test_drawer.xml" value="0.2359375" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/content_tkt.xml" value="0.2" />
-        <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_add_friend.xml" value="0.264" />
+        <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_add_friend.xml" value="0.1" />
+        <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_edit_profile_picture.xml" value="0.14235055724417425" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_first.xml" value="0.1" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_frag__home.xml" value="0.2" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_frag__profile.xml" value="0.2" />
@@ -144,6 +146,9 @@
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_home_page.xml" value="0.16" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_home_screen.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_main.xml" value="0.25181159420289856" />
+        <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
+        <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_profile_settings.xml" value="0.14235055724417425" />
+        <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_qr_code.xml" value="0.33" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_second.xml" value="0.1" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_settings.xml" value="0.4" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_slideshow.xml" value="0.25" />
