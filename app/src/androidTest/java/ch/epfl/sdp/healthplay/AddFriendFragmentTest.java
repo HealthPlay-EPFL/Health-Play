@@ -3,6 +3,7 @@ package ch.epfl.sdp.healthplay;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -68,8 +69,8 @@ public class AddFriendFragmentTest {
     @Before
     public void before() throws InterruptedException{
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
-        onView(withId(R.id.FriendList_button)).perform(click());
-        onView(withId(R.id.addFriendBouton)).perform(click());
+        onView(withId(R.id.FriendList_button)).perform(scrollTo(), click());
+        onView(withId(R.id.addFriendBouton)).perform(scrollTo(), click());
     }
 
     @Test
