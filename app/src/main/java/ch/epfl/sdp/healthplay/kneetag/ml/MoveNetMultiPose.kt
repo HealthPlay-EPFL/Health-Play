@@ -222,12 +222,12 @@ class MoveNetMultiPose(
 
 
                 if (persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x < persons[1].keyPoints[BodyPart.NOSE.position].coordinate.x) {
-                    System.out.println("1:" + persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x.toString() + " "+persons[1].keyPoints[BodyPart.NOSE.position].coordinate.x )
+
                     leftPerson = Pair(persons[0],leftPerson.second)
 
                     rightPerson = Pair(persons[1],rightPerson.second)
                 } else {
-                    System.out.println("2:" +persons[1].keyPoints[BodyPart.NOSE.position].coordinate.x.toString() + " "+persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x )
+
                     leftPerson = Pair(persons[1],leftPerson.second)
                     rightPerson = Pair(persons[0],rightPerson.second)
                 }

@@ -34,6 +34,8 @@ import android.os.HandlerThread
 import android.util.Log
 import android.view.Surface
 import android.view.SurfaceView
+import android.widget.Toast
+import ch.epfl.sdp.healthplay.kneetag.MainActivity
 import ch.epfl.sdp.healthplay.kneetag.VisualizationUtils
 import ch.epfl.sdp.healthplay.kneetag.data.Person
 import ch.epfl.sdp.healthplay.kneetag.ml.PoseClassifier
@@ -47,7 +49,7 @@ import kotlin.coroutines.resumeWithException
 class CameraSource(
     private val surfaceView: SurfaceView,
     private val orientation: Boolean=false,
-
+    public val main: MainActivity,
     private val listener: CameraSourceListener? = null ,
 
 ) {
@@ -62,7 +64,11 @@ class CameraSource(
         private const val TAG = "Camera Source"
     }
 
-
+    var result=0
+    val PLAYER_SELECTION=0
+    val UNRANKED_GAME=1
+    val RANKED_GAME=2
+    var gameState = PLAYER_SELECTION
     private val lock = Any()
     private var detector: MoveNetMultiPose? = null
     private var classifier: PoseClassifier? = null
@@ -274,13 +280,19 @@ class CameraSource(
         }
         visualize(persons, bitmap)
     }
-
+    public fun isValid(){
+        return
+    }
     private fun visualize(persons: List<Person>, bitmap: Bitmap) {
 
-        val outputBitmap = VisualizationUtils.drawBodyKeypoints(
+        val (outputBitmap,result) = VisualizationUtils.drawBodyKeypoints(
             bitmap,
-            persons.filter { it.score > MIN_CONFIDENCE }, detector!!.leftPerson, detector!!.rightPerson
+            persons.filter { it.score > MIN_CONFIDENCE }, detector!!.leftPerson, detector!!.rightPerson,
+            gameState!=0
         )
+        if(result!=0)
+            main.winMessage()
+
 
         val holder = surfaceView.holder
         val surfaceCanvas = holder.lockCanvas()

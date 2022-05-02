@@ -16,6 +16,7 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.healthplay.R
@@ -41,12 +42,15 @@ class MainActivity : AppCompatActivity(),
 
     }
 
+    private lateinit var spinner: Spinner
+    private lateinit var spinnerCopy: Spinner
     val CAMERA_ORIENTATION = "ch.epfl.sdp.healthplay.kneetag.MainActivity.CAMERA_ORIENTATION"
 
     /** A [SurfaceView] for camera preview.   */
     private lateinit var surfaceView: SurfaceView
 
     /** Default device is CPU */
+
     private var device = Device.CPU
     private var friends: MutableList<String> = mutableListOf()
     private lateinit var tvScore: TextView
@@ -88,6 +92,7 @@ class MainActivity : AppCompatActivity(),
         this.finish()
 
     }
+
     //Initialize the friendList + Create the layout
     override fun onCreate(savedInstanceState: Bundle?) {
         database = Database()
@@ -125,10 +130,11 @@ class MainActivity : AppCompatActivity(),
         surfaceView = findViewById(R.id.surfaceView)
 
         friends = mutableListOf("Anonymous", "YOU")
-        var spinner = findViewById<Spinner>(R.id.friends)
+        spinner = findViewById<Spinner>(R.id.friends)
         val adapter: ArrayAdapter<String> =
             ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, friends)
         //set the spinners adapter to the previously created one.
+
         spinner.adapter = adapter
         //Set the left person
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -145,7 +151,7 @@ class MainActivity : AppCompatActivity(),
                 poseDetector.leftPerson = Pair(poseDetector.leftPerson.first, text)
             }
         }
-        var spinnerCopy = findViewById<Spinner>(R.id.friendsCopy)
+        spinnerCopy = findViewById<Spinner>(R.id.friendsCopy)
         spinnerCopy.adapter = adapter
         //Set the right person
         spinnerCopy.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -168,18 +174,35 @@ class MainActivity : AppCompatActivity(),
         //It's the button to launch the kneetag Game
         val kneetagLaunchButton: Button = findViewById<Button>(R.id.startGame)
         kneetagLaunchButton.setOnClickListener {
-            var text = "The 2 players are not valid"
-            val left = spinner.selectedItem.toString()
-            val right = spinnerCopy.selectedItem.toString()
-            if (check(left) and check(right)) {
-                text = "Unranked game started"
-                poseDetector.started = true
+            if(cameraSource!!.gameState==0) {
+                val switch = findViewById<ToggleButton>(R.id.facing_switch)
+                var text = "The 2 players are not valid"
+                val left = spinner.selectedItem.toString()
+                val right = spinnerCopy.selectedItem.toString()
+                if (poseDetector.leftPerson.first != null
+                    && poseDetector.rightPerson.first != null
+                ) {
+                    if (check(left) and check(right)) {
+                        cameraSource!!.gameState = cameraSource!!.UNRANKED_GAME
+                        text = "Unranked game started"
+                        kneetagLaunchButton.text = "Fight!"
+                        spinner.isVisible = false
+                        spinnerCopy.isVisible = false
+                        switch.isVisible = false
+                    }
+                    if ((left == "YOU" && !check(right)) or (right == "YOU" && !check(left))) {
+                        cameraSource!!.gameState = cameraSource!!.RANKED_GAME
+                        text = "Ranked game started"
+                        kneetagLaunchButton.text = "Fight!"
+                        spinner.isEnabled = false
+                        spinnerCopy.isEnabled = false
+                        switch.isVisible = false
+                    }
+                } else
+                    text = "The 2 player are not detected"
+
+                Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
             }
-            if ((left == "YOU" && !check(right)) or (right == "YOU" && !check(left))) {
-                poseDetector.started = true
-                text = "Ranked game started"
-            }
-            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -227,6 +250,9 @@ class MainActivity : AppCompatActivity(),
         ) == PackageManager.PERMISSION_GRANTED
     }
 
+    public fun winMessage() {
+        Toast.makeText(this, "fin de la game", Toast.LENGTH_SHORT).show()
+    }
 
     /**
      * Starts or restarts the camera source, if it exists. If the camera source doesn't exist yet
@@ -241,9 +267,12 @@ class MainActivity : AppCompatActivity(),
                     CameraSource(
                         surfaceView,
                         orientation,
+                        this,
                         object : CameraSource.CameraSourceListener {
                             override fun onFPSListener(fps: Int) {
                                 tvFPS.text = getString(R.string.tfe_pe_tv_fps, fps)
+                                fps
+
                             }
 
                             override fun onDetectedInfo(
@@ -317,9 +346,10 @@ class MainActivity : AppCompatActivity(),
             AlertDialog.Builder(activity)
                 .setMessage(requireArguments().getString(ARG_MESSAGE))
                 .setPositiveButton(android.R.string.ok) { _, _ ->
-                // do nothing
+                    // do nothing
                 }
                 .create()
+
         companion object {
             @JvmStatic
             private val ARG_MESSAGE = "message"
