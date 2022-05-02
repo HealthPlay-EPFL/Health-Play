@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Process
-
 import android.util.Log
 import android.view.SurfaceView
 import android.view.View
@@ -41,6 +40,7 @@ class MainActivity : AppCompatActivity(),
         private const val FRAGMENT_DIALOG = "dialog"
 
     }
+
 
     private lateinit var spinner: Spinner
     private lateinit var spinnerCopy: Spinner
@@ -89,12 +89,14 @@ class MainActivity : AppCompatActivity(),
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra(CAMERA_ORIENTATION, !message)
         startActivity(intent)
-        this.finish()
+        finish()
 
     }
 
     //Initialize the friendList + Create the layout
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         database = Database()
         val user = mAuth.currentUser
         if (user != null) {
@@ -250,8 +252,17 @@ class MainActivity : AppCompatActivity(),
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    public fun winMessage() {
-        Toast.makeText(this, "fin de la game", Toast.LENGTH_SHORT).show()
+    fun winMessage(result:Int) {
+        val intent = Intent(this, FinishScreen::class.java)
+
+        if(result==1)
+            intent.putExtra(FinishScreen.WINNER,poseDetector.leftPerson.second )
+        if(result==2)
+            intent.putExtra(FinishScreen.WINNER,poseDetector.rightPerson.second )
+
+        startActivity(intent)
+        finish()
+
     }
 
     /**

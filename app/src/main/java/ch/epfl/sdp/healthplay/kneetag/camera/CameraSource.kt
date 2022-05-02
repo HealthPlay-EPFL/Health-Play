@@ -290,8 +290,11 @@ class CameraSource(
             persons.filter { it.score > MIN_CONFIDENCE }, detector!!.leftPerson, detector!!.rightPerson,
             gameState!=0
         )
-        if(result!=0)
-            main.winMessage()
+        System.out.println(result)
+
+        if(result!=0 ){
+
+            main.winMessage(result)}
 
 
         val holder = surfaceView.holder

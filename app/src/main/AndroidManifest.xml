@@ -72,8 +72,12 @@
         <activity
             android:name=".HomeScreenActivity"
             android:exported="true" />
+
         <activity
             android:name=".KneetagDescriptionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".kneetag.FinishScreen"
             android:exported="false" />
         <activity
             android:name=".auth.AuthUiActivity"
