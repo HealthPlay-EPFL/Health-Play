@@ -80,7 +80,7 @@ class CameraSource(
     private var fpsTimer: Timer? = null
     private var frameProcessedInOneSecondInterval = 0
     private var framesPerSecond = 0
-
+    private var debug=true
     /** Detects, characterizes, and connects to a CameraDevice (used for all camera operations) */
     private val cameraManager: CameraManager by lazy {
         val context = surfaceView.context
@@ -292,8 +292,8 @@ class CameraSource(
         )
         System.out.println(result)
 
-        if(result!=0 ){
-
+        if(result!=0 && debug){
+            debug=false
             main.winMessage(result)}
 
 
