@@ -94,7 +94,6 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
             });
         }
 
-
         // Update Profile pictures
         database.readField(friend.getUserId(), "image", new OnCompleteListener<DataSnapshot>() {
             @Override
