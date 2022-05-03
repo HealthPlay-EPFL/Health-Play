@@ -118,20 +118,10 @@ public class FriendList_Frag extends Fragment {
         // Get the Friend List of the current User
         if(auth.getCurrentUser() != null) {
             friends = database.getFriendList();
-            List<String> toRemove = new ArrayList<>();
-            List<Friend> friendList = new ArrayList<Friend>();
+            List<Friend> friendList = new ArrayList<>();
             for (String friend : friends.keySet()
             ) {
-                if (!friends.get(friend)) {
-                    // We need to create another list, because you cannot forEach in a changing List
-                    toRemove.add(friend);
-                } else {
-                    friendList.add(new Friend(friend));
-                }
-            }
-            for (String rem : toRemove
-            ) {
-                friends.remove(rem);
+                friendList.add(new Friend(friend));
             }
             buildListView(view, listView, friendList);
 
@@ -142,24 +132,14 @@ public class FriendList_Frag extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     //Get the changes
                     Map<String, Boolean> value = (Map<String, Boolean>) snapshot.getValue();
-                    List<String> toRemove = new ArrayList<>();
-                    List<Friend> friendList = new ArrayList<Friend>();
-                    for (String friend : value.keySet()
-                    ) {
-                        if (!value.get(friend)) {
-                            // We need to create another list, because you cannot forEach in a changing List
-                            toRemove.add(friend);
-                        } else {
+                    if(value != null) {
+                        List<Friend> friendList = new ArrayList<Friend>();
+                        for (String friend : value.keySet()
+                        ) {
                             friendList.add(new Friend(friend));
                         }
+                        updateListView(view, listView, friendList);
                     }
-                    for (String rem : toRemove
-                    ) {
-                        value.remove(rem);
-                    }
-
-                    updateListView(view, listView, friendList);
-
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
@@ -169,8 +149,6 @@ public class FriendList_Frag extends Fragment {
 
             );
         }
-
-
         return view;
     }
 

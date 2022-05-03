@@ -67,9 +67,9 @@ public class ListAdapterAddFriend extends ArrayAdapter<Friend> implements Filter
 
             @Override
             public void onClick(View v) {
-                String fName = (String) friendName.getText();
-                database.addToFriendList(fName);
-                Snackbar mySnackbar = Snackbar.make(finalConvertView, "Friend " + fName + " added", Snackbar.LENGTH_SHORT);
+                String fName = friend.getUserName();
+                database.addToFriendList(friend.getUserName());
+                Snackbar mySnackbar = Snackbar.make(finalConvertView, "Friend " + friendName.getText() + " added", Snackbar.LENGTH_SHORT);
                 mySnackbar.show();
             }
         });
@@ -87,7 +87,14 @@ public class ListAdapterAddFriend extends ArrayAdapter<Friend> implements Filter
         });
 
         // Populate the data into the template view using the data object
-        friendName.setText(friend.getUserName());
+        database.readField(friend.getUserName(), Database.USERNAME, new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.getResult().getValue() != null) {
+                    friendName.setText(task.getResult().getValue(String.class));
+                }
+            }
+        });
         // Return the completed view to render on screen
         return convertView;
     }
