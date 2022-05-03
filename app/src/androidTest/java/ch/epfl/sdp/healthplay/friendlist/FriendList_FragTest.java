@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.friendlist;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -10,12 +10,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
-import static org.junit.Assert.*;
 
 import android.view.View;
 import android.widget.ListView;
 
-import androidx.fragment.app.FragmentManager;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -39,6 +37,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import ch.epfl.sdp.healthplay.HomeScreenActivity;
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 
 @RunWith(AndroidJUnit4.class)
@@ -50,7 +50,7 @@ public class FriendList_FragTest {
     @Before
     public void before() throws InterruptedException{
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
-        Espresso.onView(withId(R.id.FriendList_button)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.FriendList_button)).perform(ViewActions.click());
         Database database = new Database();
         Map<String, Boolean> map = database.getFriendList();
         List<String> friends = new ArrayList<>();
@@ -118,7 +118,7 @@ public class FriendList_FragTest {
 
     @Test
     public void removeFriend() {
-        onData(anything()).inAdapterView(withId(R.id.friendList)).atPosition(0).onChildView(withId(R.id.removeFriendButton)).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.friendList)).atPosition(0).onChildView(withId(R.id.manageFriendButton)).perform(click());
         onView(withId(R.id.friendList)).check(matches(new TypeSafeMatcher<View>() {
 
             @Override

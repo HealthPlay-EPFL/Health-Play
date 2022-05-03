@@ -117,7 +117,7 @@ public class FriendList_Frag extends Fragment {
         // Get the Friend List of the current User
         if(auth.getCurrentUser() != null) {
             Map<String, Boolean> friends = database.getFriendList();
-            
+
             buildListView(view, listView, buildFriendListFromFirebase(friends));
 
             // Listen to changes to the FriendList of the User
@@ -152,7 +152,6 @@ public class FriendList_Frag extends Fragment {
                 friendList.add(new Friend(friend));
             }
         }
-        System.out.println(friendList);
         return friendList;
     }
     /**
@@ -164,7 +163,7 @@ public class FriendList_Frag extends Fragment {
     private void buildListView(View view, ListView listView, List<Friend> friendList) {
         List<Friend> arrayOfUsers = new ArrayList<Friend>();
         // Create the adapter to convert the array to views
-        ListAdapterFriend adapter = new ListAdapterFriend(view.getContext(), arrayOfUsers);
+        ListAdapterFriend adapter = new ListAdapterFriend(view.getContext(), arrayOfUsers, FriendListItemMode.REMOVE);
         // Attach the adapter to a ListView
         listView.setAdapter(adapter);
         adapter.addAll(friendList);

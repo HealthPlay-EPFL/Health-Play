@@ -12,7 +12,7 @@ public class FriendListItemActivityTest {
 
     @Test
     public void creationTest(){
-        AddFriendListItemTest item = new AddFriendListItemTest();
+        AddFriendListItem item = new AddFriendListItem();
     }
 
 }

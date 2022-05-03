@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.friendlist;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -56,6 +56,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import ch.epfl.sdp.healthplay.HomeScreenActivity;
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Friend;
 
@@ -69,7 +71,7 @@ public class AddFriendFragmentTest {
     @Before
     public void before() throws InterruptedException{
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
-        onView(withId(R.id.FriendList_button)).perform(click());
+        onView(ViewMatchers.withId(R.id.FriendList_button)).perform(click());
         onView(withId(R.id.addFriendBouton)).perform(click());
     }
     

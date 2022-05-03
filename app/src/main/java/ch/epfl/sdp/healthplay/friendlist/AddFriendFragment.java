@@ -124,7 +124,7 @@ public class AddFriendFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ((ListAdapterAddFriend)listView.getAdapter()).getFilter().filter(s);
+                ((ListAdapterFriend)listView.getAdapter()).getFilter().filter(s);
 
             }
 
@@ -169,7 +169,7 @@ public class AddFriendFragment extends Fragment {
         });
 
         // Create the adapter to convert the array to views
-        ListAdapterAddFriend adapter = new ListAdapterAddFriend(view.getContext(), arrayOfUsers);
+        ListAdapterFriend adapter = new ListAdapterFriend(view.getContext(), arrayOfUsers, FriendListItemMode.ADD);
         // Attach the adapter to a ListView
         listView.setAdapter(adapter);
 
