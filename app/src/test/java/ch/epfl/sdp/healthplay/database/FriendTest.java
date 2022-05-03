@@ -7,19 +7,36 @@ import org.junit.Test;
 public class FriendTest {
 
     @Test
-    public void getUserTest() {
-        String name = "name";
+    public void getUserIdTest() {
+        String name = "id";
         Friend friend = new Friend(name);
-        assertEquals(friend.getUserName(), name);
+        assertEquals(friend.getUserId(), name);
 
     }
 
     @Test
-    public void setUserTest(){
+    public void setUserIdTest(){
         String name = "name";
         String newName = "newName";
         Friend friend = new Friend(name);
-        friend.setUserName(newName);
-        assertEquals(friend.getUserName(), newName);
+        friend.setUserId(newName);
+        assertEquals(friend.getUserId(), newName);
+    }
+
+    @Test
+    public void getUserNameTest() {
+        String name = "id";
+        Friend friend = new Friend("" ,name);
+        assertEquals(friend.getUserId(), name);
+
+    }
+
+    @Test
+    public void setUserNameTest(){
+        String name = "name";
+        String newName = "newName";
+        Friend friend = new Friend("", name);
+        friend.setUsername(newName);
+        assertEquals(friend.getUsername(), newName);
     }
 }

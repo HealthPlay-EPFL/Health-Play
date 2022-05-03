@@ -23,7 +23,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
@@ -35,12 +37,14 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
     private final Database database = new Database();
     private final FriendListItemMode mode;
     private final List<Friend> noUpdateItems;
+    private Context context;
 
 
     public ListAdapterFriend(Context context, List<Friend> friendList, FriendListItemMode mode) {
         super(context, R.layout.fragment_friend_list_, friendList);
         this.mode = mode;
         noUpdateItems = new ArrayList<>(friendList);
+        this.context = context;
     }
 
 
@@ -70,7 +74,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
 
                 @Override
                 public void onClick(View v) {
-                    database.addToFriendList(friend.getUserName());
+                    database.addToFriendList(friend.getUserId());
                     Snackbar mySnackbar = Snackbar.make(finalConvertView, "Friend " + friendName.getText() + " added", Snackbar.LENGTH_SHORT);
                     mySnackbar.show();
                 }
@@ -82,7 +86,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
             manageFriendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    database.removeFromFriendList(friend.getUserName());
+                    database.removeFromFriendList(friend.getUserId());
                     Snackbar mySnackbar = Snackbar.make(finalConvertView, "Friend " + friendName.getText() + " removed", Snackbar.LENGTH_SHORT);
                     mySnackbar.show();
                 }
@@ -91,25 +95,27 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
 
 
         // Update Profile pictures
-        database.readField(friend.getUserName(), "image", new OnCompleteListener<DataSnapshot>() {
+        database.readField(friend.getUserId(), "image", new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 String image;
                 if (task.getResult().getValue() != null) {
-                    if(getContext() != null){
+                    if(context != null){
                         image = task.getResult().getValue().toString();
-                        Glide.with(getContext()).load(image).into(profileImage);
+                        Glide.with(context).load(image).into(profileImage);
                     }
                 }
             }
         });
 
         // Populate the data into the template view using the data object
-        database.readField(friend.getUserName(), Database.USERNAME, new OnCompleteListener<DataSnapshot>() {
+        database.readField(friend.getUserId(), Database.USERNAME, new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
+                String username;
                 if (task.getResult().getValue() != null) {
-                    friendName.setText(task.getResult().getValue(String.class));
+                    username = task.getResult().getValue(String.class);
+                    friendName.setText(username);
                 }
             }
         });
@@ -153,10 +159,11 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
                 // Check for each element in the Friend list that the UserId starts with the constraint
                 for (int i = 0; i < noUpdateItems.size(); i++) {
                     Friend friends = noUpdateItems.get(i);
-                    if (friends.getUserName().toLowerCase().startsWith(constraint.toString()))  {
+                    if (friends.getUsername().toLowerCase().startsWith(constraint.toString()))  {
                         FilteredArrayNames.add(friends);
                     }
                 }
+
                 results.count = FilteredArrayNames.size();
                 results.values = FilteredArrayNames;
 
@@ -172,6 +179,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
         this.clear();
         this.addAll(results);
     }
+
 
 
 }

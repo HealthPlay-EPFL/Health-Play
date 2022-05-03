@@ -55,13 +55,7 @@ public class FriendList_FragTest {
         Map<String, Boolean> map = database.getFriendList();
         List<String> friends = new ArrayList<>();
         TimeUnit.SECONDS.sleep(1);
-        for (String friendId: map.keySet()
-        ) {
-            if(map.get(friendId).booleanValue()){
-                friends.add(friendId);
-            }
-        }
-        numberOfFriends = friends.size();
+        numberOfFriends = map.keySet().size();
     }
 
     @Test
@@ -88,7 +82,7 @@ public class FriendList_FragTest {
     }
 
     @Test
-    public void goToAddFriendFragTest(){
+    public void goToAddFriendFragTest() throws InterruptedException {
         Espresso.onView(withId(R.id.addFriendBouton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
@@ -108,6 +102,7 @@ public class FriendList_FragTest {
                 }
         );
         Espresso.onView(withId(R.id.backButton)).check(matches(isDisplayed()));
+        //TimeUnit.MILLISECONDS.sleep(100);
     }
 
     @Test
@@ -124,9 +119,11 @@ public class FriendList_FragTest {
             @Override
             public boolean matchesSafely(View view) {
                 ListView listView = (ListView) view;
-                boolean output = listView.getCount() == numberOfFriends - 1;
+                boolean output = listView.getCount() == numberOfFriends - 1 || numberOfFriends == 0;
                 if(output) {
-                    numberOfFriends -= 1;
+                    if(numberOfFriends > 0){
+                        numberOfFriends -= 1;
+                    }
                 }
                 return output;
             }

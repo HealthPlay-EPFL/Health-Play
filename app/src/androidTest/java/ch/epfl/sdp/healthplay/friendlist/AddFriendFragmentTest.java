@@ -128,7 +128,7 @@ public class AddFriendFragmentTest {
 
     @Test
     public void addFriend() throws InterruptedException {
-        onData(anything()).inAdapterView(withId(R.id.allUserList)).atPosition(0).onChildView(withId(R.id.addFriendItem)).perform(
+        onData(anything()).inAdapterView(withId(R.id.allUserList)).atPosition(0).onChildView(withId(R.id.manageFriendButton)).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {

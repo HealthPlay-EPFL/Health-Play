@@ -25,6 +25,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
@@ -90,21 +92,23 @@ public class AddFriendFragment extends Fragment {
         ListView listView = view.findViewById(R.id.allUserList);
 
         List<String> allUsers = new ArrayList<>();
-        //ListAdapterFriend adapter;
         if(auth.getCurrentUser() != null) {
             // Get the list of all users in the Database
             database.mDatabase.child(Database.USERS).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    //List<String> allUsers = new ArrayList<>(((HashMap<String, Object>) task.getResult().getValue()).keySet());
-                    allUsers.addAll(((HashMap<String, Object>) task.getResult().getValue()).keySet());
-                    List<Friend> allPossibleFriend = new ArrayList<>();
+                    if(task.getResult().exists()){
+                        Map<String, Map<String, String>> map = (Map<String, Map<String, String>>) task.getResult().getValue();
+                        //allUsers.addAll(((Map<String, Object>) task.getResult().getValue()).keySet());
+                        allUsers.addAll(map.keySet());
+                        List<Friend> allPossibleFriend = new ArrayList<>();
 
-                    for (String user : allUsers) {
-                        allPossibleFriend.add(new Friend(user));
+                        for (String user : allUsers) {
+                            allPossibleFriend.add(new Friend(user, Objects.requireNonNull(map.get(user)).get(Database.USERNAME)));
+                        }
+
+                        buildListView(view, listView, allPossibleFriend);
                     }
-
-                    buildListView(view, listView, allPossibleFriend);
                 }
             });
         }
@@ -164,7 +168,7 @@ public class AddFriendFragment extends Fragment {
         Collections.sort(arrayOfUsers, new Comparator<Friend>() {
             @Override
             public int compare(Friend f1, Friend f2) {
-                return f1.getUserName().compareTo(f2.getUserName());
+                return f1.getUsername().compareTo(f2.getUsername());
             }
         });
 

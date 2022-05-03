@@ -129,7 +129,7 @@ public class FriendList_Frag extends Fragment {
                     Map<String, Boolean> value = (Map<String, Boolean>) snapshot.getValue();
                     if(value != null) {
 
-                        updateListView(view, listView, buildFriendListFromFirebase(value));
+                        updateListView(listView, buildFriendListFromFirebase(value));
                     }
                 }
                 @Override
@@ -171,11 +171,10 @@ public class FriendList_Frag extends Fragment {
 
     /**
      * Update the ListView adapter with the given List of Friend in parameter
-     * @param view
      * @param listView
      * @param friendList
      */
-    private void updateListView(View view, ListView listView, List<Friend> friendList){
+    private void updateListView(ListView listView, List<Friend> friendList){
         //Get the Adapter (i.e the list of item)
         ListAdapterFriend adapter = (ListAdapterFriend)listView.getAdapter();
         if(adapter != null){
@@ -184,6 +183,4 @@ public class FriendList_Frag extends Fragment {
         }
 
     }
-
-
 }
