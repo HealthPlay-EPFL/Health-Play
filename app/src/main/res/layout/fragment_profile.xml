@@ -573,14 +573,15 @@
                         android:id="@+id/goToQRCode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
                         android:clickable="true"
                         android:src="@drawable/ic_baseline_qr_code_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineLV1"
-                        app:layout_constraintHorizontal_bias="0.926"
+                        app:layout_constraintBottom_toTopOf="@+id/guidelineLH23"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.019"
                         app:layout_constraintStart_toStartOf="@+id/guidelineLV"
-                        app:layout_constraintTop_toTopOf="@+id/guidelineLH16"
-                        app:layout_constraintVertical_bias="1.0" />
+                        app:layout_constraintTop_toTopOf="@+id/guidelineLH17"
+                        app:layout_constraintVertical_bias="0.823" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>

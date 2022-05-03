@@ -56,9 +56,4 @@ public class QrCodeFragmentTest {
         onView(withId(R.id.statsButton)).check(matches(isDisplayed()));
     }
 
-    @Test
-    public void allClear(){
-        Espresso.onView(withId(R.id.backToProfileButton)).check(matches(ViewMatchers.isCompletelyDisplayed()));
-    }
-
 }
