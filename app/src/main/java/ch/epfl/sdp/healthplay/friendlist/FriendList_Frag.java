@@ -42,7 +42,6 @@ public class FriendList_Frag extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private final Database database = new Database();
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
-    private Map<String, Boolean> friends;
 
 
     // TODO: Rename and change types of parameters
@@ -117,13 +116,9 @@ public class FriendList_Frag extends Fragment {
 
         // Get the Friend List of the current User
         if(auth.getCurrentUser() != null) {
-            friends = database.getFriendList();
-            List<Friend> friendList = new ArrayList<>();
-            for (String friend : friends.keySet()
-            ) {
-                friendList.add(new Friend(friend));
-            }
-            buildListView(view, listView, friendList);
+            Map<String, Boolean> friends = database.getFriendList();
+            
+            buildListView(view, listView, buildFriendListFromFirebase(friends));
 
             // Listen to changes to the FriendList of the User
             database.mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("friends").addValueEventListener(new ValueEventListener() {
@@ -133,12 +128,8 @@ public class FriendList_Frag extends Fragment {
                     //Get the changes
                     Map<String, Boolean> value = (Map<String, Boolean>) snapshot.getValue();
                     if(value != null) {
-                        List<Friend> friendList = new ArrayList<Friend>();
-                        for (String friend : value.keySet()
-                        ) {
-                            friendList.add(new Friend(friend));
-                        }
-                        updateListView(view, listView, friendList);
+
+                        updateListView(view, listView, buildFriendListFromFirebase(value));
                     }
                 }
                 @Override
@@ -152,13 +143,25 @@ public class FriendList_Frag extends Fragment {
         return view;
     }
 
+    private List<Friend> buildFriendListFromFirebase(Map<String, Boolean> map){
+        List<Friend> friendList = new ArrayList<>();;
+        if(map != null) {
+
+            for (String friend : map.keySet()
+            ) {
+                friendList.add(new Friend(friend));
+            }
+        }
+        System.out.println(friendList);
+        return friendList;
+    }
     /**
      * Build the List view
      * @param view
      * @param listView
      * @param friendList
      */
-    public void buildListView(View view, ListView listView, List<Friend> friendList) {
+    private void buildListView(View view, ListView listView, List<Friend> friendList) {
         List<Friend> arrayOfUsers = new ArrayList<Friend>();
         // Create the adapter to convert the array to views
         ListAdapterFriend adapter = new ListAdapterFriend(view.getContext(), arrayOfUsers);
@@ -174,6 +177,7 @@ public class FriendList_Frag extends Fragment {
      * @param friendList
      */
     private void updateListView(View view, ListView listView, List<Friend> friendList){
+        //Get the Adapter (i.e the list of item)
         ListAdapterFriend adapter = (ListAdapterFriend)listView.getAdapter();
         if(adapter != null){
             adapter.clear();

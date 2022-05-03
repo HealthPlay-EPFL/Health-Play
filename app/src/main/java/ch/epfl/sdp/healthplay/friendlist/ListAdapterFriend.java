@@ -30,11 +30,9 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
 
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
     private final Database database = new Database();
-    private final List<Friend> noUpdateItems;
 
     public ListAdapterFriend(Context context, List<Friend> friendList) {
         super(context, R.layout.fragment_friend_list_, friendList);
-        noUpdateItems = new ArrayList<>(friendList);
     }
 
 
@@ -47,7 +45,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_friend_list_item, parent, false);
         }
-
+        // Block Descendants in order to be able to click on the whole object
         parent.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 
         // Lookup view for data population

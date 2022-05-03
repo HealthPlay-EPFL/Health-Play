@@ -67,7 +67,6 @@ public class ListAdapterAddFriend extends ArrayAdapter<Friend> implements Filter
 
             @Override
             public void onClick(View v) {
-                String fName = friend.getUserName();
                 database.addToFriendList(friend.getUserName());
                 Snackbar mySnackbar = Snackbar.make(finalConvertView, "Friend " + friendName.getText() + " added", Snackbar.LENGTH_SHORT);
                 mySnackbar.show();
@@ -113,7 +112,6 @@ public class ListAdapterAddFriend extends ArrayAdapter<Friend> implements Filter
              * @param constraint
              * @param results
              */
-            @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
 
