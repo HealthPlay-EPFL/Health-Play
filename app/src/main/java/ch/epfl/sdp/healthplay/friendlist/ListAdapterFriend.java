@@ -38,6 +38,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
     private final FriendListItemMode mode;
     private final List<Friend> noUpdateItems;
     private Context context;
+    private Button manageFriendButton;
 
 
     public ListAdapterFriend(Context context, List<Friend> friendList, FriendListItemMode mode) {
@@ -62,14 +63,14 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
 
         // Lookup view for data population
         TextView friendName = convertView.findViewById(R.id.friendName);
-        Button manageFriendButton = convertView.findViewById(R.id.manageFriendButton);
+        manageFriendButton = convertView.findViewById(R.id.manageFriendButton);
         ImageView profileImage = convertView.findViewById(R.id.friendProfilePicture);
 
         View finalConvertView = convertView;
 
         // Remove the selected friend on the button click
         if(mode == FriendListItemMode.ADD){
-            manageFriendButton.setText(R.string.add_friend);
+            setFriendButton(R.string.add_friend);
             manageFriendButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -82,7 +83,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
         }
         else
         {
-            manageFriendButton.setText(R.string.remove_friend);
+            setFriendButton(R.string.remove_friend);
             manageFriendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -121,6 +122,10 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
         });
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    private void setFriendButton(int text) {
+        manageFriendButton.setText(text);
     }
 
     /**
