@@ -110,7 +110,9 @@ public class EditProfilePictureFragment extends Fragment {
                     if(snapshot.getValue() != null){
                         String image = snapshot.getValue().toString();
                         ImageView imageView = view.findViewById(R.id.edit_profile_picture);
-                        Glide.with(getContext()).load(image).into(imageView);
+                        if(getActivity() != null) {
+                            Glide.with(getActivity()).load(image).into(imageView);
+                        }
                     }
 
                 }
@@ -136,8 +138,8 @@ public class EditProfilePictureFragment extends Fragment {
      */
     public void saveProfilePicture() {
         ProgressDialog dialog = new ProgressDialog(getContext());
-        dialog.setTitle("Set profile");
-        dialog.setMessage("Setting up profile");
+        dialog.setTitle("Profile configuration");
+        dialog.setMessage("Setting up your profile picture");
         dialog.show();
 
         if(uri != null) {
@@ -163,6 +165,7 @@ public class EditProfilePictureFragment extends Fragment {
 
         }
         else {
+            dialog.dismiss();
             Toast.makeText(getContext(), IMAGE_NOT_SELECTED, Toast.LENGTH_SHORT).show();
         }
 
