@@ -138,7 +138,7 @@ public class AuthUiActivity extends AppCompatActivity
             FirebaseUserMetadata metadata = FirebaseAuth.getInstance().getCurrentUser().getMetadata();
             if (metadata != null && metadata.getCreationTimestamp() == metadata.getLastSignInTimestamp()) {
                 new Database().writeNewUser(FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                        "", 0, 0);
+                        "HugoBoss", 0, 0);
                 // Tell intent that the user has been created for the first time
                 intent.putExtra(ProfileSettingsFragment.MESSAGE, true);
                 startActivity(intent);
