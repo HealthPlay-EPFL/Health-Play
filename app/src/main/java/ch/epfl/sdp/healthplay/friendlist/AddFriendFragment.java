@@ -173,7 +173,7 @@ public class AddFriendFragment extends Fragment {
         });
 
         // Create the adapter to convert the array to views
-        ListAdapterFriend adapter = new ListAdapterFriend(view.getContext(), arrayOfUsers, FriendListItemMode.ADD);
+        ListAdapterFriend adapter = new ListAdapterFriend(view.getContext(), arrayOfUsers, true);
         // Attach the adapter to a ListView
         listView.setAdapter(adapter);
 

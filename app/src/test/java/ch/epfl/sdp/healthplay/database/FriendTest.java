@@ -8,26 +8,26 @@ public class FriendTest {
 
     @Test
     public void getUserIdTest() {
-        String name = "id";
-        Friend friend = new Friend(name);
-        assertEquals(friend.getUserId(), name);
+        String id = "id";
+        Friend friend = new Friend(id);
+        assertEquals(friend.getUserId(), id);
 
     }
 
     @Test
     public void setUserIdTest(){
-        String name = "name";
-        String newName = "newName";
-        Friend friend = new Friend(name);
-        friend.setUserId(newName);
-        assertEquals(friend.getUserId(), newName);
+        String id = "name";
+        String newId = "newName";
+        Friend friend = new Friend(id);
+        friend.setUserId(newId);
+        assertEquals(friend.getUserId(), newId);
     }
 
     @Test
     public void getUserNameTest() {
-        String name = "id";
+        String name = "name";
         Friend friend = new Friend("" ,name);
-        assertEquals(friend.getUserId(), name);
+        assertEquals(friend.getUsername(), name);
 
     }
 

@@ -163,7 +163,7 @@ public class FriendList_Frag extends Fragment {
     private void buildListView(View view, ListView listView, List<Friend> friendList) {
         List<Friend> arrayOfUsers = new ArrayList<Friend>();
         // Create the adapter to convert the array to views
-        ListAdapterFriend adapter = new ListAdapterFriend(view.getContext(), arrayOfUsers, FriendListItemMode.REMOVE);
+        ListAdapterFriend adapter = new ListAdapterFriend(view.getContext(), arrayOfUsers, false);
         // Attach the adapter to a ListView
         listView.setAdapter(adapter);
         adapter.addAll(friendList);

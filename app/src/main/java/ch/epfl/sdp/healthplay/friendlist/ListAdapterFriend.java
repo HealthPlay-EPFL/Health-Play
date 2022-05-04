@@ -35,15 +35,15 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
 
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
     private final Database database = new Database();
-    private final FriendListItemMode mode;
+    private final boolean addFriend;
     private final List<Friend> noUpdateItems;
     private Context context;
     private Button manageFriendButton;
 
 
-    public ListAdapterFriend(Context context, List<Friend> friendList, FriendListItemMode mode) {
+    public ListAdapterFriend(Context context, List<Friend> friendList, boolean addFriend) {
         super(context, R.layout.fragment_friend_list_, friendList);
-        this.mode = mode;
+        this.addFriend = addFriend;   // true is ADD and false is REMOVE
         noUpdateItems = new ArrayList<>(friendList);
         this.context = context;
     }
@@ -68,8 +68,8 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
 
         View finalConvertView = convertView;
 
-        // Remove the selected friend on the button click
-        if(mode == FriendListItemMode.ADD){
+        // Add the selected friend on the button click
+        if(addFriend){
             setFriendButton(R.string.add_friend);
             manageFriendButton.setOnClickListener(new View.OnClickListener() {
 
@@ -81,6 +81,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
                 }
             });
         }
+        // Remove the selected friend on the button click
         else
         {
             setFriendButton(R.string.remove_friend);
@@ -88,7 +89,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
                 @Override
                 public void onClick(View v) {
                     database.removeFromFriendList(friend.getUserId());
-                    Snackbar mySnackbar = Snackbar.make(finalConvertView, "Friend " + friendName.getText() + " removed", Snackbar.LENGTH_SHORT);
+                    Snackbar mySnackbar = Snackbar.make(finalConvertView,"Friend " + friendName.getText() + " removed", Snackbar.LENGTH_SHORT);
                     mySnackbar.show();
                 }
             });
@@ -183,7 +184,5 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
         this.clear();
         this.addAll(results);
     }
-
-
 
 }
