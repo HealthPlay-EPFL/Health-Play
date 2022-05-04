@@ -346,12 +346,14 @@ public final class Database {
      *
      * @param name       the unique identifier given to the lobby
      */
-    public void getLobbyPlayerUid (String name, int index, OnCompleteListener<DataSnapshot> onCompleteListener){
-        mDatabase
-                .child(LOBBIES)
-                .child(name)
-                .child(PLAYER_UID + index)
-                .get().addOnCompleteListener(onCompleteListener);
+    public void getAllLobbyPlayerUids (String name, OnCompleteListener<DataSnapshot> onCompleteListener){
+        for (int i = 1; i < MAX_NBR_PLAYERS + 1; i++) {
+            mDatabase
+                    .child(LOBBIES)
+                    .child(name)
+                    .child(PLAYER_UID + i)
+                    .get().addOnCompleteListener(onCompleteListener);
+        }
     }
 
     /** Checks if lobby exists and given password matches correct one
