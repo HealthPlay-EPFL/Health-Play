@@ -47,6 +47,8 @@ public final class Database {
     public static final String REMAINING_TIME = "remainingTime";
     public static final String PLAYER_UID = "playerUid";
     public static final String PLAYER_SCORE = "playerScore";
+    public static final String PLAYER_READY = "playerReady";
+    public static final String PLAYER_LEFT = "playerLeft";
     public static final String PASSWORD = "password";
     public static final String LEADERBOARD = "leaderBoard";
     public static final String LEADERBOARD_DATE = "leaderBoardDate";
@@ -340,6 +342,19 @@ public final class Database {
         });
     }
 
+    /** Checks if lobby exists and given password matches correct one
+     *
+     * @param name      the unique identifier given to the lobby
+     * @param password  the unique password given to the lobby
+     */
+    public Task checkLobbyId (String name, String password){
+        return mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child(PASSWORD)
+                .get();
+    }
+
     /**
      * Updates remaining in the database lobby's game
      *
@@ -384,6 +399,62 @@ public final class Database {
     }
 
     /**
+     * Defines a lobby player as ready
+     *
+     * @param name      the unique identifier given to the lobby
+     * @param playerUid the unique identifier of the scoring player
+     */
+    public void setLobbyPlayerReady (String name, String playerUid){
+        for (int i = 1; i < MAX_NBR_PLAYERS + 1; i++) {
+            int finalI = i;
+            mDatabase
+                    .child(LOBBIES)
+                    .child(name)
+                    .child(PLAYER_UID + i)
+                    .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                @Override
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                    if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(playerUid)) {
+                        mDatabase
+                                .child(LOBBIES)
+                                .child(name)
+                                .child(PLAYER_READY + finalI)
+                                .setValue(true);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * Defines a lobby player as having left the lobby
+     *
+     * @param name      the unique identifier given to the lobby
+     * @param playerUid the unique identifier of the scoring player
+     */
+    public void setLobbyPlayerLeft (String name, String playerUid){
+        for (int i = 1; i < MAX_NBR_PLAYERS + 1; i++) {
+            int finalI = i;
+            mDatabase
+                    .child(LOBBIES)
+                    .child(name)
+                    .child(PLAYER_UID + i)
+                    .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                @Override
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                    if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(playerUid)) {
+                        mDatabase
+                                .child(LOBBIES)
+                                .child(name)
+                                .child(PLAYER_LEFT + finalI)
+                                .setValue(true);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
      * Get the friend list of the user
      * @return a map of String to Boolean
      */
@@ -396,19 +467,6 @@ public final class Database {
             }
         });
         return outputMap;
-    }
-
-     /** Checks if lobby exists and given password matches correct one
-     *
-     * @param name      the unique identifier given to the lobby
-     * @param password  the unique password given to the lobby
-     */
-    public Task checkLobbyId (String name, String password){
-        return mDatabase
-                .child(LOBBIES)
-                .child(name)
-                .child(PASSWORD)
-                .get();
     }
 
     /**

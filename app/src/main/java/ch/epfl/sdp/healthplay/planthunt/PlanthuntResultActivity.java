@@ -48,7 +48,6 @@ public class PlanthuntResultActivity extends AppCompatActivity {
                         textView.setText(getIntent().getStringExtra("name"));
                     }
                 }
-
         );
 
     }

@@ -22,7 +22,7 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/planthuntLobbyName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/alata"
@@ -48,7 +48,7 @@
                 android:layout_weight="2" />
 
             <ProgressBar
-                android:id="@+id/progressBar2"
+                android:id="@+id/planthuntLobbyTimeBar"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -60,7 +60,7 @@
                 android:scaleY="1" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/planthuntLobbyTimeText"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -83,7 +83,7 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/planthuntPlantName"
+            android:id="@+id/planthuntLobbyScore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -94,7 +94,7 @@
             android:textSize="48sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/planthuntPlantContinue"
+            android:id="@+id/planthuntLobbyButton"
             android:layout_width="250dp"
             android:layout_height="100dp"
             android:layout_gravity="center"

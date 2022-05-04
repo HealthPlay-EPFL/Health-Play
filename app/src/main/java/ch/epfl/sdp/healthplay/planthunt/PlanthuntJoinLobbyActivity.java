@@ -2,6 +2,7 @@ package ch.epfl.sdp.healthplay.planthunt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -49,6 +50,14 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                             System.out.println("Lobby id is correct!");
                             //Initialize new lobby with received values
                             db.addUserToLobby(name, username);
+
+                            //Launch lobby waiting screen
+                            Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
+                            startActivity(intent);
+                        }
+                        else{
+                            //Temporary prints before actual pop-ups
+                            System.out.println("Incorrect lobby id!");
                         }
                     }
                 });

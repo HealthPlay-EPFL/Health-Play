@@ -2,6 +2,7 @@ package ch.epfl.sdp.healthplay.planthunt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +29,7 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
         EditText editName = findViewById(R.id.planthuntCreateLobbyName);
         EditText editPassword = findViewById(R.id.planthuntCreateLobbyPassword);
         EditText editUsername = findViewById(R.id.planthuntCreateLobbyUsername);
-        lobbyButton = findViewById(R.id.planthuntCreateLobbyButton);
+        lobbyButton = findViewById(R.id.planthuntWaitLobbyButton);
 
         //Create new lobby when clicking on Create lobby button
         lobbyButton.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +43,10 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
                 //Initialize new lobby with received values
                 Lobby newLobby = new Lobby(name, password, username, TEST_1);
                 db.writeNewLobby(newLobby.getName(), newLobby.getPassword(), newLobby.getPlayerUid1(), newLobby.getRemainingTime());
+
+                //Launch lobby waiting screen
+                Intent intent = new Intent(PlanthuntCreateLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -23,7 +23,7 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/waitLobbyName"
+            android:id="@+id/planthuntWaitLobbyName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/alata"
@@ -38,7 +38,7 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:id="@+id/waitLobbyGif"
+            android:id="@+id/planthuntWaitLobbyGif"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:layout_gravity="center"
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
                 android:fontFamily="@font/alata"
-                android:text="Connected players"
+                android:text="Players"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="60sp" />
@@ -74,7 +74,7 @@
                 android:layout_height="10dp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button7"
+                android:id="@+id/planthuntWaitLobbyText1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
@@ -93,7 +93,7 @@
                 android:layout_height="2dp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button8"
+                android:id="@+id/planthuntWaitLobbyText2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
@@ -111,7 +111,7 @@
                 android:layout_height="2dp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button9"
+                android:id="@+id/planthuntWaitLobbyText3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
@@ -130,7 +130,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/planthuntCreateLobbyButton"
+            android:id="@+id/planthuntWaitLobbyButton"
             android:layout_width="200dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
