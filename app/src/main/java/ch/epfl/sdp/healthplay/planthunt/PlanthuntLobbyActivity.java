@@ -51,6 +51,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
     public static StorageReference storage;
     private FirebaseUser user;
     public static final String URL = "URL";
+    public static final String NAME = "NAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
         //Get Firebase Storage from Url
         storage = FirebaseStorage.getInstance(STORAGE_URL).getReference();
 
-        final Button captureButton = findViewById(R.id.planthuntPlantButton);
+        final Button captureButton = findViewById(R.id.planthuntLobbyButton);
 
         //Start camera intent when clicking on Take Picture button
         captureButton.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +159,6 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
             //Send image Storage Url on Firebase to Plantnet activity
             Intent intent = new Intent(this, PlanthuntNewPlantActivity.class);
             String urlImage = CameraApi.getImageUrl(user, photoFile.getName());
-            intent.putExtra(URL, urlImage);
 
             //Add picture to Firebase
             storage.child("Planthunt").child(user.getUid()).child(photoFile.getName()).putBytes(outputStream.toByteArray()).addOnSuccessListener(
@@ -190,10 +190,10 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                intent.putExtra("name", commonName);
-                                                System.out.println(commonName);
+                                                intent.putExtra(NAME, commonName);
                                                 storage.child("Planthunt").child(user.getUid()).child(photoFile.getName()).delete();
                                                 storage.child("Planthunt").child(user.getUid()).child(commonName + "_" + photoFile.getName()).putBytes(outputStream.toByteArray());
+                                                intent.putExtra(URL, CameraApi.getNewImageUrl(user, photoFile.getName(), commonName));
                                                 startActivity(intent);
                                             }
                                         });
