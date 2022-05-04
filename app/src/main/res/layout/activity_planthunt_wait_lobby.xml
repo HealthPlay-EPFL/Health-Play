@@ -74,7 +74,7 @@
                 android:layout_height="10dp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/planthuntWaitLobbyText1"
+                android:id="@+id/planthuntResultText1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
@@ -93,7 +93,7 @@
                 android:layout_height="2dp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/planthuntWaitLobbyText2"
+                android:id="@+id/planthuntResultText2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
@@ -111,7 +111,7 @@
                 android:layout_height="2dp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/planthuntWaitLobbyText3"
+                android:id="@+id/planthuntResultText3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
@@ -130,7 +130,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/planthuntWaitLobbyButton"
+            android:id="@+id/planthuntResultButton"
             android:layout_width="200dp"
             android:layout_height="100dp"
             android:layout_gravity="center"

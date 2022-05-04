@@ -11,13 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import ch.epfl.sdp.healthplay.R;
@@ -46,9 +42,9 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
         lobbyNameText.setText(lobbyName);
 
         List<String> usernames = new ArrayList<String>();
-        final TextView username1Text = findViewById(R.id.planthuntWaitLobbyText1);
-        final TextView username2Text = findViewById(R.id.planthuntWaitLobbyText2);
-        final TextView username3Text = findViewById(R.id.planthuntWaitLobbyText3);
+        final TextView username1Text = findViewById(R.id.planthuntResultText1);
+        final TextView username2Text = findViewById(R.id.planthuntResultText2);
+        final TextView username3Text = findViewById(R.id.planthuntResultText3);
 
         db.getAllLobbyPlayerUids(lobbyName, task -> {
             if (!task.isSuccessful()) {
@@ -63,7 +59,7 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
             }
         });
 
-        Button readyButton = findViewById(R.id.planthuntWaitLobbyButton);
+        Button readyButton = findViewById(R.id.planthuntResultButton);
 
         //Create new lobby when clicking on Create lobby button
         readyButton.setOnClickListener(new View.OnClickListener() {

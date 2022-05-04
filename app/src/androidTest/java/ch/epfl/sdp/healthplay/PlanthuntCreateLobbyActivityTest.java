@@ -39,7 +39,7 @@ public class PlanthuntCreateLobbyActivityTest {
         ViewInteraction textPassword = Espresso.onView(withId(R.id.planthuntCreateLobbyPassword));
         textPassword.perform(ViewActions.typeText(PASSWORD));
         Espresso.closeSoftKeyboard();
-        Espresso.onView(withId(R.id.planthuntWaitLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+        Espresso.onView(withId(R.id.planthuntResultButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
@@ -58,6 +58,6 @@ public class PlanthuntCreateLobbyActivityTest {
                 }
         );
 
-        Espresso.onView(withId(R.id.planthuntWaitLobbyButton)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.planthuntResultButton)).check(matches(isDisplayed()));
     }
 }

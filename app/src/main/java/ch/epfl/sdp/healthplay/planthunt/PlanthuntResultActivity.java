@@ -26,29 +26,12 @@ import ch.epfl.sdp.healthplay.api.PlantnetApi;
 import okhttp3.HttpUrl;
 
 public class PlanthuntResultActivity extends AppCompatActivity {
-    private static String imageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planthunt_result);
 
-        imageUrl = getIntent().getStringExtra("url");
-
-        final ImageView plantView = findViewById(R.id.planthuntPlantImage);
-        System.out.println(imageUrl);
-        Glide.with(this).load(imageUrl).into(plantView);
-
-        final Button plantButton = findViewById(R.id.plantButton);
-        plantButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        TextView textView = findViewById(R.id.plantDescription);
-                        textView.setText(getIntent().getStringExtra("name"));
-                    }
-                }
-        );
 
     }
 
