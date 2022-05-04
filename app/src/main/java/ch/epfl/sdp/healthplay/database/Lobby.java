@@ -25,7 +25,9 @@ public class Lobby {
         this.name = name;
         this.password = password;
         playerUid1 = hostUid;
-        playerScore1 = 0;
+        playerUid2 = "";
+        playerUid3 = "";
+
         this.remainingTime = remainingTime;
         nbrPlayers++;
         setStatus(GameStatus.WAITING);

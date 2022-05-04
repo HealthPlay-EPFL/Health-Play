@@ -431,8 +431,7 @@ public final class Database {
      * @param name       the unique identifier given to the lobby
      * @param playerUid  the unique identifier of the scoring player
      */
-    public Task getLobbyPlayerScore (String name, String playerUid){
-        final Task[] result = new Task[1];
+    public void getLobbyPlayerScore (String name, String playerUid, OnCompleteListener<DataSnapshot> onCompleteListener){
         for (int i = 1; i < MAX_NBR_PLAYERS + 1; i++) {
             int finalI = i;
             mDatabase
@@ -443,17 +442,18 @@ public final class Database {
                 @Override
                 public void onSuccess(DataSnapshot dataSnapshot) {
                     if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(playerUid)) {
-                        result[0] = mDatabase
+                        mDatabase
                                 .child(LOBBIES)
                                 .child(name)
                                 .child(PLAYER_SCORE + finalI)
-                                .get();
+                                .get()
+                                .addOnCompleteListener(onCompleteListener);
                     }
                 }
             });
         }
-        return result[0];
     }
+
 
     /**
      * Defines a lobby player as ready
