@@ -39,6 +39,9 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
     private final List<Friend> noUpdateItems;
     private Context context;
     private Button manageFriendButton;
+    private final String friendText = "Friend ";
+    private final String addedText = " added";
+    private final String removedText = " removed ";
 
 
     public ListAdapterFriend(Context context, List<Friend> friendList, boolean addFriend) {
@@ -76,7 +79,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
                 @Override
                 public void onClick(View v) {
                     database.addToFriendList(friend.getUserId());
-                    Snackbar mySnackbar = Snackbar.make(finalConvertView, "Friend " + friendName.getText() + " added", Snackbar.LENGTH_SHORT);
+                    Snackbar mySnackbar = Snackbar.make(finalConvertView, friendText + friendName.getText() + addedText, Snackbar.LENGTH_SHORT);
                     mySnackbar.show();
                 }
             });
@@ -89,7 +92,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
                 @Override
                 public void onClick(View v) {
                     database.removeFromFriendList(friend.getUserId());
-                    Snackbar mySnackbar = Snackbar.make(finalConvertView,"Friend " + friendName.getText() + " removed", Snackbar.LENGTH_SHORT);
+                    Snackbar mySnackbar = Snackbar.make(finalConvertView,friendText + friendName.getText() + removedText, Snackbar.LENGTH_SHORT);
                     mySnackbar.show();
                 }
             });
