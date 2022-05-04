@@ -344,6 +344,34 @@ public final class Database {
 
     /** Checks if lobby exists and given password matches correct one
      *
+     * @param name       the unique identifier given to the lobby
+     */
+    public Task getAllLobbyPlayerUids (String name){
+        final Task[] result = new Task[1];
+        final int[] j = {0};
+        for (int i = 1; i < MAX_NBR_PLAYERS + 1; i++) {
+            int finalI = i;
+            mDatabase
+                    .child(LOBBIES)
+                    .child(name)
+                    .child(PLAYER_UID + i)
+                    .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                @Override
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                    result[j[0]] = mDatabase
+                            .child(LOBBIES)
+                            .child(name)
+                            .child(PLAYER_SCORE + finalI)
+                            .get();
+                    j[0]++;
+                }
+            });
+        }
+        return result[0];
+    }
+
+    /** Checks if lobby exists and given password matches correct one
+     *
      * @param name      the unique identifier given to the lobby
      * @param password  the unique password given to the lobby
      */
@@ -396,6 +424,35 @@ public final class Database {
                         }
                     });
         }
+    }
+
+    /** Checks if lobby exists and given password matches correct one
+     *
+     * @param name       the unique identifier given to the lobby
+     * @param playerUid  the unique identifier of the scoring player
+     */
+    public Task getLobbyPlayerScore (String name, String playerUid){
+        final Task[] result = new Task[1];
+        for (int i = 1; i < MAX_NBR_PLAYERS + 1; i++) {
+            int finalI = i;
+            mDatabase
+                    .child(LOBBIES)
+                    .child(name)
+                    .child(PLAYER_UID + i)
+                    .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                @Override
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                    if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(playerUid)) {
+                        result[0] = mDatabase
+                                .child(LOBBIES)
+                                .child(name)
+                                .child(PLAYER_SCORE + finalI)
+                                .get();
+                    }
+                }
+            });
+        }
+        return result[0];
     }
 
     /**

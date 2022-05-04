@@ -53,6 +53,7 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
 
                             //Launch lobby waiting screen
                             Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
+                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, name);
                             startActivity(intent);
                         }
                         else{
