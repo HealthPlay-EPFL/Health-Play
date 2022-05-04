@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="400dp"
-    tools:context=".AddFriendListItem">
+    tools:context=".friendlist.AddFriendListItem">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -38,8 +38,8 @@
             android:id="@+id/addFriendItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/gradientPrimary_color"
             android:text="@string/add_friend"
+            android:backgroundTint="?attr/gradientPrimary_color"
             android:focusable="false"/>
 
     </LinearLayout>

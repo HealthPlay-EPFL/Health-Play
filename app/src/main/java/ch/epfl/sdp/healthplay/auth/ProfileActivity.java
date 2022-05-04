@@ -34,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        SignedInActivity.SetMode(this);
+        SignedInFragment.SetMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         FirebaseUser user = mAuth.getCurrentUser();

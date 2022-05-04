@@ -4,34 +4,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FriendList_Frag">
+    tools:context=".friendlist.FriendList_Frag">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/friendList"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="724dp">
+            android:layout_height="match_parent">
 
-        </ListView>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineH"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.0" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineH1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.93" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineH2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineV1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="1" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineV2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.4" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineV3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.6" />
+
+            <ListView
+                android:id="@+id/friendList"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/guidelineH1"
+                app:layout_constraintLeft_toRightOf="@id/guidelineV"
+                app:layout_constraintRight_toLeftOf="@id/guidelineV1"
+                app:layout_constraintTop_toBottomOf="@id/guidelineH">
+
+            </ListView>
 
         <Button
             android:id="@+id/friendToCalendar"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:backgroundTint="?attr/gradientPrimary_color"
-            android:text="@string/go_to_calendar" />
+            android:text="@string/go_to_calendar"
+            app:layout_constraintBottom_toTopOf="@id/guidelineH2"
+            app:layout_constraintTop_toBottomOf="@id/guidelineH1"
+            app:layout_constraintLeft_toRightOf="@id/guidelineV"
+            app:layout_constraintRight_toLeftOf="@id/guidelineV2"/>
 
         <Button
             android:id="@+id/addFriendBouton"
+            android:backgroundTint="?attr/gradientPrimary_color"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:backgroundTint="?attr/gradientPrimary_color"
-            android:text="@string/add_friend" />
+            android:text="@string/add_friend"
+            app:layout_constraintBottom_toTopOf="@id/guidelineH2"
+            app:layout_constraintTop_toBottomOf="@id/guidelineH1"
+            app:layout_constraintLeft_toRightOf="@id/guidelineV3"
+            app:layout_constraintRight_toLeftOf="@id/guidelineV1"/>
 
-    </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
 
 </FrameLayout>

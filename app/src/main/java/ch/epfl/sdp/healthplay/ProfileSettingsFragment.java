@@ -22,6 +22,7 @@ import java.util.Calendar;
 
 import ch.epfl.sdp.healthplay.auth.ProfileActivity;
 import ch.epfl.sdp.healthplay.auth.ProfileFragment;
+import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 import ch.epfl.sdp.healthplay.database.Database;
 
 public class ProfileSettingsFragment extends Fragment {
@@ -95,6 +96,7 @@ public class ProfileSettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_profile_settings, container, false);
+        SignedInFragment.SetMode(getContext());
         Intent intent = getActivity().getIntent();
         firstTime = intent.getBooleanExtra(MESSAGE, false);
 

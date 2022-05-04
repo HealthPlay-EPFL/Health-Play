@@ -1,6 +1,8 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.friendlist;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Friend;
 
@@ -32,7 +36,7 @@ public class ListAdapterAddFriend extends ArrayAdapter<Friend> implements Filter
     private final Database database = new Database();
     private final List<Friend> noUpdateItems;
 
-    public ListAdapterAddFriend(Context context, ArrayList<Friend> friendList) {
+    public ListAdapterAddFriend(Context context, List<Friend> friendList) {
         super(context, R.layout.fragment_add_friend, friendList);
         noUpdateItems = new ArrayList<>(friendList);
     }
@@ -60,10 +64,10 @@ public class ListAdapterAddFriend extends ArrayAdapter<Friend> implements Filter
 
         // Add the friend to the user friend list
         addFriendButton.setOnClickListener(new View.OnClickListener() {
-            String fName = friendName.getText().toString();
 
             @Override
             public void onClick(View v) {
+                String fName = (String) friendName.getText();
                 database.addToFriendList(fName);
                 Snackbar mySnackbar = Snackbar.make(finalConvertView, "Friend " + fName + " added", Snackbar.LENGTH_SHORT);
                 mySnackbar.show();
@@ -119,7 +123,7 @@ public class ListAdapterAddFriend extends ArrayAdapter<Friend> implements Filter
             protected FilterResults performFiltering(CharSequence constraint) {
 
                 FilterResults results = new FilterResults();
-                ArrayList<Friend> FilteredArrayNames = new ArrayList<>();
+                List<Friend> FilteredArrayNames = new ArrayList<>();
 
                 constraint = constraint.toString().toLowerCase();
                 // Check for each element in the Friend list that the UserId starts with the constraint
