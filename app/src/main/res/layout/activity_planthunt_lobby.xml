@@ -38,7 +38,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
@@ -49,13 +49,14 @@
 
             <ProgressBar
                 android:id="@+id/planthuntLobbyTimeBar"
-                style="?android:attr/progressBarStyle"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:indeterminate="true"
-                android:indeterminateTint="@color/white"
-                android:indeterminateTintMode="src_atop"
+                android:max="500"
+                android:background="@drawable/circular_shape"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/circular_progress_bar"
                 android:scaleX="1"
                 android:scaleY="1" />
 
@@ -65,7 +66,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="@font/alata"
-                android:text="01 : 53"
+                android:text="5:0"
                 android:gravity="center"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
@@ -100,7 +101,7 @@
             android:layout_gravity="center"
             android:backgroundTint="@color/planthuntLightGreen"
             android:fontFamily="@font/alata"
-            android:text="Keep hunting"
+            android:text="Capture"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="36sp" />

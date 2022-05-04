@@ -13,8 +13,6 @@ import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Lobby;
 
 public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
-
-    private static Button lobbyButton;
     private static final int TEST_1 = 180;
 
     @Override
@@ -29,7 +27,7 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
         EditText editName = findViewById(R.id.planthuntCreateLobbyName);
         EditText editPassword = findViewById(R.id.planthuntCreateLobbyPassword);
         EditText editUsername = findViewById(R.id.planthuntCreateLobbyUsername);
-        lobbyButton = findViewById(R.id.planthuntWaitLobbyButton);
+        Button lobbyButton = findViewById(R.id.planthuntWaitLobbyButton);
 
         //Create new lobby when clicking on Create lobby button
         lobbyButton.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +45,7 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
                 //Launch lobby waiting screen
                 Intent intent = new Intent(PlanthuntCreateLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
                 intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, name);
+                intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
                 startActivity(intent);
             }
         });

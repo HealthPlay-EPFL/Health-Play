@@ -47,6 +47,7 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DataSnapshot dataSnapshot) {
                         if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(password)){
+                            //TODO check if less than 3 people in the lobby
                             System.out.println("Lobby id is correct!");
                             //Initialize new lobby with received values
                             db.addUserToLobby(name, username);
@@ -54,6 +55,7 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                             //Launch lobby waiting screen
                             Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
                             intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, name);
+                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
                             startActivity(intent);
                         }
                         else{

@@ -12,6 +12,7 @@ import ch.epfl.sdp.healthplay.R;
 public class PlanthuntCreateJoinLobbyActivity extends AppCompatActivity {
 
     public static final String LOBBY_NAME = "LOBBY_NAME";
+    public static final String USERNAME = "USERNAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
