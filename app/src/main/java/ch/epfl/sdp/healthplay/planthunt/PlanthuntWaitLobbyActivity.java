@@ -41,8 +41,24 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
         lobbyName.setText(name);
 
 
-        db.getLobbyPlayerScore(name, "1", task -> {
+        db.getLobbyPlayerUid(name, 1, task -> {
             if (!task.isSuccessful()) {
+
+                Log.e("ERROR", "An error happened");
+            }
+            System.out.println(task.getResult().getValue());
+        });
+
+        db.getLobbyPlayerUid(name, 2, task -> {
+            if (!task.isSuccessful()) {
+
+                Log.e("ERROR", "An error happened");
+            }
+            System.out.println(task.getResult().getValue());
+        });
+        db.getLobbyPlayerUid(name, 3, task -> {
+            if (!task.isSuccessful()) {
+
                 Log.e("ERROR", "An error happened");
             }
             System.out.println(task.getResult().getValue());
