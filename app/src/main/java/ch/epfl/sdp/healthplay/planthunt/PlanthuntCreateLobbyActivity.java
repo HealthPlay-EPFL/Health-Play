@@ -13,7 +13,6 @@ import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Lobby;
 
 public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
-    private static final int TEST_1 = 180;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +26,7 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
         EditText editName = findViewById(R.id.planthuntCreateLobbyName);
         EditText editPassword = findViewById(R.id.planthuntCreateLobbyPassword);
         EditText editUsername = findViewById(R.id.planthuntCreateLobbyUsername);
-        Button lobbyButton = findViewById(R.id.planthuntResultButton);
+        Button lobbyButton = findViewById(R.id.planthuntWaitButton);
 
         //Create new lobby when clicking on Create lobby button
         lobbyButton.setOnClickListener(new View.OnClickListener() {
@@ -39,8 +38,8 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
                 String username = editUsername.getText().toString();
 
                 //Initialize new lobby with received values
-                Lobby newLobby = new Lobby(name, password, username, TEST_1);
-                db.writeNewLobby(newLobby.getName(), newLobby.getPassword(), newLobby.getPlayerUid1(), newLobby.getRemainingTime());
+                Lobby newLobby = new Lobby(name, password, username, 500, 2);
+                db.writeNewLobby(newLobby.getName(), newLobby.getPassword(), newLobby.getPlayerUid1(), newLobby.getRemainingTime(), newLobby.getMaxNbrPlayers());
 
                 //Launch lobby waiting screen
                 Intent intent = new Intent(PlanthuntCreateLobbyActivity.this, PlanthuntWaitLobbyActivity.class);

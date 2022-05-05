@@ -45,8 +45,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
 
 
     private final Database db = new Database();
-    private String lobbyName, currentUsername;
-    private boolean isHost;
+    private String lobbyName, currentUsername, hostStatus;
     private static int remainingTime = 300;
 
     private File photoFile;
@@ -64,7 +63,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
         Intent intent = getIntent();
         lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
         currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
-        isHost = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST).equals("host");
+        hostStatus = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST);
 
         final TextView lobbyNameText = findViewById(R.id.planthuntLobbyName);
         lobbyNameText.setText(lobbyName);
@@ -90,7 +89,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
             }
         });
 
-        if (remainingTime == 300 && isHost){
+        if (remainingTime == 300 && hostStatus.equals("host")){
             startTimer();
         }
 
@@ -102,6 +101,13 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                         int time = Math.toIntExact((long) snapshot.getValue());
                         lobbyTimeText.setText(round(time/60) + ":" + (time%60));
                         lobbyTimeBar.setProgress(time);
+                        if (time == 0){
+                            Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntResultActivity.class);
+                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
+                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST, hostStatus);
+                            startActivity(intent);
+                        }
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
@@ -129,9 +135,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                         System.out.println(error.toString());
                     }
                 }
-
         );
-
     }
 
     private void startTimer(){
@@ -197,8 +201,6 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                     new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            System.out.println("File uploaded successfully!");
-
                             //Creates a new Thread to receive Url response asynchronously
                             Thread thread = new Thread(new Runnable() {
                                 @Override

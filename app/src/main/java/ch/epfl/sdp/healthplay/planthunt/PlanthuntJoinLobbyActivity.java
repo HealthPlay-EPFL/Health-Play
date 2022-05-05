@@ -42,30 +42,45 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                 String password = getString(editPassword);
                 String username = getString(editUsername);
 
-                Task checkId = db.checkLobbyId(name, password);
+                Task checkId = db.getLobbyPassword(name);
                 checkId.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                     @Override
-                    public void onSuccess(DataSnapshot dataSnapshot) {
-                        if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(password)){
-                            //TODO check if less than 3 people in the lobby
-                            System.out.println("Lobby id is correct!");
-                            //Initialize new lobby with received values
-                            db.addUserToLobby(name, username);
+                    public void onSuccess(DataSnapshot passwordSnapshot) {
+                        if (Objects.requireNonNull(passwordSnapshot.getValue()).toString().equals(password)){
+                            Task checkMax = db.getLobbyMaxPlayerCount(name);
+                            checkMax.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                                @Override
+                                public void onSuccess(DataSnapshot maxSnapshot) {
+                                    Task checkCount = db.getLobbyPlayerCount(name);
+                                    checkCount.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                                        @Override
+                                        public void onSuccess(DataSnapshot countSnapshot) {
+                                            if (Math.toIntExact((long) Objects.requireNonNull(countSnapshot.getValue())) < Math.toIntExact((long) passwordSnapshot.getValue())){
+                                                db.addUserToLobby(name, username);
 
-                            //Launch lobby waiting screen
-                            Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
-                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, name);
-                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
-                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST, "player");
-                            startActivity(intent);
+                                                //Launch lobby waiting screen
+                                                Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
+                                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, name);
+                                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
+                                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST, "player");
+                                                startActivity(intent);
+                                            }
+                                            else{
+                                                //TODO actual pop ups
+                                                System.out.println("Lobby is full!");
+                                            }
+                                        }
+                                    });
+                                }
+
+                            });
                         }
                         else{
-                            //Temporary prints before actual pop-ups
+                            //TODO actual pop ups
                             System.out.println("Incorrect lobby id!");
                         }
                     }
                 });
-
             }
         });
     }
