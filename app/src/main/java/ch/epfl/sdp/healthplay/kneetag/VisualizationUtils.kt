@@ -37,7 +37,7 @@ object VisualizationUtils {
     /** Distance from person id to the nose keypoint.  */
     private const val PERSON_ID_MARGIN = 6f
 
-    private const val TRESHOLD_TO_WIN = 30f
+    private const val TRESHOLD_TO_WIN = 18f
 
     /** Pair of keypoints to draw lines between.  */
     private val bodyJoints = listOf(
@@ -58,7 +58,10 @@ object VisualizationUtils {
         Pair(BodyPart.LEFT_HIP, BodyPart.LEFT_KNEE),
         Pair(BodyPart.LEFT_KNEE, BodyPart.LEFT_ANKLE),
         Pair(BodyPart.RIGHT_HIP, BodyPart.RIGHT_KNEE),
-        Pair(BodyPart.RIGHT_KNEE, BodyPart.RIGHT_ANKLE)
+        Pair(BodyPart.RIGHT_KNEE, BodyPart.RIGHT_ANKLE),
+        //add the hand joins to the model
+        Pair(BodyPart.LEFT_HAND, BodyPart.LEFT_WRIST),
+        Pair(BodyPart.RIGHT_HAND, BodyPart.RIGHT_WRIST)
     )
 
     // Draw line and point indicate body pose
@@ -70,6 +73,7 @@ object VisualizationUtils {
         rightPerson: Pair<Person?, String>,
         gameStarted: Boolean,
     ): Pair<Bitmap, Int> {
+
         val paintCircle = Paint().apply {
             strokeWidth = CIRCLE_RADIUS
             color = Color.BLUE
@@ -94,7 +98,11 @@ object VisualizationUtils {
 
         val output = input.copy(Bitmap.Config.ARGB_8888, true)
         val originalSizeCanvas = Canvas(output)
-        persons.forEach { person ->
+        persons.forEach {
+            //add the position of the hand
+
+                person ->
+
             // draw person id if tracker is enable
 
             bodyJoints.forEach {
@@ -119,8 +127,8 @@ object VisualizationUtils {
                         CIRCLE_RADIUS * 2,
                         paintCircleKnee
                     )
-            }
 
+            }
         }
         var result = 0
         // display the name of the player at their positions

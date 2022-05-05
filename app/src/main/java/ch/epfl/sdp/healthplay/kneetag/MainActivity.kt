@@ -108,10 +108,12 @@ class MainActivity : AppCompatActivity(),
             database.readField(
                 user.uid, "friends"
             ) { task ->
-                val mut = task.result.value as Map<String, Boolean>
-                friends.addAll(mut.keys)
-                for (friend in mut.keys) {
-                    friendList.add(Friend(friend))
+                val mut = task.result.value as Map<String, Boolean>?
+                if (mut != null) {
+                    friends.addAll(mut!!.keys)
+                    for (friend in mut.keys) {
+                        friendList.add(Friend(friend))
+                    }
                 }
             }
         }

@@ -33,7 +33,9 @@ enum class BodyPart(val position: Int) {
     LEFT_KNEE(13),
     RIGHT_KNEE(14),
     LEFT_ANKLE(15),
-    RIGHT_ANKLE(16);
+    RIGHT_ANKLE(16),
+    LEFT_HAND(17),
+    RIGHT_HAND(18);
     companion object{
         private val map = values().associateBy(BodyPart::position)
         fun fromInt(position: Int): BodyPart = map.getValue(position)
