@@ -36,6 +36,7 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
         String currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
+        String hostStatus = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST);
 
 
         final TextView lobbyNameText = findViewById(R.id.planthuntWaitLobbyName);
@@ -68,6 +69,7 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                 Intent intent = new Intent(PlanthuntWaitLobbyActivity.this, PlanthuntLobbyActivity.class);
                 intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
                 intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
+                intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST, hostStatus);
                 startActivity(intent);
 
             }

@@ -46,6 +46,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
 
     private final Database db = new Database();
     private String lobbyName, currentUsername;
+    private boolean isHost;
     private static int remainingTime = 300;
 
     private File photoFile;
@@ -63,6 +64,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
         Intent intent = getIntent();
         lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
         currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
+        isHost = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST).equals("host");
 
         final TextView lobbyNameText = findViewById(R.id.planthuntLobbyName);
         lobbyNameText.setText(lobbyName);
@@ -88,7 +90,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
             }
         });
 
-        if (remainingTime == 300){
+        if (remainingTime == 300 && isHost){
             startTimer();
         }
 

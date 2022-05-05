@@ -46,6 +46,7 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
                 Intent intent = new Intent(PlanthuntCreateLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
                 intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, name);
                 intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
+                intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST, "host");
                 startActivity(intent);
             }
         });
