@@ -22,7 +22,7 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/text15"
+            android:id="@+id/planthuntLobbyName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/alata"

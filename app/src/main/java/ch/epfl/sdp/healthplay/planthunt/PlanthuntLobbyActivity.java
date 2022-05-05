@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -33,6 +34,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.api.CameraApi;
@@ -43,8 +45,8 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
 
 
     private final Database db = new Database();
-    private String lobbyName;
-    private int remainingTime = 300;
+    private String lobbyName, currentUsername;
+    private static int remainingTime = 300;
 
     private File photoFile;
     private static final String STORAGE_URL = "gs://health-play-9e161.appspot.com";
@@ -60,13 +62,15 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
-        String currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
+        currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
 
-        final TextView lobbyNameText = findViewById(R.id.text15);
+        final TextView lobbyNameText = findViewById(R.id.planthuntLobbyName);
         lobbyNameText.setText(lobbyName);
 
         final TextView lobbyTimeText = findViewById(R.id.planthuntLobbyTimeText);
         final ProgressBar lobbyTimeBar = findViewById(R.id.planthuntLobbyTimeBar);
+
+        final TextView lobbyScore = findViewById(R.id.planthuntLobbyScore);
 
         //Get current user reference in Firebase
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -83,6 +87,10 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                 startCameraIntent();
             }
         });
+
+        if (remainingTime == 300){
+            startTimer();
+        }
 
         db.mDatabase.child(Database.LOBBIES).child(lobbyName).child(Database.REMAINING_TIME).addValueEventListener(
                 new ValueEventListener() {
@@ -101,7 +109,27 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
 
         );
 
-        startTimer();
+        db.mDatabase.child(Database.LOBBIES).child(lobbyName).addValueEventListener(
+                new ValueEventListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        db.getLobbyPlayerScore(lobbyName, currentUsername, task -> {
+                            if (!task.isSuccessful()) {
+
+                                Log.e("ERROR", "An error happened");
+                            }
+                            lobbyScore.setText("Score: " + Objects.requireNonNull(task.getResult().getValue()));
+                        });
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        System.out.println(error.toString());
+                    }
+                }
+
+        );
+
     }
 
     private void startTimer(){
@@ -158,6 +186,8 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
 
             //Send image Storage Url on Firebase to Plantnet activity
             Intent intent = new Intent(this, PlanthuntNewPlantActivity.class);
+            intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+            intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
             String urlImage = CameraApi.getImageUrl(user, photoFile.getName());
 
             //Add picture to Firebase
