@@ -19,7 +19,6 @@ import ch.epfl.sdp.healthplay.database.Database;
 
 public class PlanthuntNewPlantActivity extends AppCompatActivity {
 
-    private static String imageUrl;
     ImageView plantView;
     TextView textView;
     boolean isLoaded = false;
@@ -44,7 +43,7 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
             db.updateLobbyPlayerScore(lobbyName, currentUsername, Math.toIntExact((long) task.getResult().getValue()) + 50);
         });
 
-        imageUrl = getIntent().getStringExtra(PlanthuntLobbyActivity.URL);
+        String imageUrl = intent.getStringExtra(PlanthuntLobbyActivity.URL);
         System.out.println(imageUrl);
 
         //Glide.with(PlanthuntNewPlantActivity.this).load(imageUrl).into(plantView);

@@ -99,13 +99,17 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int time = Math.toIntExact((long) snapshot.getValue());
-                        lobbyTimeText.setText(round(time/60) + ":" + (time%60));
+                        String first = round(time / 60) < 10
+                                ? "0" + round(time / 60)
+                                : Integer.toString((round(time / 60)));
+                        String second = time % 60 < 10
+                                ? "0" + time % 60
+                                : Integer.toString(time % 60);
+                        lobbyTimeText.setText(first + ":" + second);
                         lobbyTimeBar.setProgress(time);
                         if (time == 0){
                             Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntResultActivity.class);
                             intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
-                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
-                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST, hostStatus);
                             startActivity(intent);
                         }
                     }
@@ -220,7 +224,6 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                                                 .get(0)
                                                 .toString();
 
-                                        //Asynchronously outputs extracted name to text field
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {

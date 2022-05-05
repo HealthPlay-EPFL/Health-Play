@@ -11,7 +11,7 @@ public class Lobby {
     private String playerUid1, playerUid2, playerUid3;
     private int playerScore1 = 0, playerScore2 = 0, playerScore3 = 0;
     private boolean playerReady1 = false, playerReady2 = false, playerReady3 = false;
-    private int remainingTime;
+    private int remainingTime = 500;
     private int maxNbrPlayers;
 
     public Lobby(String name, String password, String hostUid, int remainingTime, int maxNbrPlayers){

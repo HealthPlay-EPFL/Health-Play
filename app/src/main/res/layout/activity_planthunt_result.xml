@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
                 android:fontFamily="@font/alata"
-                android:text="Baptiste\n37 points"
+                android:text=""
                 android:drawableEnd="@drawable/crown_icon"
                 android:drawableTint="@color/white"
                 android:paddingEnd="40dp"
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
                 android:fontFamily="@font/alata"
-                android:text="Antoine\n32 points"
+                android:text=""
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="36sp" />
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
                 android:fontFamily="@font/alata"
-                android:text="Etienne\n27 points"
+                android:text=""
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="36sp" />

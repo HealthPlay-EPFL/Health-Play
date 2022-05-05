@@ -447,6 +447,20 @@ public final class Database {
         }
     }
 
+    /** Checks if lobby exists and given password matches correct one
+     *
+     * @param name       the unique identifier given to the lobby
+     */
+    public void getAllLobbyPlayerScores (String name, OnCompleteListener<DataSnapshot> onCompleteListener){
+        for (int i = 1; i < MAX_PLAYER_CAPACITY + 1; i++) {
+            mDatabase
+                    .child(LOBBIES)
+                    .child(name)
+                    .child(PLAYER_SCORE + i)
+                    .get().addOnCompleteListener(onCompleteListener);
+        }
+    }
+
     /**
      * Updates remaining in the database lobby's game
      *

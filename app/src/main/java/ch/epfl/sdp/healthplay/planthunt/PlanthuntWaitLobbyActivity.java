@@ -48,7 +48,7 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
         final TextView lobbyNameText = findViewById(R.id.planthuntWaitName);
         lobbyNameText.setText(lobbyName);
 
-        List<String> usernames = new ArrayList<String>();
+        List<String> usernames = new ArrayList<>();
         final TextView username1Text = findViewById(R.id.planthuntWaitText1);
         final TextView username2Text = findViewById(R.id.planthuntWaitText2);
         final TextView username3Text = findViewById(R.id.planthuntWaitText3);
