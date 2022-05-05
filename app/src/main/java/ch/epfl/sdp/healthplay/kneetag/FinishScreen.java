@@ -2,6 +2,7 @@ package ch.epfl.sdp.healthplay.kneetag;
 
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import android.view.View;
@@ -27,6 +28,7 @@ public class FinishScreen extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MediaPlayer.create(this, R.raw.notification).start();
         setContentView(R.layout.activity_gameended);
         //display the winner
         TextView text=findViewById(R.id.winner_display);

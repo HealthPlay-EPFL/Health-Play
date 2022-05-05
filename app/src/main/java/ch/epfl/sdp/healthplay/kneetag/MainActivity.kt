@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Process
 import android.util.Log
@@ -176,18 +177,19 @@ class MainActivity : AppCompatActivity(),
         //It's the button to launch the kneetag Game
         val kneetagLaunchButton: Button = findViewById<Button>(R.id.startGame)
         kneetagLaunchButton.setOnClickListener {
-            if(cameraSource!!.gameState==0) {
+            if (cameraSource!!.gameState == 0) {
                 val switch = findViewById<ToggleButton>(R.id.facing_switch)
                 var text = "The 2 players are not valid"
                 val left = spinner.selectedItem.toString()
                 val right = spinnerCopy.selectedItem.toString()
                 if (poseDetector.leftPerson.first != null
-                    && poseDetector.rightPerson.first != null && !(left=="Anonymous" && right=="Anonymous")
+                    && poseDetector.rightPerson.first != null && !(left == "Anonymous" && right == "Anonymous")
                 ) {
                     if (check(left) and check(right)) {
                         cameraSource!!.gameState = cameraSource!!.UNRANKED_GAME
                         text = "Unranked game started"
                         kneetagLaunchButton.text = "Fight!"
+                        MediaPlayer.create(this, R.raw.notification).start()
                         spinner.isVisible = false
                         spinnerCopy.isVisible = false
                         switch.isVisible = false
@@ -196,6 +198,7 @@ class MainActivity : AppCompatActivity(),
                         cameraSource!!.gameState = cameraSource!!.RANKED_GAME
                         text = "Ranked game started"
                         kneetagLaunchButton.text = "Fight!"
+                        MediaPlayer.create(this, R.raw.notification).start()
                         spinner.isEnabled = false
                         spinnerCopy.isEnabled = false
                         switch.isVisible = false
@@ -252,13 +255,13 @@ class MainActivity : AppCompatActivity(),
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    fun gameEndedScreen(result:Int) {
+    fun gameEndedScreen(result: Int) {
         val intent = Intent(this, FinishScreen::class.java)
 
-        if(result==1)
-            intent.putExtra(FinishScreen.WINNER,poseDetector.leftPerson.second )
-        if(result==2)
-            intent.putExtra(FinishScreen.WINNER,poseDetector.rightPerson.second )
+        if (result == 1)
+            intent.putExtra(FinishScreen.WINNER, poseDetector.leftPerson.second)
+        if (result == 2)
+            intent.putExtra(FinishScreen.WINNER, poseDetector.rightPerson.second)
 
         startActivity(intent)
         finish()
