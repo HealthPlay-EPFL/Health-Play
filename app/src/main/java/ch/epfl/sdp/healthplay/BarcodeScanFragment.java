@@ -25,6 +25,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -184,7 +185,7 @@ public class BarcodeScanFragment extends Fragment {
                     for (Barcode barcode : barcodes) {
                         // Get the code from the barcode
                         final String barcodeString;
-                        barcodeString = "sCUYu3iIVrSzCxgcutD1ti0EvSA2";
+                        barcodeString = barcode.getRawValue();
                         int barcodeType = barcode.getValueType();
                         switch (barcodeType) {
                             case Barcode.TYPE_PRODUCT:
@@ -218,6 +219,8 @@ public class BarcodeScanFragment extends Fragment {
                                                     database.addToFriendList(barcodeString);
                                                     // Remove info view
                                                     view.findViewById(R.id.shadowFrameScanFriend).setVisibility(View.GONE);
+                                                    Toast t = Toast.makeText(getContext(), username+" was added in your friends list !", Toast.LENGTH_SHORT);
+                                                    t.show();
                                                 });
                                             }
                                         });

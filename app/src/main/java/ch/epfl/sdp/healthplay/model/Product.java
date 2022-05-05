@@ -33,6 +33,7 @@ public final class Product {
     private static final String ENERGY_KCAL = "energy-kcal";
     private static final String IMAGE_URL = "image_url";
     private static final String NUTRISCORE_GRADE = "nutriscore_grade";
+    private static final String NOVA_GROUPS = "nova_groups";
 
     // JSON object containing the information of the product
     private final JSONObject product;
@@ -212,6 +213,19 @@ public final class Product {
     }
 
     /**
+     * Get the NOVA score of the product
+     *
+     * @return the NOVA score of the product
+     */
+    public Nova getNova() {
+        try {
+            return Nova.getFromString(product.getString(NOVA_GROUPS));
+        } catch (JSONException e) {
+            return Nova.N_UNKNOWN;
+        }
+    }
+
+    /**
      * Enum representing the nutriscore of a product
      */
     public enum Nutriscore {
@@ -238,7 +252,7 @@ public final class Product {
         }
 
         /**
-         * Gets the nutriscore given a string represenation of that score
+         * Gets the nutriscore given a string representation of that score
          *
          * @param score the string representation of the score
          * @return the nutriscore
@@ -257,6 +271,50 @@ public final class Product {
                     return E;
                 default:
                     return UNKNOWN;
+            }
+        }
+    }
+
+    public enum Nova {
+        N_1(R.drawable.ic_nova_group_1),
+        N_2(R.drawable.ic_nova_group_2),
+        N_3(R.drawable.ic_nova_group_3),
+        N_4(R.drawable.ic_nova_group_4),
+        N_UNKNOWN(R.drawable.ic_nova_group_unknown);
+
+        private final int res;
+
+        Nova(int res) {
+            this.res = res;
+        }
+
+        /**
+         * Get the resource id for the image of the NOVA score
+         *
+         * @return the resource id for the image of the NOVA score
+         */
+        public int getRes() {
+            return res;
+        }
+
+        /**
+         * Gets the nutriscore given a string representation of that score
+         *
+         * @param nova the string representation of the score
+         * @return the NOVA score
+         */
+        public static Nova getFromString(String nova) {
+            switch (nova.toLowerCase()) {
+                case "1":
+                    return N_1;
+                case "2":
+                    return N_2;
+                case "3":
+                    return N_3;
+                case "4":
+                    return N_4;
+                default:
+                    return N_UNKNOWN;
             }
         }
     }
