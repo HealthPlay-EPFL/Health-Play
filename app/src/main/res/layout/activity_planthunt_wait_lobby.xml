@@ -82,7 +82,7 @@
                 android:drawableEnd="@drawable/check_icon"
                 android:drawableTint="@color/white"
                 android:paddingEnd="40dp"
-                android:text="Baptiste"
+                android:text=""
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="36sp" />
@@ -101,7 +101,7 @@
                 android:drawableEnd="@drawable/check_icon"
                 android:drawableTint="@color/white"
                 android:paddingEnd="40dp"
-                android:text="Antoine"
+                android:text=""
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="36sp" />
@@ -119,7 +119,7 @@
                 android:drawableEnd="@drawable/check_icon"
                 android:drawableTint="@color/white"
                 android:paddingEnd="40dp"
-                android:text="Etienne"
+                android:text=""
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="36sp" />

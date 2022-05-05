@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,47 +39,39 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Get Strings from input fields
-                String name = getString(editName);
+                String lobbyName = getString(editName);
                 String password = getString(editPassword);
                 String username = getString(editUsername);
 
-                Task checkId = db.getLobbyPassword(name);
-                checkId.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                    @Override
-                    public void onSuccess(DataSnapshot passwordSnapshot) {
-                        if (Objects.requireNonNull(passwordSnapshot.getValue()).toString().equals(password)){
-                            Task checkMax = db.getLobbyMaxPlayerCount(name);
-                            checkMax.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                                @Override
-                                public void onSuccess(DataSnapshot maxSnapshot) {
-                                    Task checkCount = db.getLobbyPlayerCount(name);
-                                    checkCount.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DataSnapshot countSnapshot) {
-                                            if (Math.toIntExact((long) Objects.requireNonNull(countSnapshot.getValue())) < Math.toIntExact((long) passwordSnapshot.getValue())){
-                                                db.addUserToLobby(name, username);
-
-                                                //Launch lobby waiting screen
-                                                Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
-                                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, name);
-                                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
-                                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST, "player");
-                                                startActivity(intent);
-                                            }
-                                            else{
-                                                //TODO actual pop ups
-                                                System.out.println("Lobby is full!");
-                                            }
-                                        }
-                                    });
+                db.getLobbyPassword(lobbyName, task -> {
+                    if (!task.isSuccessful()) {
+                        Log.e("ERROR", "Lobby does not exist!");
+                    }
+                    if (Objects.requireNonNull(task.getResult().getValue()).toString().equals(password)){
+                        db.getLobbyPlayerCount(lobbyName, task2 -> {
+                            if (!task2.isSuccessful()) {
+                                Log.e("ERROR", "Lobby does not exist!");
+                            }
+                            db.getLobbyMaxPlayerCount(lobbyName, task3 -> {
+                                if (!task3.isSuccessful()) {
+                                    Log.e("ERROR", "Lobby does not exist!");
                                 }
+                                if (Math.toIntExact((long) task2.getResult().getValue()) < Math.toIntExact((long) task3.getResult().getValue())){
+                                    db.addUserToLobby(lobbyName, username);
 
+                                    //Launch lobby waiting screen
+                                    Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
+                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
+                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST, "player");
+                                    startActivity(intent);
+                                }
+                                else{
+                                    //TODO actual pop ups
+                                    Log.e("ERROR", "Lobby is full!");
+                                }
                             });
-                        }
-                        else{
-                            //TODO actual pop ups
-                            System.out.println("Incorrect lobby id!");
-                        }
+                        });
                     }
                 });
             }

@@ -350,32 +350,20 @@ public final class Database {
      *
      * @param name      the unique identifier given to the lobby
      */
-    public Task getLobbyPlayerCount (String name){
+    public Task getLobbyPlayerCount (String name, OnCompleteListener<DataSnapshot> onCompleteListener){
         return mDatabase
                 .child(LOBBIES)
                 .child(name)
                 .child(NBR_PLAYERS)
-                .get();
+                .get().addOnCompleteListener(onCompleteListener);
     }
 
     /** Checks if lobby exists and given password matches correct one
      *
      * @param name      the unique identifier given to the lobby
      */
-    public Task getLobbyMaxPlayerCount (String name){
+    public Task getLobbyMaxPlayerCount (String name, OnCompleteListener<DataSnapshot> onCompleteListener){
         return mDatabase
-                .child(LOBBIES)
-                .child(name)
-                .child(MAX_NBR_PLAYERS)
-                .get();
-    }
-
-    /** Checks if lobby exists and given password matches correct one
-     *
-     * @param name      the unique identifier given to the lobby
-     */
-    public void getLobbyMaxPlayerCountNew (String name, OnCompleteListener<DataSnapshot> onCompleteListener){
-        mDatabase
                 .child(LOBBIES)
                 .child(name)
                 .child(MAX_NBR_PLAYERS)
@@ -386,12 +374,12 @@ public final class Database {
      *
      * @param name the unique identifier given to the lobby
      */
-    public Task getLobbyPassword(String name){
+    public Task getLobbyPassword(String name, OnCompleteListener<DataSnapshot> onCompleteListener){
         return mDatabase
                 .child(LOBBIES)
                 .child(name)
                 .child(PASSWORD)
-                .get();
+                .get().addOnCompleteListener(onCompleteListener);
     }
 
     /**

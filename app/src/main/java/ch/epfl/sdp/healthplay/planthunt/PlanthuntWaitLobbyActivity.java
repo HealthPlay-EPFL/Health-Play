@@ -49,9 +49,9 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
         lobbyNameText.setText(lobbyName);
 
         List<String> usernames = new ArrayList<String>();
-        final TextView username1Text = findViewById(R.id.planthuntResultText1);
-        final TextView username2Text = findViewById(R.id.planthuntResultText2);
-        final TextView username3Text = findViewById(R.id.planthuntResultText3);
+        final TextView username1Text = findViewById(R.id.planthuntWaitText1);
+        final TextView username2Text = findViewById(R.id.planthuntWaitText2);
+        final TextView username3Text = findViewById(R.id.planthuntWaitText3);
 
         //Get player names from the database
         db.mDatabase.child(Database.LOBBIES).child(lobbyName).addValueEventListener(
@@ -103,7 +103,7 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        db.getLobbyMaxPlayerCountNew(lobbyName, task -> {
+                        db.getLobbyMaxPlayerCount(lobbyName, task -> {
                             if (!task.isSuccessful()) {
 
                                 Log.e("ERROR", "An error happened");
