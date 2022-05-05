@@ -1,5 +1,6 @@
 package ch.epfl.sdp.healthplay.model;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,6 +9,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.StringJoiner;
 
 import ch.epfl.sdp.healthplay.R;
 
@@ -209,6 +211,28 @@ public final class Product {
             return Nutriscore.getFromString(product.getString(NUTRISCORE_GRADE));
         } catch (JSONException e) {
             return Nutriscore.UNKNOWN;
+        }
+    }
+
+    public String getIngredients() {
+        try {
+            return product.getString("ingredients_text");
+        } catch (JSONException e) {
+            return UNKNOWN_NAME;
+        }
+    }
+
+    public String getAllergens() {
+        try {
+            JSONArray array = product.getJSONArray("allergens_tags");
+            StringJoiner joiner = new StringJoiner(", ");
+            for (int i = 0; i < array.length(); i++) {
+                String name = array.getString(i);
+                joiner.add(name.substring(3));
+            }
+            return joiner.toString();
+        } catch (JSONException e) {
+            return UNKNOWN_NAME;
         }
     }
 
