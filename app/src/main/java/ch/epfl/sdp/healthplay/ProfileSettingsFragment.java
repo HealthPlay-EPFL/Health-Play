@@ -101,7 +101,6 @@ public class ProfileSettingsFragment extends Fragment {
         firstTime = intent.getBooleanExtra(MESSAGE, false);
 
         Button button = view.findViewById(R.id.button2);
-        button.setText("Save changes");
         if (firstTime) {
             button.setText("Create profile");
         }

@@ -207,7 +207,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="@string/click_to_view_stats"
+            android:text="?attr/click_to_view_stats"
             android:textColor="?attr/viewStats_color"
             android:textSize="11sp" />
             </RelativeLayout>
@@ -267,7 +267,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/name"
+                    android:text="?attr/name"
                     android:textColor="?attr/profileField_color"
                     app:layout_constraintLeft_toRightOf="@id/guidelineLV"
                     app:layout_constraintRight_toLeftOf="@id/guidelineLV1"
@@ -336,7 +336,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/birthday"
+                    android:text="?attr/birthday"
                     android:textColor="?attr/profileField_color"
                     app:layout_constraintLeft_toRightOf="@id/guidelineLV"
                     app:layout_constraintRight_toLeftOf="@id/guidelineLV1"
@@ -405,7 +405,7 @@
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/weight_kg"
+                    android:text="?attr/weight_kg"
                     android:textColor="?attr/profileField_color"
                     app:layout_constraintLeft_toRightOf="@id/guidelineLV"
                     app:layout_constraintRight_toLeftOf="@id/guidelineLV1"
@@ -474,7 +474,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/health_point"
+                    android:text="?attr/health_point"
                     android:textColor="?attr/profileField_color"
                     app:layout_constraintLeft_toRightOf="@id/guidelineLV"
                     app:layout_constraintRight_toLeftOf="@id/guidelineLV1"

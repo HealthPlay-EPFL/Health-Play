@@ -38,7 +38,7 @@
             android:id="@+id/removeFriendButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/remove_friend"
+            android:text="?attr/remove_friend"
             android:backgroundTint="?attr/gradientPrimary_color"
             android:focusable="false"/>
 

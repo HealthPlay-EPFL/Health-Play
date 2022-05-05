@@ -2,7 +2,6 @@ package ch.epfl.sdp.healthplay.auth;
 
 import static com.firebase.ui.auth.AuthUI.EMAIL_LINK_PROVIDER;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,7 +21,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
@@ -45,7 +46,6 @@ import java.util.List;
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.LeaderBoardActivity;
 import ch.epfl.sdp.healthplay.R;
-//import ch.epfl.sdp.healthplay.databinding.SignedInLayoutBinding;
 import ch.epfl.sdp.healthplay.databinding.FragmentSignedInBinding;
 
 public class SignedInFragment extends Fragment {
@@ -53,6 +53,7 @@ public class SignedInFragment extends Fragment {
     public static final String IDP_RESPONSE = "extra_idp_response";
     private FragmentSignedInBinding mBinding;
     private View view;
+    private Button[] button_language = new Button[4];
 
     public SignedInFragment() {
         // Required empty public constructor
@@ -85,18 +86,54 @@ public class SignedInFragment extends Fragment {
         return view;
     }
 
-    public void onClickNight(View view) {
+    public void onClickNight() {
         setMode(AppCompatDelegate.MODE_NIGHT_YES);
         getActivity().setTheme(R.style.darkTheme);
     }
 
-    public void onClickLight(View view) {
+    public void onClickLight() {
         setMode(AppCompatDelegate.MODE_NIGHT_NO);
         getActivity().setTheme(R.style.AppTheme);
     }
 
-    public void onClickLeaderBoard(View view) {
-        Intent intent = new Intent(getContext(), LeaderBoardActivity.class);
+    public void clickOnFrench(){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(getContext().getString(R.string.saved_language_mode), 1);
+        editor.apply();
+        SetMode(getContext());
+        reloadFrag();
+    }
+
+    public void clickOnEnglish(){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(getContext().getString(R.string.saved_language_mode), 0);
+        editor.apply();
+        SetMode(getContext());
+        reloadFrag();
+    }
+
+    public void clickOnItalian(){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(getContext().getString(R.string.saved_language_mode), 2);
+        editor.apply();
+        SetMode(getContext());
+        reloadFrag();
+    }
+
+    public void clickOnGerman(){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(getContext().getString(R.string.saved_language_mode), 3);
+        editor.apply();
+        reloadFrag();
+    }
+
+    private void reloadFrag(){
+        Intent intent = new Intent(getContext(), HomeScreenActivity.class);
+        getActivity().finish();
         startActivity(intent);
     }
 
@@ -107,11 +144,25 @@ public class SignedInFragment extends Fragment {
     public static void SetMode(Context activity) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
         int mode = sharedPref.getInt(activity.getString(R.string.saved_night_mode), AppCompatDelegate.MODE_NIGHT_NO);
+        int language_mode = sharedPref.getInt(activity.getString(R.string.saved_language_mode), 0);
         AppCompatDelegate.setDefaultNightMode(mode);
+        if(language_mode == 1 && mode == AppCompatDelegate.MODE_NIGHT_YES){
+            activity.setTheme(R.style.darkThemeFrench);
+        }else if(language_mode == 1 && mode == AppCompatDelegate.MODE_NIGHT_NO){
+            activity.setTheme(R.style.AppThemeFrench);
+        }else if(language_mode == 2 && mode == AppCompatDelegate.MODE_NIGHT_YES){
+            activity.setTheme(R.style.darkThemeItalian);
+        }else if(language_mode == 2 && mode == AppCompatDelegate.MODE_NIGHT_NO){
+            activity.setTheme(R.style.AppThemeItalian);
+        }else if(language_mode == 3 && mode == AppCompatDelegate.MODE_NIGHT_YES){
+            activity.setTheme(R.style.darkThemeGerman);
+        }else if(language_mode == 3 && mode == AppCompatDelegate.MODE_NIGHT_NO){
+            activity.setTheme(R.style.AppThemeGerman);
+        }else
         if(mode == AppCompatDelegate.MODE_NIGHT_YES) {
             activity.setTheme(R.style.darkTheme);
         }
-        else{
+        else {
             activity.setTheme(R.style.AppTheme);
         }
     }
@@ -262,11 +313,30 @@ public class SignedInFragment extends Fragment {
     }
 
     private void initButton(){
+        Button[] button_language = new Button[4];
         Button night = view.findViewById(R.id.night);
-        night.setOnClickListener(v -> onClickNight(v));
+        night.setOnClickListener(v -> onClickNight());
         Button light = view.findViewById(R.id.light);
-        light.setOnClickListener(v -> onClickLight(v));
-        Button leader = view.findViewById(R.id.button3);
-        leader.setOnClickListener(v -> onClickLeaderBoard(v));
+        light.setOnClickListener(v -> onClickLight());
+        Button french = view.findViewById(R.id.french);
+        french.setOnClickListener(v -> clickOnFrench());
+        Button english = view.findViewById(R.id.english);
+        english.setOnClickListener(v -> clickOnEnglish());
+        Button italian = view.findViewById(R.id.italian);
+        italian.setOnClickListener(v -> clickOnItalian());
+        Button german = view.findViewById(R.id.german);
+        german.setOnClickListener(v -> clickOnGerman());
+        button_language[0] = english;
+        button_language[1] = french;
+        button_language[2] = italian;
+        button_language[3] = german;
+        setEnabled(button_language);
+    }
+
+    private void setEnabled(Button[] buttons){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        int language_mode = sharedPref.getInt(getContext().getString(R.string.saved_language_mode), 0);
+        buttons[language_mode].setEnabled(false);
+        buttons[language_mode].setVisibility(View.INVISIBLE);
     }
 }

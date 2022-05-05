@@ -1,6 +1,6 @@
 <resources>
 
-    <!-- Light application theme. -->
+    <!-- default Light application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="profileButton_color">@color/blueButton</item>
         <item name="text_color">@color/black</item>
@@ -15,9 +15,105 @@
         <item name="profileLine_color">#FFC0C0C0</item>
         <item name="backgroundColor">@color/white</item>
         <item name="fragView_color">@color/white</item>
+
+        <!-- FriendList  String -->
+        <item name="remove_friend">Remove Friend</item>
+        <item name="go_to_calendar">Go to Calendar</item>
+        <item name="add_friend">Add Friend</item>
+        <item name="enter_the_name_of_your_friend">Enter the name of your friend</item>
+        <item name="go_back">Go back</item>
+
+        <!-- Graph String -->
+        <item name="monday">Monday</item>
+        <item name="tuesday">Tuesday</item>
+        <item name="wednesday">Wednesday</item>
+        <item name="thursday">Thursday</item>
+        <item name="friday">Friday</item>
+        <item name="saturday">Saturday</item>
+        <item name="sunday">Sunday</item>
+        <item name="january">Jan</item>
+        <item name="february">Feb</item>
+        <item name="march">Mar</item>
+        <item name="april">Apr</item>
+        <item name="may">May</item>
+        <item name="june">June</item>
+        <item name="july">July</item>
+        <item name="august">Aug</item>
+        <item name="september">Sep</item>
+        <item name="october">Oct</item>
+        <item name="november">Nov</item>
+        <item name="december">Dec</item>
+        <item name="day">Day</item>
+        <item name="month">Month</item>
+        <item name="Health_Point">Health Points</item>
+        <item name="Calendar">Calendar</item>
+        <item name="Calories">Calories</item>
+        <item name="calorie_exp">Average of calories</item>
+        <item name="Hp_exp">Sum of Health points</item>
+
+        <!--Calendar String -->
+        <item name="pls_login">"Please login"</item>
+        <item name="no_data">"No data for this date"</item>
+        <item name="no_stat">"No stats, please begin adding calories if you want to use the calendar summary"</item>
+        <item name="text_part1">@string/text_part1_en</item>
+        <item name="text_part2">@string/text_part2_en</item>
+        <item name="text_part3">@string/text_part3_en</item>
+        <item name="friendList">@string/friendList_en</item>
+        <item name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed">@string/welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed_en</item>
+        <item name="see_graph">SEE GRAPHS</item>
+
+        <!-- Profile String -->
+        <item name="click_to_view_stats">(click to view stats)</item>
+        <item name="name">Name</item>
+        <item name="birthday">Birthday</item>
+        <item name="weight_kg">Weight (kg)</item>
+        <item name="health_point">Health Point</item>
+        <item name="change_picture">change picture</item>
+        <item name="save">save</item>
+        <item name="exit">exit</item>
+        <item name="Name_point">Name:</item>
+        <item name="surname">Surname:</item>
+        <item name="username">Username:</item>
+        <item name="birthday_point">Birthdate:</item>
+        <item name="weight_kg_point">Weight (kg):</item>
+        <item name="Save_changes">Save changes</item>
+        <item name="daily_calorie">@string/daily_calorie_en</item>
+
+        <!-- BarCode Scan String -->
+        <item name="take_a_picture">Scan barcode</item>
+        <item name="enter_manually">Enter manually</item>
+        <item name="button_find_product_label">@string/button_find_product_label_en</item>
+        <item name="barcode_number_label">@string/barcode_number_label_en</item>
+        <item name="quantity">Quantity:</item>
+        <item name="product_energy_label">@string/product_energy_label_en</item>
+        <item name="energy_unit">KCal (per 100g)</item>
+        <item name="show_add_info">Show additional information</item>
+        <item name="add_counter">Add to my counter</item>
+
+        <!-- Game Menu String -->
+        <item name="kneetag_desc">@string/kneetag_desc_en</item>
+        <item name="planthunt_desc">"
+            \n
+            Plant-Hunt is an exploration game where each player or team has to collect as many points as possible from taking pictures of a maximum of rare plants.\n
+            The more teams also found your plants, the less points you get for it.\n
+            The plants are identified directly in the app using a wifi connection or you can store the pictures and get the results as soon as you get back online.\n
+            The game can be played with any number of player from 1 to 100 years old.\n
+            Good luck hunting!"</item>
+
+        <!-- SignedIn String -->
+        <item name="french_button">Français</item>
+        <item name="english_button">English</item>
+        <item name="italian_button">Italiano</item>
+        <item name="german_button">Deutsch</item>
+        <item name="delete_account">"delete account"</item>
+        <item name="Night">Night</item>
+        <item name="Light">Light</item>
+        <item name="LeaderBoard">LeaderBoard</item>
+        <item name="sign_out">sign out</item>
+        <item name="language">English</item>
     </style>
 
-    <!-- dark application theme. -->
+    <!-- default dark application theme. -->
     <style name="darkTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="profileButton_color">#121212</item>
         <item name="text_color">@color/white</item>
@@ -32,6 +128,648 @@
         <item name="profileLine_color">#FFC0C0C0</item>
         <item name="backgroundColor">#282828</item>
         <item name="fragView_color">#181818</item>
+
+        <item name="see_graph">SEE GRAPHS</item>
+
+        <!-- FriendList  String -->
+        <item name="remove_friend">Remove Friend</item>
+        <item name="go_to_calendar">Go to Calendar</item>
+        <item name="add_friend">Add Friend</item>
+        <item name="enter_the_name_of_your_friend">Enter the name of your friend</item>
+        <item name="go_back">Go back</item>
+
+        <!-- Graph String -->
+        <item name="monday">Monday</item>
+        <item name="tuesday">Tuesday</item>
+        <item name="wednesday">Wednesday</item>
+        <item name="thursday">Thursday</item>
+        <item name="friday">Friday</item>
+        <item name="saturday">Saturday</item>
+        <item name="sunday">Sunday</item>
+        <item name="january">Jan</item>
+        <item name="february">Feb</item>
+        <item name="march">Mar</item>
+        <item name="april">Apr</item>
+        <item name="may">May</item>
+        <item name="june">June</item>
+        <item name="july">July</item>
+        <item name="august">Aug</item>
+        <item name="september">Sep</item>
+        <item name="october">Oct</item>
+        <item name="november">Nov</item>
+        <item name="december">Dec</item>
+        <item name="day">Day</item>
+        <item name="month">Month</item>
+        <item name="Health_Point">Health Points</item>
+        <item name="Calendar">Calendar</item>
+        <item name="Calories">Calories</item>
+        <item name="calorie_exp">Average of calories</item>
+        <item name="Hp_exp">Sum of Health points</item>
+
+        <!--Calendar String -->
+        <item name="pls_login">"Please login"</item>
+        <item name="no_data">"No data for this date"</item>
+        <item name="no_stat">"No stats, please begin adding calories if you want to use the calendar summary"</item>
+        <item name="text_part1">@string/text_part1_en</item>
+        <item name="text_part2">@string/text_part2_en</item>
+        <item name="text_part3">@string/text_part3_en</item>
+        <item name="friendList">@string/friendList_en</item>
+        <item name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed">@string/welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed_en</item>
+
+        <!-- Profile String -->
+        <item name="click_to_view_stats">(click to view stats)</item>
+        <item name="name">Name</item>
+        <item name="birthday">Birthday</item>
+        <item name="weight_kg">Weight (kg)</item>
+        <item name="health_point">Health Point</item>
+        <item name="change_picture">change picture</item>
+        <item name="save">save</item>
+        <item name="exit">exit</item>
+        <item name="Name_point">Name:</item>
+        <item name="surname">Surname:</item>
+        <item name="username">Username:</item>
+        <item name="birthday_point">Birthdate:</item>
+        <item name="weight_kg_point">Weight (kg):</item>
+        <item name="Save_changes">Save changes</item>
+        <item name="daily_calorie">@string/daily_calorie_en</item>
+
+        <!-- BarCode Scan String -->
+        <item name="take_a_picture">Scan barcode</item>
+        <item name="enter_manually">Enter manually</item>
+        <item name="button_find_product_label">@string/button_find_product_label_en</item>
+        <item name="barcode_number_label">@string/barcode_number_label_en</item>
+        <item name="quantity">Quantity:</item>
+        <item name="product_energy_label">@string/product_energy_label_en</item>
+        <item name="energy_unit">KCal (per 100g)</item>
+        <item name="show_add_info">Show additional information</item>
+        <item name="add_counter">Add to my counter</item>
+
+        <!-- Game Menu String -->
+        <item name="kneetag_desc">@string/kneetag_desc_en</item>
+        <item name="planthunt_desc">"
+            \n
+            Plant-Hunt is an exploration game where each player or team has to collect as many points as possible from taking pictures of a maximum of rare plants.\n
+            The more teams also found your plants, the less points you get for it.\n
+            The plants are identified directly in the app using a wifi connection or you can store the pictures and get the results as soon as you get back online.\n
+            The game can be played with any number of player from 1 to 100 years old.\n
+            Good luck hunting!"</item>
+
+        <!-- SignedIn String -->
+        <item name="french_button">Français</item>
+        <item name="english_button">English</item>
+        <item name="italian_button">Italiano</item>
+        <item name="german_button">Deutsch</item>
+        <item name="delete_account">"delete account"</item>
+        <item name="Night">Night</item>
+        <item name="Light">Light</item>
+        <item name="LeaderBoard">LeaderBoard</item>
+        <item name="sign_out">sign out</item>
+        <item name="language">English</item>
+
+    </style>
+
+    <!-- french Light application theme. -->
+    <style name="AppThemeFrench" parent="AppTheme">
+        <!-- FriendList  String -->
+        <item name="remove_friend">Supprimer Ami</item>
+        <item name="go_to_calendar">Retour</item>
+        <item name="add_friend">Ajouter Ami</item>
+        <item name="enter_the_name_of_your_friend">Entrer le nom de votre ami</item>
+        <item name="go_back">Retour</item>
+
+        <!-- Graph String -->
+        <item name="monday">Lundi</item>
+        <item name="tuesday">Mardi</item>
+        <item name="wednesday">Mercredi</item>
+        <item name="thursday">Jeudi</item>
+        <item name="friday">Vendredi</item>
+        <item name="saturday">Samedi</item>
+        <item name="sunday">Dimanche</item>
+        <item name="january">Jan</item>
+        <item name="february">Fev</item>
+        <item name="march">Mars</item>
+        <item name="april">Avr</item>
+        <item name="may">Mai</item>
+        <item name="june">Juin</item>
+        <item name="july">Juillet</item>
+        <item name="august">Août</item>
+        <item name="september">Sep</item>
+        <item name="october">Oct</item>
+        <item name="november">Nov</item>
+        <item name="december">Dec</item>
+        <item name="day">Jour</item>
+        <item name="month">Mois</item>
+        <item name="Health_Point">Points Santé</item>
+        <item name="Calendar">Calendrier</item>
+        <item name="Calories">Calories</item>
+        <item name="calorie_exp">Moyenne de calories</item>
+        <item name="Hp_exp">Somme de points santé</item>
+
+        <!--Calendar String -->
+        <item name="pls_login">"Connectez-vous"</item>
+        <item name="no_data">"Pas de donnée pour cette date"</item>
+        <item name="no_stat">"Pas de stats, commencez par ajouter des calories si vous voulez utilisez le calendrier"</item>
+        <item name="text_part1">@string/text_part1_fr</item>
+        <item name="text_part2">@string/text_part2_fr</item>
+        <item name="text_part3">@string/text_part3_fr</item>
+        <item name="friendList">@string/friendList_fr</item>
+        <item name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed">@string/welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed_fr</item>
+
+        <!-- Profile String -->
+        <item name="click_to_view_stats">(clique pour voir stats)</item>
+        <item name="name">Nom</item>
+        <item name="birthday">Anniversaire</item>
+        <item name="weight_kg">Poids (kg)</item>
+        <item name="health_point">Point Santé</item>
+        <item name="change_picture">changer image</item>
+        <item name="save">sauvegarder</item>
+        <item name="exit">sortir</item>
+        <item name="Name_point">Nom:</item>
+        <item name="surname">Prénom:</item>
+        <item name="username">Pseudo:</item>
+        <item name="birthday_point">Anniversaire:</item>
+        <item name="weight_kg_point">Poids (kg):</item>
+        <item name="Save_changes">Sauvegarder les changements</item>
+        <item name="daily_calorie">@string/daily_calorie_fr</item>
+
+        <!-- BarCode Scan String -->
+        <item name="take_a_picture">Scanner barcode</item>
+        <item name="enter_manually">Entrer manuellement</item>
+        <item name="button_find_product_label">@string/button_find_product_label_fr</item>
+        <item name="barcode_number_label">@string/barcode_number_label_fr</item>
+        <item name="quantity">Quantité:</item>
+        <item name="product_energy_label">@string/product_energy_label_fr</item>
+        <item name="energy_unit">KCal (par 100g)</item>
+        <item name="show_add_info">Montrer information additionnelle</item>
+        <item name="add_counter">Ajouter à mon compteur</item>
+
+        <!-- Game Menu String -->
+        <item name="kneetag_desc">@string/kneetag_desc_fr</item>
+        <item name="planthunt_desc">@string/planthunt_des_fr</item>
+
+        <!-- SignedIn String -->
+        <item name="delete_account">Supprimer compte</item>
+        <item name="Night">Nuit</item>
+        <item name="Light">Jour</item>
+        <item name="LeaderBoard">Classement</item>
+        <item name="sign_out">déconnection</item>
+        <item name="language">Français</item>
+
+
+
+        <item name="see_graph">VOIR GRAPHES</item>
+    </style>
+
+    <!-- french dark application theme. -->
+    <style name="darkThemeFrench" parent="darkTheme">
+        <!-- FriendList  String -->
+        <item name="remove_friend">Supprimer Ami</item>
+        <item name="go_to_calendar">Retour</item>
+        <item name="add_friend">Ajouter Ami</item>
+        <item name="enter_the_name_of_your_friend">Entrer le nom de votre ami</item>
+        <item name="go_back">Retour</item>
+
+        <!--Calendar String -->
+        <item name="pls_login">"Connectez-vous"</item>
+        <item name="no_data">"Pas de donnée pour cette date"</item>
+        <item name="no_stat">"Pas de stats, commencez par ajouter des calories si vous voulez utilisez le calendrier"</item>
+        <item name="text_part1">@string/text_part1_fr</item>
+        <item name="text_part2">@string/text_part2_fr</item>
+        <item name="text_part3">@string/text_part3_fr</item>
+        <item name="friendList">@string/friendList_fr</item>
+        <item name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed">@string/welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed_fr</item>
+
+        <!-- Graph String -->
+        <item name="monday">Lundi</item>
+        <item name="tuesday">Mardi</item>
+        <item name="wednesday">Mercredi</item>
+        <item name="thursday">Jeudi</item>
+        <item name="friday">Vendredi</item>
+        <item name="saturday">Samedi</item>
+        <item name="sunday">Dimanche</item>
+        <item name="january">Jan</item>
+        <item name="february">Fev</item>
+        <item name="march">Mars</item>
+        <item name="april">Avr</item>
+        <item name="may">Mai</item>
+        <item name="june">Juin</item>
+        <item name="july">Juillet</item>
+        <item name="august">Août</item>
+        <item name="september">Sep</item>
+        <item name="october">Oct</item>
+        <item name="november">Nov</item>
+        <item name="december">Dec</item>
+        <item name="day">Jour</item>
+        <item name="month">Mois</item>
+        <item name="Health_Point">Points Santé</item>
+        <item name="Calendar">Calendrier</item>
+        <item name="Calories">Calories</item>
+        <item name="calorie_exp">Moyenne de calories</item>
+        <item name="Hp_exp">Somme de points santé</item>
+
+        <!-- Profile String -->
+        <item name="click_to_view_stats">(clique pour voir stats)</item>
+        <item name="name">Nom</item>
+        <item name="birthday">Anniversaire</item>
+        <item name="weight_kg">Poids (kg)</item>
+        <item name="health_point">Point Santé</item>
+        <item name="change_picture">changer image</item>
+        <item name="save">sauvegarder</item>
+        <item name="exit">sortir</item>
+        <item name="Name_point">Nom:</item>
+        <item name="surname">Prénom:</item>
+        <item name="username">Pseudo:</item>
+        <item name="birthday_point">Anniversaire:</item>
+        <item name="weight_kg_point">Poids (kg):</item>
+        <item name="Save_changes">Sauvegarder changements</item>
+        <item name="daily_calorie">@string/daily_calorie_fr</item>
+
+        <!-- BarCode Scan String -->
+        <item name="take_a_picture">Scanner code barre</item>
+        <item name="enter_manually">Entrer manuellement</item>
+        <item name="button_find_product_label">@string/button_find_product_label_fr</item>
+        <item name="barcode_number_label">@string/barcode_number_label_fr</item>
+        <item name="quantity">Quantité:</item>
+        <item name="product_energy_label">@string/product_energy_label_fr</item>
+        <item name="energy_unit">KCal (par 100g)</item>
+        <item name="show_add_info">Montrer information additionnelle</item>
+        <item name="add_counter">Ajouter à mon compteur</item>
+
+        <!-- Game Menu String -->
+        <item name="kneetag_desc">@string/kneetag_desc_fr</item>
+        <item name="planthunt_desc">@string/planthunt_des_fr</item>
+
+        <!-- SignedIn String -->
+        <item name="delete_account">Supprimer compte</item>
+        <item name="Night">Sombre</item>
+        <item name="Light">Clair</item>
+        <item name="LeaderBoard">Classement</item>
+        <item name="sign_out">déconnection</item>
+        <item name="language">Français</item>
+
+
+        <item name="see_graph">VOIR GRAPHES</item>
+    </style>
+
+    <!-- italian Light application theme. -->
+    <style name="AppThemeItalian" parent="AppTheme">
+        <!-- FriendList  String -->
+        <item name="remove_friend">Rimuovere Amico</item>
+        <item name="go_to_calendar">Vai al calendario</item>
+        <item name="add_friend">Aggiungi Amico</item>
+        <item name="enter_the_name_of_your_friend">Inserisci il nome del tuo amico</item>
+        <item name="go_back">Tornare indietro</item>
+
+        <!-- Graph String -->
+        <item name="monday">Lunedì</item>
+        <item name="tuesday">Martedì</item>
+        <item name="wednesday">Mercoledì</item>
+        <item name="thursday">Giovedì</item>
+        <item name="friday">Venerdì</item>
+        <item name="saturday">Sabato</item>
+        <item name="sunday">Domenicale</item>
+        <item name="january">Gen</item>
+        <item name="february">Feb</item>
+        <item name="march">Mar</item>
+        <item name="april">Apr</item>
+        <item name="may">Mag</item>
+        <item name="june">Giu</item>
+        <item name="july">Lug</item>
+        <item name="august">Ago</item>
+        <item name="september">Set</item>
+        <item name="october">Ott</item>
+        <item name="november">Nov</item>
+        <item name="december">Dic</item>
+        <item name="day">Giornata</item>
+        <item name="month">Mese</item>
+        <item name="Health_Point">Punti di vita</item>
+        <item name="Calendar">Calendario</item>
+        <item name="Calories">Calorie</item>
+        <item name="calorie_exp">Media delle calorie</item>
+        <item name="Hp_exp">Somma dei punti di vita</item>
+
+        <!--Calendar String -->
+        <item name="pls_login">"Effettuare il login"</item>
+        <item name="no_data">"Nessun dato per questa data"</item>
+        <item name="no_stat">"Nessuna statistica, si prega di iniziare ad aggiungere calorie se si desidera utilizzare il riepilogo del calendario"</item>
+        <item name="text_part1">@string/text_part1_it</item>
+        <item name="text_part2">@string/text_part2_it</item>
+        <item name="text_part3">@string/text_part3_it</item>
+        <item name="friendList">@string/friendList_it</item>
+        <item name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed">@string/welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed_it</item>
+        <item name="see_graph">VEDI GRAFICI</item>
+
+        <!-- Profile String -->
+        <item name="click_to_view_stats">(clicca per visualizzare le statistiche)</item>
+        <item name="name">Nome</item>
+        <item name="birthday">Compleanno</item>
+        <item name="weight_kg">Peso (kg)</item>
+        <item name="health_point">Punti di vita</item>
+        <item name="change_picture">cambiare immagine</item>
+        <item name="save">salvare</item>
+        <item name="exit">uscire</item>
+        <item name="Name_point">Nome:</item>
+        <item name="surname">Cognome:</item>
+        <item name="username">Nome utente:</item>
+        <item name="birthday_point">Compleanno:</item>
+        <item name="weight_kg_point">Peso (kg):</item>
+        <item name="Save_changes">Salvare le modifiche</item>
+        <item name="daily_calorie">@string/daily_calorie_it</item>
+
+        <!-- BarCode Scan String -->
+        <item name="take_a_picture">Scansione Codice barre</item>
+        <item name="enter_manually">inserire manualmente</item>
+        <item name="button_find_product_label">@string/button_find_product_label_it</item>
+        <item name="barcode_number_label">@string/barcode_number_label_it</item>
+        <item name="quantity">Quantità:</item>
+        <item name="product_energy_label">@string/product_energy_label_it</item>
+        <item name="energy_unit">KCal (per 100g)</item>
+        <item name="show_add_info">Mostra informazioni aggiuntive</item>
+        <item name="add_counter">Aggiungi al mio contatore</item>
+
+        <!-- Game Menu String -->
+        <item name="kneetag_desc">@string/kneetag_desc_it</item>
+        <item name="planthunt_desc">@string/planthunt_des_it</item>
+
+        <!-- SignedIn String -->
+        <item name="delete_account">Elimina conto</item>
+        <item name="Night">Notte</item>
+        <item name="Light">Luce</item>
+        <item name="LeaderBoard">Classifica</item>
+        <item name="sign_out">uscire</item>
+        <item name="language">Italiano</item>
+
+    </style>
+
+    <!-- italian dark application theme. -->
+    <style name="darkThemeItalian" parent="darkTheme">
+        <!-- FriendList  String -->
+        <item name="remove_friend">Rimuovere Amico</item>
+        <item name="go_to_calendar">Vai al calendario</item>
+        <item name="add_friend">Aggiungi Amico</item>
+        <item name="enter_the_name_of_your_friend">Inserisci il nome del tuo amico</item>
+        <item name="go_back">Tornare indietro</item>
+
+        <!-- Graph String -->
+        <item name="monday">Lunedì</item>
+        <item name="tuesday">Martedì</item>
+        <item name="wednesday">Mercoledì</item>
+        <item name="thursday">Giovedì</item>
+        <item name="friday">Venerdì</item>
+        <item name="saturday">Sabato</item>
+        <item name="sunday">Domenicale</item>
+        <item name="january">Gen</item>
+        <item name="february">Feb</item>
+        <item name="march">Mar</item>
+        <item name="april">Apr</item>
+        <item name="may">Mag</item>
+        <item name="june">Giu</item>
+        <item name="july">Lug</item>
+        <item name="august">Ago</item>
+        <item name="september">Set</item>
+        <item name="october">Ott</item>
+        <item name="november">Nov</item>
+        <item name="december">Dic</item>
+        <item name="day">Giornata</item>
+        <item name="month">Mese</item>
+        <item name="Health_Point">Punti di vita</item>
+        <item name="Calendar">Calendario</item>
+        <item name="Calories">Calorie</item>
+        <item name="calorie_exp">Media delle calorie</item>
+        <item name="Hp_exp">Somma dei punti di vita</item>
+
+        <!--Calendar String -->
+        <item name="pls_login">"Effettuare il login"</item>
+        <item name="no_data">"Nessun dato per questa data"</item>
+        <item name="no_stat">"Nessuna statistica, si prega di iniziare ad aggiungere calorie se si desidera utilizzare il riepilogo del calendario"</item>
+        <item name="text_part1">@string/text_part1_it</item>
+        <item name="text_part2">@string/text_part2_it</item>
+        <item name="text_part3">@string/text_part3_it</item>
+        <item name="friendList">@string/friendList_it</item>
+        <item name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed">@string/welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed_it</item>
+        <item name="see_graph">VEDI GRAFICI</item>
+
+        <!-- Profile String -->
+        <item name="click_to_view_stats">(clicca per visualizzare le statistiche)</item>
+        <item name="name">Nome</item>
+        <item name="birthday">Compleanno</item>
+        <item name="weight_kg">Peso (kg)</item>
+        <item name="health_point">Punti di vita</item>
+        <item name="change_picture">cambiare immagine</item>
+        <item name="save">salvare</item>
+        <item name="exit">uscire</item>
+        <item name="Name_point">Nome:</item>
+        <item name="surname">Cognome:</item>
+        <item name="username">Nome utente:</item>
+        <item name="birthday_point">Compleanno:</item>
+        <item name="weight_kg_point">Peso (kg):</item>
+        <item name="Save_changes">Salvare le modifiche</item>
+        <item name="daily_calorie">@string/daily_calorie_it</item>
+
+        <!-- BarCode Scan String -->
+        <item name="take_a_picture">Scansione Codice barre</item>
+        <item name="enter_manually">inserire manualmente</item>
+        <item name="button_find_product_label">@string/button_find_product_label_it</item>
+        <item name="barcode_number_label">@string/barcode_number_label_it</item>
+        <item name="quantity">Quantità:</item>
+        <item name="product_energy_label">@string/product_energy_label_it</item>
+        <item name="energy_unit">KCal (per 100g)</item>
+        <item name="show_add_info">Mostra informazioni aggiuntive</item>
+        <item name="add_counter">Aggiungi al mio contatore</item>
+
+        <!-- Game Menu String -->
+        <item name="kneetag_desc">@string/kneetag_desc_it</item>
+        <item name="planthunt_desc">@string/planthunt_des_it</item>
+
+        <!-- SignedIn String -->
+        <item name="delete_account">Elimina conto</item>
+        <item name="Night">Notte</item>
+        <item name="Light">Luce</item>
+        <item name="LeaderBoard">Classifica</item>
+        <item name="sign_out">uscire</item>
+        <item name="language">Italiano</item>
+
+    </style>
+
+    <!-- german Light application theme. -->
+    <style name="AppThemeGerman" parent="AppTheme">
+
+        <!-- FriendList  String -->
+        <item name="remove_friend">Freund entfernen</item>
+        <item name="go_to_calendar">Zum Kalender gehen</item>
+        <item name="add_friend">Freund hinzufügen</item>
+        <item name="enter_the_name_of_your_friend">Gib den Namen deines Freundes ein</item>
+        <item name="go_back">Zurück gehen</item>
+
+        <!-- Graph String -->
+        <item name="monday">Montag</item>
+        <item name="tuesday">Dienstag</item>
+        <item name="wednesday">Mittwoch</item>
+        <item name="thursday">Donnerstag</item>
+        <item name="friday">Freitag</item>
+        <item name="saturday">Samstag</item>
+        <item name="sunday">Sonntag</item>
+        <item name="january">Jan</item>
+        <item name="february">Feb</item>
+        <item name="march">Mär</item>
+        <item name="april">Apr</item>
+        <item name="may">Mai</item>
+        <item name="june">Juni</item>
+        <item name="july">Juli</item>
+        <item name="august">Aug</item>
+        <item name="september">Sep</item>
+        <item name="october">Okt</item>
+        <item name="november">Nov</item>
+        <item name="december">Dez</item>
+        <item name="day">Tag</item>
+        <item name="month">Monat</item>
+        <item name="Health_Point">Gesundheitspunkte</item>
+        <item name="Calendar">Kalender</item>
+        <item name="Calories">Kalorien</item>
+        <item name="calorie_exp">Durchschnitt der Kalorien</item>
+        <item name="Hp_exp">Summe der Gesundheitspunkte</item>
+
+        <!--Calendar String -->
+        <item name="pls_login">"Bitte anmelden"</item>
+        <item name="no_data">"Keine Daten für dieses Datum"</item>
+        <item name="no_stat">"Keine Statistik, bitte fangen Sie an, Kalorien hinzuzufügen, wenn Sie die Kalenderzusammenfassung verwenden möchten"</item>
+        <item name="text_part1">@string/text_part1_de</item>
+        <item name="text_part2">@string/text_part2_de</item>
+        <item name="text_part3">@string/text_part3_de</item>
+        <item name="friendList">@string/friendList_de</item>
+        <item name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed">@string/welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed_de</item>
+        <item name="see_graph">GRAFIKEN SEHEN</item>
+
+        <!-- Profile String -->
+        <item name="click_to_view_stats">(Klicken Sie, um die Statistik zu sehen)</item>
+        <item name="name">Name</item>
+        <item name="birthday">Geburtstag</item>
+        <item name="weight_kg">Gewicht (kg)</item>
+        <item name="health_point">Gesundheitspunkt</item>
+        <item name="change_picture">Bild ändern</item>
+        <item name="save">speichern</item>
+        <item name="exit">beenden</item>
+        <item name="Name_point">Name:</item>
+        <item name="surname">Nachname:</item>
+        <item name="username">Benutzername:</item>
+        <item name="birthday_point">Geburtsdatum:</item>
+        <item name="weight_kg_point">Gewicht (kg):</item>
+        <item name="Save_changes">Änderungen speichern</item>
+        <item name="daily_calorie">@string/daily_calorie_de</item>
+
+        <!-- BarCode Scan String -->
+        <item name="take_a_picture">Barcode scannen</item>
+        <item name="enter_manually">Manuell eingeben</item>
+        <item name="button_find_product_label">@string/button_find_product_label_de</item>
+        <item name="barcode_number_label">@string/barcode_number_label_de</item>
+        <item name="quantity">Menge:</item>
+        <item name="product_energy_label">@string/product_energy_label_fr</item>
+        <item name="energy_unit">KCal (pro 100g)</item>
+        <item name="show_add_info">Zusätzliche Informationen anzeigen</item>
+        <item name="add_counter">Zu meinem Zähler hinzufügen</item>
+
+        <!-- Game Menu String -->
+        <item name="kneetag_desc">@string/kneetag_desc_de</item>
+        <item name="planthunt_desc">@string/planthunt_des_de</item>
+
+        <!-- SignedIn String -->
+        <item name="delete_account">Konto löschen</item>
+        <item name="Night">Nacht</item>
+        <item name="Light">Licht</item>
+        <item name="LeaderBoard">LeaderBoard</item>
+        <item name="sign_out">abmelden</item>
+        <item name="language">Deutsch</item>
+
+    </style>
+
+    <!-- german dark application theme. -->
+    <style name="darkThemeGerman" parent="darkTheme">
+        <!-- FriendList  String -->
+        <item name="remove_friend">Freund entfernen</item>
+        <item name="go_to_calendar">Zum Kalender gehen</item>
+        <item name="add_friend">Freund hinzufügen</item>
+        <item name="enter_the_name_of_your_friend">Gib den Namen deines Freundes ein</item>
+        <item name="go_back">Zurück gehen</item>
+
+        <!-- Graph String -->
+        <item name="monday">Montag</item>
+        <item name="tuesday">Dienstag</item>
+        <item name="wednesday">Mittwoch</item>
+        <item name="thursday">Donnerstag</item>
+        <item name="friday">Freitag</item>
+        <item name="saturday">Samstag</item>
+        <item name="sunday">Sonntag</item>
+        <item name="january">Jan</item>
+        <item name="february">Feb</item>
+        <item name="march">Mär</item>
+        <item name="april">Apr</item>
+        <item name="may">Mai</item>
+        <item name="june">Juni</item>
+        <item name="july">Juli</item>
+        <item name="august">Aug</item>
+        <item name="september">Sep</item>
+        <item name="october">Okt</item>
+        <item name="november">Nov</item>
+        <item name="december">Dez</item>
+        <item name="day">Tag</item>
+        <item name="month">Monat</item>
+        <item name="Health_Point">Gesundheitspunkte</item>
+        <item name="Calendar">Kalender</item>
+        <item name="Calories">Kalorien</item>
+        <item name="calorie_exp">Durchschnitt der Kalorien</item>
+        <item name="Hp_exp">Summe der Gesundheitspunkte</item>
+
+        <!--Calendar String -->
+        <item name="pls_login">"Bitte anmelden"</item>
+        <item name="no_data">"Keine Daten für dieses Datum"</item>
+        <item name="no_stat">"Keine Statistik, bitte fangen Sie an, Kalorien hinzuzufügen, wenn Sie die Kalenderzusammenfassung verwenden möchten"</item>
+        <item name="text_part1">@string/text_part1_de</item>
+        <item name="text_part2">@string/text_part2_de</item>
+        <item name="text_part3">@string/text_part3_de</item>
+        <item name="friendList">@string/friendList_de</item>
+        <item name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed">@string/welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed_de</item>
+        <item name="see_graph">GRAFIKEN SEHEN</item>
+
+        <!-- Profile String -->
+        <item name="click_to_view_stats">(Klicken Sie, um die Statistik zu sehen)</item>
+        <item name="name">Name</item>
+        <item name="birthday">Geburtstag</item>
+        <item name="weight_kg">Gewicht (kg)</item>
+        <item name="health_point">Gesundheitspunkt</item>
+        <item name="change_picture">Bild ändern</item>
+        <item name="save">speichern</item>
+        <item name="exit">beenden</item>
+        <item name="Name_point">Name:</item>
+        <item name="surname">Nachname:</item>
+        <item name="username">Benutzername:</item>
+        <item name="birthday_point">Geburtsdatum:</item>
+        <item name="weight_kg_point">Gewicht (kg):</item>
+        <item name="Save_changes">Änderungen speichern</item>
+        <item name="daily_calorie">@string/daily_calorie_de</item>
+
+        <!-- BarCode Scan String -->
+        <item name="take_a_picture">Barcode scannen</item>
+        <item name="enter_manually">Manuell eingeben</item>
+        <item name="button_find_product_label">@string/button_find_product_label_de</item>
+        <item name="barcode_number_label">@string/barcode_number_label_de</item>
+        <item name="quantity">Menge:</item>
+        <item name="product_energy_label">@string/product_energy_label_fr</item>
+        <item name="energy_unit">KCal (pro 100g)</item>
+        <item name="show_add_info">Zusätzliche Informationen anzeigen</item>
+        <item name="add_counter">Zu meinem Zähler hinzufügen</item>
+
+        <!-- Game Menu String -->
+        <item name="kneetag_desc">@string/kneetag_desc_de</item>
+        <item name="planthunt_desc">@string/planthunt_des_de</item>
+
+        <!-- SignedIn String -->
+        <item name="delete_account">Konto löschen</item>
+        <item name="Night">Nacht</item>
+        <item name="Light">Licht</item>
+        <item name="LeaderBoard">LeaderBoard</item>
+        <item name="sign_out">abmelden</item>
+        <item name="language">Deutsch</item>
+
     </style>
 
     <style name="CalenderViewCustom" parent="Theme.AppCompat.NoActionBar">

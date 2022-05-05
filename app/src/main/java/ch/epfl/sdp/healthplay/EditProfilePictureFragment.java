@@ -110,7 +110,8 @@ public class EditProfilePictureFragment extends Fragment {
                     if(snapshot.getValue() != null){
                         String image = snapshot.getValue().toString();
                         ImageView imageView = view.findViewById(R.id.edit_profile_picture);
-                        Glide.with(getContext()).load(image).into(imageView);
+                        if(getActivity() != null)
+                            Glide.with(getActivity()).load(image).into(imageView);
                     }
 
                 }

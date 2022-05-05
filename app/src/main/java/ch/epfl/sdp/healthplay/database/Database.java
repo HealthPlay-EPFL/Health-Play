@@ -154,6 +154,18 @@ public final class Database {
                 .setValue(weight);
     }
 
+    public void initStatToDay(String userId){
+        addCalorie(userId, 0);
+        //addHealthPoint(userId, 0);
+        readField(userId, LAST_CURRENT_WEIGHT, (task -> {
+            if (!task.isSuccessful()) {
+                Log.e("firebase", "Error getting data", task.getException());
+            } else {
+                mDatabase.child(USERS).child(userId).child(STATS).child(getTodayDate()).child(WEIGHT).setValue(task.getResult().getValue());
+            }
+        }));
+    }
+
     public void writeName(String userId, String name) {
         mDatabase.child(USERS)
                 .child(userId)
@@ -258,7 +270,8 @@ public final class Database {
                     .child(STATS)
                     .child(getTodayDate())
                     .child(field)
-                    .setValue(toAdd).addOnCompleteListener(taks -> {
+                    .setValue(toAdd)
+                    .addOnCompleteListener(taks -> {
                         if (!task.isSuccessful()) {
                             Log.e("ERROR", "EREREREROOORORO");
                         }
@@ -475,7 +488,7 @@ public final class Database {
     }
 
     private void getLeaderBoard(OnCompleteListener<DataSnapshot> onCompleteListener) {
-        mDatabase.child(Database.LEADERBOARD)
+        mDatabase.child(LEADERBOARD)
                 .get()
                 .addOnCompleteListener(onCompleteListener);
     }

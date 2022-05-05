@@ -85,6 +85,9 @@ public class AuthUiActivity extends AppCompatActivity
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
+            Database db = new Database();
+            String id = currentUser.getUid();
+            db.initStatToDay(id);
             startActivity(new Intent(this,HomeScreenActivity.class));
             finish();
             return;
