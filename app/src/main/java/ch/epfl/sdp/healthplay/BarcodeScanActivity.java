@@ -177,6 +177,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
                                 break;
                             case Barcode.FORMAT_QR_CODE:
                                 // This part is for the friends QR code
+
                                 database.mDatabase
                                         .child(Database.USERS)
                                         .child(barcodeString)
