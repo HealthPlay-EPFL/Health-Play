@@ -1,24 +1,20 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.friendlist;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -27,8 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import ch.epfl.sdp.healthplay.Frag_Home;
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Friend;
+import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +42,6 @@ public class FriendList_Frag extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private final Database database = new Database();
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
-    private Map<String, Boolean> friends;
 
 
     // TODO: Rename and change types of parameters
@@ -90,12 +88,13 @@ public class FriendList_Frag extends Fragment {
         Button calendarButton = view.findViewById(R.id.friendToCalendar);
         Button addFriendButton = view.findViewById(R.id.addFriendBouton);
         ListView listView = view.findViewById(R.id.friendList);
+        FragmentManager fragmentManager = getParentFragmentManager();
 
         // Switch to the Home Fragment
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { ;
-                switchToFragment(new Frag_Home());
+                FragmentNavigation.switchToFragment(fragmentManager, new Frag_Home());
             }
         }
         );
@@ -105,7 +104,11 @@ public class FriendList_Frag extends Fragment {
             @Override
             public void onClick(View v) {
                 if(auth.getCurrentUser() != null ){
-                    switchToFragment(new AddFriendFragment());
+                    FragmentNavigation.switchToFragment(fragmentManager, new AddFriendFragment());
+                }
+                else{
+                    Snackbar mySnackbar = Snackbar.make(view, "Cannot add friends when offline", Snackbar.LENGTH_SHORT);
+                    mySnackbar.show();
                 }
             }
         }
@@ -113,23 +116,9 @@ public class FriendList_Frag extends Fragment {
 
         // Get the Friend List of the current User
         if(auth.getCurrentUser() != null) {
-            friends = database.getFriendList();
-            List<String> toRemove = new ArrayList<>();
-            List<Friend> friendList = new ArrayList<Friend>();
-            for (String friend : friends.keySet()
-            ) {
-                if (!friends.get(friend)) {
-                    // We need to create another list, because you cannot forEach in a changing List
-                    toRemove.add(friend);
-                } else {
-                    friendList.add(new Friend(friend));
-                }
-            }
-            for (String rem : toRemove
-            ) {
-                friends.remove(rem);
-            }
-            buildListView(view, listView, friendList);
+            Map<String, Boolean> friends = database.getFriendList();
+
+            buildListView(view, listView, buildFriendListFromFirebase(friends));
 
             // Listen to changes to the FriendList of the User
             database.mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("friends").addValueEventListener(new ValueEventListener() {
@@ -138,24 +127,10 @@ public class FriendList_Frag extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     //Get the changes
                     Map<String, Boolean> value = (Map<String, Boolean>) snapshot.getValue();
-                    List<String> toRemove = new ArrayList<>();
-                    List<Friend> friendList = new ArrayList<Friend>();
-                    for (String friend : value.keySet()
-                    ) {
-                        if (!value.get(friend)) {
-                            // We need to create another list, because you cannot forEach in a changing List
-                            toRemove.add(friend);
-                        } else {
-                            friendList.add(new Friend(friend));
-                        }
-                    }
-                    for (String rem : toRemove
-                    ) {
-                        value.remove(rem);
-                    }
+                    if(value != null) {
 
-                    updateListView(view, listView, friendList);
-
+                        updateListView(listView, buildFriendListFromFirebase(value));
+                    }
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
@@ -165,21 +140,30 @@ public class FriendList_Frag extends Fragment {
 
             );
         }
-
-
         return view;
     }
 
+    private List<Friend> buildFriendListFromFirebase(Map<String, Boolean> map){
+        List<Friend> friendList = new ArrayList<>();;
+        if(map != null) {
+
+            for (String friend : map.keySet()
+            ) {
+                friendList.add(new Friend(friend));
+            }
+        }
+        return friendList;
+    }
     /**
      * Build the List view
      * @param view
      * @param listView
      * @param friendList
      */
-    public void buildListView(View view, ListView listView, List<Friend> friendList) {
-        ArrayList<Friend> arrayOfUsers = new ArrayList<Friend>();
+    private void buildListView(View view, ListView listView, List<Friend> friendList) {
+        List<Friend> arrayOfUsers = new ArrayList<Friend>();
         // Create the adapter to convert the array to views
-        ListAdapterFriend adapter = new ListAdapterFriend(view.getContext(), arrayOfUsers);
+        ListAdapterFriend adapter = new ListAdapterFriend(view.getContext(), arrayOfUsers, false);
         // Attach the adapter to a ListView
         listView.setAdapter(adapter);
         adapter.addAll(friendList);
@@ -187,11 +171,11 @@ public class FriendList_Frag extends Fragment {
 
     /**
      * Update the ListView adapter with the given List of Friend in parameter
-     * @param view
      * @param listView
      * @param friendList
      */
-    private void updateListView(View view, ListView listView, List<Friend> friendList){
+    private void updateListView(ListView listView, List<Friend> friendList){
+        //Get the Adapter (i.e the list of item)
         ListAdapterFriend adapter = (ListAdapterFriend)listView.getAdapter();
         if(adapter != null){
             adapter.clear();
@@ -199,16 +183,4 @@ public class FriendList_Frag extends Fragment {
         }
 
     }
-
-    /**
-     * Switch to the given fragment
-     * @param fragment
-     */
-    private void switchToFragment(Fragment fragment){
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainerView, fragment);
-        fragmentTransaction.commit();
-    }
-
-
 }

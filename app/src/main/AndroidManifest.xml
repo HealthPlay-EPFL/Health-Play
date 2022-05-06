@@ -36,10 +36,7 @@
             android:name=".ViewProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".AddFriendListItem"
-            android:exported="false" />
-        <activity
-            android:name=".FriendListItemActivity"
+            android:name=".friendlist.FriendListItemActivity"
             android:exported="false" />
         <activity
             android:name=".EditProfilePictureActivity"
