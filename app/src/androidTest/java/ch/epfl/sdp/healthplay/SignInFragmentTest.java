@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 
-@RunWith(AndroidJUnit4.class)
+//@RunWith(AndroidJUnit4.class)
 public class SignInFragmentTest {
 
     /*@Before

@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
 
-@RunWith(AndroidJUnit4.class)
+//@RunWith(AndroidJUnit4.class)
 public class GameMenuFragmentTest {
     /*@Before
     public void init() throws InterruptedException {

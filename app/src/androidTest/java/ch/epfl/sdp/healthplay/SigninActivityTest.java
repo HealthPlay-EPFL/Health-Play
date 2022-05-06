@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 //import ch.epfl.sdp.healthplay.auth.SignedInActivity;
 
-@RunWith(AndroidJUnit4.class)
+//@RunWith(AndroidJUnit4.class)
 public class SigninActivityTest {
 
     /*@Before
