@@ -231,4 +231,10 @@
     </string-array>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="winnerMessage">\"And the winner is \"</string>
+    <string name="cameraOrientation">ch.epfl.sdp.healthplay.kneetag.MainActivity.CAMERA_ORIENTATION</string>
+    <string name="invalidPlayer">The 2 players are not valid</string>
+    <string name="notDtected">The 2 player are not detected</string>
+    <string name="gameStarted">Ranked game started</string>
+    <string name="unrankedStart">Unranked game started</string>
 </resources>

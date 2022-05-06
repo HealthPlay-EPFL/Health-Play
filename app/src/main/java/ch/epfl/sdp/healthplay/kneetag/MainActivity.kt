@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(),
 
     private lateinit var spinner: Spinner
     private lateinit var spinnerCopy: Spinner
-    val CAMERA_ORIENTATION = "ch.epfl.sdp.healthplay.kneetag.MainActivity.CAMERA_ORIENTATION"
+    val CAMERA_ORIENTATION = getString(R.string.cameraOrientation)
 
     /** A [SurfaceView] for camera preview.   */
     private lateinit var surfaceView: SurfaceView
@@ -104,19 +104,8 @@ class MainActivity : AppCompatActivity(),
             initUsername(user.uid)
         }
         // Get the Friend List of the current User
-        if (user != null) {
-            database.readField(
-                user.uid, "friends"
-            ) { task ->
-                val mut = task.result.value as Map<String, Boolean>?
-                if (mut != null) {
-                    friends.addAll(mut!!.keys)
-                    for (friend in mut.keys) {
-                        friendList.add(Friend(friend))
-                    }
-                }
-            }
-        }
+        val database=Database()
+        friends=database.friendList.keys.filterNotNull().toMutableList()
         super.onCreate(savedInstanceState)
         layoutCreation()
     }
@@ -180,8 +169,8 @@ class MainActivity : AppCompatActivity(),
         val kneetagLaunchButton: Button = findViewById<Button>(R.id.startGame)
         kneetagLaunchButton.setOnClickListener {
             if (cameraSource!!.gameState == 0) {
-                val switch = findViewById<ToggleButton>(R.id.facing_switch)
-                var text = "The 2 players are not valid"
+
+                var text = getString(R.string.invalidPlayer)
                 val left = spinner.selectedItem.toString()
                 val right = spinnerCopy.selectedItem.toString()
                 if (poseDetector.leftPerson.first != null
@@ -189,24 +178,24 @@ class MainActivity : AppCompatActivity(),
                 ) {
                     if (check(left) and check(right)) {
                         cameraSource!!.gameState = cameraSource!!.UNRANKED_GAME
-                        text = "Unranked game started"
+                        text = getString(R.string.unrankedStart)
                         kneetagLaunchButton.text = "Fight!"
                         MediaPlayer.create(this, R.raw.notification).start()
                         spinner.isVisible = false
                         spinnerCopy.isVisible = false
-                        switch.isVisible = false
+                        facingSwitch.isVisible = false
                     }
                     if ((left == "YOU" && !check(right)) or (right == "YOU" && !check(left))) {
                         cameraSource!!.gameState = cameraSource!!.RANKED_GAME
-                        text = "Ranked game started"
+                        text = getString(R.string.gameStarted)
                         kneetagLaunchButton.text = "Fight!"
                         MediaPlayer.create(this, R.raw.notification).start()
                         spinner.isEnabled = false
                         spinnerCopy.isEnabled = false
-                        switch.isVisible = false
+                        facingSwitch.isVisible = false
                     }
                 } else
-                    text = "The 2 player are not detected"
+                    text = getString(R.string.notDtected)
 
                 Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
             }

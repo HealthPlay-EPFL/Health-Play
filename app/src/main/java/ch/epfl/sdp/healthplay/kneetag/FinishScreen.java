@@ -32,7 +32,7 @@ public class FinishScreen extends AppCompatActivity {
         setContentView(R.layout.activity_gameended);
         //display the winner
         TextView text=findViewById(R.id.winner_display);
-        text.setText("And the winner is "+ getIntent().getStringExtra(WINNER));
+        text.setText(getString(R.string.winnerMessage)+ getIntent().getStringExtra(WINNER));
         //rerun the game
         findViewById(R.id.restart).setOnClickListener(
                 new View.OnClickListener() {
