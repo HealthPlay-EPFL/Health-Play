@@ -21,6 +21,7 @@ import android.graphics.Bitmap
 import android.graphics.PointF
 import android.graphics.RectF
 import android.os.SystemClock
+import androidx.core.graphics.minus
 import ch.epfl.sdp.healthplay.kneetag.data.BodyPart
 import ch.epfl.sdp.healthplay.kneetag.data.Device
 import ch.epfl.sdp.healthplay.kneetag.data.KeyPoint
@@ -205,6 +206,11 @@ class MoveNetMultiPose(
                 val score = positions[i * OUTPUTS_COUNT_PER_KEYPOINT + 2]
                 keyPoints.add(KeyPoint(BodyPart.fromInt(i), PointF(x, y), score))
             }
+            // The hands are a prolongation of the wrist
+            keyPoints.add(KeyPoint(BodyPart.fromInt(BodyPart.LEFT_HAND.position),
+                keyPoints[BodyPart.LEFT_WRIST.position].coordinate*(4.0/3.0)-keyPoints[BodyPart.LEFT_ELBOW.position].coordinate*(1.0/3.0),0F))
+            keyPoints.add(KeyPoint(BodyPart.fromInt(BodyPart.RIGHT_HAND.position),
+                keyPoints[BodyPart.RIGHT_WRIST.position].coordinate*(4.0/3.0)-keyPoints[BodyPart.RIGHT_ELBOW.position].coordinate*(1.0/3.0),0F))
             val yMin = modelOutput[idx + BOUNDING_BOX_Y_MIN_INDEX]
             val xMin = modelOutput[idx + BOUNDING_BOX_X_MIN_INDEX]
             val yMax = modelOutput[idx + BOUNDING_BOX_Y_MAX_INDEX]
@@ -222,12 +228,12 @@ class MoveNetMultiPose(
 
 
                 if (persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x < persons[1].keyPoints[BodyPart.NOSE.position].coordinate.x) {
-                    System.out.println("1:" + persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x.toString() + " "+persons[1].keyPoints[BodyPart.NOSE.position].coordinate.x )
+
                     leftPerson = Pair(persons[0],leftPerson.second)
 
                     rightPerson = Pair(persons[1],rightPerson.second)
                 } else {
-                    System.out.println("2:" +persons[1].keyPoints[BodyPart.NOSE.position].coordinate.x.toString() + " "+persons[0].keyPoints[BodyPart.NOSE.position].coordinate.x )
+
                     leftPerson = Pair(persons[1],leftPerson.second)
                     rightPerson = Pair(persons[0],rightPerson.second)
                 }
@@ -309,6 +315,10 @@ class MoveNetMultiPose(
         interpreter.close()
         tracker = null
     }
+}
+
+private operator fun PointF.times(i: Double): PointF {
+    return PointF((this.x*i).toFloat(), (this.y*i).toFloat())
 }
 
 enum class Type {

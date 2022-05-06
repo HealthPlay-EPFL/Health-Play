@@ -16,13 +16,13 @@ limitations under the License.
 
 package  ch.epfl.sdp.healthplay.kneetag
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import ch.epfl.sdp.healthplay.kneetag.data.BodyPart
 import ch.epfl.sdp.healthplay.kneetag.data.Person
+import java.lang.Math.pow
+import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.sqrt
 
 object VisualizationUtils {
     /** Radius of circle used to draw keypoints.  */
@@ -36,6 +36,8 @@ object VisualizationUtils {
 
     /** Distance from person id to the nose keypoint.  */
     private const val PERSON_ID_MARGIN = 6f
+
+    private const val TRESHOLD_TO_WIN = 18f
 
     /** Pair of keypoints to draw lines between.  */
     private val bodyJoints = listOf(
@@ -56,17 +58,22 @@ object VisualizationUtils {
         Pair(BodyPart.LEFT_HIP, BodyPart.LEFT_KNEE),
         Pair(BodyPart.LEFT_KNEE, BodyPart.LEFT_ANKLE),
         Pair(BodyPart.RIGHT_HIP, BodyPart.RIGHT_KNEE),
-        Pair(BodyPart.RIGHT_KNEE, BodyPart.RIGHT_ANKLE)
+        Pair(BodyPart.RIGHT_KNEE, BodyPart.RIGHT_ANKLE),
+        //add the hand joins to the model
+        Pair(BodyPart.LEFT_HAND, BodyPart.LEFT_WRIST),
+        Pair(BodyPart.RIGHT_HAND, BodyPart.RIGHT_WRIST)
     )
 
     // Draw line and point indicate body pose
+    //result indicate if there is a winner and if the winner is the left or right player
     fun drawBodyKeypoints(
         input: Bitmap,
         persons: List<Person>,
-        leftPerson: Pair<Person?,String>,
-        rightPerson: Pair<Person?,String>
+        leftPerson: Pair<Person?, String>,
+        rightPerson: Pair<Person?, String>,
+        gameStarted: Boolean,
+    ): Pair<Bitmap, Int> {
 
-    ): Bitmap {
         val paintCircle = Paint().apply {
             strokeWidth = CIRCLE_RADIUS
             color = Color.BLUE
@@ -91,7 +98,11 @@ object VisualizationUtils {
 
         val output = input.copy(Bitmap.Config.ARGB_8888, true)
         val originalSizeCanvas = Canvas(output)
-        persons.forEach { person ->
+        persons.forEach {
+            //add the position of the hand
+
+                person ->
+
             // draw person id if tracker is enable
 
             bodyJoints.forEach {
@@ -109,27 +120,70 @@ object VisualizationUtils {
                     paintCircle
                 )
                 //exception with red color to get a better view of the knee.
-                if(point.bodyPart==BodyPart.LEFT_KNEE||point.bodyPart==BodyPart.RIGHT_KNEE)
+                if (point.bodyPart == BodyPart.LEFT_KNEE || point.bodyPart == BodyPart.RIGHT_KNEE)
                     originalSizeCanvas.drawCircle(
                         point.coordinate.x,
                         point.coordinate.y,
-                        CIRCLE_RADIUS*2,
+                        CIRCLE_RADIUS * 2,
                         paintCircleKnee
                     )
-            }
 
             }
+        }
+        var result = 0
         // display the name of the player at their positions
+        // compute who wins
         if (persons.size == 2) {
             originalSizeCanvas.drawText(
-                leftPerson.second, leftPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.x,
-                leftPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.y - 30, paintText
+                leftPerson.second,
+                leftPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.x,
+                leftPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.y - 30,
+                paintText
             )
             originalSizeCanvas.drawText(
-                rightPerson.second, rightPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.x,
-                rightPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.y - 30, paintText
+                rightPerson.second,
+                rightPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.x,
+                rightPerson.first!!.keyPoints[BodyPart.NOSE.position].coordinate.y - 30,
+                paintText
             )
+
+            if (gameStarted) {
+                //if a bodyPart of one player is close to an other player then end the game.
+                for (bodyPart in leftPerson.first!!.keyPoints)
+
+                    if (distance(
+                            rightPerson.first!!.keyPoints[BodyPart.LEFT_KNEE.position].coordinate,
+                            bodyPart.coordinate
+                        ) < TRESHOLD_TO_WIN
+                        || distance(
+                            rightPerson.first!!.keyPoints[BodyPart.RIGHT_KNEE.position].coordinate,
+                            bodyPart.coordinate
+                        ) < TRESHOLD_TO_WIN
+                    )
+                        result = 1
+
+
+                for (bodyPart in rightPerson.first!!.keyPoints)
+
+                    if (distance(
+                            leftPerson.first!!.keyPoints[BodyPart.LEFT_KNEE.position].coordinate,
+                            bodyPart.coordinate
+                        ) < TRESHOLD_TO_WIN
+                        || distance(
+                            leftPerson.first!!.keyPoints[BodyPart.RIGHT_KNEE.position].coordinate,
+                            bodyPart.coordinate
+                        ) < TRESHOLD_TO_WIN
+                    )
+                        result = 2
+            }
+
         }
-        return output
+
+
+        return Pair(output, result)
+    }
+
+    fun distance(a: PointF, b: PointF): Double {
+        return sqrt(pow((a.x - b.x).toDouble(), 2.0) + pow((a.y - b.y).toDouble(), 2.0))
     }
 }
