@@ -320,7 +320,12 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="1dp"
+                    android:background="?attr/profileLine_color"
+                    app:layout_constraintLeft_toRightOf="@id/guidelineLV"
+                    app:layout_constraintRight_toLeftOf="@id/guidelineLV1"
+                    app:layout_constraintTop_toBottomOf="@id/guidelineLH4"
+                    app:layout_constraintBottom_toTopOf="@id/guidelineLH5"/>
 
 
                 <androidx.constraintlayout.widget.Guideline
