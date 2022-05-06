@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,8 +29,10 @@ import java.util.Map;
 
 import ch.epfl.sdp.healthplay.EditProfilePictureFragment;
 import ch.epfl.sdp.healthplay.ProfileSettingsFragment;
+import ch.epfl.sdp.healthplay.QrCodeFragment;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
+import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
 
 public class ProfileFragment extends Fragment {
 
@@ -98,28 +101,17 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    /**
+     * Initiate the "onClick" property of the buttons of the view
+     */
     private void initButton(){
         Button statsButton = view.findViewById(R.id.statsButton);
-        statsButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.setReorderingAllowed(true);
-                        fragmentTransaction.replace(R.id.fragmentContainerView, new ProfileSettingsFragment());
-                        fragmentTransaction.commit();
-                    }
-                }
-        );
-        view.findViewById(R.id.changeButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.setReorderingAllowed(true);
-                fragmentTransaction.replace(R.id.fragmentContainerView, new EditProfilePictureFragment());
-                fragmentTransaction.commit();
-            }
-        });
+        //Go to the Profile Settings
+        statsButton.setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new ProfileSettingsFragment()));
+        // Go to the Edit Profile Picture Fragment
+        view.findViewById(R.id.changeButton).setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new EditProfilePictureFragment()));
+        // Go to the QRCode fragment
+        view.findViewById(R.id.goToQRCode).setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new QrCodeFragment()));
     }
 
     public void initBirthday(String userId, TextView TextViewBirthday) {

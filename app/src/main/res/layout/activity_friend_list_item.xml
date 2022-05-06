@@ -35,7 +35,7 @@
             android:focusable="false"/>
 
         <Button
-            android:id="@+id/removeFriendButton"
+            android:id="@+id/manageFriendButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="?attr/remove_friend"

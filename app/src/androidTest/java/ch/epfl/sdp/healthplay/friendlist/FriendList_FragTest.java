@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.friendlist;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -10,12 +10,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
-import static org.junit.Assert.*;
 
 import android.view.View;
 import android.widget.ListView;
 
-import androidx.fragment.app.FragmentManager;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -39,6 +37,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import ch.epfl.sdp.healthplay.HomeScreenActivity;
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 
 @RunWith(AndroidJUnit4.class)
@@ -50,18 +50,12 @@ public class FriendList_FragTest {
     @Before
     public void before() throws InterruptedException{
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
-        Espresso.onView(withId(R.id.FriendList_button)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.FriendList_button)).perform(ViewActions.click());
         Database database = new Database();
         Map<String, Boolean> map = database.getFriendList();
         List<String> friends = new ArrayList<>();
         TimeUnit.SECONDS.sleep(1);
-        for (String friendId: map.keySet()
-        ) {
-            if(map.get(friendId).booleanValue()){
-                friends.add(friendId);
-            }
-        }
-        numberOfFriends = friends.size();
+        numberOfFriends = map.keySet().size();
     }
 
     @Test
@@ -88,26 +82,10 @@ public class FriendList_FragTest {
     }
 
     @Test
-    public void goToAddFriendFragTest(){
-        Espresso.onView(withId(R.id.addFriendBouton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
-                new ViewAction() {
-                    @Override
-                    public Matcher<View> getConstraints() {
-                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
-                    }
-
-                    @Override
-                    public String getDescription() {
-                        return "click add friend button";
-                    }
-
-                    @Override
-                    public void perform(UiController uiController, View view) {
-                        view.performClick();
-                    }
-                }
-        );
+    public void goToAddFriendFragTest() throws InterruptedException {
+        Espresso.onView(withId(R.id.addFriendBouton)).check(matches(allOf( isEnabled(), isClickable()))).perform(click());
         Espresso.onView(withId(R.id.backButton)).check(matches(isDisplayed()));
+        TimeUnit.MILLISECONDS.sleep(100);
     }
 
     @Test
@@ -118,15 +96,17 @@ public class FriendList_FragTest {
 
     @Test
     public void removeFriend() {
-        onData(anything()).inAdapterView(withId(R.id.friendList)).atPosition(0).onChildView(withId(R.id.removeFriendButton)).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.friendList)).atPosition(0).onChildView(withId(R.id.manageFriendButton)).perform(click());
         onView(withId(R.id.friendList)).check(matches(new TypeSafeMatcher<View>() {
 
             @Override
             public boolean matchesSafely(View view) {
                 ListView listView = (ListView) view;
-                boolean output = listView.getCount() == numberOfFriends - 1;
+                boolean output = listView.getCount() == numberOfFriends - 1 || numberOfFriends == 0;
                 if(output) {
-                    numberOfFriends -= 1;
+                    if(numberOfFriends > 0){
+                        numberOfFriends -= 1;
+                    }
                 }
                 return output;
             }

@@ -309,7 +309,7 @@ public final class Database {
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child("friends")
                     .child(friendUserId)
-                    .setValue(false);
+                    .removeValue();
         }
     }
 
@@ -405,7 +405,9 @@ public final class Database {
         readField(FirebaseAuth.getInstance().getCurrentUser().getUid(), "friends", new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                outputMap.putAll((Map<String, Boolean>) task.getResult().getValue());
+                if(task.getResult().getValue() != null) {
+                    outputMap.putAll((Map<String, Boolean>) task.getResult().getValue());
+                }
             }
         });
         return outputMap;
