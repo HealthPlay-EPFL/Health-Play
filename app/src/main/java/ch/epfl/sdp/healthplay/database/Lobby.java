@@ -26,32 +26,45 @@ public class Lobby {
     }
 
 
-    //Getter methods for all fields appearing in Firebase
 
+    //Get lobby name
     public String getName(){
         return name;
     }
+
+    //Get lobby password
     public String getPassword(){
         return password;
     }
 
+
+    //Get how many players the lobby currently has
     public int getNbrPlayers(){
         return nbrPlayers;
     }
+
+    //Get how many players the lobby can hold
     public int getMaxNbrPlayers(){
         return maxNbrPlayers;
     }
+
+    //Get how many players are ready in the lobby
     public int getPlayersReady(){
         return playersReady;
     }
+
+    //Get how many players have left the lobby
     public int getPlayersGone(){
         return playersGone;
     }
 
+    //Get remaining time in the lobby
     public int getRemainingTime(){
         return remainingTime;
     }
 
+
+    //Get player names in the lobby
     public String getPlayerUid1(){
         return playerUid1;
     }
@@ -62,6 +75,8 @@ public class Lobby {
         return playerUid3;
     }
 
+
+    //Get player scores in the lobby
     public int getPlayerScore1(){
         return playerScore1;
     }
@@ -70,6 +85,8 @@ public class Lobby {
     }
     public int getPlayerScore3(){ return playerScore3; }
 
+
+    //Get which player is ready in the lobby
     public boolean getPlayerReady1(){
         return playerReady1;
     }

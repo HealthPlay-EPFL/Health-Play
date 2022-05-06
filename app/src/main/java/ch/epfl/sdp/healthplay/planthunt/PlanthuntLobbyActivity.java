@@ -63,7 +63,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
         Intent intent = getIntent();
         lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
         currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
-        hostStatus = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST);
+        hostStatus = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE);
 
         final TextView lobbyNameText = findViewById(R.id.planthuntLobbyName);
         lobbyNameText.setText(lobbyName);
@@ -89,7 +89,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
             }
         });
 
-        if (remainingTime == 300 && hostStatus.equals("host")){
+        if (remainingTime == 300 && hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
             startTimer();
         }
 
@@ -147,7 +147,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < 301; i++) {
+                for (int i = 0; i < remainingTime + 1; i++) {
                     try {
                         Thread.sleep(1000);
                         db.updateLobbyTime(lobbyName, remainingTime);

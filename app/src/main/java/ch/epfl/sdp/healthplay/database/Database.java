@@ -353,23 +353,11 @@ public final class Database {
      *
      * @param name      the unique identifier given to the lobby
      */
-    public Task getLobbyPlayerCount (String name, OnCompleteListener<DataSnapshot> onCompleteListener){
+    public Task getLobbyPlayerCount (String name, String request, OnCompleteListener<DataSnapshot> onCompleteListener){
         return mDatabase
                 .child(LOBBIES)
                 .child(name)
-                .child(NBR_PLAYERS)
-                .get().addOnCompleteListener(onCompleteListener);
-    }
-
-    /** Checks if lobby exists and given password matches correct one
-     *
-     * @param name      the unique identifier given to the lobby
-     */
-    public Task getLobbyMaxPlayerCount (String name, OnCompleteListener<DataSnapshot> onCompleteListener){
-        return mDatabase
-                .child(LOBBIES)
-                .child(name)
-                .child(MAX_NBR_PLAYERS)
+                .child(request)
                 .get().addOnCompleteListener(onCompleteListener);
     }
 

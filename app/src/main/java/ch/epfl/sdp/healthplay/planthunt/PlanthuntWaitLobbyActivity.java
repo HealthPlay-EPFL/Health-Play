@@ -22,7 +22,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
@@ -43,7 +42,7 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
         String currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
-        String hostStatus = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST);
+        String hostStatus = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE);
 
         final TextView lobbyNameText = findViewById(R.id.planthuntWaitName);
         lobbyNameText.setText(lobbyName);
@@ -103,7 +102,7 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        db.getLobbyMaxPlayerCount(lobbyName, task -> {
+                        db.getLobbyPlayerCount(lobbyName, Database.MAX_NBR_PLAYERS, task -> {
                             if (!task.isSuccessful()) {
 
                                 Log.e("ERROR", "An error happened");
@@ -113,7 +112,7 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                                 Intent intent = new Intent(PlanthuntWaitLobbyActivity.this, PlanthuntLobbyActivity.class);
                                 intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
                                 intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
-                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST, hostStatus);
+                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
                                 startActivity(intent);
                             }
                         });

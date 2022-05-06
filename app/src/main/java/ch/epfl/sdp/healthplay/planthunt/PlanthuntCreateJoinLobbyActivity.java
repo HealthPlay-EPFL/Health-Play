@@ -13,7 +13,9 @@ public class PlanthuntCreateJoinLobbyActivity extends AppCompatActivity {
 
     public static final String LOBBY_NAME = "LOBBY_NAME";
     public static final String USERNAME = "USERNAME";
-    public static final String HOST = "HOST";
+    public static final String HOST_TYPE = "HOST_TYPE";
+    public static final String HOST = "host";
+    public static final String PLAYER = "player";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

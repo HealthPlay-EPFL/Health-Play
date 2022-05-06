@@ -9,10 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-
 import java.util.Objects;
 
 import ch.epfl.sdp.healthplay.R;
@@ -48,11 +44,11 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                         Log.e("ERROR", "Lobby does not exist!");
                     }
                     if (Objects.requireNonNull(task.getResult().getValue()).toString().equals(password)){
-                        db.getLobbyPlayerCount(lobbyName, task2 -> {
+                        db.getLobbyPlayerCount(lobbyName, Database.NBR_PLAYERS, task2 -> {
                             if (!task2.isSuccessful()) {
                                 Log.e("ERROR", "Lobby does not exist!");
                             }
-                            db.getLobbyMaxPlayerCount(lobbyName, task3 -> {
+                            db.getLobbyPlayerCount(lobbyName, Database.MAX_NBR_PLAYERS, task3 -> {
                                 if (!task3.isSuccessful()) {
                                     Log.e("ERROR", "Lobby does not exist!");
                                 }
@@ -63,7 +59,7 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                                     Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
                                     intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
                                     intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
-                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST, "player");
+                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.PLAYER);
                                     startActivity(intent);
                                 }
                                 else{
