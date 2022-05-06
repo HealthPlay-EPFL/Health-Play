@@ -26,6 +26,7 @@ import ch.epfl.sdp.healthplay.planthunt.PlanthuntCreateLobbyActivity;
 public class PlanthuntCreateLobbyActivityTest {
     private static final String NAME = "test";
     private static final String PASSWORD = "password";
+    private static final String USERNAME = "host";
 
 
     @Rule
@@ -38,6 +39,9 @@ public class PlanthuntCreateLobbyActivityTest {
         Espresso.closeSoftKeyboard();
         ViewInteraction textPassword = Espresso.onView(withId(R.id.planthuntCreateLobbyPassword));
         textPassword.perform(ViewActions.typeText(PASSWORD));
+        Espresso.closeSoftKeyboard();
+        ViewInteraction textUsername = Espresso.onView(withId(R.id.planthuntCreateLobbyUsername));
+        textUsername.perform(ViewActions.typeText(USERNAME));
         Espresso.closeSoftKeyboard();
         Espresso.onView(withId(R.id.planthuntWaitButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
