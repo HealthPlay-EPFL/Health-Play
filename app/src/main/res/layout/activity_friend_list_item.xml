@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="400dp"
-    tools:context=".FriendListItemActivity">
+    tools:context=".friendlist.FriendListItemActivity">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -35,11 +35,11 @@
             android:focusable="false"/>
 
         <Button
-            android:id="@+id/removeFriendButton"
+            android:id="@+id/manageFriendButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/gradientPrimary_color"
             android:text="@string/remove_friend"
+            android:backgroundTint="?attr/gradientPrimary_color"
             android:focusable="false"/>
 
     </LinearLayout>
