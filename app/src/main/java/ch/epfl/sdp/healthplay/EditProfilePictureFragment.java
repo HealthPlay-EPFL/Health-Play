@@ -50,6 +50,8 @@ public class EditProfilePictureFragment extends Fragment {
     private String mUri = "";
     private final static String IMAGE_NOT_SELECTED = "Image not selected";
     private View view;
+    private final String DIALOG_TITLE = "Profile configuration";
+    private final String DIALOG_MSG = "Setting up your profile picture";
 
     public EditProfilePictureFragment() {
         // Required empty public constructor
@@ -110,8 +112,9 @@ public class EditProfilePictureFragment extends Fragment {
                     if(snapshot.getValue() != null){
                         String image = snapshot.getValue().toString();
                         ImageView imageView = view.findViewById(R.id.edit_profile_picture);
-                        if(getActivity() != null)
+                        if(getActivity() != null) {
                             Glide.with(getActivity()).load(image).into(imageView);
+                        }
                     }
 
                 }
@@ -137,8 +140,8 @@ public class EditProfilePictureFragment extends Fragment {
      */
     public void saveProfilePicture() {
         ProgressDialog dialog = new ProgressDialog(getContext());
-        dialog.setTitle("Set profile");
-        dialog.setMessage("Setting up profile");
+        dialog.setTitle(DIALOG_TITLE);
+        dialog.setMessage(DIALOG_MSG);
         dialog.show();
 
         if(uri != null) {
@@ -164,6 +167,7 @@ public class EditProfilePictureFragment extends Fragment {
 
         }
         else {
+            dialog.dismiss();
             Toast.makeText(getContext(), IMAGE_NOT_SELECTED, Toast.LENGTH_SHORT).show();
         }
 

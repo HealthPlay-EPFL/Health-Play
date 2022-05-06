@@ -8,23 +8,27 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
+
+import java.util.Map;
 import java.util.TreeMap;
 
 import ch.epfl.sdp.healthplay.auth.ProfileActivity;
 import ch.epfl.sdp.healthplay.database.Database;
 
 public class LeaderBoardActivity extends AppCompatActivity{
-
     private final Database db = new Database();
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private final static int MAX_RANK = 5;
@@ -32,6 +36,7 @@ public class LeaderBoardActivity extends AppCompatActivity{
     private final PopupMenu.OnMenuItemClickListener[] menus = new PopupMenu.OnMenuItemClickListener[5];
     private final String[] ids = new String[5];
     private final PopupMenu.OnMenuItemClickListener[] myMenus = new PopupMenu.OnMenuItemClickListener[5];
+    private final ImageView[] images = new ImageView[MAX_RANK];
     /**
      * Setup the leaderBoard representing the current top 5 of players based on healthPoint.
      * The leaderBoard is reset daily
@@ -42,7 +47,6 @@ public class LeaderBoardActivity extends AppCompatActivity{
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_board);
 
@@ -53,12 +57,16 @@ public class LeaderBoardActivity extends AppCompatActivity{
             tab[2] = findViewById(R.id.top3);
             tab[3] = findViewById(R.id.top4);
             tab[4] = findViewById(R.id.top5);
+            images[0] = findViewById(R.id.profile_picture1);
+            images[1] = findViewById(R.id.profile_picture2);
+            images[2] = findViewById(R.id.profile_picture3);
+            images[3] = findViewById(R.id.profile_picture4);
+            images[4] = findViewById(R.id.profile_picture5);
 
             for (int i = 0 ; i < MAX_RANK ; i++) {
                 menus[i] = initMenu(i);
                 myMenus[i] = initMyMenu(i);
             }
-
             initTop5();
         }
     }
@@ -69,22 +77,25 @@ public class LeaderBoardActivity extends AppCompatActivity{
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 @SuppressWarnings("unchecked")
-                HashMap<String,HashMap<String, ArrayList<String>>> leaderBoard = (HashMap<String,HashMap<String, ArrayList<String>>>) snapshot.getValue();
+
+                Map<String,HashMap<String, HashMap<String, String>>> leaderBoard = (HashMap<String,HashMap<String, HashMap<String, String>>>) snapshot.getValue();
                 TextView myTopText = findViewById(R.id.myTop);
                 if(leaderBoard != null && leaderBoard.containsKey(Database.getTodayDate())) {
-                    TreeMap<String, ArrayList<String>> leaderBoardOrdered = new TreeMap<>(Database.comparator);
-                    leaderBoardOrdered.putAll(leaderBoard.get(Database.getTodayDate()));
+                    Map<String, HashMap<String, String>> leaderBoardOrdered = new TreeMap<>(Database.comparator);
+                    Map<String, HashMap<String, String>> idsMap = leaderBoard.get(Database.getTodayDate());
+                    leaderBoardOrdered.putAll(idsMap);
                     int count = 0;
                     int myTop = 0;
-                    for (TreeMap.Entry<String, ArrayList<String>> entry : leaderBoardOrdered.entrySet()) {
+                    for (TreeMap.Entry<String, HashMap<String, String>> entry : leaderBoardOrdered.entrySet()) {
                         String hp = entry.getKey();
-                        for(String e: entry.getValue()) {
+                        for(HashMap.Entry<String,String> e : entry.getValue().entrySet()) {
                             int top = count + 1;
 
                             if (count < MAX_RANK){
-                                ids[count] = e;
-                                tab[count].setText(top + " | " + e + " | " + hp);
-                                if(e.equals(mAuth.getUid())) {
+                                getImage(e.getKey(), images[count]);
+                                ids[count] = e.getKey();
+                                tab[count].setText(top + " | " + e.getValue() + " | " + hp);
+                                if(e.getKey().equals(mAuth.getUid())) {
                                     myTop = top;
                                     tab[count].setOnClickListener(initMyButton(count));
                                 }
@@ -96,6 +107,7 @@ public class LeaderBoardActivity extends AppCompatActivity{
                         }
                     }
                     while(count < MAX_RANK) {
+                            images[count].setImageResource(R.drawable.rounded_logo);
                             tab[count].setText(R.string.NoUser);
                             tab[count].setOnClickListener(null);
                             count++;
@@ -115,6 +127,7 @@ public class LeaderBoardActivity extends AppCompatActivity{
                 }
                 else {
                     for(int i = 0 ; i < MAX_RANK ; i++) {
+                        images[i].setImageResource(R.drawable.rounded_logo);
                         tab[i].setText("");
                         tab[i].setOnClickListener(null);
                     }
@@ -141,7 +154,21 @@ public class LeaderBoardActivity extends AppCompatActivity{
                     startActivity(intent);
                     return true;
                 case R.id.addFriendLeaderBoard:
-                    db.addToFriendList(ids[index]);
+                        db.readField(mAuth.getCurrentUser().getUid(), "friends",task -> {
+                            if (!task.isSuccessful()) {
+                                Log.e("ERROR", "EREREREROOORORO");
+                            }
+                            else {
+                                Map<String, Boolean> friendList = (Map<String, Boolean>)task.getResult().getValue();
+                                if(friendList.containsKey(ids[index]) && friendList.get(ids[index])) {
+                                    Toast.makeText(this, "friend already added", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    db.addToFriendList(ids[index]);
+                                    Toast.makeText(this, "friend added", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     return true;
                 default:
                     return false;
@@ -179,6 +206,26 @@ public class LeaderBoardActivity extends AppCompatActivity{
             popup.inflate(R.menu.view_profile_menu);
             popup.show();
         };
+    }
+
+    private void getImage(String userId, ImageView imageView) {
+        db.mDatabase.child(Database.USERS).child(userId).child("image").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    if(snapshot.getValue() != null){
+                        String image = snapshot.getValue().toString();
+                        Glide.with(getApplicationContext()).load(image).into(imageView);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("firebase", "Error:onCancelled", error.toException());
+            }
+        });
     }
 
 }
