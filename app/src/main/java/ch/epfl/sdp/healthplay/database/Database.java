@@ -315,6 +315,7 @@ public final class Database {
      * @param password      the password required to join the lobby
      * @param hostUid       the unique identifier of the lobby host
      * @param remainingTime the time the game will last for
+     * @param maxNbrPlayers the number of expected players in the lobby
      */
     public void writeNewLobby(String name, String password, String hostUid, int remainingTime, int maxNbrPlayers){
         mDatabase.child(LOBBIES).child(name).setValue(new Lobby(name, password, hostUid, remainingTime, maxNbrPlayers));
@@ -349,9 +350,10 @@ public final class Database {
         });
     }
 
-    /** Checks if lobby exists and given password matches correct one
+    /** Gets player value from lobby
      *
-     * @param name      the unique identifier given to the lobby
+     * @param name    the unique identifier given to the lobby
+     * @param request the value we're getting
      */
     public Task getLobbyPlayerCount (String name, String request, OnCompleteListener<DataSnapshot> onCompleteListener){
         return mDatabase
@@ -361,7 +363,7 @@ public final class Database {
                 .get().addOnCompleteListener(onCompleteListener);
     }
 
-    /** Checks if lobby exists and given password matches correct one
+    /** Gets lobby password
      *
      * @param name the unique identifier given to the lobby
      */
@@ -374,7 +376,7 @@ public final class Database {
     }
 
     /**
-     * Adds a user to the database lobby
+     * Increases lobby's ready players count
      *
      * @param name       the unique identifier given to the lobby
      */
@@ -397,10 +399,10 @@ public final class Database {
     }
 
     /**
-     * Defines a lobby player as ready
+     * Sets a lobby user as ready
      *
      * @param name      the unique identifier given to the lobby
-     * @param playerUid the unique identifier of the scoring player
+     * @param playerUid the unique identifier of the ready player
      */
     public void setLobbyPlayerReady (String name, String playerUid){
         for (int i = 1; i < MAX_PLAYER_CAPACITY + 1; i++) {
@@ -424,9 +426,9 @@ public final class Database {
         }
     }
 
-    /** Checks if lobby exists and given password matches correct one
+    /** Gets uids of all players in the lobby
      *
-     * @param name       the unique identifier given to the lobby
+     * @param name the unique identifier given to the lobby
      */
     public void getAllLobbyPlayerUids (String name, OnCompleteListener<DataSnapshot> onCompleteListener){
         for (int i = 1; i < MAX_PLAYER_CAPACITY + 1; i++) {
@@ -438,7 +440,7 @@ public final class Database {
         }
     }
 
-    /** Checks if lobby exists and given password matches correct one
+    /** Gets scores of all players in the lobby
      *
      * @param name       the unique identifier given to the lobby
      */
@@ -453,7 +455,7 @@ public final class Database {
     }
 
     /**
-     * Updates remaining in the database lobby's game
+     * Updates remaining time in the lobby's game
      *
      * @param name          the unique identifier given to the lobby
      * @param remainingTime the new remaining time in the game
@@ -495,7 +497,7 @@ public final class Database {
         }
     }
 
-    /** Checks if lobby exists and given password matches correct one
+    /** Gets the score of a player in the lobby
      *
      * @param name       the unique identifier given to the lobby
      * @param playerUid  the unique identifier of the scoring player
@@ -524,9 +526,9 @@ public final class Database {
     }
 
     /**
-     * Adds a user to the database lobby
+     * Increases lobby's gone players count
      *
-     * @param name       the unique identifier given to the lobby
+     * @param name the unique identifier given to the lobby
      */
     public void addLobbyGonePlayer(String name){
         mDatabase
