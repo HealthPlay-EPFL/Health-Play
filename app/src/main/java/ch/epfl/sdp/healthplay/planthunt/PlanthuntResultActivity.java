@@ -17,6 +17,7 @@ import java.util.Objects;
 import ch.epfl.sdp.healthplay.GameMenuFragment;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
+import ch.epfl.sdp.healthplay.kneetag.MainActivity;
 
 public class PlanthuntResultActivity extends AppCompatActivity {
 
@@ -95,7 +96,7 @@ public class PlanthuntResultActivity extends AppCompatActivity {
         leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PlanthuntResultActivity.this, GameMenuFragment.class);
+                Intent intent = new Intent(PlanthuntResultActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });

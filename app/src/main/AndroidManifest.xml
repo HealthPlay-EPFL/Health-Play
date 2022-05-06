@@ -59,7 +59,6 @@
         <activity
             android:name=".BarcodeScanActivity"
             android:exported="true" />
-        <activity android:name=".planthunt.PlanthuntCameraActivity" />
         <activity android:name=".planthunt.PlanthuntDescriptionActivity" />
         <activity android:name=".planthunt.PlanthuntResultActivity" />
         <activity

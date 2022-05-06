@@ -4,23 +4,14 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.*;
 
-import android.content.Intent;
-
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
 
-import ch.epfl.sdp.healthplay.api.CameraApi;
-import ch.epfl.sdp.healthplay.planthunt.PlanthuntCameraActivity;
-import ch.epfl.sdp.healthplay.planthunt.PlanthuntCollectionItemActivity;
 import ch.epfl.sdp.healthplay.planthunt.PlanthuntResultActivity;
 
 public class PlanthuntCollectionActivityTest {
