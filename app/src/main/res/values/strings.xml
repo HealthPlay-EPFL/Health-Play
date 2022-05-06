@@ -155,10 +155,21 @@
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="product_name_label">Name:</string>
-    <string name="product_energy_label">Energy:</string>
-    <string name="button_find_product_label">Find Information</string>
-    <string name="barcode_number_label">Barcode Number</string>
-    <string name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed">Welcome to the home page! \nChoose a date to check what you\'ve consumed.</string>
+    <string name="product_energy_label_en">Energy:</string>
+    <string name="product_energy_label_fr">Energie:</string>
+    <string name="product_energy_label_it">Energia:</string>
+    <string name="button_find_product_label_en">Find Information</string>
+    <string name="barcode_number_label_en">Barcode Number</string>
+    <string name="button_find_product_label_fr">Trouver l\'information</string>
+    <string name="barcode_number_label_fr">Numéro du code barre</string>
+    <string name="button_find_product_label_it">Trova informazioni</string>
+    <string name="barcode_number_label_it">Numero di codice a barre</string>
+    <string name="button_find_product_label_de">Informationen finden</string>
+    <string name="barcode_number_label_de">Barcode-Nummer</string>
+    <string name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed_en">Welcome to the home page! \nChoose a date to check what you\'ve consumed.</string>
+    <string name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed_fr">"Bienvenue à la page d'accueil! \nChoisissez une date pour voir ce que vous avez consommé"</string>
+    <string name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed_it">Benvenuti nella home page! \nScegli una data per controllare ciò che hai consumato.</string>
+    <string name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed_de">Willkommen auf der Startseite! \nWählen Sie ein Datum, um zu sehen, was Sie konsumiert haben.</string>
 
     <string name="birthday">Birthday</string>
     <string name="name">Name</string>
@@ -166,6 +177,7 @@
     <string name="health_point">Health Point</string>
     <string name="click_to_view_stats">(click to view stats)</string>
     <string name="saved_night_mode">saved night mode</string>
+    <string name="saved_language_mode">0</string>
     <string name="see_graphs">See graphs</string>
     <string name="take_a_picture">Scan barcode</string>
     <string name="enter_manually">Enter manually</string>
@@ -202,6 +214,93 @@
     <string name="view_profile">View profile</string>
     <string name="add_to_friendlist">add to friendlist</string>
 
+    <string name="kneetag_desc_en">"
+
+Kneetag is a physical duel where each player has to touch his opponent's knee before his gets touched.
+Standing with their feet about shoulder-width apart, each person faces their partner about a metre away and bends down slightly to place their hands on their knees.
+Each fighter eyes the other eagerly and on “GO” the action begins.
+A round lasts no more than 20-30 seconds. The person who scores the most ‘tags’ upon their partner’s knees wins. Start a new round, or swap partners.
+Capture your fight with your phone to have a fair referee or in case you don't have a third player."</string>
+
+    <string name="kneetag_desc_fr">"
+
+    Le Kneetag est un affrontement physique où le joueur doit toucher le genou de l'adversaire avant l'autre.
+    Chaque personne, à un mètre de distance de leur partenaire, se positionne les mains sur les genoux.
+    Chaque combattant se regarde et “GO” l'action commence.
+    Un round dure pas plus de 20-30 secondes; La personne, qui marque le plus de ‘tags’ sur le genou de leur adversaire, gagne. Commencez un nouveau round ou changez d'adversaire.
+    Filmez votre combat avec votre portable pour une bonne vue d'ensemble et au cas où vous n'avez pas besoin de troisième joueur.</string>
+
+    <string name="kneetag_desc_it">"
+
+Il Kneetag è un duello fisico in cui ogni giocatore deve toccare il ginocchio del suo avversario prima che il suo venga toccato.
+In piedi, con i piedi alla larghezza delle spalle, ogni persona affronta il suo partner a circa un metro di distanza e si piega leggermente per mettere le mani sulle ginocchia.
+Ogni combattente guarda l'altro con ansia e al "GO" inizia l'azione.
+Un round non dura più di 20-30 secondi. Vince la persona che segna il maggior numero di "tag" sulle ginocchia del suo compagno. Inizia un nuovo round o cambia partner.
+Cattura la tua lotta con il tuo telefono per avere un arbitro equo o nel caso in cui non hai un terzo giocatore."</string>
+
+    <string name="kneetag_desc_de">"
+
+Kneetag ist ein körperliches Duell, bei dem jeder Spieler das Knie des Gegners berühren muss, bevor sein eigenes berührt wird.
+Jeder steht mit den Füßen etwa schulterbreit auseinander, blickt seinem Partner etwa einen Meter weit entgegen und beugt sich leicht nach unten, um die Hände auf die Knie zu legen.
+Jeder Kämpfer schaut den anderen eifrig an und auf "GO" beginnt die Aktion.
+Eine Runde dauert nicht länger als 20-30 Sekunden. Derjenige, der die meisten "Tags" auf den Knien seines Partners erzielt, gewinnt. Starten Sie eine neue Runde oder tauschen Sie die Partner.
+Nimm deinen Kampf mit deinem Handy auf, um einen fairen Schiedsrichter zu haben oder falls du keinen dritten Spieler hast."</string>
+
+    <string name="planthunt_des_fr">"
+
+        Plant-Hunt est un jeu d'exploration où chaque joueur ou équipe doit marquer le plus de points possibles en prenant en photo un maximum de plantes rares.
+        Plus il y a d'équipes qui trouve tes plantes, moins elles valent de points.
+        Les plantes sont identifiées directement dans l'application en utilisant une connection wifi ou tu peux enregistrer les photos and avoir les résultats dès que tu es de nouveau en ligne.
+        Le jeu peut être joué avec n'importe quel nombre de joueurs agé de 1 à 100 ans.
+        Bonne chasse!"
+    </string>
+
+    <string name="planthunt_des_it">"
+
+            Plant-Hunt è un gioco di esplorazione in cui ogni giocatore o squadra deve raccogliere più punti possibili scattando foto di un massimo di piante rare.
+            Più squadre hanno trovato le piante, meno punti si ottengono.
+            Le piante vengono identificate direttamente nell'app utilizzando una connessione wifi oppure è possibile memorizzare le foto e ottenere i risultati non appena si torna online.
+            Il gioco può essere giocato con qualsiasi numero di giocatori da 1 a 100 anni.
+            Buona fortuna per la caccia!"
+    </string>
+
+    <string name="planthunt_des_de">"
+
+            Plant-Hunt ist ein Erkundungsspiel, bei dem jeder Spieler oder jedes Team so viele Punkte wie möglich sammeln muss, indem er möglichst viele seltene Pflanzen fotografiert.
+            Je mehr Teams deine Pflanzen ebenfalls gefunden haben, desto weniger Punkte bekommst du dafür.
+            Die Pflanzen werden direkt in der App über eine Wifi-Verbindung identifiziert, oder man kann die Bilder speichern und die Ergebnisse abrufen, sobald man wieder online ist.
+            Das Spiel kann mit einer beliebigen Anzahl von Spielern von 1 bis 100 Jahren gespielt werden.
+            Viel Glück bei der Jagd!"
+    </string>
+
+    <!-- Calendar String -->
+    <string name="text_part1_en">": You've consumed : \ncalories: "</string>
+    <string name="text_part2_en">"\nweight: "
+    </string>
+    <string name="text_part3_en">"\nhealth point: "</string>
+
+    <string name="text_part1_fr">": Vous avez consommé : \ncalories: "</string>
+    <string name="text_part2_fr">"\npoids: "
+    </string>
+    <string name="text_part3_fr">"\npoints de santé: "</string>
+    <string name="text_part1_it">": Hai consumato : \ncalories: "</string>
+    <string name="text_part2_it">"\npeso: "
+    </string>
+    <string name="text_part3_it">"\npunto di vita: "</string>
+    <string name="text_part1_de">": Sie haben konsumiert : \nKalorien: "</string>
+    <string name="text_part2_de">"\nGewicht: "
+    </string>
+    <string name="text_part3_de">"\nGesundheitspunkt: "</string>
+    <string name="friendList_en">"friendlist"</string>
+    <string name="friendList_fr">"liste d'ami"</string>
+    <string name="friendList_de">"Freundesliste"</string>
+    <string name="friendList_it">"lista amica"</string>
+
+    <string name="daily_calorie_en">"daily calories"</string>
+    <string name="daily_calorie_fr">"calories quotidiennes"</string>
+    <string name="daily_calorie_it">"calorie giornaliere"</string>
+    <string name="daily_calorie_de">"tägliche Kalorien"</string>
+
 
     <string-array name="tfe_pe_models_array">
         <item>Movenet Lightning</item>
@@ -231,6 +330,7 @@
     </string-array>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="view_my_profile">view my profile</string>
     <string name="generate_qr_code">Generate QR Code</string>
     <string name="profile_id_qrcode">Profile id QRCode</string>
     <string name="siuuuu">Add Friend</string>

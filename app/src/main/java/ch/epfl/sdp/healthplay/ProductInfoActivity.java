@@ -7,10 +7,13 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ch.epfl.sdp.healthplay.auth.SignedInFragment;
+
 public class ProductInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SignedInFragment.SetMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_info3);
     }

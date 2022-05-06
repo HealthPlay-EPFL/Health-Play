@@ -76,14 +76,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="
-\n
-Kneetag is a physical duel where each player has to touch his opponent's knee before his gets touched.\n
-Standing with their feet about shoulder-width apart, each person faces their partner about a metre away and bends down slightly to place their hands on their knees.\n
-Each fighter eyes the other eagerly and on “GO” the action begins.\n
-A round lasts no more than 20-30 seconds. The person who scores the most ‘tags’ upon their partner’s knees wins. Start a new round, or swap partners.\n
-Capture your fight with your phone to have a fair referee or in case you don't have a third player.\n
-"
+            android:id="@+id/k_desc"
+            android:text="?attr/kneetag_desc"
             android:textAlignment="center"
             android:textColor="?attr/text_color"
             android:textSize="20sp"
