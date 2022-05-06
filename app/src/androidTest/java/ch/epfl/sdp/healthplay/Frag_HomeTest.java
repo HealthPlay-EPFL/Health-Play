@@ -121,7 +121,7 @@ public class Frag_HomeTest {
 
     @Test
     public void goToFriendList(){
-        /*
+
         Espresso.onView(withId(R.id.FriendList_button)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
@@ -165,7 +165,7 @@ public class Frag_HomeTest {
         );
         Espresso.onView(withId(R.id.buttonSwap)).check(matches(isDisplayed()));
 
-         */
+
     }
 
 

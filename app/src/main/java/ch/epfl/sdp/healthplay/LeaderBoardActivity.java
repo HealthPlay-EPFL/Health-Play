@@ -67,14 +67,6 @@ public class LeaderBoardActivity extends AppCompatActivity{
                 menus[i] = initMenu(i);
                 myMenus[i] = initMyMenu(i);
             }
-            /*HashMap<String,HashMap<String, HashMap<String, String>>> leaderBoard = new HashMap<>();
-            HashMap<String, HashMap<String, String>> map = new HashMap<>();
-            HashMap<String, String> l = new HashMap<>();
-            l.put("ABC","Hugo");
-            map.put("80hp", l);
-            leaderBoard.put(Database.getTodayDate(), map);
-            db.mDatabase.child(Database.LEADERBOARD).setValue(leaderBoard);
-            */
             initTop5();
         }
     }
@@ -86,11 +78,11 @@ public class LeaderBoardActivity extends AppCompatActivity{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 @SuppressWarnings("unchecked")
 
-                HashMap<String,HashMap<String, HashMap<String, String>>> leaderBoard = (HashMap<String,HashMap<String, HashMap<String, String>>>) snapshot.getValue();
+                Map<String,HashMap<String, HashMap<String, String>>> leaderBoard = (HashMap<String,HashMap<String, HashMap<String, String>>>) snapshot.getValue();
                 TextView myTopText = findViewById(R.id.myTop);
                 if(leaderBoard != null && leaderBoard.containsKey(Database.getTodayDate())) {
-                    TreeMap<String, HashMap<String, String>> leaderBoardOrdered = new TreeMap<>(Database.comparator);
-                    HashMap<String, HashMap<String, String>> idsMap = leaderBoard.get(Database.getTodayDate());
+                    Map<String, HashMap<String, String>> leaderBoardOrdered = new TreeMap<>(Database.comparator);
+                    Map<String, HashMap<String, String>> idsMap = leaderBoard.get(Database.getTodayDate());
                     leaderBoardOrdered.putAll(idsMap);
                     int count = 0;
                     int myTop = 0;

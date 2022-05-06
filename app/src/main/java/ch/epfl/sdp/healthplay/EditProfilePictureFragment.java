@@ -50,6 +50,8 @@ public class EditProfilePictureFragment extends Fragment {
     private String mUri = "";
     private final static String IMAGE_NOT_SELECTED = "Image not selected";
     private View view;
+    private final String DIALOG_TITLE = "Profile configuration";
+    private final String DIALOG_MSG = "Setting up your profile picture";
 
     public EditProfilePictureFragment() {
         // Required empty public constructor
@@ -138,8 +140,8 @@ public class EditProfilePictureFragment extends Fragment {
      */
     public void saveProfilePicture() {
         ProgressDialog dialog = new ProgressDialog(getContext());
-        dialog.setTitle("Profile configuration");
-        dialog.setMessage("Setting up your profile picture");
+        dialog.setTitle(DIALOG_TITLE);
+        dialog.setMessage(DIALOG_MSG);
         dialog.show();
 
         if(uri != null) {

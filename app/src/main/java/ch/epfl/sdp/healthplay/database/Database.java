@@ -52,8 +52,9 @@ public final class Database {
     public static final String STATS = "stats";
     public static final String USERS = "users";
     public static final String LOBBIES = "lobbies";
+    private final static int SUFFIX_LEN = 2;
 
-    public static Comparator<String> comparator = (o1, o2) -> Long.compare(Long.parseLong(o2.substring(0,o2.length() -2)), Long.parseLong(o1.substring(0,o1.length() -2)));
+    public static Comparator<String> comparator = (o1, o2) -> Long.compare(Long.parseLong(o2.substring(0,o2.length() - SUFFIX_LEN)), Long.parseLong(o1.substring(0,o1.length() - SUFFIX_LEN)));
 
     // Format used to format date when adding stats
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
