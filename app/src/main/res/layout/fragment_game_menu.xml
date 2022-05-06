@@ -127,6 +127,33 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.53" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.83" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.93" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="?attr/LeaderBoard"
+            android:backgroundTint="?attr/profileField_color"
+            android:textColor="?attr/text_color"
+            app:layout_constraintLeft_toRightOf="@id/guideline4"
+            app:layout_constraintRight_toLeftOf="@id/guideline5"
+            app:layout_constraintTop_toBottomOf="@id/guideline7"
+            app:layout_constraintBottom_toTopOf="@id/guideline8"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

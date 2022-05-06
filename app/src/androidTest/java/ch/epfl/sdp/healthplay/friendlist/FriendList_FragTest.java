@@ -43,12 +43,14 @@ import ch.epfl.sdp.healthplay.database.Database;
 
 @RunWith(AndroidJUnit4.class)
 public class FriendList_FragTest {
+
     private int numberOfFriends;
     @Rule
     public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
 
     @Before
     public void before() throws InterruptedException{
+
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
         Espresso.onView(ViewMatchers.withId(R.id.FriendList_button)).perform(ViewActions.click());
         Database database = new Database();
@@ -60,6 +62,7 @@ public class FriendList_FragTest {
 
     @Test
     public void backToCalendarTest(){
+
         Espresso.onView(withId(R.id.friendToCalendar)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
@@ -79,6 +82,8 @@ public class FriendList_FragTest {
                 }
         );
         Espresso.onView(withId(R.id.FriendList_button)).check(matches(isDisplayed()));
+
+
     }
 
     @Test
@@ -90,8 +95,11 @@ public class FriendList_FragTest {
 
     @Test
     public void listViewIsCorrectlyDisplayed(){
+
         Espresso.onView(withId(R.id.friendList)).check(matches(isDisplayed()));
         Espresso.onView(withId(R.id.friendList)).perform(ViewActions.swipeUp());
+
+
     }
 
     @Test
@@ -117,10 +125,13 @@ public class FriendList_FragTest {
             }
 
         }));
+
+
     }
 
     @Test
     public void listViewDisplayAllFriends() throws InterruptedException {
+
         onView(withId(R.id.friendList)).check(matches(new TypeSafeMatcher<View>() {
 
             @Override
@@ -137,5 +148,9 @@ public class FriendList_FragTest {
 
         }));
 
+
+
     }
+
+
 }

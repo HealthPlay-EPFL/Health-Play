@@ -13,7 +13,6 @@ import static org.hamcrest.Matchers.allOf;
 
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -23,11 +22,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
@@ -38,9 +33,6 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
 
-import ch.epfl.sdp.healthplay.auth.SignedInActivity;
-import ch.epfl.sdp.healthplay.database.User;
-
 @RunWith(AndroidJUnit4.class)
 public class Frag_HomeTest {
     @Rule
@@ -48,20 +40,28 @@ public class Frag_HomeTest {
 
     @Before
     public void before() {
+
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+
+
     }
 
     @Test
     public void getDateWithoutStatsTest() throws InterruptedException {
+
         // Force a login on the empty stats user
+
         TimeUnit.SECONDS.sleep(1);
         ViewInteraction sus = onView(Matchers.allOf(withId(R.id.calendar), hasChildCount(3)));
         sus.perform(ViewActions.click());
+
+
         /*onView(withId(R.id.my_date)).check(
                 matches(
                         withText("No stats, please begin adding calories if you want to use the calendar summary")
                 )
         );*/
+
     }
 
     /**
@@ -103,13 +103,17 @@ public class Frag_HomeTest {
      */
     @Test
     public void getWelcomeMessage() {
+
         onView(withId(R.id.my_date)).check(
                 matches(
                         withText("Welcome to the home page! \nChoose a date to check what you've consumed.")));
+
+
     }
 
     @Test
     public void goToFriendList(){
+
         Espresso.onView(withId(R.id.FriendList_button)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
@@ -152,5 +156,9 @@ public class Frag_HomeTest {
                 }
         );
         Espresso.onView(withId(R.id.buttonSwap)).check(matches(isDisplayed()));
+
+
     }
+
+
 }

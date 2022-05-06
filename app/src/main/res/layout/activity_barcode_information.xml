@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BarcodeInformationActivity">
+    tools:context=".BarcodeInformationActivity"
+    android:background="?attr/fragView_color">
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -87,6 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="24sp"
+                android:textColor="?attr/text_color"
                 android:paddingHorizontal="10dp"
                 android:layout_marginBottom="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +110,8 @@
                         android:id="@+id/quantity_name"
                         android:layout_width="80dp"
                         android:layout_height="28dp"
-                        android:text="Quantity:"
+                        android:text="?attr/quantity"
+                        android:textColor="?attr/text_color"
                         android:textSize="20sp"
                         android:layout_marginStart="10dp"
                         android:visibility="invisible"
@@ -124,6 +127,7 @@
                         android:id="@+id/quantity_name2"
                         android:layout_width="wrap_content"
                         android:layout_height="28dp"
+                        android:textColor="?attr/text_color"
                         android:text="1"
                         android:textAlignment="center"
                         android:textSize="20sp"
@@ -148,12 +152,14 @@
                         android:id="@+id/textView3"
                         android:layout_width="80dp"
                         android:layout_height="28dp"
-                        android:text="@string/product_energy_label"
+                        android:text="?attr/product_energy_label"
+                        android:textColor="?attr/text_color"
                         android:textSize="20sp"
                         android:layout_marginStart="10dp" />
                     <TextView
                         android:id="@+id/pEnergy"
                         android:layout_width="wrap_content"
+                        android:textColor="?attr/text_color"
                         android:layout_height="30dp"
                         android:textSize="20sp"
                         android:layout_marginStart="10dp" />
@@ -161,10 +167,11 @@
                     <TextView
                         android:id="@+id/pEnergyUnit"
                         android:layout_width="wrap_content"
+                        android:textColor="?attr/text_color"
                         android:layout_height="30dp"
                         android:textSize="20sp"
                         android:layout_marginStart="10dp"
-                        android:text="KCal (per 100g)"/>
+                        android:text="?attr/energy_unit"/>
 
                     <Switch
                         android:id="@+id/pEnergyUnitSwitch"
@@ -183,9 +190,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
+                android:textColor="?attr/text_color"
                 android:textAlignment="textEnd"
                 android:paddingRight="10dp"
-                android:text="Show additional information"
+                android:text="?attr/show_add_info"
                 android:layout_marginVertical="30dp"
                 android:clickable="true"
                 android:background="?attr/selectableItemBackground"
@@ -243,7 +251,7 @@
                     android:layout_height="56dp"
                     android:backgroundTint="@color/colorPrimaryVariant"
                     android:onClick="addToUser"
-                    android:text="Add to my counter"
+                    android:text="?attr/add_counter"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -14,6 +14,104 @@
         <attr name="backgroundColor" format="color" />
         <attr name="fragView_color" format="color" />
 
+        <!-- FriendList  String -->
+        <attr name="remove_friend" format="string" />
+        <attr name="go_to_calendar" format="string" />
+        <attr name="add_friend" format="string" />
+        <attr name="enter_the_name_of_your_friend" format="string" />
+        <attr name="go_back" format="string" />
+
+        <!-- Graph String -->
+        <attr name="monday" format="string" />
+        <attr name="tuesday" format="string" />
+        <attr name="wednesday" format="string" />
+        <attr name="thursday" format="string" />
+        <attr name="friday" format="string" />
+        <attr name="saturday" format="string" />
+        <attr name="sunday" format="string" />
+        <attr name="january" format="string" />
+        <attr name="february" format="string" />
+        <attr name="march" format="string" />
+        <attr name="april" format="string" />
+        <attr name="may" format="string" />
+        <attr name="june" format="string" />
+        <attr name="july" format="string" />
+        <attr name="august" format="string" />
+        <attr name="september" format="string" />
+        <attr name="october" format="string" />
+        <attr name="november" format="string" />
+        <attr name="december" format="string" />
+        <attr name="day" format="string" />
+        <attr name="month" format="string" />
+        <attr name="Health_Point" format="string" />
+        <attr name="Calendar" format="string" />
+        <attr name="Calories" format="string" />
+        <attr name="calorie_exp" format="string" />
+        <attr name="Hp_exp" format="string" />
+
+        <!--Calendar String -->
+        <attr name="pls_login" format="string" />
+        <attr name="no_data" format="string" />
+        <attr name="no_stat" format="string" />
+        <attr name="text_part1" format="string" />
+        <attr name="text_part2" format="string" />
+        <attr name="text_part3" format="string" />
+        <attr name="friendList" format="string" />
+        <attr name="welcome_to_the_home_page_n_choose_a_date_to_check_what_you_ve_consumed" format="string" />
+
+
+        <!-- Profile String -->
+        <attr name="click_to_view_stats" format="string" />
+        <attr name="name" format="string" />
+        <attr name="birthday" format="string" />
+        <attr name="weight_kg" format="string" />
+        <attr name="health_point" format="string" />
+        <attr name="change_picture" format="string" />
+        <attr name="save" format="string" />
+        <attr name="exit" format="string" />
+        <attr name="Name_point" format="string" />
+        <attr name="surname" format="string" />
+        <attr name="username" format="string" />
+        <attr name="birthday_point" format="string" />
+        <attr name="weight_kg_point" format="string" />
+        <attr name="Save_changes" format="string" />
+        <attr name="daily_calorie" format="string" />
+
+        <!-- Game Menu String -->
+        <attr name="kneetag_desc" format="string" />
+        <attr name="planthunt_desc" format="string" />
+
+        <!-- SignedIn String -->
+        <attr name="Night" format="string" />
+        <attr name="Light" format="string" />
+        <attr name="LeaderBoard" format="string" />
+        <attr name="sign_out" format="string" />
+        <attr name="language" format="string" />
+
+
+
+
+
+
+
+        <!-- BarCode Scan String -->
+        <attr name="take_a_picture" format="string" />
+        <attr name="enter_manually" format="string" />
+        <attr name="button_find_product_label" format="string" />
+        <attr name="barcode_number_label" format="string" />
+        <attr name="quantity" format="string" />
+        <attr name="product_energy_label" format="string" />
+        <attr name="energy_unit" format="string" />
+        <attr name="show_add_info" format="string" />
+        <attr name="add_counter" format="string" />
+
+        <attr name="delete_account" format="string" />
+        <attr name="french_button" format="string" />
+        <attr name="english_button" format="string" />
+        <attr name="see_graph" format="string" />
+        <attr name="italian_button" format="string" />
+        <attr name="german_button" format="string" />
+
     </declare-styleable>
     <declare-styleable name="FullscreenAttrs">
         <attr name="fullscreenBackgroundColor" format="color" />

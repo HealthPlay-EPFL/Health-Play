@@ -22,8 +22,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
@@ -33,12 +37,16 @@ import com.google.mlkit.vision.common.InputImage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import ch.epfl.sdp.healthplay.database.Database;
 
 public class BarcodeScanFragment extends Fragment {
 
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private PreviewView previewView;
+    private final Database database = new Database();
 
     // This field is only used in tests
     protected final static CountingIdlingResource idlingResource =
@@ -48,8 +56,11 @@ public class BarcodeScanFragment extends Fragment {
     private final static BarcodeScannerOptions options =
             new BarcodeScannerOptions.Builder()
                     .setBarcodeFormats(
+                            // Allow scanning of product barcodes
                             Barcode.FORMAT_EAN_13,
-                            Barcode.FORMAT_EAN_8)
+                            Barcode.FORMAT_EAN_8,
+                            // Allow scanning of QR codes
+                            Barcode.FORMAT_QR_CODE)
                     .build();
     private ImageCapture imageCapture;
     private View view;
@@ -170,17 +181,55 @@ public class BarcodeScanFragment extends Fragment {
                                 .show();
                         return;
                     }
-                    Intent intent = new Intent(getContext(), BarcodeInformationActivity.class);
-                    // Get the code from the barcode
-                    String barcodeString;
 
                     for (Barcode barcode : barcodes) {
+                        // Get the code from the barcode
+                        final String barcodeString;
                         barcodeString = barcode.getRawValue();
-                        intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, barcodeString);
-                    }
+                        int barcodeType = barcode.getValueType();
+                        switch (barcodeType) {
+                            case Barcode.TYPE_PRODUCT:
+                                Intent intent = new Intent(getContext(), BarcodeInformationActivity.class);
+                                intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, barcodeString);
+                                // Go to barcode information activity
+                                startActivity(intent);
+                                break;
+                            case Barcode.TYPE_TEXT:
+                                // This part is for the friends QR code
+                                database.mDatabase
+                                        .child(Database.USERS)
+                                        .child(barcodeString)
+                                        .get()
+                                        .addOnSuccessListener(dataSnapshot -> {
+                                            // Check if the user exists in the database
+                                            if (dataSnapshot.exists()) {
+                                                // Set the info view to be visible
+                                                view.findViewById(R.id.shadowFrameScanFriend).setVisibility(View.VISIBLE);
+                                                @SuppressWarnings("unchecked")
+                                                Map<String, Object> user = (Map<String, Object>) dataSnapshot.getValue();
+                                                assert user != null;
+                                                String username = (String) user.getOrDefault(Database.USERNAME, "None");
+                                                TextView usernameText = view.findViewById(R.id.userNameScan);
+                                                usernameText.setText(username);
+                                                String pPicture = (String) user.get("image");
+                                                Glide.with(this).load(pPicture).into((ImageView) view.findViewById(R.id.profilePictureAddFriend));
 
-                    // Go to barcode information activity
-                    startActivity(intent);
+                                                view.findViewById(R.id.addFriendScanButton).setOnClickListener(onClick -> {
+                                                    // Add the user to the friend list
+                                                    database.addToFriendList(barcodeString);
+                                                    // Remove info view
+                                                    view.findViewById(R.id.shadowFrameScanFriend).setVisibility(View.GONE);
+                                                    Toast.makeText(getContext(),
+                                                            username+" was added in your friends list !",
+                                                            Toast.LENGTH_SHORT)
+                                                            .show();
+                                                });
+                                            }
+                                        });
+                                break;
+                        }
+
+                    }
                 });
     }
 

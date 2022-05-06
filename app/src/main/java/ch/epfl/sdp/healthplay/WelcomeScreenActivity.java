@@ -12,9 +12,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import ch.epfl.sdp.healthplay.auth.AuthUiActivity;
 import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 import ch.epfl.sdp.healthplay.database.DataCache;
+import ch.epfl.sdp.healthplay.database.Database;
 
 public class WelcomeScreenActivity extends AppCompatActivity {
 
@@ -48,6 +52,11 @@ public class WelcomeScreenActivity extends AppCompatActivity {
                 return true;
             }
         });
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(currentUser != null) {
+            Database db = new Database();
+            db.initStatToDay(currentUser.getUid());
+        }
     }
 
     private void launchMainActivity(Intent intent){

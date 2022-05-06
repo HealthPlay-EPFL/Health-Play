@@ -38,6 +38,7 @@ public class DatabaseTest {
     String currentHealthPoint = "35";
     User user = new User("w", "empty name", "empty surname", "empty@email.com", "2000-01-01", 10);
     Map<String, Map<String, Number>> addMap;
+    String usernametest = "Hugo";
 
 
     @Mock
@@ -48,6 +49,18 @@ public class DatabaseTest {
 
     @Mock
     DataSnapshot ds;
+
+    @Mock
+    Task<Void> tlb;
+    @Mock
+    Task<DataSnapshot> t2;
+    @Mock
+    DataSnapshot ds2;
+    @Mock
+    Task<DataSnapshot> tUsername;
+    @Mock
+    DataSnapshot dsUsername;
+
 
 
     public Task<Void> putUsername(String userId, String username, Map<String, User> map) {
@@ -128,6 +141,10 @@ public class DatabaseTest {
     public Task<Void> removeUser(String userId, Map<String, User> map) {
         map.remove(userId);
         return null;
+    }
+    public Task<Void> getTlb(String healthPoint, Map<String, String> stats) {
+        stats.put(Database.HEALTH_POINT, healthPoint);
+        return tlb;
     }
 
     @Before
@@ -224,14 +241,59 @@ public class DatabaseTest {
         Map<String, Number> map1 = new HashMap<>();
         map1.put(Database.CALORIE_COUNTER, 40);
         map1.put(Database.HEALTH_POINT, 40);
+        HashMap<String,HashMap<String, HashMap<String, String>>> leaderBoard = new HashMap<>();
+        HashMap<String, HashMap<String, String>> mapDate = new HashMap<>();
+        HashMap<String, String> l = new HashMap<>();
+        l.put(userId,"Hugo");
+        mapDate.put("75hp", l);
+        leaderBoard.put(Database.getTodayDate(), mapDate);
         addMap.put(Database.getTodayDate(), map1);
-
+        when(tlb.isSuccessful()).thenReturn(true);
+        when(dbr.child(Database.USERS).child(userId).child(Database.STATS).child(Database.HEALTH_POINT).setValue(75))
+                .thenReturn(getTlb("75", stats));
         when(dbr.child(Database.USERS).child(userId).child(Database.STATS).get()).thenReturn(t1);
+        when(dbr.child(Database.LEADERBOARD).get()).thenReturn(t2);
+        when(dbr.child(Database.LEADERBOARD).setValue("75")).thenReturn(null);
+        when(t2.isSuccessful()).thenReturn(true);
+        when(t2.getResult()).thenReturn(ds2);
         when(t1.isSuccessful()).thenReturn(true);
         when(t1.getResult()).thenReturn(ds);
         when(ds.getValue()).thenReturn(addMap);
+        when(ds2.getValue()).thenReturn(leaderBoard);
+        when(tUsername.isSuccessful()).thenReturn(true);
+        when(dbr.child(Database.USERS).child(userId).child(Database.USERNAME).get()).thenReturn(tUsername);
+        when(t1.getResult()).thenReturn(dsUsername);
+        when(ds.getValue()).thenReturn("Hugo");
+        Database db = new Database(dbr);
+        db.addHealthPoint(userId, 35);
+        assertEquals("75", stats.get(Database.HEALTH_POINT));
+    }
+
+    @Test
+    public void addHealthPointTestNew() {
+
+        addMap = new HashMap<String, Map<String, Number>>();
+        Map<String, Number> map1 = new HashMap<>();
+        map1.put(Database.CALORIE_COUNTER, 40);
+        map1.put(Database.HEALTH_POINT, 40);
+        HashMap<String,HashMap<String, HashMap<String, String>>> leaderBoard = new HashMap<>();
+        addMap.put(Database.getTodayDate(), map1);
+        when(tlb.isSuccessful()).thenReturn(true);
         when(dbr.child(Database.USERS).child(userId).child(Database.STATS).child(Database.HEALTH_POINT).setValue(75))
-                .thenReturn(putHealthPointStats("75", stats));
+                .thenReturn(getTlb("75", stats));
+        when(dbr.child(Database.USERS).child(userId).child(Database.STATS).get()).thenReturn(t1);
+        when(dbr.child(Database.LEADERBOARD).get()).thenReturn(t2);
+        when(dbr.child(Database.LEADERBOARD).setValue("75")).thenReturn(null);
+        when(t2.isSuccessful()).thenReturn(true);
+        when(t2.getResult()).thenReturn(ds2);
+        when(t1.isSuccessful()).thenReturn(true);
+        when(t1.getResult()).thenReturn(ds);
+        when(ds.getValue()).thenReturn(addMap);
+        when(ds2.getValue()).thenReturn(leaderBoard);
+        when(tUsername.isSuccessful()).thenReturn(true);
+        when(dbr.child(Database.USERS).child(userId).child(Database.USERNAME).get()).thenReturn(tUsername);
+        when(t1.getResult()).thenReturn(dsUsername);
+        when(ds.getValue()).thenReturn("Hugo");
         Database db = new Database(dbr);
         db.addHealthPoint(userId, 35);
         assertEquals("75", stats.get(Database.HEALTH_POINT));
@@ -266,7 +328,6 @@ public class DatabaseTest {
         map1.put(Database.HEALTH_POINT, 40);
         map1.put(Product.Nutriments.ALCOHOL.getName(), 40);
         addMap.put(Database.getTodayDate(), map1);
-
         when(dbr.child(Database.USERS).child(userId).child(Database.STATS).get()).thenReturn(t1);
         when(t1.isSuccessful()).thenReturn(true);
         when(t1.getResult()).thenReturn(ds);
@@ -281,20 +342,19 @@ public class DatabaseTest {
 
     @Test
     public void readFieldTest() {
-        when(dbr.child(Database.USERS).child(userId).child(Database.USERNAME).get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                Log.e("firebase", "Error getting data", task.getException());
-            }
 
-        })).thenReturn(putCalories());
+        when(tUsername.isSuccessful()).thenReturn(true);
+        when(dbr.child(Database.USERS).child(userId).child(Database.USERNAME).get()).thenReturn(tUsername);
+        when(t1.getResult()).thenReturn(dsUsername);
+        when(ds.getValue()).thenReturn("Hugo");
         Database db = new Database(dbr);
         db.readField(userId, Database.USERNAME,task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             }
-
+                usernametest = "Hugo";
         });
-        assertEquals("50", stats.get(Database.CALORIE_COUNTER));
+        assertEquals("Hugo", usernametest);
     }
 
     @Test
