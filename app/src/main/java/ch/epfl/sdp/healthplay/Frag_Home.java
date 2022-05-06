@@ -2,7 +2,10 @@ package ch.epfl.sdp.healthplay;
 
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +52,10 @@ public class Frag_Home extends Fragment {
     private String mParam1;
     private String mParam2;
     private DecimalFormat mFormat= new DecimalFormat("00");
+    private final int NUMBER_OF_STRING = 6;
+    private String[] text = new String[NUMBER_OF_STRING];
+    private int[] attrText = {R.attr.pls_login, R.attr.no_data, R.attr.no_stat, R.attr.text_part1, R.attr.text_part2, R.attr.text_part3};
+    private int[] style = {R.style.AppTheme, R.style.AppThemeFrench, R.style.AppThemeItalian, R.style.AppThemeGerman};
 
     public Frag_Home() {
         // Required empty public constructor
@@ -92,6 +99,7 @@ public class Frag_Home extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_frag__home, container, false);
+        initText();
         CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendar);
         TextView dataDisplay = (TextView) view.findViewById(R.id.my_date);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -140,16 +148,16 @@ public class Frag_Home extends Fragment {
                 selectedDate = year + "-" + mFormat.format(month + 1) + "-" + mFormat.format(dayOfMonth);
                 //No user logged in
                 if(user == null){
-                    dataDisplay.setText("Please login");
+                    dataDisplay.setText(text[0]);
                     userStats = convert();
                 }
                 //User is logged in but no data at all
                 if(userStats == null) {
-                    dataDisplay.setText("No stats, please begin adding calories if you want to use the calendar summary");
+                    dataDisplay.setText(text[2]);
                 }
                 //User logged in with data, but no data for the chosen date
                 else if(userStats.get(selectedDate) == null){
-                    dataDisplay.setText("No data for this date");
+                    dataDisplay.setText(text[1]);
                 }
                 else{
                     printStats(
@@ -201,10 +209,10 @@ public class Frag_Home extends Fragment {
     private void printStats(TextView textView, String date){
         if(userStats != null && FirebaseAuth.getInstance() != null) {
             textView.setText(
-                    date + ": You've consumed :" +
-                            "\n calories: " + String.valueOf(userStats.get(date).get(Database.CALORIE_COUNTER)) +
-                            "\n weight: " + String.valueOf(userStats.get(date).get(Database.WEIGHT)) +
-                            "\n health point: " + String.valueOf(userStats.get(date).get(Database.HEALTH_POINT)));
+                    date + text[3] +
+                            String.valueOf(userStats.get(date).get(Database.CALORIE_COUNTER)) +
+                            text[4] + String.valueOf(userStats.get(date).get(Database.WEIGHT)) +
+                            text[5] + String.valueOf(userStats.get(date).get(Database.HEALTH_POINT)));
         }
     }
 
@@ -241,6 +249,15 @@ public class Frag_Home extends Fragment {
         }
         if(inter2.isEmpty()) return null;
         return inter2;
+    }
+
+    private void initText(){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        int language_mode = sharedPref.getInt(getString(R.string.saved_language_mode), 0);
+        TypedArray t = getActivity().obtainStyledAttributes(style[language_mode], attrText);
+        for(int i=0; i<text.length; i++){
+            text[i] = t.getString(i);
+        }
     }
 
 }

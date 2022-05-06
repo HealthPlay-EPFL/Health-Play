@@ -1,11 +1,14 @@
 package ch.epfl.sdp.healthplay.auth;
 
+import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +39,9 @@ public class ProfileFragment extends Fragment {
     private Database db = new Database();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private View view;
+    private String daily_calories;
+    private int[] attrText = {R.attr.daily_calorie};
+    private int[] style = {R.style.AppTheme, R.style.AppThemeFrench, R.style.AppThemeItalian, R.style.AppThemeGerman};
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -53,47 +59,36 @@ public class ProfileFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
         SignedInFragment.SetMode(getContext());
         super.onCreate(savedInstanceState);
+        initString();
         initButton();
-        getImage();
         FirebaseUser user = mAuth.getCurrentUser();
 
         if(user != null) {
-            db.mDatabase
-                    .child(Database.USERS)
-                    .child(user.getUid())
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (!task.isSuccessful()) {
-                            Log.e("firebase", "Error getting data", task.getException());
-                        }
-                        if(!task.getResult().hasChildren()){
-                            db.writeNewUser(user.getUid(),"HugoBoss", 0, 0);
-                        }
-                        initUsername(user.getUid());
-                        initBirthday(user.getUid());
-                        initStats(user.getUid());
-                        initName(user.getUid());
-
-                    });
-
+            ImageView imageView = view.findViewById(R.id.profile_picture);
+            getImage(user.getUid(), imageView);
+            TextView textViewUsername = view.findViewById(R.id.profileUsername);
+            initUsername(user.getUid(), textViewUsername);
+            TextView textViewBirthday = view.findViewById(R.id.profileBirthday);
+            initBirthday(user.getUid(), textViewBirthday);
+            TextView textViewStatsButton = view.findViewById(R.id.statsButton);
+            TextView textViewWeight = view.findViewById(R.id.profileWeight);
+            TextView textViewHealthPoint = view.findViewById(R.id.profileHealthPoint);
+            initStats(user.getUid(), textViewStatsButton, textViewWeight, textViewHealthPoint);
+            TextView textViewName = view.findViewById(R.id.profileName);
+            initName(user.getUid(), textViewName);
         }
         return view;
     }
 
-    /**
-     * Get the profile picture of the user, and display it
-     */
-    private void getImage() {
-        db.mDatabase.child(Database.USERS).child(mAuth.getCurrentUser().getUid()).child("image").addValueEventListener(new ValueEventListener() {
+    public void getImage(String userId, ImageView imageView) {
+        db.mDatabase.child(Database.USERS).child(userId).child("image").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
                     if(snapshot.getValue() != null){
                         String image = snapshot.getValue().toString();
-                        ImageView imageView = view.findViewById(R.id.profile_picture);
-                        if(getActivity() != null) {
+                        if(getActivity() != null)
                             Glide.with(getActivity()).load(image).into(imageView);
-                        }
                     }
 
                 }
@@ -119,12 +114,7 @@ public class ProfileFragment extends Fragment {
         view.findViewById(R.id.goToQRCode).setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new QrCodeFragment()));
     }
 
-    /**
-     * Get the Birthday of the user, and listen for changes
-     * @param userId
-     */
-    public void initBirthday(String userId) {
-        TextView TextViewBirthday = view.findViewById(R.id.profileBirthday);
+    public void initBirthday(String userId, TextView TextViewBirthday) {
 
         db.readField(userId, Database.BIRTHDAY, (task -> {
             if (!task.isSuccessful()) {
@@ -154,13 +144,8 @@ public class ProfileFragment extends Fragment {
 
 
 
-    /**
-     * Get the Name and Surname of the user, and listen for changes
-     * @param userId
-     */
-    public void initName(String userId) {
-        TextView TextViewName = view.findViewById(R.id.profileName);
 
+    public void initName(String userId, TextView TextViewName) {
 
         db.readField(userId, Database.NAME, (task -> {
             if (!task.isSuccessful()) {
@@ -219,13 +204,7 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    /**
-     * Get the Username of the user, and listen for changes
-     * @param userId
-     */
-    private void initUsername(String userId) {
-        TextView TextViewUsername = view.findViewById(R.id.profileUsername);
-
+    public void initUsername(String userId, TextView TextViewUsername) {
         db.readField(userId, Database.USERNAME, (task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
@@ -250,17 +229,15 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    /**
-     * Get the Stats of the user, and listen for changes
-     * @param userId
-     */
-    public void initStats(String userId) {
+    public void initStats(String userId, TextView TextViewStatsButton,  TextView TextViewWeight, TextView TextViewHealthPoint) {
+
         db.getStats(userId,(task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             } else {
+                @SuppressWarnings("unchecked")
                 Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>)task.getResult().getValue();
-                updateStats(map, userId);
+                updateStats(map, userId, TextViewStatsButton, TextViewWeight, TextViewHealthPoint);
             }
         }));
 
@@ -270,7 +247,7 @@ public class ProfileFragment extends Fragment {
                 @SuppressWarnings("unchecked")
                 Map<String, Map<String, Number>> stats = (Map<String, Map<String, Number>>)dataSnapshot.getValue();
                 if(stats != null) {
-                    updateStats(stats,userId);
+                    updateStats(stats,userId, TextViewStatsButton, TextViewWeight, TextViewHealthPoint);
                 }
             }
 
@@ -283,11 +260,8 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    public void updateStats(Map<String, Map<String, Number>> map, String userId) {
-        TextView TextViewStatsButton = view.findViewById(R.id.statsButton);
-        TextView TextViewWeight = view.findViewById(R.id.profileWeight);
-        TextView TextViewHealthPoint = view.findViewById(R.id.profileHealthPoint);
 
+    public void updateStats(Map<String, Map<String, Number>> map, String userId, TextView TextViewStatsButton,  TextView TextViewWeight, TextView TextViewHealthPoint) {
 
         if (map!=null && map.containsKey(Database.getTodayDate())) {
             Map<String, Number> todayStats = map.get(Database.getTodayDate());
@@ -295,11 +269,11 @@ public class ProfileFragment extends Fragment {
             if (todayStats != null){
                 if(todayStats.containsKey(Database.CALORIE_COUNTER) &&
                         (todayStats.get(Database.CALORIE_COUNTER)) != null) {
-                    String todayCalories = todayStats.get(Database.CALORIE_COUNTER) + "\ndaily calories";
+                    String todayCalories = todayStats.get(Database.CALORIE_COUNTER) + "\n" + daily_calories;
                     TextViewStatsButton.setText(todayCalories);
                 }
                 else {
-                    TextViewStatsButton.setText("0\ndaily calories");
+                    TextViewStatsButton.setText("0\n" + daily_calories);
                 }
                 if(todayStats.containsKey(Database.HEALTH_POINT) &&
                         (todayStats.get(Database.HEALTH_POINT)) != null) {
@@ -324,7 +298,7 @@ public class ProfileFragment extends Fragment {
             }
         }
         else {
-            TextViewStatsButton.setText("0\ndaily calories");
+            TextViewStatsButton.setText("0\n" + daily_calories);
             db.readField(userId, Database.LAST_CURRENT_WEIGHT, (task -> {
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting data", task.getException());
@@ -336,6 +310,13 @@ public class ProfileFragment extends Fragment {
         }
 
 
+    }
+
+    private void initString(){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        int language_mode = sharedPref.getInt(getString(R.string.saved_language_mode), 0);
+        TypedArray t = getActivity().obtainStyledAttributes(style[language_mode], attrText);
+        daily_calories = t.getString(0);
     }
 
 }

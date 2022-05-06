@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProductInfoActivity">
+    tools:context=".ProductInfoActivity"
+    android:background="?attr/fragView_color">
 
     <Button
         android:id="@+id/findProductInfos"
         android:layout_width="255dp"
         android:layout_height="72dp"
         android:onClick="sendBarcode"
-        android:text="@string/button_find_product_label"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="?attr/button_find_product_label"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,8 +26,11 @@
         android:id="@+id/barcodeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColorHint="?attr/text_color"
+        android:backgroundTint="?attr/text_color"
+        android:textColor="?attr/text_color"
         android:ems="10"
-        android:hint="@string/barcode_number_label"
+        android:hint="?attr/barcode_number_label"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/findProductInfos"

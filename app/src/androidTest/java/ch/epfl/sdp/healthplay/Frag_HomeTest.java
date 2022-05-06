@@ -13,7 +13,6 @@ import static org.hamcrest.Matchers.allOf;
 
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -23,11 +22,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
@@ -37,9 +32,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
-
-import ch.epfl.sdp.healthplay.auth.SignedInActivity;
-import ch.epfl.sdp.healthplay.database.User;
 
 @RunWith(AndroidJUnit4.class)
 public class Frag_HomeTest {

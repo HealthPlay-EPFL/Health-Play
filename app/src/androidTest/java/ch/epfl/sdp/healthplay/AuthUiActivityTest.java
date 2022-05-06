@@ -23,7 +23,6 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.auth.AuthUiActivity;
-import ch.epfl.sdp.healthplay.auth.SignedInActivity;
 
 @RunWith(AndroidJUnit4.class)
 public class AuthUiActivityTest {
