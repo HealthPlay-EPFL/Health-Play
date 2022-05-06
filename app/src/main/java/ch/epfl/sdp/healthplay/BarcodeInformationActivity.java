@@ -26,6 +26,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
+import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.model.Product;
 import ch.epfl.sdp.healthplay.model.ProductInfoClient;
@@ -77,6 +78,7 @@ public class BarcodeInformationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SignedInFragment.SetMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode_information);
 

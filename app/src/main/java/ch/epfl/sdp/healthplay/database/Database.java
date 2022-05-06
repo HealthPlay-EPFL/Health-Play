@@ -14,7 +14,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
@@ -60,8 +59,9 @@ public final class Database {
     public static final String STATS = "stats";
     public static final String USERS = "users";
     public static final String LOBBIES = "lobbies";
+    private final static int SUFFIX_LEN = 2;
 
-    public static Comparator<String> comparator = (o1, o2) -> Long.compare(Long.parseLong(o2), Long.parseLong(o1));
+    public static Comparator<String> comparator = (o1, o2) -> Long.compare(Long.parseLong(o2.substring(0,o2.length() - SUFFIX_LEN)), Long.parseLong(o1.substring(0,o1.length() - SUFFIX_LEN)));
 
     // Format used to format date when adding stats
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -154,6 +154,18 @@ public final class Database {
                 .child(getTodayDate())
                 .child(WEIGHT)
                 .setValue(weight);
+    }
+
+    public void initStatToDay(String userId){
+        addCalorie(userId, 0);
+        addHealthPoint(userId, 0);
+        readField(userId, LAST_CURRENT_WEIGHT, (task -> {
+            if (!task.isSuccessful()) {
+                Log.e("firebase", "Error getting data", task.getException());
+            } else {
+                mDatabase.child(USERS).child(userId).child(STATS).child(getTodayDate()).child(WEIGHT).setValue(task.getResult().getValue());
+            }
+        }));
     }
 
     public void writeName(String userId, String name) {
@@ -260,16 +272,7 @@ public final class Database {
                     .child(STATS)
                     .child(getTodayDate())
                     .child(field)
-                    .setValue(toAdd).addOnCompleteListener(taks -> {
-                        if (!task.isSuccessful()) {
-                            Log.e("ERROR", "EREREREROOORORO");
-                        }
-                        else {
-                             if(field.equals(HEALTH_POINT)) {
-                                updateLeaderBoard(userId, (int) inc);
-                        }
-                        }
-                     });
+                    .setValue(toAdd).addOnCompleteListener(getLambdaHp(userId, inc, field));
         };
 
     }
@@ -606,26 +609,34 @@ public final class Database {
                             Log.e("firebase", "Error getting data", t.getException());
                         } else {
                             @SuppressWarnings("unchecked")
-                            HashMap<String,HashMap<String, ArrayList<String>>> leaderBoard = (HashMap<String,HashMap<String, ArrayList<String>>>)t.getResult().getValue();
-                            if(leaderBoard != null && leaderBoard.containsKey(getTodayDate())) {
-                                ArrayList<String> l = leaderBoard.get(getTodayDate()).containsKey(hp) ? leaderBoard.get(getTodayDate()).get(hp) : new ArrayList<>();
-                                String hpPre = String.valueOf(Long.parseLong(hp) - toRemove);
-                                ArrayList<String> lPre = leaderBoard.get(getTodayDate()).containsKey(hpPre) ? leaderBoard.get(getTodayDate()).get(hpPre) : new ArrayList<>();
-                                lPre.remove(userId);
-                                l.add(userId);
-                                leaderBoard.get(getTodayDate()).put(hp,l);
-                                mDatabase.child(LEADERBOARD).setValue(leaderBoard);
-                            }
-                            else if(leaderBoard != null) {
-                                HashMap<String, ArrayList<String>> map = new HashMap<>();
-                                ArrayList<String> l = new ArrayList<>();
-                                l.add(userId);
-                                map.put(hp, l);
-                                HashMap<String,HashMap<String, ArrayList<String>>> currentLeaderBoard = new HashMap<>();
-                                currentLeaderBoard.put(getTodayDate(), map);
-                                mDatabase.child(LEADERBOARD).setValue(currentLeaderBoard);
+                            HashMap<String,HashMap<String,HashMap<String, String>>> leaderBoard = (HashMap<String,HashMap<String, HashMap<String, String>>>)t.getResult().getValue();
+                            readField(userId, Database.USERNAME, ta -> {
+                                if(!t.isSuccessful()) {
+                                    Log.e("firebase", "Error getting data", t.getException());
+                                }
+                                else {
+                                    String username = ta.getResult().getValue(String.class);
+                                    if(leaderBoard != null && leaderBoard.containsKey(getTodayDate())) {
+                                        HashMap<String, String> l = leaderBoard.get(getTodayDate()).containsKey(hp + "hp") ? leaderBoard.get(getTodayDate()).get(hp + "hp") : new HashMap<String, String>();
+                                        String hpPre = (Long.parseLong(hp) - toRemove) + "hp";
+                                        HashMap<String, String> lPre = leaderBoard.get(getTodayDate()).containsKey(hpPre) ? leaderBoard.get(getTodayDate()).get(hpPre) : new HashMap<String, String>();
+                                        lPre.remove(userId);
+                                        l.put(userId,username);
+                                        leaderBoard.get(getTodayDate()).put(hp+"hp",l);
+                                        mDatabase.child(LEADERBOARD).setValue(leaderBoard);
+                                    }
+                                    else if(leaderBoard != null && !leaderBoard.containsKey(getTodayDate())) {
+                                        HashMap<String, HashMap<String, String>> map = new HashMap<>();
+                                        HashMap<String, String> l = new HashMap<>();
+                                        l.put(userId,username);
+                                        map.put(hp+"hp", l);
+                                        leaderBoard.put(getTodayDate(), map);
+                                        mDatabase.child(LEADERBOARD).setValue(leaderBoard);
 
-                            }
+                                    }
+                                }
+                            });
+
 
                         }
 
@@ -639,8 +650,17 @@ public final class Database {
 
     }
 
+    private OnCompleteListener<Void> getLambdaHp(String userId, double inc, String field) {
+        return t -> {
+            if (!t.isSuccessful()) {
+                Log.e("ERROR", "EREREREROOORORO");
+            }
+            updateLeaderBoard(userId, (int) inc);
+        };
+    }
+
     private void getLeaderBoard(OnCompleteListener<DataSnapshot> onCompleteListener) {
-        mDatabase.child(Database.LEADERBOARD)
+        mDatabase.child(LEADERBOARD)
                 .get()
                 .addOnCompleteListener(onCompleteListener);
     }

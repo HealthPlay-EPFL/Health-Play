@@ -91,6 +91,13 @@ public class GameMenuFragment extends Fragment {
                     }
                 }
         );
+        Button leader = view.findViewById(R.id.button3);
+        leader.setOnClickListener(v -> onClickLeaderBoard());
         return view;
+    }
+
+    public void onClickLeaderBoard() {
+        Intent intent = new Intent(getContext(), LeaderBoardActivity.class);
+        startActivity(intent);
     }
 }

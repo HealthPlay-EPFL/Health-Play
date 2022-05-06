@@ -113,7 +113,7 @@
             android:textColor="?attr/title_color"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:text="change picture"
+            android:text="?attr/change_picture"
             />
 
             </RelativeLayout>
@@ -179,7 +179,7 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:background="@drawable/rounded_button"
-                    android:text="save"
+                    android:text="?attr/save"
                     android:textAllCaps="false"
                     android:textColor="?attr/title_color"
                     android:textSize="30sp"
@@ -194,7 +194,7 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:background="@drawable/rounded_button"
-                    android:text="exit"
+                    android:text="?attr/exit"
                     android:textAllCaps="false"
                     android:textColor="?attr/title_color"
                     android:textSize="30sp"
