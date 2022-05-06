@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(),
 
     private lateinit var spinner: Spinner
     private lateinit var spinnerCopy: Spinner
-    val CAMERA_ORIENTATION = getString(R.string.cameraOrientation)
+    val CAMERA_ORIENTATION = "ch.epfl.sdp.healthplay.kneetag.MainActivity.CAMERA_ORIENTATION"
 
     /** A [SurfaceView] for camera preview.   */
     private lateinit var surfaceView: SurfaceView

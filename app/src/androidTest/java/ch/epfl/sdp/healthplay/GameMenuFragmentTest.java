@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.allOf;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
@@ -25,13 +26,13 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
 
-@RunWith(AndroidJUnit4.class)
+//@RunWith(AndroidJUnit4.class)
 public class GameMenuFragmentTest {
-    @Before
+    /*@Before
     public void init() throws InterruptedException {
         FragmentScenario<GameMenuFragment> scenario = FragmentScenario.launchInContainer(GameMenuFragment.class);
         TimeUnit.SECONDS.sleep(1);
-    }
+    }*/
 
     /*@Test
     public void planthuntDescriptionCorrectlyDisplays() {
@@ -81,7 +82,7 @@ public class GameMenuFragmentTest {
         Espresso.onView(withId(R.id.kneetagDescriptionF)).check(matches(isDisplayed()));
     }*/
 
-    @Test
+    /*@Test
     public void planthuntPlayCorrectlyLaunches() {
         Espresso.onView(withId(R.id.planthuntPlay)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
@@ -102,6 +103,6 @@ public class GameMenuFragmentTest {
                 }
         );
         Espresso.onView(withId(R.id.planthuntMainPlay)).check(matches(isDisplayed()));
-    }
+    }*/
 
 }

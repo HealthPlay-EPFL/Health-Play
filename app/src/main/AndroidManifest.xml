@@ -55,8 +55,7 @@
             android:exported="false" />
         <activity
             android:name=".kneetag.MainActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"/>
+            android:exported="true" />
         <activity
             android:name=".BarcodeScanActivity"
             android:exported="true" />
@@ -69,12 +68,8 @@
         <activity
             android:name=".HomeScreenActivity"
             android:exported="true" />
-
         <activity
             android:name=".KneetagDescriptionActivity"
-            android:exported="false" />
-        <activity
-            android:name=".kneetag.FinishScreen"
             android:exported="false" />
         <activity
             android:name=".auth.AuthUiActivity"
@@ -111,7 +106,10 @@
         <activity
             android:name=".api.PlantnetApi"
             android:exported="false" />
+        <activity android:name=".kneetag.FinishScreen"
+            android:exported="false">
 
+        </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="ch.epfl.sdp.healthplay.fileprovider"

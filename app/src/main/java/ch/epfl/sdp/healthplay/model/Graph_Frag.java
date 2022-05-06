@@ -1,11 +1,15 @@
 package ch.epfl.sdp.healthplay.model;
 
+import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,8 +53,17 @@ public class Graph_Frag extends Fragment {
     private String drawLabel;
     private BarChart bar;
     private static String[] categories = {"calories", "health points"};
-    private static String[] weekLabel = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
-    private static String[] monthLabel = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    private int[] attrWeek = {R.attr.monday, R.attr.tuesday, R.attr.wednesday, R.attr.thursday, R.attr.friday, R.attr.saturday, R.attr.sunday};
+    private int[] attrMonth = {R.attr.january, R.attr.february, R.attr.march, R.attr.april, R.attr.may, R.attr.june, R.attr.july, R.attr.august, R.attr.september, R.attr.october, R.attr.november, R.attr.december};
+    private int[] style = {R.style.AppTheme, R.style.AppThemeFrench, R.style.AppThemeItalian, R.style.AppThemeGerman};
+
+    private final int NUMBER_OF_DAY_WEEK = 7;
+    private final int NUMBER_OF_MONTH = 12;
+    private final int NUMBER_OF_CATEGORIES = 2;
+    private String[] weekLabel = new String[NUMBER_OF_DAY_WEEK];
+    private String[] monthLabel = new String[NUMBER_OF_MONTH];
+    private int[] attrInitLabel = {R.attr.calorie_exp, R.attr.Hp_exp};
+    private String[] initLabel = new String[NUMBER_OF_CATEGORIES];
     private Button prev, next, buttonCal, buttonHealth;
 
     public Graph_Frag() {
@@ -100,7 +113,6 @@ public class Graph_Frag extends Fragment {
         initWeekData.put(categories[1], weekDataH);
         initMonthData.put(categories[0], monthDataC);
         initMonthData.put(categories[1], monthDataH);
-        String[] initLabel = {"Average of calories", "Sum of Health points"};
         weekData = initMapBar(initWeekData, initLabel);
         monthData = initMapBar(initMonthData, initLabel);
 
@@ -214,6 +226,7 @@ public class Graph_Frag extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_graph_, container, false);
         initButton();
+        initLabel();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user==null){
             Map<String, Map<String, Number>> map = WelcomeScreenActivity.cache.getDataMap();
@@ -253,6 +266,23 @@ public class Graph_Frag extends Fragment {
                 initBarChart(view);
             }
         }));
+    }
+
+    private void initLabel() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        int language_mode = sharedPref.getInt(getString(R.string.saved_language_mode), 0);
+        TypedArray tw = getActivity().obtainStyledAttributes(style[language_mode], attrWeek);
+        TypedArray tm = getActivity().obtainStyledAttributes(style[language_mode], attrMonth);
+        TypedArray ti = getActivity().obtainStyledAttributes(style[language_mode], attrInitLabel);
+        for(int i=0; i<weekLabel.length; i++){
+            weekLabel[i] = tw.getString(i);
+        }
+        for(int i=0; i<monthLabel.length; i++){
+            monthLabel[i] = tm.getString(i);
+        }
+        for(int i = 0; i<initLabel.length; i++){
+            initLabel[i] = ti.getString(i);
+        }
     }
 
 }
