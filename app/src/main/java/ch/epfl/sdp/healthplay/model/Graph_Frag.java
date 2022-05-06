@@ -56,12 +56,14 @@ public class Graph_Frag extends Fragment {
     private int[] attrWeek = {R.attr.monday, R.attr.tuesday, R.attr.wednesday, R.attr.thursday, R.attr.friday, R.attr.saturday, R.attr.sunday};
     private int[] attrMonth = {R.attr.january, R.attr.february, R.attr.march, R.attr.april, R.attr.may, R.attr.june, R.attr.july, R.attr.august, R.attr.september, R.attr.october, R.attr.november, R.attr.december};
     private int[] style = {R.style.AppTheme, R.style.AppThemeFrench, R.style.AppThemeItalian, R.style.AppThemeGerman};
-    //private static String[] weekLabel = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
-    //private static String[] monthLabel = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
-    private String[] weekLabel = new String[7];
-    private String[] monthLabel = new String[12];
+
+    private final int NUMBER_OF_DAY_WEEK = 7;
+    private final int NUMBER_OF_MONTH = 12;
+    private final int NUMBER_OF_CATEGORIES = 2;
+    private String[] weekLabel = new String[NUMBER_OF_DAY_WEEK];
+    private String[] monthLabel = new String[NUMBER_OF_MONTH];
     private int[] attrInitLabel = {R.attr.calorie_exp, R.attr.Hp_exp};
-    private String[] initLabel = new String[2];
+    private String[] initLabel = new String[NUMBER_OF_CATEGORIES];
     private Button prev, next, buttonCal, buttonHealth;
 
     public Graph_Frag() {

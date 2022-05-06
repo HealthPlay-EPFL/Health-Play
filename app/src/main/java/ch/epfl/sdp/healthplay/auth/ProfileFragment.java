@@ -66,16 +66,16 @@ public class ProfileFragment extends Fragment {
         if(user != null) {
             ImageView imageView = view.findViewById(R.id.profile_picture);
             getImage(user.getUid(), imageView);
-            TextView TextViewUsername = view.findViewById(R.id.profileUsername);
-            initUsername(user.getUid(), TextViewUsername);
-            TextView TextViewBirthday = view.findViewById(R.id.profileBirthday);
-            initBirthday(user.getUid(), TextViewBirthday);
-            TextView TextViewStatsButton = view.findViewById(R.id.statsButton);
-            TextView TextViewWeight = view.findViewById(R.id.profileWeight);
-            TextView TextViewHealthPoint = view.findViewById(R.id.profileHealthPoint);
-            initStats(user.getUid(), TextViewStatsButton, TextViewWeight, TextViewHealthPoint);
-            TextView TextViewName = view.findViewById(R.id.profileName);
-            initName(user.getUid(), TextViewName);
+            TextView textViewUsername = view.findViewById(R.id.profileUsername);
+            initUsername(user.getUid(), textViewUsername);
+            TextView textViewBirthday = view.findViewById(R.id.profileBirthday);
+            initBirthday(user.getUid(), textViewBirthday);
+            TextView textViewStatsButton = view.findViewById(R.id.statsButton);
+            TextView textViewWeight = view.findViewById(R.id.profileWeight);
+            TextView textViewHealthPoint = view.findViewById(R.id.profileHealthPoint);
+            initStats(user.getUid(), textViewStatsButton, textViewWeight, textViewHealthPoint);
+            TextView textViewName = view.findViewById(R.id.profileName);
+            initName(user.getUid(), textViewName);
         }
         return view;
     }

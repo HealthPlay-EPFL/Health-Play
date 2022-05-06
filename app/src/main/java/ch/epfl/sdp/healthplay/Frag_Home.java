@@ -52,7 +52,8 @@ public class Frag_Home extends Fragment {
     private String mParam1;
     private String mParam2;
     private DecimalFormat mFormat= new DecimalFormat("00");
-    private String[] text = new String[6];
+    private final int NUMBER_OF_STRING = 6;
+    private String[] text = new String[NUMBER_OF_STRING];
     private int[] attrText = {R.attr.pls_login, R.attr.no_data, R.attr.no_stat, R.attr.text_part1, R.attr.text_part2, R.attr.text_part3};
     private int[] style = {R.style.AppTheme, R.style.AppThemeFrench, R.style.AppThemeItalian, R.style.AppThemeGerman};
 

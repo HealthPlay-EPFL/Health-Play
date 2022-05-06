@@ -53,7 +53,9 @@ public class SignedInFragment extends Fragment {
     public static final String IDP_RESPONSE = "extra_idp_response";
     private FragmentSignedInBinding mBinding;
     private View view;
-    private Button[] button_language = new Button[4];
+    private final int NUMBER_OF_LANGUAGE = 4;
+    private Button[] button_language = new Button[NUMBER_OF_LANGUAGE];
+    private final static int ENGLISH = 0, FRENCH = 1, ITALIAN = 2, GERMAN =3;
 
     public SignedInFragment() {
         // Required empty public constructor
@@ -96,38 +98,12 @@ public class SignedInFragment extends Fragment {
         getActivity().setTheme(R.style.AppTheme);
     }
 
-    public void clickOnFrench(){
+    public void clickOnLanguage(int language){
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(getContext().getString(R.string.saved_language_mode), 1);
+        editor.putInt(getContext().getString(R.string.saved_language_mode), language);
         editor.apply();
         SetMode(getContext());
-        reloadFrag();
-    }
-
-    public void clickOnEnglish(){
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(getContext().getString(R.string.saved_language_mode), 0);
-        editor.apply();
-        SetMode(getContext());
-        reloadFrag();
-    }
-
-    public void clickOnItalian(){
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(getContext().getString(R.string.saved_language_mode), 2);
-        editor.apply();
-        SetMode(getContext());
-        reloadFrag();
-    }
-
-    public void clickOnGerman(){
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(getContext().getString(R.string.saved_language_mode), 3);
-        editor.apply();
         reloadFrag();
     }
 
@@ -144,19 +120,19 @@ public class SignedInFragment extends Fragment {
     public static void SetMode(Context activity) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
         int mode = sharedPref.getInt(activity.getString(R.string.saved_night_mode), AppCompatDelegate.MODE_NIGHT_NO);
-        int language_mode = sharedPref.getInt(activity.getString(R.string.saved_language_mode), 0);
+        int language_mode = sharedPref.getInt(activity.getString(R.string.saved_language_mode), ENGLISH);
         AppCompatDelegate.setDefaultNightMode(mode);
-        if(language_mode == 1 && mode == AppCompatDelegate.MODE_NIGHT_YES){
+        if(language_mode == FRENCH && mode == AppCompatDelegate.MODE_NIGHT_YES){
             activity.setTheme(R.style.darkThemeFrench);
-        }else if(language_mode == 1 && mode == AppCompatDelegate.MODE_NIGHT_NO){
+        }else if(language_mode == FRENCH && mode == AppCompatDelegate.MODE_NIGHT_NO){
             activity.setTheme(R.style.AppThemeFrench);
-        }else if(language_mode == 2 && mode == AppCompatDelegate.MODE_NIGHT_YES){
+        }else if(language_mode == ITALIAN && mode == AppCompatDelegate.MODE_NIGHT_YES){
             activity.setTheme(R.style.darkThemeItalian);
-        }else if(language_mode == 2 && mode == AppCompatDelegate.MODE_NIGHT_NO){
+        }else if(language_mode == ITALIAN && mode == AppCompatDelegate.MODE_NIGHT_NO){
             activity.setTheme(R.style.AppThemeItalian);
-        }else if(language_mode == 3 && mode == AppCompatDelegate.MODE_NIGHT_YES){
+        }else if(language_mode == GERMAN && mode == AppCompatDelegate.MODE_NIGHT_YES){
             activity.setTheme(R.style.darkThemeGerman);
-        }else if(language_mode == 3 && mode == AppCompatDelegate.MODE_NIGHT_NO){
+        }else if(language_mode == GERMAN && mode == AppCompatDelegate.MODE_NIGHT_NO){
             activity.setTheme(R.style.AppThemeGerman);
         }else
         if(mode == AppCompatDelegate.MODE_NIGHT_YES) {
@@ -319,13 +295,13 @@ public class SignedInFragment extends Fragment {
         Button light = view.findViewById(R.id.light);
         light.setOnClickListener(v -> onClickLight());
         Button french = view.findViewById(R.id.french);
-        french.setOnClickListener(v -> clickOnFrench());
+        french.setOnClickListener(v -> clickOnLanguage(FRENCH));
         Button english = view.findViewById(R.id.english);
-        english.setOnClickListener(v -> clickOnEnglish());
+        english.setOnClickListener(v -> clickOnLanguage(ENGLISH));
         Button italian = view.findViewById(R.id.italian);
-        italian.setOnClickListener(v -> clickOnItalian());
+        italian.setOnClickListener(v -> clickOnLanguage(ITALIAN));
         Button german = view.findViewById(R.id.german);
-        german.setOnClickListener(v -> clickOnGerman());
+        german.setOnClickListener(v -> clickOnLanguage(GERMAN));
         button_language[0] = english;
         button_language[1] = french;
         button_language[2] = italian;
