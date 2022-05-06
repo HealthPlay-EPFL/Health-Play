@@ -47,7 +47,7 @@ import kotlin.coroutines.resumeWithException
 class CameraSource(
     private val surfaceView: SurfaceView,
     private val orientation: Boolean=false,
-    public val main: MainActivity,
+    val main: MainActivity,
     private val listener: CameraSourceListener? = null ,
 
 ) {
@@ -89,7 +89,7 @@ class CameraSource(
     private var imageReader: ImageReader? = null
 
     /** The [CameraDevice] that will be opened in this fragment */
-    public var camera: CameraDevice? = null
+    var camera: CameraDevice? = null
 
     /** Internal reference to the ongoing [CameraCaptureSession] configured with our parameters */
     private var session: CameraCaptureSession? = null

@@ -61,7 +61,6 @@ class MainActivity : AppCompatActivity(),
     private var message: Boolean = false
     private val mAuth = FirebaseAuth.getInstance()
     private lateinit var poseDetector: MoveNetMultiPose
-    private val friendList: MutableList<Friend> = ArrayList()
     private var cameraSource: CameraSource? = null
     private var isClassifyPose = false
     private var name: String = ""

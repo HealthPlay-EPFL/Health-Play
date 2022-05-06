@@ -237,4 +237,7 @@
     <string name="notDtected">The 2 player are not detected</string>
     <string name="gameStarted">Ranked game started</string>
     <string name="unrankedStart">Unranked game started</string>
+    <string name="restart">Restart</string>
+    <string name="quit">Quit</string>
+    <string name="textview">TextView</string>
 </resources>
