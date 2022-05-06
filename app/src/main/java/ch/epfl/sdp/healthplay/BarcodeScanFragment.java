@@ -219,8 +219,10 @@ public class BarcodeScanFragment extends Fragment {
                                                     database.addToFriendList(barcodeString);
                                                     // Remove info view
                                                     view.findViewById(R.id.shadowFrameScanFriend).setVisibility(View.GONE);
-                                                    Toast t = Toast.makeText(getContext(), username+" was added in your friends list !", Toast.LENGTH_SHORT);
-                                                    t.show();
+                                                    Toast.makeText(getContext(),
+                                                            username+" was added in your friends list !",
+                                                            Toast.LENGTH_SHORT)
+                                                            .show();
                                                 });
                                             }
                                         });

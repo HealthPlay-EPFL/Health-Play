@@ -228,7 +228,8 @@ public final class Product {
             StringJoiner joiner = new StringJoiner(", ");
             for (int i = 0; i < array.length(); i++) {
                 String name = array.getString(i);
-                joiner.add(name.substring(3));
+                // "en:" represents the predix in the ingredient's name
+                joiner.add(name.substring("en:".length()));
             }
             return joiner.toString();
         } catch (JSONException e) {
