@@ -288,7 +288,7 @@ class CameraSource(
             persons.filter { it.score > MIN_CONFIDENCE }, detector!!.leftPerson, detector!!.rightPerson,
             gameState!=0
         )
-        System.out.println(result)
+
 
         if(result!=0 && debug){
             debug=false

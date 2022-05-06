@@ -148,7 +148,7 @@ object VisualizationUtils {
             )
 
             if (gameStarted) {
-                //if a bodyPart of one player is close gto an other player then end the game.
+                //if a bodyPart of one player is close to an other player then end the game.
                 for (bodyPart in leftPerson.first!!.keyPoints)
 
                     if (distance(
@@ -176,7 +176,7 @@ object VisualizationUtils {
                     )
                         result = 2
             }
-            System.out.println(result)
+
         }
 
 
