@@ -112,7 +112,7 @@ public class AddFriendFragmentTest {
 
     }
 
-    /*
+    
     @Test
     public void filterIsWorking(){
 
@@ -137,7 +137,6 @@ public class AddFriendFragmentTest {
 
 
     }
-    */
 
     /*@Test
     public void addFriend() throws InterruptedException {
