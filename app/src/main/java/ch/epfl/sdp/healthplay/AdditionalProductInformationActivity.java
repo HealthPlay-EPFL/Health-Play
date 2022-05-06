@@ -1,10 +1,14 @@
 package ch.epfl.sdp.healthplay;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.Optional;
 
@@ -30,6 +34,17 @@ public class AdditionalProductInformationActivity extends AppCompatActivity {
 
             TextView pName = findViewById(R.id.pNameAdditional);
             pName.setText(p.getName());
+
+            TextView ingredients = findViewById(R.id.ingredientsText);
+            ingredients.setText(p.getIngredients());
+
+            TextView allergies = findViewById(R.id.allergiesText);
+            allergies.setText(p.getAllergens());
+
+            ImageView image = findViewById(R.id.imageNovascore);
+            int imageRes = p.getNova().getRes();
+            image.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(),
+                    imageRes));
         }
     }
 }
