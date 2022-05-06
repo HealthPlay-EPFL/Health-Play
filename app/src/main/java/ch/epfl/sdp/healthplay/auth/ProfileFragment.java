@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,8 +26,10 @@ import java.util.Map;
 
 import ch.epfl.sdp.healthplay.EditProfilePictureFragment;
 import ch.epfl.sdp.healthplay.ProfileSettingsFragment;
+import ch.epfl.sdp.healthplay.QrCodeFragment;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
+import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
 
 public class ProfileFragment extends Fragment {
 
@@ -77,6 +80,9 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Get the profile picture of the user, and display it
+     */
     private void getImage() {
         db.mDatabase.child(Database.USERS).child(mAuth.getCurrentUser().getUid()).child("image").addValueEventListener(new ValueEventListener() {
             @Override
@@ -100,30 +106,23 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    /**
+     * Initiate the "onClick" property of the buttons of the view
+     */
     private void initButton(){
         Button statsButton = view.findViewById(R.id.statsButton);
-        statsButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.setReorderingAllowed(true);
-                        fragmentTransaction.replace(R.id.fragmentContainerView, new ProfileSettingsFragment());
-                        fragmentTransaction.commit();
-                    }
-                }
-        );
-        view.findViewById(R.id.changeButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.setReorderingAllowed(true);
-                fragmentTransaction.replace(R.id.fragmentContainerView, new EditProfilePictureFragment());
-                fragmentTransaction.commit();
-            }
-        });
+        //Go to the Profile Settings
+        statsButton.setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new ProfileSettingsFragment()));
+        // Go to the Edit Profile Picture Fragment
+        view.findViewById(R.id.changeButton).setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new EditProfilePictureFragment()));
+        // Go to the QRCode fragment
+        view.findViewById(R.id.goToQRCode).setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new QrCodeFragment()));
     }
 
+    /**
+     * Get the Birthday of the user, and listen for changes
+     * @param userId
+     */
     public void initBirthday(String userId) {
         TextView TextViewBirthday = view.findViewById(R.id.profileBirthday);
 
@@ -155,7 +154,10 @@ public class ProfileFragment extends Fragment {
 
 
 
-
+    /**
+     * Get the Name and Surname of the user, and listen for changes
+     * @param userId
+     */
     public void initName(String userId) {
         TextView TextViewName = view.findViewById(R.id.profileName);
 
@@ -217,6 +219,10 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    /**
+     * Get the Username of the user, and listen for changes
+     * @param userId
+     */
     private void initUsername(String userId) {
         TextView TextViewUsername = view.findViewById(R.id.profileUsername);
 
@@ -244,10 +250,11 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    /**
+     * Get the Stats of the user, and listen for changes
+     * @param userId
+     */
     public void initStats(String userId) {
-
-
-
         db.getStats(userId,(task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
@@ -275,7 +282,6 @@ public class ProfileFragment extends Fragment {
 
 
     }
-
 
     public void updateStats(Map<String, Map<String, Number>> map, String userId) {
         TextView TextViewStatsButton = view.findViewById(R.id.statsButton);
