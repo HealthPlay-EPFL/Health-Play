@@ -6,7 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.test.espresso.idling.CountingIdlingResource;
 
+import com.bumptech.glide.Glide;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
@@ -30,11 +33,16 @@ import com.google.mlkit.vision.common.InputImage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
+
+import ch.epfl.sdp.healthplay.database.Database;
 
 public class BarcodeScanActivity extends AppCompatActivity {
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private PreviewView previewView;
+    private final Database database = new Database();
 
     // This field is only used in tests
     protected final static CountingIdlingResource idlingResource =
@@ -44,8 +52,11 @@ public class BarcodeScanActivity extends AppCompatActivity {
     private final static BarcodeScannerOptions options =
             new BarcodeScannerOptions.Builder()
                     .setBarcodeFormats(
+                            // Allow scanning of product barcodes
                             Barcode.FORMAT_EAN_13,
-                            Barcode.FORMAT_EAN_8)
+                            Barcode.FORMAT_EAN_8,
+                            // Allow scanning of QR codes
+                            Barcode.FORMAT_QR_CODE)
                     .build();
     private ImageCapture imageCapture;
 
@@ -150,17 +161,53 @@ public class BarcodeScanActivity extends AppCompatActivity {
                                 .show();
                         return;
                     }
-                    Intent intent = new Intent(this, BarcodeInformationActivity.class);
-                    // Get the code from the barcode
-                    String barcodeString;
 
                     for (Barcode barcode : barcodes) {
+                        // Get the code from the barcode
+                        final String barcodeString;
                         barcodeString = barcode.getRawValue();
-                        intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, barcodeString);
-                    }
+                        int barcodeType = barcode.getValueType();
+                        switch (barcodeType) {
+                            case Barcode.FORMAT_EAN_13:
+                            case Barcode.FORMAT_EAN_8:
+                                Intent intent = new Intent(this, BarcodeInformationActivity.class);
+                                intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, barcodeString);
+                                // Go to barcode information activity
+                                startActivity(intent);
+                                break;
+                            case Barcode.FORMAT_QR_CODE:
+                                // This part is for the friends QR code
 
-                    // Go to barcode information activity
-                    startActivity(intent);
+                                database.mDatabase
+                                        .child(Database.USERS)
+                                        .child(barcodeString)
+                                        .get()
+                                        .addOnSuccessListener(dataSnapshot -> {
+                                            // Check if the user exists in the database
+                                            if (dataSnapshot.exists()) {
+                                                // Set the info view to be visible
+                                                findViewById(R.id.shadowFrameScanFriend).setVisibility(View.VISIBLE);
+                                                @SuppressWarnings("unchecked")
+                                                Map<String, Object> user = (Map<String, Object>) dataSnapshot.getValue();
+                                                assert user != null;
+                                                String username = (String) user.getOrDefault(Database.USERNAME, "None");
+                                                TextView usernameText = findViewById(R.id.userNameScan);
+                                                usernameText.setText(username);
+                                                String pPicture = (String) user.get("image");
+                                                Glide.with(getApplicationContext()).load(pPicture).into((ImageView) findViewById(R.id.profilePictureAddFriend));
+
+                                                findViewById(R.id.addFriendScanButton).setOnClickListener(onClick -> {
+                                                    // Add the user to the friend list
+                                                    database.addToFriendList(barcodeString);
+                                                    // Remove info view
+                                                    findViewById(R.id.shadowFrameScanFriend).setVisibility(View.GONE);
+                                                });
+                                            }
+                                        });
+                                break;
+                        }
+
+                    }
                 });
     }
 
