@@ -48,20 +48,28 @@ public class Frag_HomeTest {
 
     @Before
     public void before() {
+
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+
+
     }
 
     @Test
     public void getDateWithoutStatsTest() throws InterruptedException {
+
         // Force a login on the empty stats user
+
         TimeUnit.SECONDS.sleep(1);
         ViewInteraction sus = onView(Matchers.allOf(withId(R.id.calendar), hasChildCount(3)));
         sus.perform(ViewActions.click());
+
+
         /*onView(withId(R.id.my_date)).check(
                 matches(
                         withText("No stats, please begin adding calories if you want to use the calendar summary")
                 )
         );*/
+
     }
 
     /**
@@ -103,13 +111,17 @@ public class Frag_HomeTest {
      */
     @Test
     public void getWelcomeMessage() {
+
         onView(withId(R.id.my_date)).check(
                 matches(
                         withText("Welcome to the home page! \nChoose a date to check what you've consumed.")));
+
+
     }
 
     @Test
     public void goToFriendList(){
+
         Espresso.onView(withId(R.id.FriendList_button)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
@@ -152,5 +164,9 @@ public class Frag_HomeTest {
                 }
         );
         Espresso.onView(withId(R.id.buttonSwap)).check(matches(isDisplayed()));
+
+
     }
+
+
 }

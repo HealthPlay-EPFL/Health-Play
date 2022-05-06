@@ -1,74 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="320dp"
     android:layout_height="match_parent"
+    android:layout_margin="60dp"
+
     tools:context=".LeaderBoardActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_gravity="center"
 
+    >
 
-    <Button
-        android:id="@+id/top1"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/NoUser"
-        android:textAllCaps="false"
-        android:textStyle="bold"
+        android:orientation="horizontal"
         >
 
-    </Button>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_picture1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="3dp"
+            android:src="@drawable/rounded_logo"
+            app:civ_border_color="@color/planthuntGreen"
+            app:civ_border_width="2dp" />
+        <Button
+            android:id="@+id/top1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/NoUser"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp"
+            >
+        </Button>
 
-    <Button
-        android:id="@+id/top2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/NoUser"
-        android:textAllCaps="false"
-        android:textStyle="bold"
-        >
-    </Button>
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/top3"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/NoUser"
-        android:textAllCaps="false"
-        android:textStyle="bold"
+        android:orientation="horizontal"
         >
-    </Button>
 
-    <Button
-        android:id="@+id/top4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:text="@string/NoUser"
-        android:textAllCaps="false"
-        android:textStyle="bold"
-        >
-    </Button>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_picture2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="3dp"
+            android:src="@drawable/rounded_logo"
+            app:civ_border_color="@color/planthuntGreen"
+            app:civ_border_width="2dp" />
+        <Button
+            android:id="@+id/top2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/NoUser"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp"
+            >
+        </Button>
 
-    <Button
-        android:id="@+id/top5"
-        android:layout_width="wrap_content"
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="@string/NoUser"
-        android:textAllCaps="false"
-        android:textStyle="bold"
+        android:orientation="horizontal"
         >
-    </Button>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_picture3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="3dp"
+            android:src="@drawable/rounded_logo"
+            app:civ_border_color="@color/planthuntGreen"
+            app:civ_border_width="2dp" />
+        <Button
+            android:id="@+id/top3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/NoUser"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp"
+            >
+        </Button>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_picture4"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="3dp"
+            android:src="@drawable/rounded_logo"
+            app:civ_border_color="@color/planthuntGreen"
+            app:civ_border_width="2dp" />
+        <Button
+            android:id="@+id/top4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/NoUser"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp"
+            >
+        </Button>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_picture5"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="3dp"
+            android:src="@drawable/rounded_logo"
+            app:civ_border_color="@color/planthuntGreen"
+            app:civ_border_width="2dp" />
+        <Button
+            android:id="@+id/top5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/NoUser"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp"
+            >
+        </Button>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/myTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+
         >
     </TextView>
 
 </LinearLayout>
+
