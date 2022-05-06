@@ -32,7 +32,7 @@ public class PlanthuntLobbyActivityTest {
         Espresso.onView(withId(R.id.planthuntLobbyTimeText)).check(matches(isDisplayed()));
     }*/
 
-    @Test
+    /*@Test
     public void cameraCorrectlyLaunches() {
         Espresso.onView(withId(R.id.planthuntLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
@@ -54,6 +54,6 @@ public class PlanthuntLobbyActivityTest {
         );
 
         //Espresso.onView(withId(R.id.planthuntCreateLobbyMain)).check(matches(isDisplayed()));
-    }
+    }*/
 
 }
