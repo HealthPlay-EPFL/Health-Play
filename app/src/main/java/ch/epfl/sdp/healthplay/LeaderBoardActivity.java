@@ -73,7 +73,7 @@ public class LeaderBoardActivity extends AppCompatActivity{
 
     private void initTop5() {
 
-        db.mDatabase.child(Database.LEADERBOARD).addValueEventListener(new ValueEventListener() {
+        db.mDatabase.child(Database.LEADERBOARD_DAILY).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 @SuppressWarnings("unchecked")
@@ -159,13 +159,13 @@ public class LeaderBoardActivity extends AppCompatActivity{
                                 Log.e("ERROR", "EREREREROOORORO");
                             }
                             else {
-                                Map<String, Boolean> friendList = (Map<String, Boolean>)task.getResult().getValue();
-                                if(friendList.containsKey(ids[index]) && friendList.get(ids[index])) {
-                                    Toast.makeText(this, "friend already added", Toast.LENGTH_SHORT).show();
+                                Map<String, String> friendList = (Map<String, String>)task.getResult().getValue();
+                                if(friendList != null && friendList.containsKey(ids[index])) {
+                                    Toast.makeText(this, friendList.get(ids[index]) + " is already in your friend list", Toast.LENGTH_SHORT).show();
                                 }
                                 else {
                                     db.addToFriendList(ids[index]);
-                                    Toast.makeText(this, "friend added", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(this,  "user added to your friend list", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -186,7 +186,6 @@ public class LeaderBoardActivity extends AppCompatActivity{
                 default:
                     return false;
             }
-
         };
     }
 
