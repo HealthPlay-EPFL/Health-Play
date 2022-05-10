@@ -42,6 +42,7 @@ public class LeaderBoardActivity extends AppCompatActivity{
     public String[] ids;
     public PopupMenu.OnMenuItemClickListener[] myMenus;
     public ImageView[] images;
+    public final static int STRING_MAX_LEN = 40;
     /**
      * Setup the leaderBoard representing the current top 5 of players based on healthPoint.
      * The leaderBoard is reset daily
@@ -62,7 +63,6 @@ public class LeaderBoardActivity extends AppCompatActivity{
         images = new ImageView[MIN_RANK];
         myMenus = new PopupMenu.OnMenuItemClickListener[MIN_RANK];
         if(mAuth.getCurrentUser() != null) {
-           // db.addHealthPoint(mAuth.getCurrentUser().getUid(), 40);
             tab[0] = findViewById(R.id.top1);
             tab[1] = findViewById(R.id.top2);
             tab[2] = findViewById(R.id.top3);
@@ -108,7 +108,16 @@ public class LeaderBoardActivity extends AppCompatActivity{
                             if (count < MIN_RANK){
                                 getImage(e.getKey(), images[count]);
                                 ids[count] = e.getKey();
-                                tab[count].setText(top + "    " +e.getValue() + "                " + hp.substring(0, hp.length() - Database.SUFFIX_LEN) + " pts");
+                                String myPts = hp.substring(0, hp.length() - Database.SUFFIX_LEN) + " pts";
+                                String str = top + "    " + e.getValue();
+                                StringBuilder sb = new StringBuilder();
+                                sb.append(str);
+                                while(sb.length() <= 40) {
+                                    sb.append(' ');
+                                }
+                                sb.append(myPts);
+                                tab[count].setText(sb.toString());
+
                                 if(e.getKey().equals(mAuth.getUid())) {
                                     myTop = top;
                                     tab[count].setOnClickListener(initMyButton(count));
