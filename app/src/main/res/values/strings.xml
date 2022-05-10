@@ -335,4 +335,9 @@ Nimm deinen Kampf mit deinem Handy auf, um einen fairen Schiedsrichter zu haben 
     <string name="profile_id_qrcode">Profile id QRCode</string>
     <string name="siuuuu">Add Friend</string>
     <string name="go_to_chat">Go to chat</string>
+    <string name="chat">chat</string>
+    <string name="_02_01_1990_06_19pm">02/01/1990 06:19PM</string>
+    <string name="delivered">Delivered</string>
+    <string name="his_message">His Message</string>
+    <string name="image_sent">Image sent</string>
 </resources>

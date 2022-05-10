@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,46 +34,46 @@ import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AdapterChat extends RecyclerView.Adapter<AdapterChat.Myholder> {
+public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
     private static final int MSG_TYPE_LEFT = 0;
-    private static final int MSG_TYPR_RIGHT = 1;
+    private static final int MSG_TYPE_RIGHT = 1;
     private Context context;
     private List<ModelChat> list;
-    private String imageurl;
+    private String imageUrl;
     private FirebaseUser firebaseUser;
     private Database database;
 
-    public AdapterChat(Context context, List<ModelChat> list, String imageurl) {
+    public AdapterChat(Context context, List<ModelChat> list, String imageUrl) {
         this.context = context;
         this.list = list;
-        this.imageurl = imageurl;
+        this.imageUrl = imageUrl;
         database = new Database();
     }
 
     @NonNull
     @Override
-    public Myholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == MSG_TYPE_LEFT) {
             View view = LayoutInflater.from(context).inflate(R.layout.row_chat_left, parent, false);
-            return new Myholder(view);
+            return new MyHolder(view);
         } else {
             View view = LayoutInflater.from(context).inflate(R.layout.row_chat_right, parent, false);
-            return new Myholder(view);
+            return new MyHolder(view);
         }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Myholder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull MyHolder holder, @SuppressLint("RecyclerView") int position) {
         String message = list.get(position).getMessage();
         String timeStamp = list.get(position).getTimestamp();
         String type = list.get(position).getType();
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeInMillis(Long.parseLong(timeStamp));
-        String timedate = DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
+        String timeDate = DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
         holder.message.setText(message);
-        holder.time.setText(timedate);
-        if(imageurl != null){
-            Glide.with(context).load(imageurl).into(holder.image);
+        holder.time.setText(timeDate);
+        if(imageUrl != null){
+            Glide.with(context).load(imageUrl).into(holder.image);
         }
         else{
             Glide.with(context).load(R.drawable.profile_icon).into(holder.image);
@@ -114,15 +113,15 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.Myholder> {
     }
 
     private void deleteMsg(int position) {
-        final String myuid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String msgtimestmp = list.get(position).getTimestamp();
-        DatabaseReference dbref = database.mDatabase.child("Chats");
-        Query query = dbref.orderByChild("timestamp").equalTo(msgtimestmp);
+        final String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String msgTimeStamp = list.get(position).getTimestamp();
+        DatabaseReference dbRef = database.mDatabase.child("Chats");
+        Query query = dbRef.orderByChild("timestamp").equalTo(msgTimeStamp);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    if (dataSnapshot1.child("sender").getValue().equals(myuid)) {
+                    if (dataSnapshot1.child("sender").getValue().equals(myUid)) {
                         // any two of below can be used
                         dataSnapshot1.getRef().removeValue();
                         HashMap<String, Object> hashMap = new HashMap<>();
@@ -151,26 +150,26 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.Myholder> {
     public int getItemViewType(int position) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (list.get(position).getSender().equals(firebaseUser.getUid())) {
-            return MSG_TYPR_RIGHT;
+            return MSG_TYPE_RIGHT;
         } else {
             return MSG_TYPE_LEFT;
         }
     }
 
-    class Myholder extends RecyclerView.ViewHolder {
+    class MyHolder extends RecyclerView.ViewHolder {
 
         CircleImageView image;
         ImageView mimage;
         TextView message, time, isSee;
         LinearLayout msglayput;
 
-        public Myholder(@NonNull View itemView) {
+        public MyHolder(@NonNull View itemView) {
             super(itemView);
-            image = itemView.findViewById(R.id.profilec);
-            message = itemView.findViewById(R.id.msgc);
-            time = itemView.findViewById(R.id.timetv);
+            image = itemView.findViewById(R.id.msgProfile);
+            message = itemView.findViewById(R.id.msg);
+            time = itemView.findViewById(R.id.msgTime);
             isSee = itemView.findViewById(R.id.isSeen);
-            msglayput = itemView.findViewById(R.id.msglayout);
+            msglayput = itemView.findViewById(R.id.msgLayout);
             mimage = itemView.findViewById(R.id.images);
         }
     }

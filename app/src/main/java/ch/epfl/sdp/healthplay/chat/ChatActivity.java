@@ -68,11 +68,11 @@ public class ChatActivity extends AppCompatActivity {
     Toolbar toolbar;
     RecyclerView recyclerView;
     ImageView profile, block;
-    TextView name, userstatus;
+    TextView name, userStatus;
     EditText msg;
     ImageButton send, attach;
     FirebaseAuth firebaseAuth;
-    String uid, myuid, image;
+    String uid, myUid, image;
     ValueEventListener valueEventListener;
     List<ModelChat> chatList;
     AdapterChat adapterChat;
@@ -81,10 +81,10 @@ public class ChatActivity extends AppCompatActivity {
     private static final int IMAGE_PICKCAMERA_REQUEST = 400;
     private static final int CAMERA_REQUEST = 100;
     private static final int STORAGE_REQUEST = 200;
-    String cameraPermission[];
-    String storagePermission[];
-    Uri imageuri = null;
-    Database firebaseDatabase;
+    private String cameraPermission[];
+    private String storagePermission[];
+    private Uri imageUri = null;
+    private Database firebaseDatabase;
     boolean notify = false;
     boolean isBlocked = false;
 
@@ -97,7 +97,7 @@ public class ChatActivity extends AppCompatActivity {
         // initialise the text views and layouts
         profile = findViewById(R.id.profiletv);
         name = findViewById(R.id.nameptv);
-        userstatus = findViewById(R.id.onlinetv);
+        userStatus = findViewById(R.id.onlinetv);
         msg = findViewById(R.id.messaget);
         send = findViewById(R.id.sendmsg);
         attach = findViewById(R.id.attachbtn);
@@ -118,7 +118,7 @@ public class ChatActivity extends AppCompatActivity {
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-        checkUserStatus();
+        checkuserStatus();
         attach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +133,7 @@ public class ChatActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(message)) {//if empty
                     Toast.makeText(ChatActivity.this, "Please Write Something Here", Toast.LENGTH_LONG).show();
                 } else {
-                    sendmessage(message);
+                    sendMessage(message);
                 }
                 msg.setText("");
                 checkTypingStatus("noOne");
@@ -163,18 +163,18 @@ public class ChatActivity extends AppCompatActivity {
                     String username = (String)dataSnapshot.child(Database.USERNAME).getValue();
                     image = (String) dataSnapshot.child("image").getValue();
                     String onlineStatus = (String) dataSnapshot.child("onlineStatus").getValue();
-                    String typingto = (String) dataSnapshot.child("typingTo").getValue();
+                    String typingTo = (String) dataSnapshot.child("typingTo").getValue();
 
-                    if (typingto.equals(myuid)) {// if user is typing to my chat
-                        userstatus.setText("Typing....");// type status as typing
+                    if (typingTo.equals(myUid)) {// if user is typing to my chat
+                        userStatus.setText("Typing....");// type status as typing
                     } else {
                         if (onlineStatus.equals("online")) {
-                            userstatus.setText(onlineStatus);
+                            userStatus.setText(onlineStatus);
                         } else {
                             Calendar calendar = Calendar.getInstance();
                             calendar.setTimeInMillis(Long.parseLong(onlineStatus));
                             String timedate = DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
-                            userstatus.setText("Last Seen:" + timedate);
+                            userStatus.setText("Last Seen:" + timedate);
                         }
                     }
                     name.setText(username);
@@ -216,14 +216,14 @@ public class ChatActivity extends AppCompatActivity {
 
     private void checkOnlineStatus(String status) {
         // check online status
-        DatabaseReference dbref = firebaseDatabase.mDatabase.child(Database.USERS).child(myuid);
+        DatabaseReference dbref = firebaseDatabase.mDatabase.child(Database.USERS).child(myUid);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("onlineStatus", status);
         dbref.updateChildren(hashMap);
     }
 
     private void checkTypingStatus(String typing) {
-        DatabaseReference dbref = firebaseDatabase.mDatabase.child(Database.USERS).child(myuid);
+        DatabaseReference dbref = firebaseDatabase.mDatabase.child(Database.USERS).child(myUid);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("typingTo", typing);
         dbref.updateChildren(hashMap);
@@ -247,9 +247,9 @@ public class ChatActivity extends AppCompatActivity {
                 chatList.clear();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     ModelChat modelChat = dataSnapshot1.getValue(ModelChat.class);
-                    if (modelChat.getSender().equals(myuid) &&
+                    if (modelChat.getSender().equals(myUid) &&
                             modelChat.getReceiver().equals(uid) ||
-                            modelChat.getReceiver().equals(myuid)
+                            modelChat.getReceiver().equals(myUid)
                                     && modelChat.getSender().equals(uid)) {
                         chatList.add(modelChat); // add the chat in chatlist
                     }
@@ -311,8 +311,8 @@ public class ChatActivity extends AppCompatActivity {
             break;
             case STORAGE_REQUEST: {
                 if (grantResults.length > 0) {
-                    boolean writeStorageaccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    if (writeStorageaccepted) {
+                    boolean writeStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if (writeStorageAccepted) {
                         pickFromGallery(); // if access granted then pick
                     } else {
                         Toast.makeText(this, "Please Enable Storage Permissions", Toast.LENGTH_LONG).show();
@@ -327,16 +327,16 @@ public class ChatActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == IMAGEPICK_GALLERY_REQUEST) {
-                imageuri = data.getData(); // get image data to upload
+                imageUri = data.getData(); // get image data to upload
                 try {
-                    sendImageMessage(imageuri);
+                    sendImageMessage(imageUri);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
             if (requestCode == IMAGE_PICKCAMERA_REQUEST) {
                 try {
-                    sendImageMessage(imageuri);
+                    sendImageMessage(imageUri);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -345,7 +345,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void sendImageMessage(Uri imageuri) throws IOException {
+    private void sendImageMessage(Uri imageUri) throws IOException {
         notify = true;
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("Sending Image");
@@ -356,12 +356,12 @@ public class ChatActivity extends AppCompatActivity {
         // image after uploading the
         // image in firebase storage
         final String timestamp = "" + System.currentTimeMillis();
-        String filepathandname = "ChatImages/" + "post" + timestamp; // filename
-        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
+        String filePathAndName = "ChatImages/" + "post" + timestamp; // filename
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
         ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, arrayOutputStream); // compressing the image using bitmap
         final byte[] data = arrayOutputStream.toByteArray();
-        StorageReference ref = FirebaseStorage.getInstance().getReference().child(filepathandname);
+        StorageReference ref = FirebaseStorage.getInstance().getReference().child(filePathAndName);
         ref.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -373,19 +373,19 @@ public class ChatActivity extends AppCompatActivity {
                 if (uriTask.isSuccessful()) {
                     DatabaseReference re = firebaseDatabase.mDatabase;
                     HashMap<String, Object> hashMap = new HashMap<>();
-                    hashMap.put("sender", myuid);
+                    hashMap.put("sender", myUid);
                     hashMap.put("receiver", uid);
                     hashMap.put("message", downloadUri);
                     hashMap.put("timestamp", timestamp);
                     hashMap.put("dilihat", false);
                     hashMap.put("type", "images");
                     re.child("Chats").push().setValue(hashMap); // push in firebase using unique id
-                    final DatabaseReference ref1 = firebaseDatabase.mDatabase.child("ChatList").child(uid).child(myuid);
+                    final DatabaseReference ref1 = firebaseDatabase.mDatabase.child("ChatList").child(uid).child(myUid);
                     ref1.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (!dataSnapshot.exists()) {
-                                ref1.child("id").setValue(myuid);
+                                ref1.child("id").setValue(myUid);
                             }
                         }
 
@@ -394,7 +394,7 @@ public class ChatActivity extends AppCompatActivity {
 
                         }
                     });
-                    final DatabaseReference ref2 = firebaseDatabase.mDatabase.child("ChatList").child(myuid).child(uid);
+                    final DatabaseReference ref2 = firebaseDatabase.mDatabase.child("ChatList").child(myUid).child(uid);
                     ref2.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -432,10 +432,10 @@ public class ChatActivity extends AppCompatActivity {
         ContentValues contentValues = new ContentValues();
         contentValues.put(MediaStore.Images.Media.TITLE, "Temp_pic");
         contentValues.put(MediaStore.Images.Media.DESCRIPTION, "Temp Description");
-        imageuri = this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-        Intent camerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        camerIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageuri);
-        startActivityForResult(camerIntent, IMAGE_PICKCAMERA_REQUEST);
+        imageUri = this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(cameraIntent, IMAGE_PICKCAMERA_REQUEST);
     }
 
     private void pickFromGallery() {
@@ -453,26 +453,26 @@ public class ChatActivity extends AppCompatActivity {
         requestPermissions(storagePermission, STORAGE_REQUEST);
     }
 
-    private void sendmessage(final String message) {
+    private void sendMessage(final String message) {
         // creating a reference to store data in firebase
         // We will be storing data using current time in "Chatlist"
         // and we are pushing data using unique id in "Chats"
         DatabaseReference databaseReference = firebaseDatabase.mDatabase;
         String timestamp = String.valueOf(System.currentTimeMillis());
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("sender", myuid);
+        hashMap.put("sender", myUid);
         hashMap.put("receiver", uid);
         hashMap.put("message", message);
         hashMap.put("timestamp", timestamp);
         hashMap.put("dilihat", false);
         hashMap.put("type", "text");
         databaseReference.child("Chats").push().setValue(hashMap);
-        final DatabaseReference ref1 = firebaseDatabase.mDatabase.child("ChatList").child(uid).child(myuid);
+        final DatabaseReference ref1 = firebaseDatabase.mDatabase.child("ChatList").child(uid).child(myUid);
         ref1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
-                    ref1.child("id").setValue(myuid);
+                    ref1.child("id").setValue(myUid);
                 }
             }
 
@@ -481,7 +481,7 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-        final DatabaseReference ref2 = firebaseDatabase.mDatabase.child("ChatList").child(myuid).child(uid);
+        final DatabaseReference ref2 = firebaseDatabase.mDatabase.child("ChatList").child(myUid).child(uid);
         ref2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -501,7 +501,7 @@ public class ChatActivity extends AppCompatActivity {
     private void checkUserStatus() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
-            myuid = user.getUid();
+            myUid = user.getUid();
         }
 
     }

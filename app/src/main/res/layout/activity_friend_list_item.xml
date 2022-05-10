@@ -46,7 +46,7 @@
             android:id="@+id/goToChat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="chat"
+            android:text="@string/chat"
             android:backgroundTint="?attr/gradientPrimary_color"
             android:contentDescription="@string/go_to_chat"
             android:focusable="false"

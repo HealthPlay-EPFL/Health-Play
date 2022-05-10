@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/msglayout"
+    android:id="@+id/msgLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -14,7 +14,7 @@
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profilec"
+            android:id="@+id/msgProfile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:visibility="gone"
@@ -22,22 +22,22 @@
             app:civ_border_color="@null" />
 
         <TextView
-            android:id="@+id/timetv"
+            android:id="@+id/msgTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="02/01/1990 06:19PM"
+            android:text="@string/_02_01_1990_06_19pm"
             android:textColor="@color/black"
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/msgc"
+            android:id="@+id/msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@id/timetv"
+            android:layout_toEndOf="@id/msgTime"
             android:background="@color/light_blue_A200"
             android:padding="15dp"
-            android:text="His Message"
+            android:text="@string/his_message"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -58,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:text="Delivered"
+        android:text="@string/delivered"
         android:textAlignment="textEnd" />
 
 </LinearLayout>
