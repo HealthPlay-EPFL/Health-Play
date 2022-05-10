@@ -61,7 +61,8 @@
             android:exported="false" />
         <activity
             android:name=".kneetag.MainActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".BarcodeScanActivity"
             android:exported="true" />
@@ -112,7 +113,11 @@
         <activity
             android:name=".api.PlantnetApi"
             android:exported="false" />
+        <activity android:name=".kneetag.FinishScreen"
+            android:exported="false"
+            android:screenOrientation="landscape">
 
+        </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="ch.epfl.sdp.healthplay.fileprovider"
