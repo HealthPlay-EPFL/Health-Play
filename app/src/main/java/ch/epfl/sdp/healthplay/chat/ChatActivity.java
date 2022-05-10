@@ -118,7 +118,7 @@ public class ChatActivity extends AppCompatActivity {
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-        checkuserStatus();
+        checkUserStatus();
         attach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
