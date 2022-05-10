@@ -1,7 +1,6 @@
 package ch.epfl.sdp.healthplay;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,48 +11,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
-
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
-import ch.epfl.sdp.healthplay.auth.ProfileActivity;
 import ch.epfl.sdp.healthplay.database.Database;
-import ch.epfl.sdp.healthplay.planthunt.PlanthuntMainActivity;
 
-public class LeaderBoardActivity extends AppCompatActivity{
-    public final Database db = new Database();
-    public final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    public int MIN_RANK;
-    public Button[] tab;
-    public PopupMenu.OnMenuItemClickListener[] menus;
-    public String[] ids;
-    public PopupMenu.OnMenuItemClickListener[] myMenus;
-    public ImageView[] images;
-    /**
-     * Setup the leaderBoard representing the current top 5 of players based on healthPoint.
-     * The leaderBoard is reset daily
-     * If you are not in the current top 5 but you still earned points that day, your rank will be shown below the leaderBoard in parentheses
-     * If you haven t earned any points that day, a message saying that you are unranked will appear
-     * You can add any player of the top 5 (except you) to your friend list, you can also watch their profile but not modify it (you can modify it if it's you).
-     * @param savedInstanceState
-     */
+public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_leader_board);
+        setContentView(R.layout.activity_monthly_leader_board);
         initTimer();
         MIN_RANK = 5;
         tab = new Button[MIN_RANK];
@@ -62,7 +38,6 @@ public class LeaderBoardActivity extends AppCompatActivity{
         images = new ImageView[MIN_RANK];
         myMenus = new PopupMenu.OnMenuItemClickListener[MIN_RANK];
         if(mAuth.getCurrentUser() != null) {
-           // db.addHealthPoint(mAuth.getCurrentUser().getUid(), 40);
             tab[0] = findViewById(R.id.top1);
             tab[1] = findViewById(R.id.top2);
             tab[2] = findViewById(R.id.top3);
@@ -73,7 +48,12 @@ public class LeaderBoardActivity extends AppCompatActivity{
             images[2] = findViewById(R.id.profile_picture3);
             images[3] = findViewById(R.id.profile_picture4);
             images[4] = findViewById(R.id.profile_picture5);
-            Button backButton = findViewById(R.id.todayBackButton);
+            Button todayButton = findViewById(R.id.todayButton);
+            todayButton.setOnClickListener(v -> {
+                Intent intent = new Intent(getApplicationContext(),LeaderBoardActivity.class);
+                startActivity(intent);
+            });
+            Button backButton = findViewById(R.id.monthBackButton);
             backButton.setOnClickListener(v -> {
                 finish();
             });
@@ -81,13 +61,14 @@ public class LeaderBoardActivity extends AppCompatActivity{
                 menus[i] = initMenu(i);
                 myMenus[i] = initMyMenu();
             }
-            initTop(Database.format);
+            initTop(Database.formatYearMonth);
         }
     }
 
+
     public void initTop(SimpleDateFormat format) {
 
-        db.mDatabase.child(Database.LEADERBOARD_DAILY).addValueEventListener(new ValueEventListener() {
+        db.mDatabase.child(Database.LEADERBOARD_MONTHLY).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 @SuppressWarnings("unchecked")
@@ -128,7 +109,7 @@ public class LeaderBoardActivity extends AppCompatActivity{
                     }
 
                     if(myTop > 0) {
-                            myTopText.setText("your rank : " + myTop);
+                        myTopText.setText("your rank : " + myTop);
                     }
                     else {
                         myTopText.setText("your rank : unranked");
@@ -154,53 +135,9 @@ public class LeaderBoardActivity extends AppCompatActivity{
 
     }
 
-    public PopupMenu.OnMenuItemClickListener initMenu(int index) {
-        return item -> {
-            switch (item.getItemId()) {
-                case R.id.viewProfile:
-                    Intent intent = new Intent(this, ViewProfileActivity.class);
-                    intent.putExtra(ViewProfileActivity.MESSAGE, ids[index]);
-                    startActivity(intent);
-                    return true;
-                case R.id.addFriendLeaderBoard:
-                    db.readField(mAuth.getCurrentUser().getUid(), "friends",task -> {
-                        if (!task.isSuccessful()) {
-                            Log.e("ERROR", "EREREREROOORORO");
-                        }
-                        else {
-                            Map<String, String> friendList = (Map<String, String>)task.getResult().getValue();
-                            if(friendList != null && friendList.containsKey(ids[index])) {
-                                Toast.makeText(this, friendList.get(ids[index]) + " is already in your friend list", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                db.addToFriendList(ids[index]);
-                                Toast.makeText(this,  "user added to your friend list", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                    return true;
-                default:
-                    return false;
-            }
-
-        };
-    }
-    public PopupMenu.OnMenuItemClickListener initMyMenu() {
-        return item -> {
-            switch (item.getItemId()) {
-                case R.id.viewProfileNoFriend:
-                    Intent intent = new Intent(this, ProfileActivity.class);
-                    startActivity(intent);
-                    return true;
-                default:
-                    return false;
-            }
-        };
-    }
-
     public View.OnClickListener initButton(int index) {
         return v -> {
-            PopupMenu popup = new PopupMenu(LeaderBoardActivity.this, v);
+            PopupMenu popup = new PopupMenu(MonthlyLeaderBoardActivity.this, v);
             popup.setOnMenuItemClickListener(menus[index]);
             popup.inflate(R.menu.top_menu);
             popup.show();
@@ -209,31 +146,11 @@ public class LeaderBoardActivity extends AppCompatActivity{
 
     public View.OnClickListener initMyButton(int index) {
         return v -> {
-            PopupMenu popup = new PopupMenu(LeaderBoardActivity.this, v);
+            PopupMenu popup = new PopupMenu(MonthlyLeaderBoardActivity.this, v);
             popup.setOnMenuItemClickListener(myMenus[index]);
             popup.inflate(R.menu.view_profile_menu);
             popup.show();
         };
-    }
-
-    public void getImage(String userId, ImageView imageView) {
-        db.mDatabase.child(Database.USERS).child(userId).child("image").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
-                    if(snapshot.getValue() != null){
-                        String image = snapshot.getValue().toString();
-                        Glide.with(getApplicationContext()).load(image).into(imageView);
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w("firebase", "Error:onCancelled", error.toException());
-            }
-        });
     }
 
     private void initTimer() {
@@ -241,7 +158,8 @@ public class LeaderBoardActivity extends AppCompatActivity{
 
         Calendar start_calendar = Calendar.getInstance();
         Calendar end_calendar = Calendar.getInstance();
-        end_calendar.add(Calendar.DAY_OF_YEAR, 1);
+        end_calendar.add(Calendar.MONTH, 1);
+        end_calendar.set(Calendar.DAY_OF_MONTH, 0);
         end_calendar.set(Calendar.HOUR_OF_DAY, 0);
         end_calendar.set(Calendar.MINUTE, 0);
         end_calendar.set(Calendar.SECOND, 0);
@@ -253,6 +171,9 @@ public class LeaderBoardActivity extends AppCompatActivity{
             @Override
             public void onTick(long millisUntilFinished) {
 
+                long days = TimeUnit.MILLISECONDS.toDays(millisUntilFinished);
+                millisUntilFinished -= TimeUnit.DAYS.toMillis(days);
+
                 long hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
                 millisUntilFinished -= TimeUnit.HOURS.toMillis(hours);
 
@@ -261,7 +182,7 @@ public class LeaderBoardActivity extends AppCompatActivity{
 
                 long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
 
-                tv_countdown.setText(hours + ":" + minutes + ":" + seconds); //You can compute the millisUntilFinished on hours/minutes/seconds
+                tv_countdown.setText(days + ":" + hours + ":" + minutes + ":" + seconds); //You can compute the millisUntilFinished on hours/minutes/seconds
             }
 
             @Override
@@ -271,5 +192,6 @@ public class LeaderBoardActivity extends AppCompatActivity{
         };
         cdt.start();
     }
+
 
 }

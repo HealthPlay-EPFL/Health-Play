@@ -52,12 +52,14 @@ public final class Database {
     public static final String STATS = "stats";
     public static final String USERS = "users";
     public static final String LOBBIES = "lobbies";
-    private final static int SUFFIX_LEN = 2;
+    public final static int SUFFIX_LEN = 2;
+    private final static String SUFFIX = "hp";
+
 
     public static Comparator<String> comparator = (o1, o2) -> Long.compare(Long.parseLong(o2.substring(0,o2.length() - SUFFIX_LEN)), Long.parseLong(o1.substring(0,o1.length() - SUFFIX_LEN)));
 
     // Format used to format date when adding stats
-    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+    public static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     public static final SimpleDateFormat formatYearMonth = new SimpleDateFormat("yyyy-MM", Locale.ENGLISH);
 
     public Database(DatabaseReference dbr) {
@@ -470,19 +472,19 @@ public final class Database {
                                 else {
                                     String username = ta.getResult().getValue(String.class);
                                     if(leaderBoard != null && leaderBoard.containsKey(getTodayDate(pformat))) {
-                                        HashMap<String, String> l = leaderBoard.get(getTodayDate(pformat)).containsKey(hp + "hp") ? leaderBoard.get(getTodayDate(pformat)).get(hp + "hp") : new HashMap<String, String>();
-                                        String hpPre = (Long.parseLong(hp) - toRemove) + "hp";
+                                        HashMap<String, String> l = leaderBoard.get(getTodayDate(pformat)).containsKey(hp + SUFFIX) ? leaderBoard.get(getTodayDate(pformat)).get(hp + SUFFIX) : new HashMap<String, String>();
+                                        String hpPre = (Long.parseLong(hp) - toRemove) + SUFFIX;
                                         HashMap<String, String> lPre = leaderBoard.get(getTodayDate(pformat)).containsKey(hpPre) ? leaderBoard.get(getTodayDate(pformat)).get(hpPre) : new HashMap<String, String>();
                                         lPre.remove(userId);
                                         l.put(userId,username);
-                                        leaderBoard.get(getTodayDate(pformat)).put(hp + "hp",l);
+                                        leaderBoard.get(getTodayDate(pformat)).put(hp + SUFFIX,l);
                                         mDatabase.child(pleaderBoard).setValue(leaderBoard);
                                     }
                                     else if(leaderBoard != null && !leaderBoard.containsKey(getTodayDate(pformat))) {
                                         HashMap<String, HashMap<String, String>> map = new HashMap<>();
                                         HashMap<String, String> l = new HashMap<>();
                                         l.put(userId,username);
-                                        map.put(hp + "hp", l);
+                                        map.put(hp + SUFFIX, l);
                                         leaderBoard.put(getTodayDate(pformat), map);
                                         mDatabase.child(pleaderBoard).setValue(leaderBoard);
                                     }
