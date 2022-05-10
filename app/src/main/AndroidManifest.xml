@@ -18,6 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthPlay">
         <activity
+            android:name=".chat.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".chat.Chat"
+            android:exported="false" />
+        <activity
             android:name=".planthunt.PlanthuntNewPlantActivity"
             android:exported="false" />
         <activity
@@ -83,7 +89,7 @@
         <activity
             android:name=".AdditionalProductInformationActivity"
             android:exported="false"
-            android:parentActivityName=".BarcodeInformationActivity"/>
+            android:parentActivityName=".BarcodeInformationActivity" />
         <activity
             android:name=".LeaderBoardActivity"
             android:exported="false" />
@@ -117,4 +123,5 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
+
 </manifest>
