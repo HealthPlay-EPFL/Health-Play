@@ -46,7 +46,7 @@ public final class Database {
     public static final String LEADERBOARD_DAILY = "leaderBoard";
     public static final String NUTRIMENTS = "nutriments";
     public static final int MAX_NBR_PLAYERS = 3;
-
+    public static final String FRIEND = "friends";
     public final DatabaseReference mDatabase;
 
     public static final String STATS = "stats";
@@ -124,11 +124,11 @@ public final class Database {
     /**
      * Adds the given number of healthPoints to the user's statistics.
      * This methods add to the current value contained for the day, it also
-     * update the leaderBoard if the new amount of HealthPoint is more than
+     * update the leaderBoards if the new amount of HealthPoint is more than
      * what the current top five of players have
      *
      * @param userId the user ID
-     * @param healthPoint the number of calories to add
+     * @param healthPoint the number of healthPoints to add
      */
     public void addHealthPoint(String userId, int healthPoint) {
         getStats(userId, getLambda(userId, healthPoint, HEALTH_POINT));
@@ -274,12 +274,12 @@ public final class Database {
                     toAdd += currentCalories;
                 }
             }
-            double monthlyHp = 0;
+            double monthlyHp = inc;
             if (map != null && map.containsKey(getTodayDate(formatYearMonth))) {
                 Map<String, Number> calo = map.get(getTodayDate(formatYearMonth));
                 if (calo != null && calo.containsKey(field)) {
-                    monthlyHp = Double.parseDouble(String.valueOf(calo.get(field)));
-                    monthlyHp += inc;
+                    monthlyHp += Double.parseDouble(String.valueOf(calo.get(field)));
+
                 }
 
             }

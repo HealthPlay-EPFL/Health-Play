@@ -25,7 +25,14 @@ import java.util.concurrent.TimeUnit;
 import ch.epfl.sdp.healthplay.database.Database;
 
 public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
-
+    /**
+     * Setup the leaderBoard representing the current top 5 of players based on healthPoint.
+     * The leaderBoard is reset monthly, a timer will be shown counting the time remaining until the next reset
+     * If you are not in the current top 5 but you still earned points that day, your rank will be shown above the leaderBoard
+     * If you haven t earned any points that day, a message saying that you are unranked will appear
+     * You can add any player of the top 5 (except you) to your friend list, you can also watch their profile but not modify it (except you).
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +73,10 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
         }
     }
 
-
+    /**
+     * initialize the leaderboard and add a listener to its values on the database
+     * @param format the format used to store the date in the monthly leaderboard
+     */
     public void initTop(SimpleDateFormat format) {
 
         db.mDatabase.child(Database.LEADERBOARD_MONTHLY).addValueEventListener(new ValueEventListener() {
@@ -91,10 +101,10 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
                                 getImage(e.getKey(), images[count]);
                                 ids[count] = e.getKey();
                                 String myPts = hp.substring(0, hp.length() - Database.SUFFIX_LEN) + " pts";
-                                String str = top + "    " + e.getValue();
+                                String str = top + RANK_NAME_SEPARATOR + e.getValue();
                                 StringBuilder sb = new StringBuilder();
                                 sb.append(str);
-                                while(sb.length() <= 40) {
+                                while(sb.length() <= STRING_MAX_LEN) {
                                     sb.append(' ');
                                 }
                                 sb.append(myPts);
@@ -144,6 +154,11 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
 
     }
 
+    /**
+     *
+     * @param index the index of the player you clicked on
+     * @return an on click listener that show a menu where you can either add friends or view profiles when you click on the idx th player (the menu only appears if you clicked on a player that is not yourself)
+     */
     public View.OnClickListener initButton(int index) {
         return v -> {
             PopupMenu popup = new PopupMenu(MonthlyLeaderBoardActivity.this, v);
@@ -153,6 +168,11 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
         };
     }
 
+    /**
+     *
+     * @param index the index of the player you clicked on
+     * @return an on click listener that show a menu where you can either add friends or view profiles when you click on the idx th player.(the menu only appears if you clicked on a player that is yourself)
+     */
     public View.OnClickListener initMyButton(int index) {
         return v -> {
             PopupMenu popup = new PopupMenu(MonthlyLeaderBoardActivity.this, v);
@@ -191,7 +211,7 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
 
                 long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
 
-                tv_countdown.setText(days + ":" + hours + ":" + minutes + ":" + seconds); //You can compute the millisUntilFinished on hours/minutes/seconds
+                tv_countdown.setText(days + ":" + hours + ":" + minutes + ":" + seconds);
             }
 
             @Override
