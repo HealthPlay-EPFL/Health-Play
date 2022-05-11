@@ -48,8 +48,8 @@ class MainActivity : AppCompatActivity(),
 
     /** A [SurfaceView] for camera preview.   */
     private lateinit var surfaceView: SurfaceView
-    private var leftPersonId:String? = null
-    private var rightPersonId:String? = null
+    private var leftPersonId: String? = null
+    private var rightPersonId: String? = null
 
     /** Default device is CPU */
     private var device = Device.CPU
@@ -128,10 +128,13 @@ class MainActivity : AppCompatActivity(),
                 if (!task.isSuccessful) {
                     Log.e("ERROR", "EREREREROOORORO")
                 } else {
-
+                    var friendsList: MutableList<String> = arrayListOf()
                     val friends =
                         task.result.value as Map<String, String>?
-                    var friendsList = friends!!.values.toMutableList()
+                    if (friends != null) {
+                        friendsList = friends!!.values.toMutableList()
+
+                    }
                     friendsList.add(0, "Anonymous")
                     friendsList.add(0, "YOU")
                     spinner = findViewById<Spinner>(R.id.friends)
@@ -141,6 +144,7 @@ class MainActivity : AppCompatActivity(),
                             android.R.layout.simple_spinner_dropdown_item,
                             friendsList
                         )
+
                     //set the spinners adapter to the previously created one.
 
                     spinner.adapter = adapter
@@ -156,7 +160,10 @@ class MainActivity : AppCompatActivity(),
                             id: Long
                         ) {
                             val text = parent?.getItemAtPosition(position).toString()
-                            leftPersonId=friends.filterValues { id:String-> id==text }.keys.toMutableList().getOrElse(0,{index:Int->text})
+                            if (friends != null)
+                                leftPersonId =
+                                    friends!!.filterValues { id: String -> id == text }.keys.toMutableList()
+                                        .getOrElse(0, { index: Int -> text })
                             poseDetector.leftPerson = Pair(poseDetector.leftPerson.first, text)
                         }
                     }
@@ -175,7 +182,10 @@ class MainActivity : AppCompatActivity(),
                                 id: Long
                             ) {
                                 val text = parent?.getItemAtPosition(position).toString()
-                                rightPersonId=friends.filterValues { id:String-> id==text }.keys.toMutableList().getOrElse(0,{index:Int->text})
+                                if (friends != null)
+                                    rightPersonId =
+                                        friends!!.filterValues { id: String -> id == text }.keys.toMutableList()
+                                            .getOrElse(0, { index: Int -> text })
                                 poseDetector.rightPerson =
                                     Pair(poseDetector.rightPerson.first, text)
                             }
@@ -272,8 +282,9 @@ class MainActivity : AppCompatActivity(),
 
     fun gameEndedScreen(result: Int) {
         val intent = Intent(this, FinishScreen::class.java)
-
+        //transmit information about the participant to the FinishScreen
         if (result == 1) {
+
             intent.putExtra("WINNER_NAME", poseDetector.leftPerson.second)
             intent.putExtra("WINNER_ID", leftPersonId)
             intent.putExtra("LOOSER_NAME", poseDetector.rightPerson.second)
@@ -285,7 +296,7 @@ class MainActivity : AppCompatActivity(),
             intent.putExtra("LOOSER_NAME", poseDetector.leftPerson.second)
             intent.putExtra("LOOSER_ID", leftPersonId)
         }
-        intent.putExtra("RANKED", cameraSource!!.gameState==2)
+        intent.putExtra("RANKED", cameraSource!!.gameState == 2)
         startActivity(intent)
         finish()
 

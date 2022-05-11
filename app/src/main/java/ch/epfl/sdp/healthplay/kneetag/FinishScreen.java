@@ -28,19 +28,25 @@ import ch.epfl.sdp.healthplay.database.Database;
 
 public class FinishScreen extends AppCompatActivity {
     public static String WINNER = "ch.epfl.sdp.healthplay.kneetag.FinishScreen.WINNER";
-
+    private Database database=new Database();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private int POINT_WIN= 30;
+    private int POINT_LOOSE= 10;
     public FinishScreen() {
         // Required empty public constructor
     }
-    Pair<Integer,Integer> pointComputation(int winner,int looser){
-        winner=winner+(int)(30.0*(1.0-1.0/(1+ Math.pow(10, 1.0 * (looser - winner) / 400))));
-        looser=looser+(int)(30.0*(-1.0/(1+ Math.pow(10, 1.0 * (winner - looser) / 400))));
-        return new Pair<>(winner,Math.max(0,looser));
+    //chess elo formula
+    void pointComputation(String winner,String looser){
+        winner=winner.equals("YOU")?mAuth.getCurrentUser().getUid():winner;
+        looser=looser.equals("YOU")?mAuth.getCurrentUser().getUid():looser;
+      database.addHealthPoint(winner,POINT_WIN);
+        database.addHealthPoint(looser,POINT_LOOSE);
     }
-    private void initButton(Button button,String userID){
-        Database database=new Database();
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        database.getStats(userID,t->{
+    //Initialize the point display button and the text displaying the winner.
+    private void initButton(Button button,String userID,int points){
+
+
+        database.getStats(userID.equals("YOU")?mAuth.getCurrentUser().getUid():userID,t->{
             if(!t.isSuccessful()){
                 Log.e("ERROR", "EREREREROOORORO");
             }
@@ -68,18 +74,23 @@ public class FinishScreen extends AppCompatActivity {
                         Log.e("ERROR", "EREREREROOORORO");
                     }
                     else {
-                        String username=(String) task.getResult().getValue();
+                        String username = (String) task.getResult().getValue();
                         String myPts = hp + " pts";
 
                         StringBuilder sb = new StringBuilder();
                         sb.append(username);
-                        while(sb.length() <= 40) {
+                        while (sb.length() <= 30) {
                             sb.append(' ');
                         }
 
                         sb.append(myPts);
+                        sb.append(" +" + points + " pts");
                         System.out.println(sb);
                         button.setText(sb.toString());
+                        if (points == POINT_WIN) {
+                            TextView text = findViewById(R.id.winner_display);
+                            text.setText(getString(R.string.winnerMessage) + " " + username);
+                        }
                     }
                 });
             }
@@ -91,18 +102,22 @@ public class FinishScreen extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_gameended);
         super.onCreate(savedInstanceState);
+        //recover information about winner/looser from main activity.
         String winner=getIntent().getStringExtra("WINNER_NAME");
         String winnerId=getIntent().getStringExtra("WINNER_ID");
         String looser=getIntent().getStringExtra("LOOSER_NAME");
         String looser_id=getIntent().getStringExtra("LOOSER_ID");
-        System.out.println(winner+winnerId+looser+looser_id);
+
         Button winnerButton=findViewById(R.id.winner);
         Button looserButton=findViewById(R.id.looser);
-        System.out.println(winner+winnerId+looser+looser_id);
+
+
+        //change behavior if the game is ranked or unranked
         if(getIntent().getBooleanExtra("RANKED",false)) {
 
-            initButton(winnerButton,winnerId);
-            initButton(looserButton, looser_id);
+            initButton(winnerButton,winnerId,POINT_WIN);
+            initButton(looserButton, looser_id,POINT_LOOSE);
+            pointComputation(winnerId,looser_id);
         }
         else
         {
@@ -112,9 +127,7 @@ public class FinishScreen extends AppCompatActivity {
 
         MediaPlayer.create(this, R.raw.notification).start();
 
-        //display the winner
-        TextView text=findViewById(R.id.winner_display);
-        text.setText(getString(R.string.winnerMessage)+winner);
+
         //rerun the game
         findViewById(R.id.restart).setOnClickListener(
                 new View.OnClickListener() {

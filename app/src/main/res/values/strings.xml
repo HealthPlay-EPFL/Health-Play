@@ -20,7 +20,7 @@
     <string name="launch_title">FirebaseUI Auth Demo</string>
     <string name="sign_in_start">Start</string>
     <string name="sign_in_silent">Sign in silently</string>
-    <string name="winnerMessage">\"And the winner is \"</string>
+    <string name="winnerMessage">And the winner is </string>
     <string name="cameraOrientation">ch.epfl.sdp.healthplay.kneetag.MainActivity.CAMERA_ORIENTATION</string>
     <string name="invalidPlayer">The 2 players are not valid</string>
     <string name="notDtected">The 2 player are not detected</string>
