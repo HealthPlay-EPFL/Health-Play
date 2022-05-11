@@ -10,7 +10,7 @@ public class ModelChatTest {
     @Test
     public void getMessage() {
         String message = "message";
-        modelChat = new ModelChat(message, "", "", "", "", false);
+        modelChat = new ModelChat(message, "", "", "", "");
         assertEquals(modelChat.getMessage(), message);
     }
 
@@ -26,7 +26,7 @@ public class ModelChatTest {
     @Test
     public void getReceiver() {
         String receiver = "receiver";
-        modelChat = new ModelChat("", receiver, "", "", "", false);
+        modelChat = new ModelChat("", receiver, "", "", "");
         assertEquals(modelChat.getReceiver(), receiver);
     }
 
@@ -41,7 +41,7 @@ public class ModelChatTest {
     @Test
     public void getSender() {
         String sender = "sender";
-        modelChat = new ModelChat("", "", sender, "", "", false);
+        modelChat = new ModelChat("", "", sender, "", "");
         assertEquals(modelChat.getSender(), sender);
     }
 
@@ -56,7 +56,7 @@ public class ModelChatTest {
     @Test
     public void getTimestamp() {
         String timestamp = "timestamp";
-        modelChat = new ModelChat("", "", "", "", timestamp, false);
+        modelChat = new ModelChat("", "", "", "", timestamp);
         assertEquals(modelChat.getTimestamp(), timestamp);
     }
 
@@ -68,23 +68,11 @@ public class ModelChatTest {
         assertEquals(modelChat.getTimestamp(), timestamp);
     }
 
-    @Test
-    public void isDilihat() {
-        modelChat = new ModelChat("", "", "", "", "", true);
-        assertTrue(modelChat.isDilihat());
-    }
-
-    @Test
-    public void setDilihat() {
-        modelChat = new ModelChat();
-        modelChat.setDilihat(false);
-        assertFalse(modelChat.isDilihat());
-    }
 
     @Test
     public void getType() {
         String type = "type";
-        modelChat = new ModelChat("", "", "", type, "", false);
+        modelChat = new ModelChat("", "", "", type, "");
         assertEquals(modelChat.getType(), type);
     }
 

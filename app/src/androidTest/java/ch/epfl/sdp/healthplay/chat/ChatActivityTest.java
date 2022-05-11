@@ -71,7 +71,7 @@ public class ChatActivityTest {
         onView(withId(R.id.sendmsg)).perform(click());
         onView(withId(R.id.onlinetv)).check(matches(withText("online")));
     }
-    
+
 
     public static Matcher<Object> friendWithId(String expectedName) {
         Checks.checkNotNull(expectedName);
