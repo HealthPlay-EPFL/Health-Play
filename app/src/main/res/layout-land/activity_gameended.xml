@@ -13,18 +13,41 @@
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp"
         >
+        <Button
+            android:id="@+id/winner"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/NoUser"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:gravity="left|center_vertical"
+            android:backgroundTint="@color/blueButton"
+            android:paddingLeft="5dp"
+            >
+        </Button>
 
         <Button
-            android:id="@+id/restart"
-            android:layout_width="146dp"
-            android:layout_height="68dp"
-            android:text="@string/restart" />
+            android:id="@+id/looser"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/blueButton"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp"
+            android:text="@string/NoUser"
+            android:textAllCaps="false"
+            android:textStyle="bold"></Button>
 
         <Button
             android:id="@+id/quit"
             android:layout_width="144dp"
             android:layout_height="67dp"
             android:text="@string/quit" />
+
+        <Button
+            android:id="@+id/restart"
+            android:layout_width="146dp"
+            android:layout_height="68dp"
+            android:text="@string/restart" />
 
         <TextView
             android:id="@+id/winner_display"
