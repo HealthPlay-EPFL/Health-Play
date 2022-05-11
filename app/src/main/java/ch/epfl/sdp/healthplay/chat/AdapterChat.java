@@ -53,13 +53,13 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == MSG_TYPE_LEFT) {
-            View view = LayoutInflater.from(context).inflate(R.layout.row_chat_left, parent, false);
-            return new MyHolder(view);
+        View view;
+        if(viewType == MSG_TYPE_LEFT) {
+            view = LayoutInflater.from(context).inflate(R.layout.row_chat_left, parent, false);
         } else {
-            View view = LayoutInflater.from(context).inflate(R.layout.row_chat_right, parent, false);
-            return new MyHolder(view);
+            view = LayoutInflater.from(context).inflate(R.layout.row_chat_right, parent, false);
         }
+        return new MyHolder(view);
     }
 
     @Override
@@ -124,9 +124,6 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
                     if (dataSnapshot1.child("sender").getValue().equals(myUid)) {
                         // any two of below can be used
                         dataSnapshot1.getRef().removeValue();
-                        HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put("message", "This Message Was Deleted");
-                        //dataSnapshot1.getRef().updateChildren(hashMap);
                         Toast.makeText(context,"Message Deleted",Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(context, "You only can delete your messages", Toast.LENGTH_LONG).show();

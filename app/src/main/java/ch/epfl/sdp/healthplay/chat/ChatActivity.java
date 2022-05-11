@@ -286,11 +286,6 @@ public class ChatActivity extends AppCompatActivity {
             if(requestCode == STORAGE_REQUEST){
                 if (grantResults.length > 0) {
                     boolean writeStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    /*if (writeStorageAccepted) {
-                        pickFromGallery(); // if access granted then pick
-                    } else {
-                        Toast.makeText(this, "Please Enable Storage Permissions", Toast.LENGTH_LONG).show();
-                    }*/
                     pickFromGallery(); // if access granted then pick
                 }
             }
