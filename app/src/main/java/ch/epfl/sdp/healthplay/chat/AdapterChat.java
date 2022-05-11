@@ -109,17 +109,17 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
         //if text, show a text and hide the image container
         if (type.equals("text")) {
             holder.message.setVisibility(View.VISIBLE);
-            holder.mimage.setVisibility(View.GONE);
+            holder.mImage.setVisibility(View.GONE);
             holder.message.setText(message);
         }
         //if image, show a image and hide the text container
         else {
             holder.message.setVisibility(View.GONE);
-            holder.mimage.setVisibility(View.VISIBLE);
-            Glide.with(context).load(message).into(holder.mimage);
+            holder.mImage.setVisibility(View.VISIBLE);
+            Glide.with(context).load(message).into(holder.mImage);
         }
         //Handler click on messages
-        holder.msglayout.setOnClickListener(new View.OnClickListener() {
+        holder.msgLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //AlertDialog with a warning and a button to delete the message
@@ -212,9 +212,9 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
     class MyHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView image;
-        private ImageView mimage;
+        private ImageView mImage;
         private TextView message, time, isSee;
-        private LinearLayout msglayout;
+        private LinearLayout msgLayout;
 
         /**
          * Constructor
@@ -226,8 +226,8 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
             message = itemView.findViewById(R.id.msg);
             time = itemView.findViewById(R.id.msgTime);
             isSee = itemView.findViewById(R.id.isSeen);
-            msglayout = itemView.findViewById(R.id.msgLayout);
-            mimage = itemView.findViewById(R.id.images);
+            msgLayout = itemView.findViewById(R.id.msgLayout);
+            mImage = itemView.findViewById(R.id.images);
         }
     }
 }
