@@ -59,6 +59,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -78,11 +79,8 @@ public class ChatActivity extends AppCompatActivity {
     AdapterChat adapterChat;
 
     private static final int IMAGEPICK_GALLERY_REQUEST = 300;
-    private static final int IMAGE_PICKCAMERA_REQUEST = 400;
-    private static final int CAMERA_REQUEST = 100;
     private static final int STORAGE_REQUEST = 200;
-    private String cameraPermission[];
-    private String storagePermission[];
+    private String[] storagePermission;
     private Uri imageUri = null;
     private Database firebaseDatabase;
     boolean notify = false;
@@ -109,13 +107,10 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         uid = getIntent().getStringExtra("uid");
 
-        InputMethodManager imm  = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        // getting uid of another user using intent
+        // initialize database
         firebaseDatabase = new Database();
 
         // initialising permissions
-        cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         checkUserStatus();
@@ -267,26 +262,18 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void showImagePicDialog() {
-        String options[] = {"Camera", "Gallery"};
+        String[] options = {"Gallery"};
         AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
         builder.setTitle("Pick Image From");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                if (which == 0) {
-                    if (!checkCameraPermission()) { // if permission is not given
-                        requestCameraPermission(); // request for permission
-                    } else {
-                        pickFromCamera(); // if already access granted then click
-                    }
-                } else if (which == 1) {
-                    if (!checkStoragePermission()) { // if permission is not given
+                Log.e("CHECK PERMISSIONS", String.valueOf(checkStoragePermission()));
+                if (!checkStoragePermission()) { // if permission is not given
                         requestStoragePermission(); // request for permission
                     } else {
                         pickFromGallery(); // if already access granted then pick
                     }
-                }
             }
         });
         builder.create().show();
@@ -295,32 +282,19 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         // request for permission if not given
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case CAMERA_REQUEST: {
-                if (grantResults.length > 0) {
-                    boolean camera_accepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    boolean writeStorageaccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-                    if (camera_accepted && writeStorageaccepted) {
-                        pickFromCamera(); // if access granted then click
-                    } else {
-                        Toast.makeText(this, "Please Enable Camera and Storage Permissions", Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-            break;
-            case STORAGE_REQUEST: {
+        Log.e("REQUEST CODE", String.valueOf(requestCode));
+            if(requestCode == STORAGE_REQUEST){
                 if (grantResults.length > 0) {
                     boolean writeStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    if (writeStorageAccepted) {
+                    /*if (writeStorageAccepted) {
                         pickFromGallery(); // if access granted then pick
                     } else {
                         Toast.makeText(this, "Please Enable Storage Permissions", Toast.LENGTH_LONG).show();
-                    }
+                    }*/
+                    pickFromGallery(); // if access granted then pick
                 }
             }
-            break;
-        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -328,13 +302,6 @@ public class ChatActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == IMAGEPICK_GALLERY_REQUEST) {
                 imageUri = data.getData(); // get image data to upload
-                try {
-                    sendImageMessage(imageUri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (requestCode == IMAGE_PICKCAMERA_REQUEST) {
                 try {
                     sendImageMessage(imageUri);
                 } catch (IOException e) {
@@ -418,26 +385,6 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private Boolean checkCameraPermission() {
-        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
-        boolean result1 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
-        return result && result1;
-    }
-
-    private void requestCameraPermission() {
-        requestPermissions(cameraPermission, CAMERA_REQUEST);
-    }
-
-    private void pickFromCamera() {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MediaStore.Images.Media.TITLE, "Temp_pic");
-        contentValues.put(MediaStore.Images.Media.DESCRIPTION, "Temp Description");
-        imageUri = this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(cameraIntent, IMAGE_PICKCAMERA_REQUEST);
-    }
-
     private void pickFromGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK);
         galleryIntent.setType("image/*");
@@ -503,6 +450,5 @@ public class ChatActivity extends AppCompatActivity {
         if (user != null) {
             myUid = user.getUid();
         }
-
     }
 }

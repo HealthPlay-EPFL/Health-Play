@@ -1,7 +1,12 @@
 package ch.epfl.sdp.healthplay.chat;
 
 public class ModelChat {
-    String message;
+    private String message;
+    private String type;
+    private String timestamp;
+    private boolean dilihat;
+    private String receiver;
+    private String sender;
 
 
     public String getMessage() {
@@ -44,12 +49,8 @@ public class ModelChat {
         this.dilihat = dilihat;
     }
 
-    String receiver;
-
     public ModelChat() {
     }
-
-    String sender;
 
     public String getType() {
         return type;
@@ -68,11 +69,4 @@ public class ModelChat {
         this.dilihat = dilihat;
     }
 
-    String type;
-
-
-    String timestamp;
-
-
-    boolean dilihat;
 }

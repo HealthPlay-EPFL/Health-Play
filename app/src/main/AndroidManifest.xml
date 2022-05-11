@@ -21,9 +21,6 @@
             android:name=".chat.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".chat.Chat"
-            android:exported="false" />
-        <activity
             android:name=".planthunt.PlanthuntNewPlantActivity"
             android:exported="false" />
         <activity

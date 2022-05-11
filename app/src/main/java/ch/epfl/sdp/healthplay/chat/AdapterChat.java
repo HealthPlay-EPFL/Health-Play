@@ -126,10 +126,10 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
                         dataSnapshot1.getRef().removeValue();
                         HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("message", "This Message Was Deleted");
-                        dataSnapshot1.getRef().updateChildren(hashMap);
-                        Toast.makeText(context,"Message Deleted.....",Toast.LENGTH_LONG).show();
+                        //dataSnapshot1.getRef().updateChildren(hashMap);
+                        Toast.makeText(context,"Message Deleted",Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(context, "you can delete only your msg....", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "You only can delete your messages", Toast.LENGTH_LONG).show();
                     }
                 }
             }
