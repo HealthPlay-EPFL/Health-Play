@@ -137,10 +137,9 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
                 else {
                     for(int i = 0 ; i < MIN_RANK ; i++) {
                         images[i].setImageResource(R.drawable.rounded_logo);
-                        tab[i].setText("");
+                        tab[i].setText(R.string.NoUser);
                         tab[i].setOnClickListener(null);
                     }
-                    tab[0].setText(R.string.NoUserInLb);
                     myTopText.setText("your rank : unranked");
 
                 }
