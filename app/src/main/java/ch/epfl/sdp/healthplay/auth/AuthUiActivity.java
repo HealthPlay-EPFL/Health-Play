@@ -20,26 +20,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
-
-import com.firebase.ui.auth.AuthMethodPickerLayout;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.AuthUI.IdpConfig;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
-import com.firebase.ui.auth.util.ExtraConstants;
 
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
-import ch.epfl.sdp.healthplay.ProfileSettingsActivity;
 import ch.epfl.sdp.healthplay.ProfileSettingsFragment;
 import ch.epfl.sdp.healthplay.R;
 
-
-import com.google.android.gms.common.Scopes;
-
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.ActionCodeSettings;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -56,7 +48,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.databinding.AuthUiLayoutBinding;
@@ -64,6 +55,7 @@ import ch.epfl.sdp.healthplay.databinding.AuthUiLayoutBinding;
 public class AuthUiActivity extends AppCompatActivity
         implements ActivityResultCallback<FirebaseAuthUIAuthenticationResult> {
     private static final String TAG = "AuthUiActivity";
+    private Database db = new Database();
 
 
 
@@ -85,7 +77,6 @@ public class AuthUiActivity extends AppCompatActivity
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            Database db = new Database();
             String id = currentUser.getUid();
             db.initStatToDay(id);
             startActivity(new Intent(this,HomeScreenActivity.class));
@@ -144,6 +135,7 @@ public class AuthUiActivity extends AppCompatActivity
                         "HugoBoss", 0, 0);
                 // Tell intent that the user has been created for the first time
                 intent.putExtra(ProfileSettingsFragment.MESSAGE, true);
+                db.initStatToDay(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 startActivity(intent);
             } else {
                 startActivity(new Intent(this, HomeScreenActivity.class));

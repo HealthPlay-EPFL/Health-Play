@@ -57,11 +57,7 @@
             android:name=".kneetag.MainActivity"
             android:exported="true"
             android:screenOrientation="landscape"/>
-        <activity
-            android:name=".BarcodeScanActivity"
-            android:exported="true" />
         <activity android:name=".planthunt.PlanthuntCameraActivity" />
-        <activity android:name=".planthunt.PlanthuntDescriptionActivity" />
         <activity android:name=".planthunt.PlanthuntResultActivity" />
         <activity
             android:name=".ProfileSettingsActivity"
@@ -70,14 +66,8 @@
             android:name=".HomeScreenActivity"
             android:exported="true" />
         <activity
-            android:name=".KneetagDescriptionActivity"
-            android:exported="false" />
-        <activity
             android:name=".auth.AuthUiActivity"
             android:exported="true" />
-        <activity
-            android:name=".auth.SignedInActivity"
-            android:exported="false" />
         <activity
             android:name=".BarcodeInformationActivity"
             android:exported="false" />

@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Calendar;
 
-import ch.epfl.sdp.healthplay.auth.ProfileActivity;
 import ch.epfl.sdp.healthplay.auth.ProfileFragment;
 import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 import ch.epfl.sdp.healthplay.database.Database;
