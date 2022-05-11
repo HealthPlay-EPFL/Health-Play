@@ -66,17 +66,15 @@ import java.util.List;
 
 
 public class ChatActivity extends AppCompatActivity {
-    Toolbar toolbar;
-    RecyclerView recyclerView;
-    ImageView profile, block;
-    TextView name, userStatus;
-    EditText msg;
-    ImageButton send, attach;
-    FirebaseAuth firebaseAuth;
-    String uid, myUid, image;
-    ValueEventListener valueEventListener;
-    List<ModelChat> chatList;
-    AdapterChat adapterChat;
+    private RecyclerView recyclerView;
+    private ImageView profile;
+    private TextView name, userStatus;
+    private EditText msg;
+    private ImageButton send, attach;
+    private FirebaseAuth firebaseAuth;
+    private String uid, myUid, image;
+    private List<ModelChat> chatList;
+    private AdapterChat adapterChat;
 
     private static final int IMAGEPICK_GALLERY_REQUEST = 300;
     private static final int STORAGE_REQUEST = 200;
@@ -84,7 +82,9 @@ public class ChatActivity extends AppCompatActivity {
     private Uri imageUri = null;
     private Database firebaseDatabase;
     boolean notify = false;
-    boolean isBlocked = false;
+    private DatabaseReference selfRef;
+    private DatabaseReference friendRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +99,6 @@ public class ChatActivity extends AppCompatActivity {
         msg = findViewById(R.id.messaget);
         send = findViewById(R.id.sendmsg);
         attach = findViewById(R.id.attachbtn);
-        block = findViewById(R.id.block);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         recyclerView = findViewById(R.id.chatrecycle);
@@ -109,11 +108,15 @@ public class ChatActivity extends AppCompatActivity {
 
         // initialize database
         firebaseDatabase = new Database();
+        friendRef = firebaseDatabase.mDatabase.child(Database.USERS).child(uid);
+        checkUserStatus();
+        selfRef = firebaseDatabase.mDatabase.child(Database.USERS).child(myUid);
+
 
         // initialising permissions
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-        checkUserStatus();
+
         attach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,17 +214,15 @@ public class ChatActivity extends AppCompatActivity {
 
     private void checkOnlineStatus(String status) {
         // check online status
-        DatabaseReference dbref = firebaseDatabase.mDatabase.child(Database.USERS).child(myUid);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("onlineStatus", status);
-        dbref.updateChildren(hashMap);
+        selfRef.updateChildren(hashMap);
     }
 
     private void checkTypingStatus(String typing) {
-        DatabaseReference dbref = firebaseDatabase.mDatabase.child(Database.USERS).child(myUid);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("typingTo", typing);
-        dbref.updateChildren(hashMap);
+        selfRef.updateChildren(hashMap);
     }
 
     @Override
@@ -333,7 +334,6 @@ public class ChatActivity extends AppCompatActivity {
                 String downloadUri = uriTask.getResult().toString(); // getting url if task is successful
 
                 if (uriTask.isSuccessful()) {
-                    DatabaseReference re = firebaseDatabase.mDatabase;
                     HashMap<String, Object> hashMap = new HashMap<>();
                     hashMap.put("sender", myUid);
                     hashMap.put("receiver", uid);
@@ -341,7 +341,7 @@ public class ChatActivity extends AppCompatActivity {
                     hashMap.put("timestamp", timestamp);
                     hashMap.put("dilihat", false);
                     hashMap.put("type", "images");
-                    re.child("Chats").push().setValue(hashMap); // push in firebase using unique id
+                    firebaseDatabase.mDatabase.child("Chats").push().setValue(hashMap); // push in firebase using unique id
                     final DatabaseReference ref1 = firebaseDatabase.mDatabase.child("ChatList").child(uid).child(myUid);
                     ref1.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -399,7 +399,6 @@ public class ChatActivity extends AppCompatActivity {
         // creating a reference to store data in firebase
         // We will be storing data using current time in "Chatlist"
         // and we are pushing data using unique id in "Chats"
-        DatabaseReference databaseReference = firebaseDatabase.mDatabase;
         String timestamp = String.valueOf(System.currentTimeMillis());
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", myUid);
@@ -408,7 +407,7 @@ public class ChatActivity extends AppCompatActivity {
         hashMap.put("timestamp", timestamp);
         hashMap.put("dilihat", false);
         hashMap.put("type", "text");
-        databaseReference.child("Chats").push().setValue(hashMap);
+        firebaseDatabase.mDatabase.child("Chats").push().setValue(hashMap);
         final DatabaseReference ref1 = firebaseDatabase.mDatabase.child("ChatList").child(uid).child(myUid);
         ref1.addValueEventListener(new ValueEventListener() {
             @Override
