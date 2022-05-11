@@ -285,15 +285,11 @@ class MainActivity : AppCompatActivity(),
         //transmit information about the participant to the FinishScreen
         if (result == 1) {
 
-            intent.putExtra("WINNER_NAME", poseDetector.leftPerson.second)
             intent.putExtra("WINNER_ID", leftPersonId)
-            intent.putExtra("LOOSER_NAME", poseDetector.rightPerson.second)
             intent.putExtra("LOOSER_ID", rightPersonId)
         }
         if (result == 2) {
-            intent.putExtra("WINNER_NAME", poseDetector.rightPerson.second)
             intent.putExtra("WINNER_ID", rightPersonId)
-            intent.putExtra("LOOSER_NAME", poseDetector.leftPerson.second)
             intent.putExtra("LOOSER_ID", leftPersonId)
         }
         intent.putExtra("RANKED", cameraSource!!.gameState == 2)

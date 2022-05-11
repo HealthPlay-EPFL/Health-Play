@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:visibility="invisible"
-                android:text="Button" />
+                android:text="@string/button" />
 
             <Button
                 android:id="@+id/looser"
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_weight="1"
-                android:text="Button"
+                android:text="@string/button"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
