@@ -15,6 +15,7 @@
         <item name="profileLine_color">#FFC0C0C0</item>
         <item name="backgroundColor">@color/white</item>
         <item name="fragView_color">@color/white</item>
+        <item name="leaderBoardBackground_color">#ffe0b0ff</item>
 
         <!-- FriendList  String -->
         <item name="remove_friend">Remove Friend</item>
@@ -128,7 +129,7 @@
         <item name="profileLine_color">#FFC0C0C0</item>
         <item name="backgroundColor">#282828</item>
         <item name="fragView_color">#181818</item>
-
+        <item name="leaderBoardBackground_color">#ffe0b0ff</item>
         <item name="see_graph">SEE GRAPHS</item>
 
         <!-- FriendList  String -->

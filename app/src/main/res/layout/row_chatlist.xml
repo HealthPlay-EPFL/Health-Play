@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:contentPadding="3dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileimage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/profile" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/onlinestatus"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+
+        <TextView
+            android:id="@+id/nameonline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/profileimage"
+            android:layout_toRightOf="@id/profileimage"
+            android:text="His Name"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/lastmessge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nameonline"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/profileimage"
+            android:layout_toRightOf="@id/profileimage"
+            android:maxLines="2"
+            android:text="Last Message"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/blocking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_baseline_block_24"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageView
+            android:id="@+id/seen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/blocking"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_baseline_contacts_24"
+            android:layout_gravity="center_vertical" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

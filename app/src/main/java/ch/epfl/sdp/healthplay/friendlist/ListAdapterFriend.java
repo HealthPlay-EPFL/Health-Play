@@ -2,6 +2,7 @@ package ch.epfl.sdp.healthplay.friendlist;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.chat.ChatActivity;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Friend;
 
@@ -39,6 +42,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
     private final List<Friend> noUpdateItems;
     private Context context;
     private Button manageFriendButton;
+    private Button goToChat;
     private final String friendText = "Friend ";
     private final String addedText = " added";
     private final String removedText = " removed ";
@@ -68,6 +72,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
         TextView friendName = convertView.findViewById(R.id.friendName);
         manageFriendButton = convertView.findViewById(R.id.manageFriendButton);
         ImageView profileImage = convertView.findViewById(R.id.friendProfilePicture);
+        goToChat = convertView.findViewById(R.id.goToChat);
 
         View finalConvertView = convertView;
 
@@ -83,6 +88,7 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
                     mySnackbar.show();
                 }
             });
+            goToChat.setVisibility(View.INVISIBLE);
         }
         // Remove the selected friend on the button click
         else
@@ -121,6 +127,15 @@ public class ListAdapterFriend extends ArrayAdapter<Friend> implements Filterabl
                     username = task.getResult().getValue(String.class);
                     friendName.setText(username);
                 }
+            }
+        });
+        // Go to the chat with the selected friend
+        goToChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ChatActivity.class);
+                intent.putExtra("uid", friend.getUserId());
+                context.startActivity(intent);
             }
         });
         // Return the completed view to render on screen
