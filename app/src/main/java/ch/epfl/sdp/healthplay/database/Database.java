@@ -475,7 +475,7 @@ public final class Database {
                                     String username = ta.getResult().getValue(String.class);
                                     if(leaderBoard != null && leaderBoard.containsKey(getTodayDate(pformat))) {
                                         HashMap<String, String> l = leaderBoard.get(getTodayDate(pformat)).containsKey(hp + SUFFIX) ? leaderBoard.get(getTodayDate(pformat)).get(hp + SUFFIX) : new HashMap<String, String>();
-                                        String hpPre = (Double.parseDouble(hp) - toRemove) + SUFFIX;
+                                        String hpPre = (Long.parseLong(hp) - toRemove) + SUFFIX;
                                         HashMap<String, String> lPre = leaderBoard.get(getTodayDate(pformat)).containsKey(hpPre) ? leaderBoard.get(getTodayDate(pformat)).get(hpPre) : new HashMap<String, String>();
                                         lPre.remove(userId);
                                         l.put(userId,username);
