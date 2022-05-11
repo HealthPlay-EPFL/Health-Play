@@ -348,6 +348,13 @@ Nimm deinen Kampf mit deinem Handy auf, um einen fairen Schiedsrichter zu haben 
     <string name="textview">TextView</string>
     <string name="quit">Quit</string>
     <string name="restart">Restart</string>
+<<<<<<< HEAD
     <string name="button">Button</string>
     <string name="button">Button</string>
+=======
+    <string name="refresh">refresh!</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="_0hp">0hp</string>
+    <string name="zero">0</string>
+>>>>>>> 67bac30c7a000991bdd814335f01c597f0d548a5
 </resources>

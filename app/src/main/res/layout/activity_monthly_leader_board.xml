@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".LeaderBoardActivity"
+    tools:context=".MonthlyLeaderBoardActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -238,18 +238,32 @@
             android:layout_marginTop="11dp"
             android:background="#CED4DF" />
 
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/todayBackButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#1973ff"
-            android:text="Back"
-            android:textColor="@color/white"
+            android:orientation="horizontal"
             android:layout_marginTop="40dp"
-            android:layout_gravity="center_horizontal"
-            >
-        </androidx.appcompat.widget.AppCompatButton>
+            android:layout_marginStart="125dp">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/todayButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#1973ff"
+                android:text="Today"
+                android:textColor="@color/white"
+                >
+            </androidx.appcompat.widget.AppCompatButton>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/monthBackButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#1973ff"
+                android:text="Back"
+                android:textColor="@color/white"
+                >
+            </androidx.appcompat.widget.AppCompatButton>
+        </LinearLayout>
 
     </LinearLayout>
 
