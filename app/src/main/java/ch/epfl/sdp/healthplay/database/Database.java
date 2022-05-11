@@ -291,7 +291,7 @@ public final class Database {
                     .child(getTodayDate())
                     .child(field)
                     .setValue(toAdd)
-                    .addOnCompleteListener(getLambdaMonth(userId, monthlyHp))
+                    .addOnCompleteListener(getLambdaMonth(userId, monthlyHp, field))
                     .addOnCompleteListener(getLambdaHpMonth(userId, inc))
                     .addOnCompleteListener(getLambdaHp(userId, inc));
         };
@@ -515,7 +515,7 @@ public final class Database {
             updateMLeaderBoard(userId, (int) inc);
         };
     }
-    private OnCompleteListener<Void> getLambdaMonth(String userId, double inc) {
+    private OnCompleteListener<Void> getLambdaMonth(String userId, double inc, String field) {
         return t -> {
             if (!t.isSuccessful()) {
                 Log.e("ERROR", "EREREREROOORORO");
@@ -524,7 +524,7 @@ public final class Database {
                     .child(userId)
                     .child(STATS)
                     .child(getTodayDate(formatYearMonth))
-                    .child(HEALTH_POINT)
+                    .child(field)
                     .setValue(inc);
         };
     }
