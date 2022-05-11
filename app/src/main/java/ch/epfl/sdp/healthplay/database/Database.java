@@ -42,22 +42,25 @@ public final class Database {
     public static final String PLAYER_UID = "playerUid";
     public static final String PLAYER_SCORE = "playerScore";
     public static final String PASSWORD = "password";
-    public static final String LEADERBOARD = "leaderBoard";
-    public static final String LEADERBOARD_DATE = "leaderBoardDate";
+    public static final String LEADERBOARD_MONTHLY = "monthlyLeaderBoard";
+    public static final String LEADERBOARD_DAILY = "leaderBoard";
     public static final String NUTRIMENTS = "nutriments";
     public static final int MAX_NBR_PLAYERS = 3;
-
+    public static final String FRIEND = "friends";
     public final DatabaseReference mDatabase;
 
     public static final String STATS = "stats";
     public static final String USERS = "users";
     public static final String LOBBIES = "lobbies";
-    private final static int SUFFIX_LEN = 2;
+    public final static int SUFFIX_LEN = 2;
+    private final static String SUFFIX = "hp";
+
 
     public static Comparator<String> comparator = (o1, o2) -> Long.compare(Long.parseLong(o2.substring(0,o2.length() - SUFFIX_LEN)), Long.parseLong(o1.substring(0,o1.length() - SUFFIX_LEN)));
 
     // Format used to format date when adding stats
-    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+    public static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+    public static final SimpleDateFormat formatYearMonth = new SimpleDateFormat("yyyy-MM", Locale.ENGLISH);
 
     public Database(DatabaseReference dbr) {
         mDatabase = dbr;
@@ -121,11 +124,11 @@ public final class Database {
     /**
      * Adds the given number of healthPoints to the user's statistics.
      * This methods add to the current value contained for the day, it also
-     * update the leaderBoard if the new amount of HealthPoint is more than
+     * update the leaderBoards if the new amount of HealthPoint is more than
      * what the current top five of players have
      *
      * @param userId the user ID
-     * @param healthPoint the number of calories to add
+     * @param healthPoint the number of healthPoints to add
      */
     public void addHealthPoint(String userId, int healthPoint) {
         getStats(userId, getLambda(userId, healthPoint, HEALTH_POINT));
@@ -242,6 +245,17 @@ public final class Database {
         return format.format(new Date());
     }
 
+    /**
+     * Gets the current date in the specified format
+     *
+     * @return the current date in the specified format
+     */
+
+    @NonNull
+    public static String getTodayDate(SimpleDateFormat format) {
+        return format.format(new Date());
+    }
+
     private OnCompleteListener<DataSnapshot> getLambda(String userId, double inc, String field) {
         return task -> {
             if (!task.isSuccessful()) {
@@ -260,12 +274,26 @@ public final class Database {
                     toAdd += currentCalories;
                 }
             }
+            double monthlyHp = inc;
+            double currentHp = 0;
+            if (map != null && map.containsKey(getTodayDate(formatYearMonth))) {
+                Map<String, Number> calo = map.get(getTodayDate(formatYearMonth));
+                if (calo != null && calo.containsKey(field)) {
+                    currentHp += Double.parseDouble(String.valueOf(calo.get(field)));
+                    monthlyHp += currentHp;
+
+                }
+
+            }
             mDatabase.child(USERS)
                     .child(userId)
                     .child(STATS)
                     .child(getTodayDate())
                     .child(field)
-                    .setValue(toAdd).addOnCompleteListener(getLambdaHp(userId, inc, field));
+                    .setValue(toAdd)
+                    .addOnCompleteListener(getLambdaMonth(userId, monthlyHp, field))
+                    .addOnCompleteListener(getLambdaHpMonth(userId, inc))
+                    .addOnCompleteListener(getLambdaHp(userId, inc));
         };
 
     }
@@ -411,31 +439,28 @@ public final class Database {
                 .get();
     }
 
-    /**
-     * Update the LeaderBoard
-     * @param userId
-     */
+
     private void updateLeaderBoard(String userId, int toRemove) {
-
-        getStats(userId,getLambdaUpdate(userId,toRemove));
-
+        getStats(userId,getLambdaUpdate(userId,toRemove, format, LEADERBOARD_DAILY));
     }
 
-    private OnCompleteListener<DataSnapshot> getLambdaUpdate(String userId, int toRemove) {
+    private void updateMLeaderBoard(String userId, int toRemove) {
+        getStats(userId,getLambdaUpdate(userId,toRemove, formatYearMonth, LEADERBOARD_MONTHLY));
+    }
+
+    private OnCompleteListener<DataSnapshot> getLambdaUpdate(String userId, int toRemove, SimpleDateFormat pformat, String pleaderBoard) {
         return task -> {
             if (!task.isSuccessful()) {
                 Log.e("ERROR", "EREREREROOORORO");
             }
-
             @SuppressWarnings("unchecked")
             Map<String, Map<String, Number>> mapStats = (Map<String, Map<String, Number>>) task.getResult().getValue();
 
-            if (mapStats != null && mapStats.containsKey(Database.getTodayDate())) {
-                Map<String, Number> currentStats = mapStats.get(Database.getTodayDate());
+            if (mapStats != null && mapStats.containsKey(Database.getTodayDate(pformat))) {
+                Map<String, Number> currentStats = mapStats.get(Database.getTodayDate(pformat));
                 String hp;
                 if (currentStats != null && currentStats.containsKey(Database.HEALTH_POINT)) {
                     hp = String.valueOf(currentStats.get(Database.HEALTH_POINT));
-
                     getLeaderBoard(t -> {
                         if (!t.isSuccessful()) {
                             Log.e("firebase", "Error getting data", t.getException());
@@ -448,41 +473,33 @@ public final class Database {
                                 }
                                 else {
                                     String username = ta.getResult().getValue(String.class);
-                                    if(leaderBoard != null && leaderBoard.containsKey(getTodayDate())) {
-                                        HashMap<String, String> l = leaderBoard.get(getTodayDate()).containsKey(hp + "hp") ? leaderBoard.get(getTodayDate()).get(hp + "hp") : new HashMap<String, String>();
-                                        String hpPre = (Long.parseLong(hp) - toRemove) + "hp";
-                                        HashMap<String, String> lPre = leaderBoard.get(getTodayDate()).containsKey(hpPre) ? leaderBoard.get(getTodayDate()).get(hpPre) : new HashMap<String, String>();
+                                    if(leaderBoard != null && leaderBoard.containsKey(getTodayDate(pformat))) {
+                                        HashMap<String, String> l = leaderBoard.get(getTodayDate(pformat)).containsKey(hp + SUFFIX) ? leaderBoard.get(getTodayDate(pformat)).get(hp + SUFFIX) : new HashMap<String, String>();
+                                        String hpPre = (Long.parseLong(hp) - toRemove) + SUFFIX;
+                                        HashMap<String, String> lPre = leaderBoard.get(getTodayDate(pformat)).containsKey(hpPre) ? leaderBoard.get(getTodayDate(pformat)).get(hpPre) : new HashMap<String, String>();
                                         lPre.remove(userId);
                                         l.put(userId,username);
-                                        leaderBoard.get(getTodayDate()).put(hp+"hp",l);
-                                        mDatabase.child(LEADERBOARD).setValue(leaderBoard);
+                                        leaderBoard.get(getTodayDate(pformat)).put(hp + SUFFIX,l);
+                                        mDatabase.child(pleaderBoard).setValue(leaderBoard);
                                     }
-                                    else if(leaderBoard != null && !leaderBoard.containsKey(getTodayDate())) {
+                                    else if(leaderBoard != null && !leaderBoard.containsKey(getTodayDate(pformat))) {
                                         HashMap<String, HashMap<String, String>> map = new HashMap<>();
                                         HashMap<String, String> l = new HashMap<>();
                                         l.put(userId,username);
-                                        map.put(hp+"hp", l);
-                                        leaderBoard.put(getTodayDate(), map);
-                                        mDatabase.child(LEADERBOARD).setValue(leaderBoard);
-
+                                        map.put(hp + SUFFIX, l);
+                                        leaderBoard.put(getTodayDate(pformat), map);
+                                        mDatabase.child(pleaderBoard).setValue(leaderBoard);
                                     }
                                 }
                             });
-
-
                         }
-
-
-                    });
-
+                    }, pleaderBoard);
                 }
-
             }
         };
-
     }
 
-    private OnCompleteListener<Void> getLambdaHp(String userId, double inc, String field) {
+    private OnCompleteListener<Void> getLambdaHp(String userId, double inc) {
         return t -> {
             if (!t.isSuccessful()) {
                 Log.e("ERROR", "EREREREROOORORO");
@@ -490,10 +507,32 @@ public final class Database {
             updateLeaderBoard(userId, (int) inc);
         };
     }
+    private OnCompleteListener<Void> getLambdaHpMonth(String userId, double inc) {
+        return t -> {
+            if (!t.isSuccessful()) {
+                Log.e("ERROR", "EREREREROOORORO");
+            }
+            updateMLeaderBoard(userId, (int) inc);
+        };
+    }
+    private OnCompleteListener<Void> getLambdaMonth(String userId, double inc, String field) {
+        return t -> {
+            if (!t.isSuccessful()) {
+                Log.e("ERROR", "EREREREROOORORO");
+            }
+            mDatabase.child(USERS)
+                    .child(userId)
+                    .child(STATS)
+                    .child(getTodayDate(formatYearMonth))
+                    .child(field)
+                    .setValue(inc);
+        };
+    }
 
-    private void getLeaderBoard(OnCompleteListener<DataSnapshot> onCompleteListener) {
-        mDatabase.child(LEADERBOARD)
+    private void getLeaderBoard(OnCompleteListener<DataSnapshot> onCompleteListener, String pleaderBoard) {
+        mDatabase.child(pleaderBoard)
                 .get()
                 .addOnCompleteListener(onCompleteListener);
     }
+
 }

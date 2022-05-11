@@ -13,6 +13,7 @@
         <attr name="profileLine_color" format="color" />
         <attr name="backgroundColor" format="color" />
         <attr name="fragView_color" format="color" />
+        <attr name="leaderBoardBackground_color" format="color" />
 
         <!-- FriendList  String -->
         <attr name="remove_friend" format="string" />
