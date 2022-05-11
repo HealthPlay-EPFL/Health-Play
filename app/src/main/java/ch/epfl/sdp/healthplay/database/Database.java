@@ -275,10 +275,12 @@ public final class Database {
                 }
             }
             double monthlyHp = inc;
+            double currentHp = 0;
             if (map != null && map.containsKey(getTodayDate(formatYearMonth))) {
                 Map<String, Number> calo = map.get(getTodayDate(formatYearMonth));
                 if (calo != null && calo.containsKey(field)) {
-                    monthlyHp += Double.parseDouble(String.valueOf(calo.get(field)));
+                    currentHp += Double.parseDouble(String.valueOf(calo.get(field)));
+                    monthlyHp += currentHp;
 
                 }
 
@@ -473,7 +475,7 @@ public final class Database {
                                     String username = ta.getResult().getValue(String.class);
                                     if(leaderBoard != null && leaderBoard.containsKey(getTodayDate(pformat))) {
                                         HashMap<String, String> l = leaderBoard.get(getTodayDate(pformat)).containsKey(hp + SUFFIX) ? leaderBoard.get(getTodayDate(pformat)).get(hp + SUFFIX) : new HashMap<String, String>();
-                                        String hpPre = (Long.parseLong(hp) - toRemove) + SUFFIX;
+                                        String hpPre = (Double.parseDouble(hp) - toRemove) + SUFFIX;
                                         HashMap<String, String> lPre = leaderBoard.get(getTodayDate(pformat)).containsKey(hpPre) ? leaderBoard.get(getTodayDate(pformat)).get(hpPre) : new HashMap<String, String>();
                                         lPre.remove(userId);
                                         l.put(userId,username);
