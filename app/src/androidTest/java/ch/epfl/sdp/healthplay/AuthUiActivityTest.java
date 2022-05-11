@@ -62,9 +62,9 @@ public class AuthUiActivityTest {
         onView(withText("Sign in with email")).perform(click());
         onView(withHint("Email")).perform(typeText("HP@admin.ch"), ViewActions.closeSoftKeyboard());
         onView(withText("Next")).perform(click());
-        onView(withHint("Password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
+        /*onView(withHint("Password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
         onView(withText("SIGN IN")).perform(click());
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(1);*/
         FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
     }
 
