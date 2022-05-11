@@ -369,4 +369,8 @@ Nimm deinen Kampf mit deinem Handy auf, um einen fairen Schiedsrichter zu haben 
     <string name="cancel_en">Cancel</string>
     <string name="typing_en">Typing....</string>
     <string name="last_seen_en">Last Seen:</string>
+    <string name="refresh">refresh!</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="_0hp">0hp</string>
+    <string name="zero">0</string>
 </resources>

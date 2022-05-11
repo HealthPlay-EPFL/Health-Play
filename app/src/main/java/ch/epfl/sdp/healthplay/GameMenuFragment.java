@@ -97,7 +97,7 @@ public class GameMenuFragment extends Fragment {
     }
 
     public void onClickLeaderBoard() {
-        Intent intent = new Intent(getContext(), LeaderBoardActivity.class);
+        Intent intent = new Intent(getContext(), MonthlyLeaderBoardActivity.class);
         startActivity(intent);
     }
 }
