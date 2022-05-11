@@ -31,7 +31,6 @@ public class AdapterChatTest {
     public void before() throws InterruptedException{
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
         onView(withId(R.id.FriendList_button)).perform(click());
-        onView(withId(R.id.addFriendBouton)).perform(click());
     }
 
     @Test
