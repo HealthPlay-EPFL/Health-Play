@@ -54,6 +54,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
     private FirebaseUser user;
     public static final String URL = "URL";
     public static final String NAME = "NAME";
+    public static boolean isTested = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,6 +186,8 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (isTested) { return; }
 
         //Check request comes from camera
         if (requestCode == CameraApi.REQUEST_IMAGE_CAPTURE){
