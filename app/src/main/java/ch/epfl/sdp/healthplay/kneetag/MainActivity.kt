@@ -21,7 +21,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import ch.epfl.sdp.healthplay.R
 import ch.epfl.sdp.healthplay.database.Database
-import ch.epfl.sdp.healthplay.database.Friend
 import ch.epfl.sdp.healthplay.kneetag.camera.CameraSource
 import ch.epfl.sdp.healthplay.kneetag.data.Device
 import ch.epfl.sdp.healthplay.kneetag.ml.PoseClassifier
@@ -49,11 +48,11 @@ class MainActivity : AppCompatActivity(),
 
     /** A [SurfaceView] for camera preview.   */
     private lateinit var surfaceView: SurfaceView
+    private var leftPersonId: String? = null
+    private var rightPersonId: String? = null
 
     /** Default device is CPU */
-
     private var device = Device.CPU
-    private var friends: MutableList<String> = mutableListOf()
     private lateinit var tvScore: TextView
     private lateinit var tvFPS: TextView
     private lateinit var database: Database
@@ -102,9 +101,7 @@ class MainActivity : AppCompatActivity(),
         if (user != null) {
             initUsername(user.uid)
         }
-        // Get the Friend List of the current User
-        val database=Database()
-        friends=database.friendList.keys.filterNotNull().toMutableList()
+
         super.onCreate(savedInstanceState)
         layoutCreation()
     }
@@ -122,45 +119,83 @@ class MainActivity : AppCompatActivity(),
         tvFPS = findViewById(R.id.tvFps)
         surfaceView = findViewById(R.id.surfaceView)
 
-        friends = mutableListOf("Anonymous", "YOU")
-        spinner = findViewById<Spinner>(R.id.friends)
-        val adapter: ArrayAdapter<String> =
-            ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, friends)
-        //set the spinners adapter to the previously created one.
 
-        spinner.adapter = adapter
-        //Set the left person
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        // Get the Friend List of the current User
+        val database = Database()
+        database.readField(
+            mAuth.currentUser!!.uid, "friends",
+            OnCompleteListener { task: Task<DataSnapshot> ->
+                if (!task.isSuccessful) {
+                    Log.e("ERROR", "EREREREROOORORO")
+                } else {
+                    var friendsList: MutableList<String> = arrayListOf()
+                    val friends =
+                        task.result.value as Map<String, String>?
+                    if (friends != null) {
+                        friendsList = friends!!.values.toMutableList()
 
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val text = parent?.getItemAtPosition(position).toString()
-                poseDetector.leftPerson = Pair(poseDetector.leftPerson.first, text)
-            }
-        }
-        spinnerCopy = findViewById<Spinner>(R.id.friendsCopy)
-        spinnerCopy.adapter = adapter
-        //Set the right person
-        spinnerCopy.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+                    }
+                    friendsList.add(0, "Anonymous")
+                    friendsList.add(0, "YOU")
+                    spinner = findViewById<Spinner>(R.id.friends)
+                    val adapter: ArrayAdapter<String> =
+                        ArrayAdapter<String>(
+                            this,
+                            android.R.layout.simple_spinner_dropdown_item,
+                            friendsList
+                        )
 
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val text = parent?.getItemAtPosition(position).toString()
-                poseDetector.rightPerson = Pair(poseDetector.rightPerson.first, text)
-            }
-        }
+                    //set the spinners adapter to the previously created one.
+
+                    spinner.adapter = adapter
+                    //Set the left person
+                    spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                        }
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            val text = parent?.getItemAtPosition(position).toString()
+                            if (friends != null)
+                                leftPersonId =
+                                    friends!!.filterValues { id: String -> id == text }.keys.toMutableList()
+                                        .getOrElse(0, { index: Int -> text })
+                            poseDetector.leftPerson = Pair(poseDetector.leftPerson.first, text)
+                        }
+                    }
+                    spinnerCopy = findViewById<Spinner>(R.id.friendsCopy)
+                    spinnerCopy.adapter = adapter
+                    //Set the right person
+                    spinnerCopy.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                            }
+
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                val text = parent?.getItemAtPosition(position).toString()
+                                if (friends != null)
+                                    rightPersonId =
+                                        friends!!.filterValues { id: String -> id == text }.keys.toMutableList()
+                                            .getOrElse(0, { index: Int -> text })
+                                poseDetector.rightPerson =
+                                    Pair(poseDetector.rightPerson.first, text)
+                            }
+                        }
+
+                }
+            })
+
+
+
         if (!isCameraPermissionGranted()) {
             requestPermission()
         }
@@ -247,12 +282,17 @@ class MainActivity : AppCompatActivity(),
 
     fun gameEndedScreen(result: Int) {
         val intent = Intent(this, FinishScreen::class.java)
+        //transmit information about the participant to the FinishScreen
+        if (result == 1) {
 
-        if (result == 1)
-            intent.putExtra(FinishScreen.WINNER, poseDetector.leftPerson.second)
-        if (result == 2)
-            intent.putExtra(FinishScreen.WINNER, poseDetector.rightPerson.second)
-
+            intent.putExtra("WINNER_ID", leftPersonId)
+            intent.putExtra("LOOSER_ID", rightPersonId)
+        }
+        if (result == 2) {
+            intent.putExtra("WINNER_ID", rightPersonId)
+            intent.putExtra("LOOSER_ID", leftPersonId)
+        }
+        intent.putExtra("RANKED", cameraSource!!.gameState == 2)
         startActivity(intent)
         finish()
 
