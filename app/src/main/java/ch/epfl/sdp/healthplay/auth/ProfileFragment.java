@@ -112,7 +112,9 @@ public class ProfileFragment extends Fragment {
         // Go to the Edit Profile Picture Fragment
         view.findViewById(R.id.changeButton).setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new EditProfilePictureFragment()));
         // Go to the QRCode fragment
-        view.findViewById(R.id.goToQRCode).setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new ProductListFragment()));
+        view.findViewById(R.id.goToQRCode).setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new QrCodeFragment()));
+        // Goto the product list view
+        view.findViewById(R.id.goToProductList).setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new ProductListFragment()));
     }
 
     public void initBirthday(String userId, TextView TextViewBirthday) {
