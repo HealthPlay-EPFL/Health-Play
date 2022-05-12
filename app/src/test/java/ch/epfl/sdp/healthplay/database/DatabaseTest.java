@@ -252,8 +252,8 @@ public class DatabaseTest {
         when(dbr.child(Database.USERS).child(userId).child(Database.STATS).child(Database.HEALTH_POINT).setValue(75))
                 .thenReturn(getTlb("75", stats));
         when(dbr.child(Database.USERS).child(userId).child(Database.STATS).get()).thenReturn(t1);
-        when(dbr.child(Database.LEADERBOARD).get()).thenReturn(t2);
-        when(dbr.child(Database.LEADERBOARD).setValue("75")).thenReturn(null);
+        when(dbr.child(Database.LEADERBOARD_DAILY).get()).thenReturn(t2);
+        when(dbr.child(Database.LEADERBOARD_DAILY).setValue("75")).thenReturn(null);
         when(t2.isSuccessful()).thenReturn(true);
         when(t2.getResult()).thenReturn(ds2);
         when(t1.isSuccessful()).thenReturn(true);
@@ -282,8 +282,8 @@ public class DatabaseTest {
         when(dbr.child(Database.USERS).child(userId).child(Database.STATS).child(Database.HEALTH_POINT).setValue(75))
                 .thenReturn(getTlb("75", stats));
         when(dbr.child(Database.USERS).child(userId).child(Database.STATS).get()).thenReturn(t1);
-        when(dbr.child(Database.LEADERBOARD).get()).thenReturn(t2);
-        when(dbr.child(Database.LEADERBOARD).setValue("75")).thenReturn(null);
+        when(dbr.child(Database.LEADERBOARD_DAILY).get()).thenReturn(t2);
+        when(dbr.child(Database.LEADERBOARD_DAILY).setValue("75")).thenReturn(null);
         when(t2.isSuccessful()).thenReturn(true);
         when(t2.getResult()).thenReturn(ds2);
         when(t1.isSuccessful()).thenReturn(true);

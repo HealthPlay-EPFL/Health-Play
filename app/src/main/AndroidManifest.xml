@@ -18,6 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthPlay">
         <activity
+            android:name=".chat.ChatActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".MonthlyLeaderBoardActivity"
+            android:exported="false" />
+        <activity
             android:name=".planthunt.PlanthuntNewPlantActivity"
             android:exported="false" />
         <activity
@@ -56,7 +62,7 @@
         <activity
             android:name=".kneetag.MainActivity"
             android:exported="true"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".BarcodeScanActivity"
             android:exported="true" />
@@ -83,7 +89,7 @@
         <activity
             android:name=".AdditionalProductInformationActivity"
             android:exported="false"
-            android:parentActivityName=".BarcodeInformationActivity"/>
+            android:parentActivityName=".BarcodeInformationActivity" />
         <activity
             android:name=".LeaderBoardActivity"
             android:exported="false" />
@@ -106,11 +112,11 @@
         <activity
             android:name=".api.PlantnetApi"
             android:exported="false" />
-        <activity android:name=".kneetag.FinishScreen"
+        <activity
+            android:name=".kneetag.FinishScreen"
             android:exported="false"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"></activity>
 
-        </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="ch.epfl.sdp.healthplay.fileprovider"
@@ -121,4 +127,5 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
+
 </manifest>
