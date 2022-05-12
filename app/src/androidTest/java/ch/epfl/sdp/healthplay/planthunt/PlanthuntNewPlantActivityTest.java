@@ -8,8 +8,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.*;
 
+import android.content.Intent;
 import android.view.View;
 
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -21,6 +24,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.api.CameraApi;
 
 public class PlanthuntNewPlantActivityTest {
 
@@ -32,28 +36,40 @@ public class PlanthuntNewPlantActivityTest {
         Espresso.onView(withId(R.id.planthuntPlantButton)).check(matches(isDisplayed()));
     }
 
+    /*
     @Test
     public void buttonCorrectlyWorks() {
-        Espresso.onView(withId(R.id.planthuntPlantButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
-                new ViewAction() {
-                    @Override
-                    public Matcher<View> getConstraints() {
-                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
-                    }
 
-                    @Override
-                    public String getDescription() {
-                        return "click plus button";
-                    }
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntNewPlantActivity.class);
 
-                    @Override
-                    public void perform(UiController uiController, View view) {
-                        view.performClick();
-                    }
-                }
-        );
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "player");
+        intent.putExtra(PlanthuntLobbyActivity.NAME, "plant");
+        intent.putExtra(PlanthuntLobbyActivity.URL, "image");
 
-        Espresso.onView(withId(R.id.planthuntLobbyTimeText)).check(matches(isDisplayed()));
-    }
+
+        try (ActivityScenario<PlanthuntNewPlantActivity> scenario = ActivityScenario.launch(intent)) {
+            Espresso.onView(withId(R.id.planthuntPlantButton)).check(matches(allOf(isEnabled(), isClickable()))).perform(
+                    new ViewAction() {
+                        @Override
+                        public Matcher<View> getConstraints() {
+                            return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                        }
+
+                        @Override
+                        public String getDescription() {
+                            return "click plus button";
+                        }
+
+                        @Override
+                        public void perform(UiController uiController, View view) {
+                            view.performClick();
+                        }
+                    }
+            );
+
+            Espresso.onView(withId(R.id.planthuntLobbyTimeText)).check(matches(isDisplayed()));
+        }
+    }*/
 
 }
