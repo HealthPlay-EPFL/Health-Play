@@ -41,7 +41,7 @@ public class PlanthuntNewPlantActivityTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntNewPlantActivity.class);
 
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "host");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "a");
         intent.putExtra(PlanthuntLobbyActivity.NAME, "plant");
         intent.putExtra(PlanthuntLobbyActivity.URL, "image");
 
@@ -55,7 +55,7 @@ public class PlanthuntNewPlantActivityTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntNewPlantActivity.class);
 
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "host");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "a");
         intent.putExtra(PlanthuntLobbyActivity.NAME, "plant");
         intent.putExtra(PlanthuntLobbyActivity.URL, "image");
 

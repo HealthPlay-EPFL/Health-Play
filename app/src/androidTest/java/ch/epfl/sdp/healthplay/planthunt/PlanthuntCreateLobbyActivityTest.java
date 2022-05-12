@@ -27,7 +27,7 @@ import ch.epfl.sdp.healthplay.planthunt.PlanthuntCreateLobbyActivity;
 public class PlanthuntCreateLobbyActivityTest {
     private static final String NAME = "test";
     private static final String PASSWORD = "password";
-    private static final String USERNAME = "host";
+    private static final String USERNAME = "a";
 
 
     @Rule

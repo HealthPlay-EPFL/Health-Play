@@ -41,7 +41,7 @@ public class PlanthuntLobbyActivityTest {
     public void timerCorrectlyAppears() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntLobbyActivity.class);
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "user");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "a");
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.HOST);
 
         try (ActivityScenario<PlanthuntLobbyActivity> scenario = ActivityScenario.launch(intent)) {
@@ -54,7 +54,7 @@ public class PlanthuntLobbyActivityTest {
     public void cameraCorrectlyLaunches() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntLobbyActivity.class);
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "player");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "a");
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.HOST);
         try (ActivityScenario<PlanthuntLobbyActivity> scenario = ActivityScenario.launch(intent)) {
             Espresso.onView(withId(R.id.planthuntLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
