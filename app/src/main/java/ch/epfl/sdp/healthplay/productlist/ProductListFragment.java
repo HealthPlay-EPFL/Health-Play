@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,6 +39,7 @@ public class ProductListFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    ProgressBar bar;
 
     private Database db = new Database();
     private List<String> mProducts;
@@ -85,6 +87,9 @@ public class ProductListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_product_list, container, false);
 
+        bar = view.findViewById(R.id.progressBarProductList);
+        bar.setVisibility(View.VISIBLE);
+
         // Get the authenticated user if any
         user = FirebaseAuth.getInstance().getCurrentUser();
         // Check if user is not null
@@ -131,5 +136,7 @@ public class ProductListFragment extends Fragment {
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(getContext(), mProducts, mDates);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        bar.setVisibility(View.GONE);
     }
 }
