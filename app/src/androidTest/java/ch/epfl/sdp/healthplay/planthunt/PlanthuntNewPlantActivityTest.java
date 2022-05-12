@@ -31,10 +31,10 @@ public class PlanthuntNewPlantActivityTest {
     @Rule
     public ActivityScenarioRule<PlanthuntNewPlantActivity> testRule = new ActivityScenarioRule<>(PlanthuntNewPlantActivity.class);
 
-    @Test
+    /*@Test
     public void buttonCorrectlyAppears() {
         Espresso.onView(withId(R.id.planthuntPlantButton)).check(matches(isDisplayed()));
-    }
+    }*/
 
     /*
     @Test
