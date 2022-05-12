@@ -42,6 +42,17 @@
             android:backgroundTint="?attr/gradientPrimary_color"
             android:focusable="false"/>
 
+        <Button
+            android:id="@+id/goToChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chat"
+            android:backgroundTint="?attr/gradientPrimary_color"
+            android:contentDescription="@string/go_to_chat"
+            android:focusable="false"
+            tools:layout_editor_absoluteY="279dp" />
+
+
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
@@ -71,6 +82,5 @@
         android:layout_height="wrap_content"
         app:layout_constraintGuide_percent=".9"
         android:orientation="horizontal"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthPlay">
         <activity
+            android:name=".chat.ChatActivity"
+            android:exported="false"/>
+        <activity
             android:name=".MonthlyLeaderBoardActivity"
             android:exported="false" />
         <activity
