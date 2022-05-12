@@ -8,8 +8,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.*;
 
+import android.content.Intent;
 import android.view.View;
 
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -18,7 +21,10 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -30,30 +36,22 @@ public class PlanthuntWaitLobbyActivityTest {
     public ActivityScenarioRule<PlanthuntWaitLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntWaitLobbyActivity.class);
 
 
+    @Before
+    public void before() {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
+    }
 
-    /*
     @Test
     public void lobbyIsCorrectlyCreated() {
-        Espresso.onView(withId(R.id.pla)).check(matches(allOf( isEnabled(), isClickable()))).perform(
-                new ViewAction() {
-                    @Override
-                    public Matcher<View> getConstraints() {
-                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
-                    }
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntWaitLobbyActivity.class);
 
-                    @Override
-                    public String getDescription() {
-                        return "click plus button";
-                    }
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "host");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.HOST);
 
-                    @Override
-                    public void perform(UiController uiController, View view) {
-                        view.performClick();
-                    }
-                }
-        );
-
-        Espresso.onView(withId(R.id.planthuntWaitButton)).check(matches(isDisplayed()));
-    }*/
+        try (ActivityScenario<PlanthuntWaitLobbyActivity> scenario = ActivityScenario.launch(intent)) {
+            Espresso.onView(withId(R.id.planthuntWaitButton)).check(matches(isDisplayed()));
+        }
+    }
 
 }

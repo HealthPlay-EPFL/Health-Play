@@ -41,7 +41,16 @@ public class PlanthuntNewPlantActivityTest {
 
     @Test
     public void buttonCorrectlyAppears() {
-        Espresso.onView(withId(R.id.planthuntPlantButton)).check(matches(isDisplayed()));
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntNewPlantActivity.class);
+
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "host");
+        intent.putExtra(PlanthuntLobbyActivity.NAME, "plant");
+        intent.putExtra(PlanthuntLobbyActivity.URL, "image");
+
+        try (ActivityScenario<PlanthuntNewPlantActivity> scenario = ActivityScenario.launch(intent)) {
+            Espresso.onView(withId(R.id.planthuntPlantButton)).check(matches(isDisplayed()));
+        }
     }
 
     @Test
