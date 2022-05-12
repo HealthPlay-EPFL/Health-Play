@@ -1,5 +1,6 @@
 package ch.epfl.sdp.healthplay.friendlist;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.ViewProfileActivity;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Friend;
 import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
@@ -141,7 +143,10 @@ public class AddFriendFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO show the profile
+                Friend selectedFriend = (Friend)listView.getAdapter().getItem(position);
+                Intent intent = new Intent(getActivity(), ViewProfileActivity.class);
+                intent.putExtra(ViewProfileActivity.MESSAGE, selectedFriend.getUserId());
+                startActivity(intent);
             }
         });
 
