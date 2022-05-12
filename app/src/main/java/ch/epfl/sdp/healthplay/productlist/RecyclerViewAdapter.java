@@ -2,6 +2,7 @@ package ch.epfl.sdp.healthplay.productlist;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,24 +16,29 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import ch.epfl.sdp.healthplay.BarcodeInformationActivity;
 import ch.epfl.sdp.healthplay.ProductInfoActivity;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.model.Product;
+import ch.epfl.sdp.healthplay.model.ProductInfoClient;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private List<Product> mProducts;
+    private List<String> mProducts;
     private List<String> mDates;
     private Context mContext;
 
-    public RecyclerViewAdapter(Context mContext, List<Product> mProducts, List<String> mDates) {
+    public RecyclerViewAdapter(Context mContext, List<String> mProducts, List<String> mDates) {
         this.mProducts = mProducts;
         this.mDates = mDates;
         this.mContext = mContext;
@@ -48,22 +54,41 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: called.");
+        AtomicReference<Product> product = new AtomicReference<>(null);
+        Thread t = new Thread(() -> {
+            try {
+                Product.of(new ProductInfoClient(mProducts.get(position)).getInfo())
+                        .ifPresent(product::set);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         Glide.with(mContext)
                 .asBitmap()
-                .load(mProducts.get(position).getImageURL())
+                .load(product.get().getImageURL())
                 .into(holder.image);
 
         holder.productDate.setText(mDates.get(position));
-        
-        holder.productName.setText(mProducts.get(position).getGenericName());
-        
+
+        String name = product.get().getGenericName().isEmpty() ?
+                product.get().getName() :
+                product.get().getGenericName();
+
+        holder.productName.setText(name);
+
         holder.productListLayout.setOnClickListener(v -> {
             Log.d(TAG, "onBindViewHolder: clicked");
-            /*Intent intent = new Intent(mContext, BarcodeInformationActivity.class);
-            String message = mProducts.get(position)
+            Intent intent = new Intent(mContext, BarcodeInformationActivity.class);
+            String message = product.get().getCode();
             intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, message);
-            startActivity(intent);*/
+            mContext.startActivity(intent);
         });
     }
 
@@ -72,12 +97,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mProducts.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
         TextView productDate;
         TextView productName;
         RelativeLayout productListLayout;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.productListImage);

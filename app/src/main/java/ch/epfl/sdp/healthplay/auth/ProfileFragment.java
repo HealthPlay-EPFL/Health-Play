@@ -33,6 +33,7 @@ import ch.epfl.sdp.healthplay.QrCodeFragment;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
+import ch.epfl.sdp.healthplay.productlist.ProductListFragment;
 
 public class ProfileFragment extends Fragment {
 
@@ -111,7 +112,7 @@ public class ProfileFragment extends Fragment {
         // Go to the Edit Profile Picture Fragment
         view.findViewById(R.id.changeButton).setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new EditProfilePictureFragment()));
         // Go to the QRCode fragment
-        view.findViewById(R.id.goToQRCode).setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new QrCodeFragment()));
+        view.findViewById(R.id.goToQRCode).setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new ProductListFragment()));
     }
 
     public void initBirthday(String userId, TextView TextViewBirthday) {
