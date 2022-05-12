@@ -51,12 +51,9 @@ public final class Database {
     public static final int MAX_PLAYER_CAPACITY = 3;
 
     //Leaderboard related constants
-    public static final String LEADERBOARD = "leaderBoard";
-    public static final String LEADERBOARD_DATE = "leaderBoardDate";
     public static final String LEADERBOARD_MONTHLY = "monthlyLeaderBoard";
     public static final String LEADERBOARD_DAILY = "leaderBoard";
     public static final String NUTRIMENTS = "nutriments";
-    public static final int MAX_NBR_PLAYERS = 3;
     public static final String FRIEND = "friends";
     public final DatabaseReference mDatabase;
 
