@@ -86,6 +86,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isTested) { return; }
                 startCameraIntent();
             }
         });
@@ -186,8 +187,6 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (isTested) { return; }
 
         //Check request comes from camera
         if (requestCode == CameraApi.REQUEST_IMAGE_CAPTURE){
