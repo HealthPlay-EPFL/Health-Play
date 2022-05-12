@@ -30,6 +30,9 @@ import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.model.Product;
 import ch.epfl.sdp.healthplay.model.ProductInfoClient;
 
+/**
+ * Class that represents the RecyclerView for the list of product
+ */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
@@ -38,6 +41,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<String> mDates;
     private Context mContext;
 
+    /**
+     * Constructor of the RecyclerViewAdapter
+     *
+     * @param mContext the context
+     * @param mProducts the list of product codes
+     * @param mDates the list of dates
+     */
     public RecyclerViewAdapter(Context mContext, List<String> mProducts, List<String> mDates) {
         this.mProducts = mProducts;
         this.mDates = mDates;
@@ -97,6 +107,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mProducts.size();
     }
 
+    /**
+     * ViewHolder class that represents a single element in the list
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
