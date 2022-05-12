@@ -46,4 +46,8 @@ public class CameraApi {
     public static String getImageUrl(FirebaseUser user, String fileName){
         return URL_FIRST + user.getUid() + "%2F" + fileName + URL_SECOND;
     }
+
+    public static String getNewImageUrl(FirebaseUser user, String fileName, String plantName){
+        return URL_FIRST + user.getUid() + "%2F" + plantName + "_" + fileName + URL_SECOND;
+    }
 }
