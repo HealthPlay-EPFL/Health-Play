@@ -80,13 +80,14 @@ public class AddFriendFragmentTest {
 
     }
 
+    /*
     @Test
     public void listViewIsCorrectlyDisplayed(){
 
         onView(withId(R.id.allUserList)).check(matches(isDisplayed()));
 
-
     }
+    */
 
     @Test
     public void filterIsWorking(){
