@@ -96,7 +96,7 @@ public class PlanthuntResultActivity extends AppCompatActivity {
         leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PlanthuntResultActivity.this, MainActivity.class);
+                Intent intent = new Intent(PlanthuntResultActivity.this, PlanthuntMainActivity.class);
                 startActivity(intent);
             }
         });

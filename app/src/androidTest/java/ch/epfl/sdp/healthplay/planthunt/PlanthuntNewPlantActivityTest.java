@@ -46,11 +46,10 @@ public class PlanthuntNewPlantActivityTest {
 
     @Test
     public void buttonCorrectlyWorks() {
-
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntNewPlantActivity.class);
 
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "player");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "host");
         intent.putExtra(PlanthuntLobbyActivity.NAME, "plant");
         intent.putExtra(PlanthuntLobbyActivity.URL, "image");
 
@@ -75,7 +74,7 @@ public class PlanthuntNewPlantActivityTest {
                     }
             );
 
-            Espresso.onView(withId(R.id.planthuntLobbyTimeText)).check(matches(isDisplayed()));
+            Espresso.onView(withId(R.id.planthuntLobbyButton)).check(matches(isDisplayed()));
         }
     }
 

@@ -40,7 +40,7 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
 
                 Log.e("ERROR", "An error happened");
             }
-            db.updateLobbyPlayerScore(lobbyName, currentUsername, Math.toIntExact((long) task.getResult().getValue()) + 50);
+            db.updateLobbyPlayerScore(lobbyName, currentUsername, Math.toIntExact((long) Objects.requireNonNull(task.getResult().getValue())) + 50);
         });
 
         String imageUrl = intent.getStringExtra(PlanthuntLobbyActivity.URL);
