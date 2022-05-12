@@ -50,7 +50,7 @@ public class PlanthuntMainActivityTest {
                 }
         );
 
-        Espresso.onView(withId(R.id.planthuntCreateLobbyMain)).check(matches(isDisplayed()));
+        //Espresso.onView(withId(R.id.planthuntCreateLobbyMain)).check(matches(isDisplayed()));
     }
 
     @Test
