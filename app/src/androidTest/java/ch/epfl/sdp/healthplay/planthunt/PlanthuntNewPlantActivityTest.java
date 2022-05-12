@@ -31,9 +31,6 @@ import ch.epfl.sdp.healthplay.api.CameraApi;
 
 public class PlanthuntNewPlantActivityTest {
 
-    @Rule
-    public ActivityScenarioRule<PlanthuntNewPlantActivity> testRule = new ActivityScenarioRule<>(PlanthuntNewPlantActivity.class);
-
     @Before
     public void before() throws InterruptedException {
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");

@@ -32,17 +32,14 @@ import ch.epfl.sdp.healthplay.R;
 
 public class PlanthuntWaitLobbyActivityTest {
 
-    @Rule
-    public ActivityScenarioRule<PlanthuntWaitLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntWaitLobbyActivity.class);
-
 
     @Before
-    public void before() {
+    public void before() throws InterruptedException {
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
     }
 
     @Test
-    public void lobbyIsCorrectlyCreated() {
+    public void waitScreenIsCorrectlyLoaded() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntWaitLobbyActivity.class);
 
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");

@@ -34,7 +34,6 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
 
         //Initialize database reference
         Database db = new Database();
-
         db.getLobbyPlayerScore(lobbyName, currentUsername, task -> {
             if (!task.isSuccessful()) {
 
