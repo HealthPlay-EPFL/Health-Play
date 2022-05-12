@@ -1,10 +1,12 @@
 package ch.epfl.sdp.healthplay.productlist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,19 +19,22 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sdp.healthplay.BarcodeInformationActivity;
+import ch.epfl.sdp.healthplay.ProductInfoActivity;
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.model.Product;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private List<String> mImageNames = new ArrayList<>();
-    private List<String> mImages = new ArrayList<>();
+    private List<Product> mProducts;
+    private List<String> mDates;
     private Context mContext;
 
-    public RecyclerViewAdapter(Context mContext, List<String> mImageNames, List<String> mImages) {
-        this.mImageNames = mImageNames;
-        this.mImages = mImages;
+    public RecyclerViewAdapter(Context mContext, List<Product> mProducts, List<String> mDates) {
+        this.mProducts = mProducts;
+        this.mDates = mDates;
         this.mContext = mContext;
     }
 
@@ -46,19 +51,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Glide.with(mContext)
                 .asBitmap()
-                .load(mImages.get(position))
+                .load(mProducts.get(position).getImageURL())
                 .into(holder.image);
+
+        holder.productDate.setText(mDates.get(position));
         
-        holder.productName.setText(mImageNames.get(position));
+        holder.productName.setText(mProducts.get(position).getGenericName());
         
         holder.productListLayout.setOnClickListener(v -> {
             Log.d(TAG, "onBindViewHolder: clicked");
+            /*Intent intent = new Intent(mContext, BarcodeInformationActivity.class);
+            String message = mProducts.get(position)
+            intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, message);
+            startActivity(intent);*/
         });
     }
 
     @Override
     public int getItemCount() {
-        return mImageNames.size();
+        return mProducts.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

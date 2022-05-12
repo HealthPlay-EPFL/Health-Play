@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,6 +48,7 @@ public final class Database {
     public static final String NUTRIMENTS = "nutriments";
     public static final int MAX_NBR_PLAYERS = 3;
     public static final String FRIEND = "friends";
+    public static final String PRODUCTS = "products";
     public final DatabaseReference mDatabase;
 
     public static final String STATS = "stats";
@@ -162,6 +164,15 @@ public final class Database {
                 mDatabase.child(USERS).child(userId).child(STATS).child(getTodayDate()).child(WEIGHT).setValue(task.getResult().getValue());
             }
         }));
+    }
+
+    public void addProduct(String userId, String productCode) {
+        mDatabase.child(USERS)
+                .child(userId)
+                .child(PRODUCTS)
+                .child(getTodayDate())
+                .child(productCode)
+                .setValue(ServerValue.increment(1));
     }
 
     public void writeName(String userId, String name) {

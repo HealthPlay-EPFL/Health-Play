@@ -8,7 +8,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
+
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.database.Database;
+import ch.epfl.sdp.healthplay.model.Product;
+import ch.epfl.sdp.healthplay.model.ProductInfoClient;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +34,11 @@ public class ProductListFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private Database db = new Database();
+    private List<Product> mProducts;
+    private List<String> mDates;
+    private FirebaseUser user;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -61,6 +79,46 @@ public class ProductListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_product_list, container, false);
+
+        // Get the authenticated user if any
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        // Check if user is not null
+        // The user should not be null as this page is accessed through the profile page
+        Objects.requireNonNull(user);
+
+        initProductsAndDates();
+
+        return view;
+    }
+
+    private void initProductsAndDates() {
+        mProducts = new ArrayList<>();
+        mDates = new ArrayList<>();
+
+        db.mDatabase
+                .child(Database.USERS)
+                .child(user.getUid())
+                .child(Database.PRODUCTS)
+                .get()
+                .addOnSuccessListener(dataSnapshot -> {
+                    @SuppressWarnings("unchecked")
+                    Map<String, Map<String, Integer>> productsUnordered = (Map<String, Map<String, Integer>>) dataSnapshot.getValue();
+                    if (productsUnordered != null) {
+                        TreeMap<String, Map<String, Integer>> products = new TreeMap<>(productsUnordered);
+                        products.forEach((date, pMap) -> pMap.forEach((p, quantity) -> {
+                            try {
+                                ProductInfoClient client = new ProductInfoClient(p);
+                                String productJson = client.getInfo();
+                                Product.of(productJson).ifPresent(product -> {
+                                    mProducts.add(product);
+                                    mDates.add(date);
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }));
+                    }
+                });
     }
 }
