@@ -107,7 +107,7 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
 
                                 Log.e("ERROR", "An error happened");
                             }
-                            String name = Objects.requireNonNull(task.getResult().getValue()).toString();
+                            String name = task.getResult().getValue().toString();
                             if (Math.toIntExact((long) snapshot.getValue()) == Math.toIntExact((long) task.getResult().getValue())){
                                 Intent intent = new Intent(PlanthuntWaitLobbyActivity.this, PlanthuntLobbyActivity.class);
                                 intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);

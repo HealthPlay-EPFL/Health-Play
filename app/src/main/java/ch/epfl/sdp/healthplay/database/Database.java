@@ -87,6 +87,11 @@ public final class Database {
      */
     public void writeNewUser(String userId, String userName, int age, int weight) {
         mDatabase.child(USERS).child(userId).setValue( new User(userName, "empty name", "empty surname", "empty@email.com", "2000-01-01", age));
+        Map<String, Object> chatStatus = new HashMap<>();
+        chatStatus.put("onlineStatus", "offline");
+        chatStatus.put("typingTo", "notTyping");
+        mDatabase.child(USERS).child(userId).updateChildren(chatStatus);
+
     }
 
     public void writeUsername(String userId, String name) {

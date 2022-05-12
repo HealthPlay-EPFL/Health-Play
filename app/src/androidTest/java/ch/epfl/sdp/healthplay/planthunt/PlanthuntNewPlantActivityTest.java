@@ -19,7 +19,10 @@ import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -31,12 +34,16 @@ public class PlanthuntNewPlantActivityTest {
     @Rule
     public ActivityScenarioRule<PlanthuntNewPlantActivity> testRule = new ActivityScenarioRule<>(PlanthuntNewPlantActivity.class);
 
-    /*@Test
+    @Before
+    public void before() throws InterruptedException {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+    }
+
+    @Test
     public void buttonCorrectlyAppears() {
         Espresso.onView(withId(R.id.planthuntPlantButton)).check(matches(isDisplayed()));
-    }*/
+    }
 
-    /*
     @Test
     public void buttonCorrectlyWorks() {
 
@@ -70,6 +77,6 @@ public class PlanthuntNewPlantActivityTest {
 
             Espresso.onView(withId(R.id.planthuntLobbyTimeText)).check(matches(isDisplayed()));
         }
-    }*/
+    }
 
 }

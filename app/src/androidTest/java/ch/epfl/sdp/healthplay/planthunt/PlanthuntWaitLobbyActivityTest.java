@@ -31,7 +31,8 @@ public class PlanthuntWaitLobbyActivityTest {
 
 
 
-    /*@Test
+    /*
+    @Test
     public void lobbyIsCorrectlyCreated() {
         Espresso.onView(withId(R.id.pla)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
