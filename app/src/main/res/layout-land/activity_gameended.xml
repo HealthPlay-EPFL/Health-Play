@@ -4,34 +4,102 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="MissingDefaultResource">
+    tools:ignore="MissingDefaultResource"
+    android:background="@color/black">
+
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp"
-        >
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/restart"
-            android:layout_width="146dp"
-            android:layout_height="68dp"
-            android:text="@string/restart" />
-
-        <Button
-            android:id="@+id/quit"
-            android:layout_width="144dp"
-            android:layout_height="67dp"
-            android:text="@string/quit" />
-
-        <TextView
-            android:id="@+id/winner_display"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/textview" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/winner"
+                android:layout_width="300dp"
+                android:layout_height="58dp"
+                android:backgroundTint="@android:color/holo_red_dark"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="5dp"
+                android:text="@string/NoUser"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+            <Button
+                android:id="@+id/button11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                android:text="@string/button" />
+
+            <Button
+                android:id="@+id/looser"
+                android:layout_width="300dp"
+                android:layout_height="58dp"
+                android:layout_marginBottom="0dp"
+                android:backgroundTint="@android:color/holo_red_dark"
+                android:gravity="right|center_vertical"
+                android:paddingLeft="5dp"
+                android:text="@string/NoUser"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="229dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/winner_display"
+                android:layout_width="664dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="@color/planthuntOrange"
+                android:text="@string/textview" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="149dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/quit"
+                android:layout_width="144dp"
+                android:layout_height="67dp"
+                android:backgroundTint="@color/blueButton"
+                android:text="@string/quit" />
+
+
+            <Button
+                android:id="@+id/button6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:text="@string/button"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <Button
+                android:id="@+id/restart"
+                android:layout_width="146dp"
+                android:layout_height="68dp"
+                android:backgroundTint="@color/blueButton"
+                android:text="@string/restart" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

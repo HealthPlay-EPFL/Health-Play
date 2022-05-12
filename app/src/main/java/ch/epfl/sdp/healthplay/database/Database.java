@@ -232,7 +232,7 @@ public final class Database {
     }
 
     public void readField(String userId, String field, OnCompleteListener<DataSnapshot> listener) {
-       mDatabase.child(Database.USERS).child(userId).child(field).get().addOnCompleteListener(listener);
+        mDatabase.child(Database.USERS).child(userId).child(field).get().addOnCompleteListener(listener);
     }
 
     /**
@@ -302,14 +302,36 @@ public final class Database {
      * Add the given friend to the Database
      * @param friendUserId
      */
-    public void addToFriendList(String friendUserId) {
+    public void addToFriendList(String friendUserId,String username) {
         if(FirebaseAuth.getInstance().getCurrentUser() != null) {
             mDatabase.child(USERS)
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child("friends")
                     .child(friendUserId)
-                    .setValue(true);
+                    .setValue(username);
         }
+    }
+
+    /**
+     * Add the given friend to the Database
+     * @param friendUserId
+     */
+    public void addToFriendList(String friendUserId) {
+        readField(friendUserId, Database.USERNAME, new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                String username;
+                if (task.getResult().getValue() != null) {
+                    username = task.getResult().getValue(String.class);
+                    mDatabase.child(USERS)
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("friends")
+                            .child(friendUserId)
+                            .setValue(username);
+                }
+            }
+        });
+
     }
 
     /**
@@ -395,17 +417,17 @@ public final class Database {
                     .child(name)
                     .child(PLAYER_UID + i)
                     .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                        @Override
-                        public void onSuccess(DataSnapshot dataSnapshot) {
-                            if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(playerUid)) {
-                                mDatabase
-                                        .child(LOBBIES)
-                                        .child(name)
-                                        .child(PLAYER_SCORE + finalI)
-                                        .setValue(score);
-                            }
-                        }
-                    });
+                @Override
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                    if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(playerUid)) {
+                        mDatabase
+                                .child(LOBBIES)
+                                .child(name)
+                                .child(PLAYER_SCORE + finalI)
+                                .setValue(score);
+                    }
+                }
+            });
         }
     }
 
@@ -423,10 +445,11 @@ public final class Database {
                 }
             }
         });
+
         return outputMap;
     }
 
-     /** Checks if lobby exists and given password matches correct one
+    /** Checks if lobby exists and given password matches correct one
      *
      * @param name      the unique identifier given to the lobby
      * @param password  the unique password given to the lobby
