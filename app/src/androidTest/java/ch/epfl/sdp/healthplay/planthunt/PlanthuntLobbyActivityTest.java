@@ -49,7 +49,7 @@ public class PlanthuntLobbyActivityTest {
         }
     }
 
-    /*
+
     @Test
     public void cameraCorrectlyLaunches() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntLobbyActivity.class);
@@ -79,6 +79,6 @@ public class PlanthuntLobbyActivityTest {
         Intent nextIntent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntMainActivity.class);
         ActivityScenario.launch(nextIntent);
     }
-    */
+
 
 }
