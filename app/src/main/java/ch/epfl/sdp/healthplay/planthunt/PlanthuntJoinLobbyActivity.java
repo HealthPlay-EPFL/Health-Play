@@ -2,14 +2,12 @@ package ch.epfl.sdp.healthplay.planthunt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 
 import java.util.Objects;
 
@@ -37,22 +35,41 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Get Strings from input fields
-                String name = getString(editName);
+                String lobbyName = getString(editName);
                 String password = getString(editPassword);
                 String username = getString(editUsername);
 
-                Task checkId = db.checkLobbyId(name, password);
-                checkId.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                    @Override
-                    public void onSuccess(DataSnapshot dataSnapshot) {
-                        if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(password)){
-                            System.out.println("Lobby id is correct!");
-                            //Initialize new lobby with received values
-                            db.addUserToLobby(name, username);
-                        }
+                db.getLobbyPassword(lobbyName, task -> {
+                    if (!task.isSuccessful()) {
+                        Log.e("ERROR", "Lobby does not exist!");
+                    }
+                    if (Objects.requireNonNull(task.getResult().getValue()).toString().equals(password)){
+                        db.getLobbyPlayerCount(lobbyName, Database.NBR_PLAYERS, task2 -> {
+                            if (!task2.isSuccessful()) {
+                                Log.e("ERROR", "Lobby does not exist!");
+                            }
+                            db.getLobbyPlayerCount(lobbyName, Database.MAX_NBR_PLAYERS, task3 -> {
+                                if (!task3.isSuccessful()) {
+                                    Log.e("ERROR", "Lobby does not exist!");
+                                }
+                                if (Math.toIntExact((long) task2.getResult().getValue()) < Math.toIntExact((long) task3.getResult().getValue())){
+                                    db.addUserToLobby(lobbyName, username);
+
+                                    //Launch lobby waiting screen
+                                    Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
+                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
+                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.PLAYER);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    //TODO actual pop ups
+                                    Log.e("ERROR", "Lobby is full!");
+                                }
+                            });
+                        });
                     }
                 });
-
             }
         });
     }
