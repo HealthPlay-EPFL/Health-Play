@@ -196,7 +196,7 @@ public class SignedInFragmentTest {
         onView(withId(R.id.light)).perform(click());
     }
 
-    @Test
+    /*@Test
     public void signOutTest() throws InterruptedException {
         FragmentScenario test = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppTheme);
         onView(withId(R.id.sign_out)).perform(click());
@@ -204,7 +204,7 @@ public class SignedInFragmentTest {
         TimeUnit.SECONDS.sleep(1);
         FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         TimeUnit.SECONDS.sleep(1);
-    }
+    }*/
 
     /*@Test
     public void remove_account() throws InterruptedException {
