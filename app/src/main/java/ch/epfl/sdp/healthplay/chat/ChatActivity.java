@@ -177,7 +177,7 @@ public class ChatActivity extends AppCompatActivity {
                     //If not typing
                     else {
                         //If online
-                        if (onlineStatus.equals("online")) {
+                        if (onlineStatus.equals("online") || onlineStatus.equals("offline")) {
                             userStatus.setText(onlineStatus);
                         }
                         //If not online, show the last time he was seen

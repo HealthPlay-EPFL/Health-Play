@@ -1,7 +1,6 @@
 package ch.epfl.sdp.healthplay.database;
 
 import android.util.Log;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -38,15 +37,24 @@ public final class Database {
     public static final String NAME = "name";
     public static final String SURNAME = "surname";
     public static final String BIRTHDAY = "birthday";
-    public static final String NBR_PLAYER = "nbrPlayers";
+
+    //Lobby related constants
+    public static final String NBR_PLAYERS = "nbrPlayers";
+    public static final String MAX_NBR_PLAYERS = "maxNbrPlayers";
     public static final String REMAINING_TIME = "remainingTime";
     public static final String PLAYER_UID = "playerUid";
     public static final String PLAYER_SCORE = "playerScore";
+    public static final String PLAYER_READY = "playerReady";
+    public static final String PLAYERS_READY = "playersReady";
+    public static final String PLAYERS_GONE = "playersGone";
     public static final String PASSWORD = "password";
+
+    public static final int MAX_PLAYER_CAPACITY = 3;
+
+    //Leaderboard related constants
     public static final String LEADERBOARD_MONTHLY = "monthlyLeaderBoard";
     public static final String LEADERBOARD_DAILY = "leaderBoard";
     public static final String NUTRIMENTS = "nutriments";
-    public static final int MAX_NBR_PLAYERS = 3;
     public static final String FRIEND = "friends";
     public static final String PRODUCTS = "products";
     public final DatabaseReference mDatabase;
@@ -81,6 +89,11 @@ public final class Database {
      */
     public void writeNewUser(String userId, String userName, int age, int weight) {
         mDatabase.child(USERS).child(userId).setValue( new User(userName, "empty name", "empty surname", "empty@email.com", "2000-01-01", age));
+        Map<String, Object> chatStatus = new HashMap<>();
+        chatStatus.put("onlineStatus", "offline");
+        chatStatus.put("typingTo", "notTyping");
+        mDatabase.child(USERS).child(userId).updateChildren(chatStatus);
+
     }
 
     public void writeUsername(String userId, String name) {
@@ -365,15 +378,20 @@ public final class Database {
         }
     }
 
+
+
+
+
     /** Creates a new lobby in the database
      *
      * @param name          the unique identifier given to the lobby
      * @param password      the password required to join the lobby
      * @param hostUid       the unique identifier of the lobby host
      * @param remainingTime the time the game will last for
+     * @param maxNbrPlayers the number of expected players in the lobby
      */
-    public void writeNewLobby (String name, String password, String hostUid, int remainingTime){
-        mDatabase.child(LOBBIES).child(name).setValue(new Lobby(name, password, hostUid, remainingTime));
+    public void writeNewLobby(String name, String password, String hostUid, int remainingTime, int maxNbrPlayers){
+        mDatabase.child(LOBBIES).child(name).setValue(new Lobby(name, password, hostUid, remainingTime, maxNbrPlayers));
     }
 
     /**
@@ -386,7 +404,7 @@ public final class Database {
         mDatabase
                 .child(LOBBIES)
                 .child(name)
-                .child(NBR_PLAYER)
+                .child(NBR_PLAYERS)
                 .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
@@ -394,7 +412,7 @@ public final class Database {
                 mDatabase
                         .child(LOBBIES)
                         .child(name)
-                        .child(NBR_PLAYER)
+                        .child(NBR_PLAYERS)
                         .setValue(nbrPlayers);
                 mDatabase
                         .child(LOBBIES)
@@ -405,8 +423,112 @@ public final class Database {
         });
     }
 
+    /** Gets player value from lobby
+     *
+     * @param name    the unique identifier given to the lobby
+     * @param request the value we're getting
+     */
+    public Task getLobbyPlayerCount (String name, String request, OnCompleteListener<DataSnapshot> onCompleteListener){
+        return mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child(request)
+                .get().addOnCompleteListener(onCompleteListener);
+    }
+
+    /** Gets lobby password
+     *
+     * @param name the unique identifier given to the lobby
+     */
+    public Task getLobbyPassword(String name, OnCompleteListener<DataSnapshot> onCompleteListener){
+        return mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child(PASSWORD)
+                .get().addOnCompleteListener(onCompleteListener);
+    }
+
     /**
-     * Updates remaining in the database lobby's game
+     * Increases lobby's ready players count
+     *
+     * @param name       the unique identifier given to the lobby
+     */
+    public void addLobbyReadyPlayer(String name){
+        mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child(PLAYERS_READY)
+                .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                int readyPlayers = Integer.parseInt(Objects.requireNonNull(dataSnapshot.getValue()).toString()) + 1;
+                mDatabase
+                        .child(LOBBIES)
+                        .child(name)
+                        .child(PLAYERS_READY)
+                        .setValue(readyPlayers);
+            }
+        });
+    }
+
+    /**
+     * Sets a lobby user as ready
+     *
+     * @param name      the unique identifier given to the lobby
+     * @param playerUid the unique identifier of the ready player
+     */
+    public void setLobbyPlayerReady (String name, String playerUid){
+        for (int i = 1; i < MAX_PLAYER_CAPACITY + 1; i++) {
+            int finalI = i;
+            mDatabase
+                    .child(LOBBIES)
+                    .child(name)
+                    .child(PLAYER_UID + i)
+                    .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                @Override
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                    if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(playerUid)) {
+                        mDatabase
+                                .child(LOBBIES)
+                                .child(name)
+                                .child(PLAYER_READY + finalI)
+                                .setValue(true);
+                    }
+                }
+            });
+        }
+    }
+
+    /** Gets uids of all players in the lobby
+     *
+     * @param name the unique identifier given to the lobby
+     */
+    public void getAllLobbyPlayerUids (String name, OnCompleteListener<DataSnapshot> onCompleteListener){
+        for (int i = 1; i < MAX_PLAYER_CAPACITY + 1; i++) {
+            mDatabase
+                    .child(LOBBIES)
+                    .child(name)
+                    .child(PLAYER_UID + i)
+                    .get().addOnCompleteListener(onCompleteListener);
+        }
+    }
+
+    /** Gets scores of all players in the lobby
+     *
+     * @param name       the unique identifier given to the lobby
+     */
+    public void getAllLobbyPlayerScores (String name, OnCompleteListener<DataSnapshot> onCompleteListener){
+        for (int i = 1; i < MAX_PLAYER_CAPACITY + 1; i++) {
+            mDatabase
+                    .child(LOBBIES)
+                    .child(name)
+                    .child(PLAYER_SCORE + i)
+                    .get().addOnCompleteListener(onCompleteListener);
+        }
+    }
+
+    /**
+     * Updates remaining time in the lobby's game
      *
      * @param name          the unique identifier given to the lobby
      * @param remainingTime the new remaining time in the game
@@ -427,7 +549,7 @@ public final class Database {
      * @param score     the new score of the player
      */
     public void updateLobbyPlayerScore (String name, String playerUid, int score){
-        for (int i = 1; i < MAX_NBR_PLAYERS + 1; i++) {
+        for (int i = 1; i < MAX_PLAYER_CAPACITY + 1; i++) {
             int finalI = i;
             mDatabase
                     .child(LOBBIES)
@@ -448,6 +570,61 @@ public final class Database {
         }
     }
 
+    /** Gets the score of a player in the lobby
+     *
+     * @param name       the unique identifier given to the lobby
+     * @param playerUid  the unique identifier of the scoring player
+     */
+    public void getLobbyPlayerScore (String name, String playerUid, OnCompleteListener<DataSnapshot> onCompleteListener){
+        for (int i = 1; i < MAX_PLAYER_CAPACITY + 1; i++) {
+            int finalI = i;
+            mDatabase
+                    .child(LOBBIES)
+                    .child(name)
+                    .child(PLAYER_UID + i)
+                    .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                @Override
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                    if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(playerUid)) {
+                        mDatabase
+                                .child(LOBBIES)
+                                .child(name)
+                                .child(PLAYER_SCORE + finalI)
+                                .get()
+                                .addOnCompleteListener(onCompleteListener);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * Increases lobby's gone players count
+     *
+     * @param name the unique identifier given to the lobby
+     */
+    public void addLobbyGonePlayer(String name){
+        mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child(PLAYERS_GONE)
+                .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                int gonePlayers = Integer.parseInt(Objects.requireNonNull(dataSnapshot.getValue()).toString()) + 1;
+                mDatabase
+                        .child(LOBBIES)
+                        .child(name)
+                        .child(PLAYERS_GONE)
+                        .setValue(gonePlayers);
+            }
+        });
+    }
+
+
+
+
+
     /**
      * Get the friend list of the user
      * @return a map of String to Boolean
@@ -466,20 +643,10 @@ public final class Database {
         return outputMap;
     }
 
-    /** Checks if lobby exists and given password matches correct one
-     *
-     * @param name      the unique identifier given to the lobby
-     * @param password  the unique password given to the lobby
+    /**
+     * Update the LeaderBoard
+     * @param userId
      */
-    public Task checkLobbyId (String name, String password){
-        return mDatabase
-                .child(LOBBIES)
-                .child(name)
-                .child(PASSWORD)
-                .get();
-    }
-
-
     private void updateLeaderBoard(String userId, int toRemove) {
         getStats(userId,getLambdaUpdate(userId,toRemove, format, LEADERBOARD_DAILY));
     }

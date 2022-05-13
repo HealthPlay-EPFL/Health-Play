@@ -85,7 +85,6 @@ public class AddFriendFragmentTest {
 
         onView(withId(R.id.allUserList)).check(matches(isDisplayed()));
 
-
     }
 
     @Test

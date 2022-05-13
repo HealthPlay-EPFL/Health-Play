@@ -23,7 +23,7 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/waitLobbyName"
+            android:id="@+id/planthuntResultName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/alata"
@@ -60,12 +60,12 @@
                 android:background="@color/planthuntDarkGreen" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button7"
+                android:id="@+id/planthuntResultText1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
                 android:fontFamily="@font/alata"
-                android:text="Baptiste\n37 points"
+                android:text=""
                 android:drawableEnd="@drawable/crown_icon"
                 android:drawableTint="@color/white"
                 android:paddingEnd="40dp"
@@ -80,12 +80,12 @@
                 android:background="@color/planthuntDarkGreen" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button8"
+                android:id="@+id/planthuntResultText2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
                 android:fontFamily="@font/alata"
-                android:text="Antoine\n32 points"
+                android:text=""
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="36sp" />
@@ -96,12 +96,12 @@
                 android:background="@color/planthuntDarkGreen" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button9"
+                android:id="@+id/planthuntResultText3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
                 android:fontFamily="@font/alata"
-                android:text="Etienne\n27 points"
+                android:text=""
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="36sp" />
@@ -113,7 +113,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/planthuntCreateLobbyButton"
+            android:id="@+id/planthuntResultButton"
             android:layout_width="200dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
