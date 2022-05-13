@@ -56,7 +56,7 @@ public class GameMenuFragmentTest {
         onView(withId(R.id.kneetagDescButtonBack)).check(matches(isDisplayed()));
     }
 
-    @Test
+    /*@Test
     public void planthuntPlayCorrectlyLaunches() {
         onView(withId(R.id.planthuntPlay)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
@@ -77,7 +77,7 @@ public class GameMenuFragmentTest {
                 }
         );
         onView(withId(R.id.planthuntMainPlay)).check(matches(isDisplayed()));
-    }
+    }*/
 
     /*@Test
     public void kneetagPlayCorrectlyLaunches() {
