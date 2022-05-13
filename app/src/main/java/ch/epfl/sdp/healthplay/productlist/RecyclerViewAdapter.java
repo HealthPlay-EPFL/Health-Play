@@ -112,10 +112,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView image;
-        TextView productDate;
-        TextView productName;
-        RelativeLayout productListLayout;
+        private ImageView image;
+        private TextView productDate;
+        private TextView productName;
+        private RelativeLayout productListLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

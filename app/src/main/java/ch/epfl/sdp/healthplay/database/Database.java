@@ -166,6 +166,12 @@ public final class Database {
         }));
     }
 
+    /**
+     * Add the given product to the products list of the user
+     *
+     * @param userId the user id
+     * @param productCode the product code
+     */
     public void addProduct(String userId, String productCode) {
         mDatabase.child(USERS)
                 .child(userId)
