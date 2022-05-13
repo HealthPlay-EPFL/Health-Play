@@ -23,9 +23,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-@RunWith(AndroidJUnit4.class)
+//@RunWith(AndroidJUnit4.class)
 public class EditProfilePictureFragmentTest {
-    ActivityScenario activity;
+    /*ActivityScenario activity;
 
     @Before
     public void init(){
@@ -47,7 +47,7 @@ public class EditProfilePictureFragmentTest {
         onView(withId(R.id.change_button)).check(matches(isDisplayed()));
         onView(withId(R.id.save_button)).check(matches(isDisplayed()));
         onView(withId(R.id.exit_button)).check(matches(isDisplayed()));
-    }
+    }*/
 
     /*@Test
     public void exit(){
