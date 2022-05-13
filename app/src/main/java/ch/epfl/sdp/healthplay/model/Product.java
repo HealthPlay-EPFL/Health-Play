@@ -31,6 +31,7 @@ public final class Product {
     private final static String GEN_NAME = "generic_name";
     private final static String FULL_NAME = "product_name";
 
+    private static final String CODE = "code";
     private static final String NUTRIMENTS = "nutriments";
     private static final String ENERGY_KCAL = "energy-kcal";
     private static final String IMAGE_URL = "image_url";
@@ -59,6 +60,19 @@ public final class Product {
             return Optional.of(new Product(json));
         } catch (JSONException e) {
             return Optional.empty();
+        }
+    }
+
+    /**
+     * Get the code of the product
+     *
+     * @return the code of the product
+     */
+    public String getCode() {
+        try {
+            return product.getString(CODE);
+        } catch (JSONException e) {
+            return UNKNOWN_NAME;
         }
     }
 
