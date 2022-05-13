@@ -573,6 +573,7 @@ public final class Database {
      * @param name the unique identifier given to the lobby
      */
     public void addLobbyGonePlayer(String name){
+        //TODO delete player fields: score, uid, isReady, nbrPlayersReady
         mDatabase
                 .child(LOBBIES)
                 .child(name)
@@ -586,7 +587,7 @@ public final class Database {
                                 Log.e("ERROR", "Lobby does not exist!");
                             }
                             if (Math.toIntExact((long) task.getResult().getValue()) == Math.toIntExact((long) dataSnapshot.getValue())){
-                                //TODO PLANTHUNT delete lobby
+                                deleteLobby(name);
                             }
                         });
                 mDatabase
@@ -608,6 +609,17 @@ public final class Database {
                 .child(name)
                 .child(PLAYERS_GONE)
                 .get().addOnCompleteListener(onCompleteListener);
+    }
+
+    /** Deletes lobby with given name
+     *
+     * @param name the unique identifier given to the lobby
+     */
+    public void deleteLobby(String name) {
+        mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .removeValue();
     }
 
 

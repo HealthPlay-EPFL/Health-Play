@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import ch.epfl.sdp.healthplay.R;
@@ -56,7 +57,42 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
             }
         });
 
+        CheckBox box1 = findViewById(R.id.planthuntCreateLobbyBox1);
+        CheckBox box2 = findViewById(R.id.planthuntCreateLobbyBox2);
+        CheckBox box3 = findViewById(R.id.planthuntCreateLobbyBox3);
 
+        //Selects the amount of players expected in the Lobby
+        box1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                box1.setChecked(true);
+                box2.setChecked(false);
+                box3.setChecked(false);
+                //TODO update lobby players count
+            }
+        });
+
+        //Selects the amount of players expected in the Lobby
+        box2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                box1.setChecked(false);
+                box2.setChecked(true);
+                box3.setChecked(false);
+                //TODO update lobby players count
+            }
+        });
+
+        //Selects the amount of players expected in the Lobby
+        box3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                box1.setChecked(false);
+                box2.setChecked(false);
+                box3.setChecked(true);
+                //TODO update lobby players count
+            }
+        });
 
     }
 }

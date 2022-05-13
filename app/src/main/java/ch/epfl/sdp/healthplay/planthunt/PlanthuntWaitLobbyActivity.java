@@ -27,6 +27,21 @@ import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 
 public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
+    //Initialize database reference
+    Database db = new Database();
+    String lobbyName, hostStatus;
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(PlanthuntWaitLobbyActivity.this, PlanthuntMainActivity.class);
+        if (hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
+            db.deleteLobby(lobbyName);
+        }
+        else{
+            db.addLobbyGonePlayer(lobbyName);
+        }
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +51,10 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
         final ImageView waitView = findViewById(R.id.planthuntWaitGif);
         Glide.with(this).load(R.drawable.loading_planthunt).into(waitView);
 
-        //Initialize database reference
-        Database db = new Database();
-
         Intent intent = getIntent();
-        String lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
+        lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
         String currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
-        String hostStatus = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE);
+        hostStatus = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE);
 
         final TextView lobbyNameText = findViewById(R.id.planthuntWaitName);
         lobbyNameText.setText(lobbyName);

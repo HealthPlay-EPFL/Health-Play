@@ -111,6 +111,8 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                         if (time == 0){
                             Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntResultActivity.class);
                             intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
+
                             startActivity(intent);
                         }
                     }
@@ -141,6 +143,23 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        Button leaveButton = findViewById(R.id.planthuntResultButton);
+
+        //Start CreateLobby activity when clicking on Create button
+        leaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
+                    db.deleteLobby(lobbyName);
+                }
+                else{
+                    db.addLobbyGonePlayer(lobbyName);
+                }
+                Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntMainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void startTimer(){
