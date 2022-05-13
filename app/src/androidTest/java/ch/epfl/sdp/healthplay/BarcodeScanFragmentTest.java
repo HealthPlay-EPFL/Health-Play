@@ -36,10 +36,10 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
 
-@RunWith(AndroidJUnit4.class)
+//@RunWith(AndroidJUnit4.class)
 public class BarcodeScanFragmentTest {
 
-    @Test
+    /*@Test
     public void testEnterManually() throws InterruptedException {
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         activity.onActivity(new ActivityScenario.ActivityAction() {
@@ -54,5 +54,5 @@ public class BarcodeScanFragmentTest {
         onView(withId(R.id.enter_manually_button)).perform(click());
         onView(withId(R.id.findProductInfos)).check(matches(isDisplayed()));
         onView(withId(R.id.barcodeText)).check(matches(isDisplayed()));
-    }
+    }*/
 }
