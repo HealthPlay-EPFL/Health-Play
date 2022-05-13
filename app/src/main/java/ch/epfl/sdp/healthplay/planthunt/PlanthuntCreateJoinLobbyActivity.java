@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.database.Database;
 
 public class PlanthuntCreateJoinLobbyActivity extends AppCompatActivity {
 
@@ -16,6 +17,7 @@ public class PlanthuntCreateJoinLobbyActivity extends AppCompatActivity {
     public static final String HOST_TYPE = "HOST_TYPE";
     public static final String HOST = "host";
     public static final String PLAYER = "player";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

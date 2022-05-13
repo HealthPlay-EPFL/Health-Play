@@ -496,20 +496,6 @@ public final class Database {
         }
     }
 
-    /** Gets scores of all players in the lobby
-     *
-     * @param name       the unique identifier given to the lobby
-     */
-    public void getAllLobbyPlayerScores (String name, OnCompleteListener<DataSnapshot> onCompleteListener){
-        for (int i = 1; i < MAX_PLAYER_CAPACITY + 1; i++) {
-            mDatabase
-                    .child(LOBBIES)
-                    .child(name)
-                    .child(PLAYER_SCORE + i)
-                    .get().addOnCompleteListener(onCompleteListener);
-        }
-    }
-
     /**
      * Updates remaining time in the lobby's game
      *
@@ -595,6 +581,14 @@ public final class Database {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
                 int gonePlayers = Integer.parseInt(Objects.requireNonNull(dataSnapshot.getValue()).toString()) + 1;
+                getLobbyPlayersGone(name, task -> {
+                            if (!task.isSuccessful()) {
+                                Log.e("ERROR", "Lobby does not exist!");
+                            }
+                            if (Math.toIntExact((long) task.getResult().getValue()) == Math.toIntExact((long) dataSnapshot.getValue())){
+                                //TODO PLANTHUNT delete lobby
+                            }
+                        });
                 mDatabase
                         .child(LOBBIES)
                         .child(name)
@@ -604,7 +598,17 @@ public final class Database {
         });
     }
 
-
+    /** Gets number of players who left the lobby
+     *
+     * @param name the unique identifier given to the lobby
+     */
+    public Task getLobbyPlayersGone(String name, OnCompleteListener<DataSnapshot> onCompleteListener){
+        return mDatabase
+                .child(LOBBIES)
+                .child(name)
+                .child(PLAYERS_GONE)
+                .get().addOnCompleteListener(onCompleteListener);
+    }
 
 
 

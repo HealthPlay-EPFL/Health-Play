@@ -21,7 +21,18 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
 
     ImageView plantView;
     TextView textView;
+    String lobbyName;
     boolean isLoaded = false;
+
+    //Initialize database reference
+    Database db = new Database();
+
+    @Override
+    public void onBackPressed() {
+        db.addLobbyGonePlayer(lobbyName);
+        Intent intent = new Intent(PlanthuntNewPlantActivity.this, PlanthuntMainActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +40,7 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_planthunt_new_plant);
 
         Intent intent = getIntent();
-        String lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
+        lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
         String currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
 
         //Initialize database reference

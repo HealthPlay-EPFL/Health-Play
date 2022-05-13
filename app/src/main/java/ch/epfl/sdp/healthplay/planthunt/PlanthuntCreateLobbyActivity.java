@@ -15,6 +15,12 @@ import ch.epfl.sdp.healthplay.database.Lobby;
 public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(PlanthuntCreateLobbyActivity.this, PlanthuntMainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planthunt_create_lobby);

@@ -1,15 +1,21 @@
 package ch.epfl.sdp.healthplay.planthunt;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -96,6 +102,7 @@ public class PlanthuntResultActivity extends AppCompatActivity {
         leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                db.addLobbyGonePlayer(lobbyName);
                 Intent intent = new Intent(PlanthuntResultActivity.this, PlanthuntMainActivity.class);
                 startActivity(intent);
             }
