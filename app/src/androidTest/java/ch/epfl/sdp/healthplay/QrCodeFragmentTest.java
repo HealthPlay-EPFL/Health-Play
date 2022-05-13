@@ -30,8 +30,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import net.glxn.qrgen.android.QRCode;
-
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;

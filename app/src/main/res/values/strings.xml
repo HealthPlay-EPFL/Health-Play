@@ -20,7 +20,7 @@
     <string name="launch_title">FirebaseUI Auth Demo</string>
     <string name="sign_in_start">Start</string>
     <string name="sign_in_silent">Sign in silently</string>
-    <string name="winnerMessage">\"And the winner is \"</string>
+    <string name="winnerMessage">And the winner is </string>
     <string name="cameraOrientation">ch.epfl.sdp.healthplay.kneetag.MainActivity.CAMERA_ORIENTATION</string>
     <string name="invalidPlayer">The 2 players are not valid</string>
     <string name="notDtected">The 2 player are not detected</string>
@@ -366,9 +366,13 @@ Nimm deinen Kampf mit deinem Handy auf, um einen fairen Schiedsrichter zu haben 
     <string name="textview">TextView</string>
     <string name="quit">Quit</string>
     <string name="restart">Restart</string>
+
+    <string name="button">Button</string>
+
     <string name="cancel_en">Cancel</string>
     <string name="typing_en">Typing....</string>
     <string name="last_seen_en">Last Seen:</string>
+
     <string name="refresh">refresh!</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="_0hp">0hp</string>

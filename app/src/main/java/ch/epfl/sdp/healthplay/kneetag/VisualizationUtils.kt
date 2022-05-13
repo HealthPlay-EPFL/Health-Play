@@ -37,7 +37,7 @@ object VisualizationUtils {
     /** Distance from person id to the nose keypoint.  */
     private const val PERSON_ID_MARGIN = 6f
 
-    private const val TRESHOLD_TO_WIN = 18f
+    private const val TRESHOLD_TO_WIN = 25f
 
     /** Pair of keypoints to draw lines between.  */
     private val bodyJoints = listOf(
