@@ -62,7 +62,7 @@ public class PlanthuntCollectionActivityTest {
         intent.putExtra("image", "testImage");
 
         try (ActivityScenario<PlanthuntCollectionItemActivity> scenario = ActivityScenario.launch(intent)) {
-            Espresso.onView(withId(R.id.planthuntLobbyButton)).check(matches(not(isDisplayed())));
+            Espresso.onView(withId(R.id.plantItemImage)).check(matches(not(isDisplayed())));
         }
     }
 
