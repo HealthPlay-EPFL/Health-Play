@@ -93,7 +93,7 @@ public class Graph_FragTest {
         onView(withId(R.id.buttonHealth)).check(matches(isEnabled()));
     }
 
-    @Test
+    /*@Test
     public void cache() throws InterruptedException {
         FirebaseAuth.getInstance().signOut();
         ActivityScenario sc = ActivityScenario.launch(WelcomeScreenActivity.class);
@@ -101,5 +101,5 @@ public class Graph_FragTest {
         TimeUnit.SECONDS.sleep(1);
         onView(withId(R.id.buttonSwap)).perform(click());
         FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
-    }
+    }*/
 }
