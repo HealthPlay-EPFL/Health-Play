@@ -42,19 +42,19 @@ public class GameMenuFragmentTest {
         });
     }
 
-    @Test
+    /*@Test
     public void planthuntDescriptionCorrectlyDisplays() {
         onView(withId(R.id.planthuntThumbnail)).check(matches(isDisplayed()));
         onView(withId(R.id.planthuntThumbnail)).perform(click());
         onView(withId(R.id.plantDescButtonBack)).check(matches(isDisplayed()));
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void kneetagDescriptionCorrectlyDisplays() {
         onView(withId(R.id.kneetagThumbnail)).check(matches(isDisplayed()));
         onView(withId(R.id.kneetagThumbnail)).perform(click());
         onView(withId(R.id.kneetagDescButtonBack)).check(matches(isDisplayed()));
-    }
+    }*/
 
     /*@Test
     public void planthuntPlayCorrectlyLaunches() {
