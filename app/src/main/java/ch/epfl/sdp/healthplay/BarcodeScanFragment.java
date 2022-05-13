@@ -163,7 +163,7 @@ public class BarcodeScanFragment extends Fragment {
                 });
     }
 
-    private void scan(Uri uri) throws IOException {
+    public void scan(Uri uri) throws IOException {
         InputImage image = InputImage.fromFilePath(getActivity().getApplicationContext(), uri);
         BarcodeScanner scanner = BarcodeScanning.getClient(options);
         scanner.process(image)

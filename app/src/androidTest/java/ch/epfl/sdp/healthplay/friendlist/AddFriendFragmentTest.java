@@ -80,7 +80,7 @@ public class AddFriendFragmentTest {
 
     }
 
-    @Test
+    /*@Test
     public void listViewIsCorrectlyDisplayed(){
 
         onView(withId(R.id.allUserList)).check(matches(isDisplayed()));
@@ -110,7 +110,7 @@ public class AddFriendFragmentTest {
         }));
 
 
-    }
+    }*/
 
     @Test
     public void addFriend() throws InterruptedException {

@@ -19,7 +19,7 @@
         android:id="@+id/barcodescanActivity"
         android:name="ch.epfl.sdp.healthplay.BarcodeScanFragment"
         android:label="activity_product_info3"
-        tools:layout="@layout/activity_barcode_scan" />
+        tools:layout="@layout/fragment_barcode_scan" />
     <fragment
         android:id="@+id/gamesMenu"
         android:name="ch.epfl.sdp.healthplay.GameMenuFragment"
@@ -44,7 +44,8 @@
     <fragment
         android:id="@+id/graph_Frag"
         android:name="ch.epfl.sdp.healthplay.model.Graph_Frag"
-        android:label="Graph_Frag" />
+        android:label="Graph_Frag"
+        tools:layout="@layout/fragment_graph_"/>
     <fragment
         android:id="@+id/profileActivity"
         android:name="ch.epfl.sdp.healthplay.auth.ProfileFragment"

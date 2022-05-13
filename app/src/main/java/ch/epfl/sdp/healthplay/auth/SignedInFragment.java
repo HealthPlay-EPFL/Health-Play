@@ -166,17 +166,6 @@ public class SignedInFragment extends Fragment {
                 });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                startActivity(new Intent(getContext(),HomeScreenActivity.class));
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     public void deleteAccountClicked() {
         String messageDelete = "Are you sure you want to delete this account?";
@@ -187,9 +176,6 @@ public class SignedInFragment extends Fragment {
                 .setPositiveButton(yes, (dialogInterface, i) -> deleteAccount())
                 .setNegativeButton(no, null)
                 .show();
-    }
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
     }
 
     private void deleteAccount() {

@@ -32,7 +32,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 
-import ch.epfl.sdp.healthplay.auth.ProfileActivity;
 import ch.epfl.sdp.healthplay.auth.ProfileFragment;
 import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 import ch.epfl.sdp.healthplay.database.Database;

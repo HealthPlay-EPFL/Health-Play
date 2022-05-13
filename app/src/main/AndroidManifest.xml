@@ -75,14 +75,8 @@
             android:name=".HomeScreenActivity"
             android:exported="true" />
         <activity
-            android:name=".KneetagDescriptionActivity"
-            android:exported="false" />
-        <activity
             android:name=".auth.AuthUiActivity"
             android:exported="true" />
-        <activity
-            android:name=".auth.SignedInActivity"
-            android:exported="false" />
         <activity
             android:name=".BarcodeInformationActivity"
             android:exported="false" />
