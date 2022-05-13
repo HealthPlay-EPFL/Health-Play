@@ -86,7 +86,6 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isTested) { return; }
                 startCameraIntent();
             }
         });
@@ -180,6 +179,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                     photoFile);
             //Add data to intent result
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            if (isTested) { return; }
             startActivityForResult(takePictureIntent, CameraApi.REQUEST_IMAGE_CAPTURE);
         }
     }

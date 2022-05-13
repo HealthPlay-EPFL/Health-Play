@@ -77,8 +77,6 @@ public class PlanthuntLobbyActivityTest {
                 }
             );
         }
-        Intent nextIntent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntMainActivity.class);
-        ActivityScenario.launch(nextIntent);
     }
 
 

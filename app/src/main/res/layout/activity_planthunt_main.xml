@@ -50,9 +50,6 @@
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/play_button"
-                android:elevation="0dp"
-                android:outlineAmbientShadowColor="@color/fui_transparent"
-                android:outlineSpotShadowColor="@color/fui_transparent"
                 android:rotation="180"
                 android:scaleX="1.8"
                 android:translationX="35dp" />
@@ -78,6 +75,26 @@
             android:backgroundTint="@color/planthuntLightGreen"
             android:fontFamily="@font/alata"
             android:text="See collection"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/planthuntMainLeave"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="@color/planthuntLightGreen"
+            android:fontFamily="@font/alata"
+            android:text="Leave game"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="30sp" />
