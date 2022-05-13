@@ -49,15 +49,17 @@ import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 @RunWith(AndroidJUnit4.class)
 public class SignedInFragmentTest {
 
+    public static String emailString = "HP@admin.ch";
+    public static String password = "123456";
+
     @Before
-    public void init() throws InterruptedException {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
+    public void init() {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(emailString, password);
         /**/
     }
 
     @Test
     public void startingNewIntentAuto() {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         FragmentScenario test = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppTheme);
         onView(withId(R.id.sign_out)).check(matches(isDisplayed()));
         onView(withId(R.id.delete_account)).check(matches(isDisplayed()));
@@ -71,7 +73,6 @@ public class SignedInFragmentTest {
 
     @Test
     public void clickOnEnglish(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         FragmentScenario test = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppTheme);
         onView(withId(R.id.light)).perform(click());
         onView(withId(R.id.french)).perform(click());
@@ -85,7 +86,6 @@ public class SignedInFragmentTest {
 
     @Test
     public void clickOnEnglishNight(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         FragmentScenario test = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppTheme);
         onView(withId(R.id.night)).perform(click());
         onView(withId(R.id.french)).perform(click());
@@ -100,7 +100,6 @@ public class SignedInFragmentTest {
 
     @Test
     public void clickOnFrench(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         FragmentScenario test = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppTheme);
         onView(withId(R.id.light)).perform(click());
         onView(withId(R.id.french)).perform(click());
@@ -112,7 +111,6 @@ public class SignedInFragmentTest {
 
     @Test
     public void clickOnFrenchNight(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         FragmentScenario test = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppTheme);
         onView(withId(R.id.night)).perform(click());
         onView(withId(R.id.french)).perform(click());
@@ -125,7 +123,6 @@ public class SignedInFragmentTest {
 
     @Test
     public void clickOnItalian(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         FragmentScenario test = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppTheme);
         onView(withId(R.id.light)).perform(click());
         onView(withId(R.id.italian)).perform(click());
@@ -137,7 +134,6 @@ public class SignedInFragmentTest {
 
     @Test
     public void clickOnItalianNight(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         FragmentScenario test = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.darkTheme);
         onView(withId(R.id.night)).perform(click());
         onView(withId(R.id.italian)).perform(click());
@@ -150,7 +146,6 @@ public class SignedInFragmentTest {
 
     @Test
     public void clickOnGerman(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         FragmentScenario test = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppTheme);
         onView(withId(R.id.light)).perform(click());
         onView(withId(R.id.german)).perform(click());
@@ -162,7 +157,6 @@ public class SignedInFragmentTest {
 
     @Test
     public void clickOnGermanNight(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         FragmentScenario test = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.darkTheme);
         onView(withId(R.id.night)).perform(click());
         onView(withId(R.id.german)).perform(click());
@@ -175,7 +169,6 @@ public class SignedInFragmentTest {
 
     @Test
     public void clickOnLight(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         FragmentScenario test = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppTheme);
         onView(withId(R.id.light)).perform(click());
         test.onFragment(new FragmentScenario.FragmentAction() {
@@ -190,7 +183,6 @@ public class SignedInFragmentTest {
 
     @Test
     public void clickOnNight(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         FragmentScenario test = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppTheme);
         onView(withId(R.id.night)).perform(click());
         test.onFragment(new FragmentScenario.FragmentAction() {
@@ -206,7 +198,6 @@ public class SignedInFragmentTest {
 
     @Test
     public void signOutTest() throws InterruptedException {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         FragmentScenario test = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppTheme);
         onView(withId(R.id.sign_out)).perform(click());
         FragmentScenario test2 = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppTheme);

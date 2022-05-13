@@ -49,18 +49,18 @@ public class EditProfilePictureFragmentTest {
         onView(withId(R.id.exit_button)).check(matches(isDisplayed()));
     }
 
-    /*@Test
+    @Test
     public void exit(){
         onView(withId(R.id.exit_button)).check(matches(isDisplayed()));
         onView(withId(R.id.exit_button)).perform(click());
-        //onView(withId(R.id.changeButton)).check(matches(isDisplayed()));
-    }*/
+        onView(withId(R.id.changeButton)).check(matches(isDisplayed()));
+    }
 
-    @Test
+    /*@Test
     public void change_image(){
         onView(withId(R.id.change_button)).check(matches(isDisplayed()));
         onView(withId(R.id.change_button)).perform(click());
-    }
+    }*/
 
     @Test
     public void save(){

@@ -60,12 +60,12 @@ public class AuthUiActivityTest {
     @Test
     public void authenticate() throws InterruptedException {
         onView(withText("Sign in with email")).perform(click());
-        onView(withHint("Email")).perform(typeText("HP@admin.ch"), ViewActions.closeSoftKeyboard());
+        onView(withHint("Email")).perform(typeText(SignedInFragmentTest.emailString), ViewActions.closeSoftKeyboard());
         onView(withText("Next")).perform(click());
         /*onView(withHint("Password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
         onView(withText("SIGN IN")).perform(click());
         TimeUnit.SECONDS.sleep(1);*/
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(SignedInFragmentTest.emailString, SignedInFragmentTest.password);
     }
 
     /*@After
