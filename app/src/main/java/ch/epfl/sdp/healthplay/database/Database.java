@@ -1,11 +1,13 @@
 package ch.epfl.sdp.healthplay.database;
 
+import android.app.Activity;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -22,7 +24,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.model.Product;
+import ch.epfl.sdp.healthplay.planthunt.PlanthuntCreateLobbyActivity;
 
 public final class Database {
 
@@ -373,8 +377,18 @@ public final class Database {
      * @param remainingTime the time the game will last for
      * @param maxNbrPlayers the number of expected players in the lobby
      */
-    public void writeNewLobby(String name, String password, String hostUid, int remainingTime, int maxNbrPlayers){
-        mDatabase.child(LOBBIES).child(name).setValue(new Lobby(name, password, hostUid, remainingTime, maxNbrPlayers));
+    public void writeNewLobby(String name, String password, String hostUid, int remainingTime, int maxNbrPlayers, Activity createLobby){
+        mDatabase.child(LOBBIES).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.hasChild(name)) {
+                    mDatabase.child(LOBBIES).child(name).setValue(new Lobby(name, password, hostUid, remainingTime, maxNbrPlayers));
+                }
+                else{
+                    Snackbar.make(createLobby.findViewById(R.id.planthuntCreateLobbyLayout), "A lobby with this name already exists", Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     /**

@@ -46,7 +46,7 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
 
                 //Initialize new lobby with received values
                 Lobby newLobby = new Lobby(name, password, username, 500, 2);
-                db.writeNewLobby(newLobby.getName(), newLobby.getPassword(), newLobby.getPlayerUid1(), newLobby.getRemainingTime(), newLobby.getMaxNbrPlayers());
+                db.writeNewLobby(newLobby.getName(), newLobby.getPassword(), newLobby.getPlayerUid1(), newLobby.getRemainingTime(), newLobby.getMaxNbrPlayers(), PlanthuntCreateLobbyActivity.this);
 
                 //Launch lobby waiting screen
                 Intent intent = new Intent(PlanthuntCreateLobbyActivity.this, PlanthuntWaitLobbyActivity.class);

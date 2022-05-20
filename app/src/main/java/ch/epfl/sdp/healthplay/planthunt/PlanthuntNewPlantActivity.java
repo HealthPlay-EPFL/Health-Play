@@ -42,15 +42,15 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
         Intent intent = getIntent();
         lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
         String currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
+        int points = Integer.parseInt(intent.getStringExtra(PlanthuntLobbyActivity.POINTS));
 
         //Initialize database reference
         Database db = new Database();
         db.getLobbyPlayerScore(lobbyName, currentUsername, task -> {
             if (!task.isSuccessful()) {
-
                 Log.e("ERROR", "An error happened");
             }
-            db.updateLobbyPlayerScore(lobbyName, currentUsername, Math.toIntExact((long) Objects.requireNonNull(task.getResult().getValue())) + 50);
+            db.updateLobbyPlayerScore(lobbyName, currentUsername, Math.toIntExact((long) Objects.requireNonNull(task.getResult().getValue())) + points);
         });
 
         String imageUrl = intent.getStringExtra(PlanthuntLobbyActivity.URL);

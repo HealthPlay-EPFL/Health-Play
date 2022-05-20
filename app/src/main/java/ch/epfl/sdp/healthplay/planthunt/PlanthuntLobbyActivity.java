@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -54,6 +55,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
     private FirebaseUser user;
     public static final String URL = "URL";
     public static final String NAME = "NAME";
+    public static final String POINTS = "POINTS";
     public static boolean isTested = false;
 
     @Override
@@ -144,9 +146,9 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                 }
         );
 
-        Button leaveButton = findViewById(R.id.planthuntResultButton);
+        Button leaveButton = findViewById(R.id.planthuntLobbyLeave);
 
-        //Start CreateLobby activity when clicking on Create button
+        //Leave lobby when clicking on Leave button
         leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,8 +236,25 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                                         //Returns built URL with given image link
                                         String urlString = PlantnetApi.buildUrl(PlantnetApi.API_KEY, urlImage, "flower");
 
+                                        System.out.println("okayyy");
+                                        System.out.println(urlString);
+
                                         //Gets JSON object from built URL
                                         JSONObject json = PlantnetApi.readJsonFromUrl(urlString);
+
+                                        //Return if plant probability is too low
+                                        if (Integer.parseInt(json.getJSONArray("results").getJSONObject(0).get("score").toString()) < .5){
+                                            Snackbar.make(findViewById(R.id.planthuntLobbyLayout), "No plant was found", Snackbar.LENGTH_LONG).show();
+                                            return;
+                                        }
+
+                                        //Gets how common the plant is
+                                        int popularity = 0;
+                                        for (int i = 0; i < json.getJSONArray("results").length(); i++){
+                                            if (Integer.parseInt(json.getJSONArray("results").getJSONObject(i).get("score").toString()) > .1){
+                                                popularity++;
+                                            }
+                                        }
 
                                         //Extracts plant name from received JSON
                                         String commonName = json.getJSONArray("results")
@@ -245,9 +264,11 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                                                 .get(0)
                                                 .toString();
 
+                                        int finalPopularity = popularity;
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
+                                                intent.putExtra(POINTS, 100 - 20 * finalPopularity);
                                                 intent.putExtra(NAME, commonName);
                                                 storage.child("Planthunt").child(user.getUid()).child(photoFile.getName()).delete();
                                                 storage.child("Planthunt").child(user.getUid()).child(commonName + "_" + photoFile.getName()).putBytes(outputStream.toByteArray());
