@@ -107,6 +107,7 @@
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/signed_in_layout.xml" value="0.33" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/menu/bottom_menu.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1275" />
+        <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/drawable/add_icon.xml" value="0.2555" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/drawable/ic_baseline_account_box_24.xml" value="0.1275" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/drawable/ic_baseline_contacts_24.xml" value="0.1215" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.1" />
@@ -134,6 +135,7 @@
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_main2.xml" value="0.25181159420289856" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_planthunt_collection.xml" value="0.22" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_planthunt_collection_item.xml" value="0.16" />
+        <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_planthunt_wait_lobby.xml" value="0.25" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_profile.xml" value="0.1" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_profile_settings.xml" value="0.3605072463768116" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_profile_setup.xml" value="0.14635416666666667" />
