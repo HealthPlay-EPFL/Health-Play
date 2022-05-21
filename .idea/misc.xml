@@ -90,11 +90,13 @@
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.14" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.14" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/drawable/ic_baseline_qr_code_24.xml" value="0.14" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout-land/activity_main.xml" value="0.30599647266313934" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_barcode_information.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_games_menu.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_greeting.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_home_screen.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_main.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_planthunt_create_join_lobby.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_product_info3.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_profile.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/activity_profile_setup.xml" value="0.18541666666666667" />
@@ -103,7 +105,10 @@
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/fragment_frag__home.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/fragment_frag__profile.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/fragment_frag__scan.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/fragment_game_menu.xml" value="0.35778985507246375" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/fragment_profile_settings.xml" value="0.35778985507246375" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/fragment_settings.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/fragment_signed_in.xml" value="0.39166666666666666" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/layout/signed_in_layout.xml" value="0.33" />
         <entry key="..\:/Users/avern/Desktop/Health-Play/app/src/main/res/menu/bottom_menu.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/bapti/Documents/EPFL/SDP/Health-Play/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1275" />
