@@ -43,10 +43,17 @@ public final class Product {
     // This map contains the nutriments
     private final JSONObject nutriments;
 
+    private final String jsonString;
+
     private Product(String json) throws JSONException {
+        jsonString = json;
         // This also checks that the JSON contains the "product" name.
         product = new JSONObject(json).getJSONObject("product");
         nutriments = product.getJSONObject(NUTRIMENTS);
+    }
+
+    public String getJsonString() {
+        return jsonString;
     }
 
     /**

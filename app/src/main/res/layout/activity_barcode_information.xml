@@ -68,7 +68,11 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@android:drawable/btn_dialog" />
+                        app:srcCompat="@android:drawable/btn_dialog"
+                        android:paddingVertical="10dp"
+                        android:maxWidth="250dp"
+                        android:maxHeight="250dp"
+                        android:adjustViewBounds="true"/>
 
                     <ImageView
                         android:id="@+id/imageNutriscore"
@@ -210,6 +214,8 @@
                     android:backgroundTint="@color/colorPrimaryVariant"
                     android:onClick="increment"
                     android:text="+"
+                    android:gravity="center"
+                    android:includeFontPadding = "false"
                     android:textSize="34sp"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -231,6 +237,8 @@
                     android:backgroundTint="@color/colorPrimaryVariant"
                     android:onClick="decrement"
                     android:text="-"
+                    android:gravity="center"
+                    android:includeFontPadding = "false"
                     android:textSize="34sp"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"

@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -24,12 +25,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.model.Product;
 import ch.epfl.sdp.healthplay.model.ProductInfoClient;
+import ch.epfl.sdp.healthplay.scan.ProductManager;
 //import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
 public class BarcodeInformationActivity extends AppCompatActivity {
@@ -43,36 +46,19 @@ public class BarcodeInformationActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "ch.epfl.sdp.healthplay.MESSAGE";
 
 
-    private Thread pullInformation(String barcode) {
-        return new Thread(() -> {
-            try {
-                ProductInfoClient client = new ProductInfoClient(barcode);
-                productString = client.getInfo();
-                Optional<Product> p = Product.of(productString);
-                if (p.isPresent()) {
-                    Product product = p.get();
-                    this.p = product;
-                    productName.set(product.getName());
-                    int value = product.getKCalEnergy();
-                    energy.set(value < 0 ? "Unknown" : Integer.toString(value));
+    private void pullInformation(String barcode) {
+        // The product is always present if this activity is launched
+        Product.of(barcode).ifPresent(product -> {
+            this.p = product;
+            productString = p.getCode();
+            productName.set(product.getName());
+            int value = product.getKCalEnergy();
+            energy.set(value < 0 ? "Unknown" : Integer.toString(value));
 
-                    // Load the image of the product into the view
-                    ImageView image = findViewById(R.id.pImage);
-                    String imageUrl = product.getImageURL();
-                    if (!imageUrl.equals(Product.UNKNOWN_NAME)) {
-                        URL url = new URL(product.getImageURL());
-                        Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                        image.setImageBitmap(bitmap);
-                    }
-
-                    image = findViewById(R.id.imageNutriscore);
-                    int imageRes = product.getNutriscore().getRes();
-                    image.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(),
-                            imageRes));
-                }
-
-            } catch (IOException ignored) {
-            }
+            ImageView imageNutriScore = findViewById(R.id.imageNutriscore);
+            int imageRes = product.getNutriscore().getRes();
+            imageNutriScore.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(),
+                    imageRes));
         });
     }
 
@@ -85,13 +71,14 @@ public class BarcodeInformationActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String barcode = intent.getStringExtra(EXTRA_MESSAGE);
 
-        Thread t = pullInformation(barcode);
-        t.start();
-        try {
-            t.join(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        pullInformation(barcode);
+
+        // Load the image of the product into the view
+        String imageUrl = p.getImageURL();
+        Glide.with(getApplicationContext())
+                .asBitmap()
+                .load(imageUrl)
+                .into((ImageView) findViewById(R.id.pImage));
 
         // Get the authenticated user if any
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -107,7 +94,7 @@ public class BarcodeInformationActivity extends AppCompatActivity {
             pGenericName.setText(p.getGenericName());
             LinearLayout parentLayout = findViewById(R.id.informationLayout);
 
-            for (Product.Nutriments nutriments: Product.Nutriments.values()) {
+            for (Product.Nutriments nutriments : Product.Nutriments.values()) {
 
                 double serving = p.getNutrimentServing(nutriments);
                 if (serving > 0) {
@@ -146,7 +133,7 @@ public class BarcodeInformationActivity extends AppCompatActivity {
                     // Create the switch
                     SwitchCompat s = new SwitchCompat(this);
                     s.setText("");
-                    s.setTag(nutriments.getName()+"_switch");
+                    s.setTag(nutriments.getName() + "_switch");
                     LinearLayout.LayoutParams switchParams = new LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -192,7 +179,7 @@ public class BarcodeInformationActivity extends AppCompatActivity {
             counter.setText(String.format(Integer.toString(quantity - 1), Locale.ENGLISH));
             String newText = String.format(Double.toString(newCalorie), Locale.ENGLISH);
             textView.setText(newText);
-            for (Product.Nutriments nutriments: Product.Nutriments.values()) {
+            for (Product.Nutriments nutriments : Product.Nutriments.values()) {
                 double serving = p.getNutrimentServing(nutriments);
                 if (serving > 0) {
                     textView = findViewById(R.id.informationLayout).findViewWithTag(nutriments.getName());
@@ -206,7 +193,7 @@ public class BarcodeInformationActivity extends AppCompatActivity {
             counter.setText(String.format(Integer.toString(quantity + 1), Locale.ENGLISH));
             String newText = String.format(Double.toString(newCalorie), Locale.ENGLISH);
             textView.setText(newText);
-            for (Product.Nutriments nutriments: Product.Nutriments.values()) {
+            for (Product.Nutriments nutriments : Product.Nutriments.values()) {
                 double serving = p.getNutrimentServing(nutriments);
                 if (serving > 0) {
                     textView = findViewById(R.id.informationLayout).findViewWithTag(nutriments.getName());
@@ -234,10 +221,10 @@ public class BarcodeInformationActivity extends AppCompatActivity {
         if (((Switch) findViewById(R.id.pEnergyUnitSwitch)).isChecked())
             db.addCalorie(user.getUid(), (int) calorie);
 
-        for (Product.Nutriments nutriments: Product.Nutriments.values()) {
+        for (Product.Nutriments nutriments : Product.Nutriments.values()) {
             double serving = p.getNutrimentServing(nutriments);
             if (serving > 0) {
-                if (((SwitchCompat) findViewById(R.id.informationLayout).findViewWithTag(nutriments.getName()+"_switch")).isChecked())
+                if (((SwitchCompat) findViewById(R.id.informationLayout).findViewWithTag(nutriments.getName() + "_switch")).isChecked())
                     db.addNutrimentField(user.getUid(), nutriments, serving);
             }
         }
