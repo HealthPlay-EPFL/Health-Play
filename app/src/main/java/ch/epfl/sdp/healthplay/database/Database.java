@@ -9,9 +9,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,6 +24,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import ch.epfl.sdp.healthplay.model.Product;
 
@@ -629,13 +632,13 @@ public final class Database {
      * Get the friend list of the user
      * @return a map of String to Boolean
      */
-    public Map<String, Boolean> getFriendList() {
-        Map<String, Boolean> outputMap = new HashMap<>();
+    public Map<String, String> getFriendList() {
+        Map<String, String> outputMap = new HashMap<>();
         readField(FirebaseAuth.getInstance().getCurrentUser().getUid(), "friends", new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if(task.getResult().getValue() != null) {
-                    outputMap.putAll((Map<String, Boolean>) task.getResult().getValue());
+                    outputMap.putAll((Map<String, String>) task.getResult().getValue());
                 }
             }
         });
@@ -742,4 +745,90 @@ public final class Database {
                 .addOnCompleteListener(onCompleteListener);
     }
 
+    /**
+     * Create a record of the conversation, i.e add the other user for both user, in the list of users the user has a conversation with
+     * @param senderId
+     * @param receiverId
+     */
+    public void createConversationRecord(String senderId, String receiverId) {
+        final DatabaseReference ref1 = mDatabase.child("ChatList").child(receiverId).child(senderId);
+        ref1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //If no record of the conversation, create one
+                if (!dataSnapshot.exists()) {
+                    ref1.child("id").setValue(senderId);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //Ref to the ChatList part of the user in the database
+        final DatabaseReference ref2 = mDatabase.child("ChatList").child(senderId).child(receiverId);
+        ref2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //If no record of the conversation, create one
+                if (!dataSnapshot.exists()) {
+                    ref2.child("id").setValue(receiverId);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    /**
+     * Send an invitation the a lobby
+     * @param lobbyName
+     * @param senderId
+     * @param receiverId
+     */
+    public void sendInvitation(String lobbyName, String senderId, String receiverId){
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String message = "You've been invited to the lobby: " + lobbyName;
+
+        //Create the message with the informations about the sender, receiver ...
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("sender", senderId);
+        hashMap.put("receiver", receiverId);
+        hashMap.put("message", message);
+        hashMap.put("timestamp", timestamp);
+        hashMap.put("type", "invitation");
+        //Add the message to the database
+        mDatabase.child("Chats").push().setValue(hashMap);
+        createConversationRecord(senderId, receiverId);
+    }
+
+    /**
+     * Check if the given lobby is full
+     * @param lobbyName
+     * @return
+     */
+    public boolean ifNotFull(String lobbyName, OnCompleteListener listener) {
+        AtomicBoolean result = new AtomicBoolean(true);
+        getLobbyPlayerCount(lobbyName, Database.NBR_PLAYERS, task2 -> {
+            if (!task2.isSuccessful()) {
+                Log.e("ERROR", "Lobby does not exist!");
+            }
+            getLobbyPlayerCount(lobbyName, Database.MAX_NBR_PLAYERS, task3 -> {
+                if (!task3.isSuccessful()) {
+                    Log.e("ERROR", "Lobby does not exist!");
+                }
+                Log.e("Current PLAYER", String.valueOf(task2.getResult().getValue(Long.class)));
+                Log.e("Max Player", String.valueOf(task3.getResult().getValue(Long.class)));
+                if (Math.toIntExact((long) task2.getResult().getValue()) < Math.toIntExact((long) task3.getResult().getValue())){
+                    result.set(false);
+                }
+            });
+        });
+        Log.e("BOOLEAN IS FULL", String.valueOf(result.get()));
+        return result.get();
+    }
 }

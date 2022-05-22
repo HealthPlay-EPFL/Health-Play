@@ -71,7 +71,6 @@ public class ChatActivity extends AppCompatActivity {
     private Uri imageUri = null;
     private Database firebaseDatabase;
     private DatabaseReference selfRef;
-    private DatabaseReference friendRef;
 
 
     /**
@@ -100,7 +99,6 @@ public class ChatActivity extends AppCompatActivity {
 
         // initialize database
         firebaseDatabase = new Database();
-        friendRef = firebaseDatabase.mDatabase.child(Database.USERS).child(uid);
         //Get the current user id
         getCurrentUser();
         selfRef = firebaseDatabase.mDatabase.child(Database.USERS).child(myUid);
@@ -238,11 +236,6 @@ public class ChatActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    /*@Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return super.onSupportNavigateUp();
-    }*/
 
     /**
      * Set the onlineStatus
@@ -421,7 +414,7 @@ public class ChatActivity extends AppCompatActivity {
 
                     //Create the chatList
                     final DatabaseReference ref1 = firebaseDatabase.mDatabase.child("ChatList").child(uid).child(myUid);
-                    createConversationRecord();
+                    firebaseDatabase.createConversationRecord(myUid,uid);
                 }
             }
         });
@@ -468,8 +461,9 @@ public class ChatActivity extends AppCompatActivity {
         hashMap.put("type", "text");
         //Add the message to the database
         firebaseDatabase.mDatabase.child("Chats").push().setValue(hashMap);
-        createConversationRecord();
+        firebaseDatabase.createConversationRecord(myUid, uid);
     }
+
 
     /**
      * get the current user
@@ -479,43 +473,5 @@ public class ChatActivity extends AppCompatActivity {
         if (user != null) {
             myUid = user.getUid();
         }
-    }
-
-    /**
-     * Create a record of the conversation, i.e add the other user for both user, in the list of users the user has a conversation with
-     */
-    private void createConversationRecord(){
-        //Ref to the ChatList part of the friend in the database
-        final DatabaseReference ref1 = firebaseDatabase.mDatabase.child("ChatList").child(uid).child(myUid);
-        ref1.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //If no record of the conversation, create one
-                if (!dataSnapshot.exists()) {
-                    ref1.child("id").setValue(myUid);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        //Ref to the ChatList part of the user in the database
-        final DatabaseReference ref2 = firebaseDatabase.mDatabase.child("ChatList").child(myUid).child(uid);
-        ref2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //If no record of the conversation, create one
-                if (!dataSnapshot.exists()) {
-                    ref2.child("id").setValue(uid);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
     }
 }

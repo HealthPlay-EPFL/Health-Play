@@ -43,7 +43,7 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         Log.e("ERROR", "Lobby does not exist!");
                     }
-                    if (Objects.requireNonNull(task.getResult().getValue()).toString().equals(password)){
+                    if (Objects.requireNonNull(task.getResult().getValue()).toString().equals(password)) {
                         db.getLobbyPlayerCount(lobbyName, Database.NBR_PLAYERS, task2 -> {
                             if (!task2.isSuccessful()) {
                                 Log.e("ERROR", "Lobby does not exist!");
@@ -52,7 +52,7 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                                 if (!task3.isSuccessful()) {
                                     Log.e("ERROR", "Lobby does not exist!");
                                 }
-                                if (Math.toIntExact((long) task2.getResult().getValue()) < Math.toIntExact((long) task3.getResult().getValue())){
+                                if (Math.toIntExact((long) task2.getResult().getValue()) < Math.toIntExact((long) task3.getResult().getValue())) {
                                     db.addUserToLobby(lobbyName, username);
 
                                     //Launch lobby waiting screen
@@ -61,8 +61,7 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                                     intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
                                     intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.PLAYER);
                                     startActivity(intent);
-                                }
-                                else{
+                                } else {
                                     //TODO actual pop ups
                                     Log.e("ERROR", "Lobby is full!");
                                 }

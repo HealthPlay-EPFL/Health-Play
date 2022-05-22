@@ -132,7 +132,7 @@ public class AddFriendFragmentTest {
                 }
         );
         Database database = new Database();
-        Map<String, Boolean> map = database.getFriendList();
+        Map<String, String> map = database.getFriendList();
         TimeUnit.SECONDS.sleep(1);
         assertTrue(map.containsKey("123"));
     }

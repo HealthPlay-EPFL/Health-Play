@@ -55,7 +55,7 @@ public class FriendList_FragTest {
         Espresso.onView(ViewMatchers.withId(R.id.FriendList_button)).perform(ViewActions.click());
         Database database = new Database();
         database.addToFriendList("123");
-        Map<String, Boolean> map = database.getFriendList();
+        Map<String, String> map = database.getFriendList();
         List<String> friends = new ArrayList<>();
         TimeUnit.SECONDS.sleep(1);
         numberOfFriends = map.keySet().size();
