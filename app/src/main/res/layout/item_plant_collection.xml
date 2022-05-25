@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/planthuntGreen"
     android:gravity="center"
-    android:background="@color/planthuntPlayColor">
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/plantListImage"
         android:layout_width="match_parent"
-        android:scaleType="centerCrop"
+        android:layout_height="200dp"
         android:background="@drawable/coquelicot"
-        android:layout_height="200dp"/>
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -23,20 +23,23 @@
             android:id="@+id/plantListName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/alata"
             android:text="Daisy"
             android:textColor="@color/white"
             android:textSize="26sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <Space
             android:layout_width="20dp"
-             android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/plantListDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:text="22 janvier 2022" />
+            android:fontFamily="@font/alata"
+            android:text="22 janvier 2022"
+            android:textColor="@color/white" />
 
 
     </LinearLayout>

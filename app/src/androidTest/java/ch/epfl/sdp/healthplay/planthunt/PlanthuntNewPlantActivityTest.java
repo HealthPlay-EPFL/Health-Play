@@ -43,10 +43,9 @@ public class PlanthuntNewPlantActivityTest {
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "a");
         intent.putExtra(PlanthuntLobbyActivity.NAME, "plant");
-        intent.putExtra(PlanthuntLobbyActivity.URL, "image");
 
         try (ActivityScenario<PlanthuntNewPlantActivity> scenario = ActivityScenario.launch(intent)) {
-            Espresso.onView(withId(R.id.planthuntPlantImage)).check(matches(isDisplayed()));
+            Espresso.onView(withId(R.id.planthuntPlantButton)).check(matches(isDisplayed()));
         }
     }
 
@@ -57,7 +56,6 @@ public class PlanthuntNewPlantActivityTest {
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "a");
         intent.putExtra(PlanthuntLobbyActivity.NAME, "plant");
-        intent.putExtra(PlanthuntLobbyActivity.URL, "image");
 
 
         try (ActivityScenario<PlanthuntNewPlantActivity> scenario = ActivityScenario.launch(intent)) {
