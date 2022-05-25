@@ -23,10 +23,10 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.model.Product;
-import ch.epfl.sdp.healthplay.planthunt.PlanthuntCreateLobbyActivity;
 
 public final class Database {
 
@@ -396,7 +396,8 @@ public final class Database {
      * @param name       the unique identifier given to the lobby
      * @param playerUid  the unique identifier of the joining player
      */
-    public void addUserToLobby(String name, String playerUid){
+    public int addUserToLobby(String name, String playerUid){
+        AtomicInteger result = new AtomicInteger();
         mDatabase
                 .child(LOBBIES)
                 .child(name)
@@ -404,19 +405,36 @@ public final class Database {
                 .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
-                int nbrPlayers = Integer.parseInt(Objects.requireNonNull(dataSnapshot.getValue()).toString()) + 1;
-                mDatabase
-                        .child(LOBBIES)
-                        .child(name)
-                        .child(NBR_PLAYERS)
-                        .setValue(nbrPlayers);
-                mDatabase
-                        .child(LOBBIES)
-                        .child(name)
-                        .child(PLAYER_UID + (nbrPlayers))
-                        .setValue(playerUid);
+                if (!dataSnapshot.hasChild(name)) {
+                    result.set(1);
+                }
+                else{
+                    int nbrPlayers = Integer.parseInt(Objects.requireNonNull(dataSnapshot.getValue()).toString()) + 1;
+                    getLobbyPlayerCount(name, MAX_NBR_PLAYERS, task -> {
+                        if (!task.isSuccessful()) {
+                            Log.e("ERROR", "Lobby does not exist!");
+                        }
+                        if (Math.toIntExact((long) task.getResult().getValue()) <= nbrPlayers){
+                            mDatabase
+                                    .child(LOBBIES)
+                                    .child(name)
+                                    .child(NBR_PLAYERS)
+                                    .setValue(nbrPlayers);
+                            mDatabase
+                                    .child(LOBBIES)
+                                    .child(name)
+                                    .child(PLAYER_UID + (nbrPlayers))
+                                    .setValue(playerUid);
+                            result.set(0);
+                        }
+                        else{
+                            result.set(2);
+                        }
+                    });
+                }
             }
         });
+        return result.get();
     }
 
     /** Gets player value from lobby
@@ -569,7 +587,7 @@ public final class Database {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
                 int gonePlayers = Integer.parseInt(Objects.requireNonNull(dataSnapshot.getValue()).toString()) + 1;
-                getLobbyPlayersGone(name, task -> {
+                getLobbyPlayerCount(name, MAX_NBR_PLAYERS, task -> {
                             if (!task.isSuccessful()) {
                                 Log.e("ERROR", "Lobby does not exist!");
                             }
