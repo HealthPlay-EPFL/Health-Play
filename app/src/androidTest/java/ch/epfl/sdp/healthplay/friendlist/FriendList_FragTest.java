@@ -133,7 +133,6 @@ public class FriendList_FragTest {
 
     @Test
     public void listViewDisplayAllFriends() throws InterruptedException {
-
         onView(withId(R.id.friendList)).check(matches(new TypeSafeMatcher<View>() {
 
             @Override
@@ -149,10 +148,12 @@ public class FriendList_FragTest {
             }
 
         }));
-
-
-
     }
 
+    @Test
+    public void showProfile(){
+        onData(anything()).inAdapterView(withId(R.id.friendList)).atPosition(1).perform(click());
+        onView(withId(R.id.profile_picture)).check(matches(isDisplayed()));
+    }
 
 }
