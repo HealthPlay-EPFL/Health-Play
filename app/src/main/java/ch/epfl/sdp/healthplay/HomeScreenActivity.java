@@ -45,7 +45,6 @@ public class HomeScreenActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         if(user != null){
-            Log.e("ON START CALL", user.getUid());
             database.setOnlineStatus("online");
         }
         super.onStart();
@@ -60,7 +59,6 @@ public class HomeScreenActivity extends AppCompatActivity {
         //Get time and set the onlineStatus to it
         if(user != null){
             String timestamp = String.valueOf(System.currentTimeMillis());
-            Log.e("ON PAUSE CALL", timestamp);
             database.setOnlineStatus(timestamp);
         }
     }
@@ -72,7 +70,6 @@ public class HomeScreenActivity extends AppCompatActivity {
     protected void onResume() {
         //The user is on the chat (with you or another user)
         if(user != null){
-            Log.e("ON REESUME CALL", user.getUid());
             database.setOnlineStatus("online");
         }
         super.onResume();

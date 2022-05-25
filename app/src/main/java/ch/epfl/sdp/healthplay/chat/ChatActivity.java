@@ -207,6 +207,15 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     /**
+     * When we start the Activity
+     */
+    @Override
+    protected void onStart() {
+        firebaseDatabase.setOnlineStatus("online");
+        super.onStart();
+    }
+
+    /**
      * Set the typingStatus
      * @param typing
      */
