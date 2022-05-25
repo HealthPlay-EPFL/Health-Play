@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/leaves_background"
     tools:context=".planthunt.PlanthuntCollectionItemActivity">
 
     <LinearLayout
@@ -26,16 +27,21 @@
             android:id="@+id/plantItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/alata"
             android:text="plantItemName"
             android:textAlignment="center"
-            android:textSize="24sp" />
+            android:textColor="#FFFFFF"
+            android:textSize="34sp" />
 
         <TextView
             android:id="@+id/plantItemDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/alata"
             android:text="plantItemDate"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
