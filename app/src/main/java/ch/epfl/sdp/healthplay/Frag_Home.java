@@ -99,7 +99,7 @@ public class Frag_Home extends Fragment {
         );
 
         //Update if logs in
-        userStats = null;
+        /*userStats = null;
         FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -108,7 +108,8 @@ public class Frag_Home extends Fragment {
                     constructUserStats(user);
                 }
             }
-        });
+        });*/
+        userStats = WelcomeScreenActivity.cache.getDataMapCalendar();
 
         //Print a text when the date is changed
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -119,7 +120,8 @@ public class Frag_Home extends Fragment {
                 //No user logged in
                 if(user == null){
                     dataDisplay.setText(text[0]);
-                    userStats = convert();
+                    //userStats = convert();
+                    userStats = WelcomeScreenActivity.cache.getDataMapCalendar();
                 }
                 //User is logged in but no data at all
                 if(userStats == null) {
@@ -139,7 +141,7 @@ public class Frag_Home extends Fragment {
 
         //Update in real time the userStats
         if(user != null) {
-            database.mDatabase.child("users").child(user.getUid()).child("stats").child(date).addValueEventListener(new ValueEventListener() {
+            /*database.mDatabase.child("users").child(user.getUid()).child("stats").child(date).addValueEventListener(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -165,7 +167,15 @@ public class Frag_Home extends Fragment {
                 }
             }
 
-            );
+            );*/
+            userStats = WelcomeScreenActivity.cache.getDataMapCalendar();
+            if(userStats != null) {
+                if (selectedDate != null && selectedDate.equals(date)) {
+                    printStats(
+                            dataDisplay,
+                            date);
+                }
+            }
         }
         return view;
     }
@@ -190,7 +200,7 @@ public class Frag_Home extends Fragment {
      * Build the stats of all dates the user entered data in
      * @param user
      */
-    private void constructUserStats(FirebaseUser user){
+    /*private void constructUserStats(FirebaseUser user){
         if(database != null) {
             database.getStats(user.getUid(), task -> {
                 if (!task.isSuccessful()) {
@@ -199,12 +209,12 @@ public class Frag_Home extends Fragment {
                 userStats = (Map<String, Map<String, String>>) task.getResult().getValue();
             });
         }
-    }
+    }*/
     /**
      * convert map<String, map<String, Number>> to map<String, Map<String, String>>
      * @return map for calendar in format Map<String, Map<String, String>>
      */
-    private Map<String, Map<String, String>> convert(){
+    /*private Map<String, Map<String, String>> convert(){
         Map<String, Map<String, String>> inter2 = new HashMap<>();
         Map<String, Map<String, Number>> stat = WelcomeScreenActivity.cache.getDataMap();
         if(stat == null){
@@ -219,7 +229,7 @@ public class Frag_Home extends Fragment {
         }
         if(inter2.isEmpty()) return null;
         return inter2;
-    }
+    }*/
 
     private void initText(){
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());

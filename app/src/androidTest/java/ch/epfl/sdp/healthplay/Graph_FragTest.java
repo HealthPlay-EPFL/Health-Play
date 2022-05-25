@@ -11,6 +11,7 @@ import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -21,6 +22,7 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
 
+import ch.epfl.sdp.healthplay.database.DataCache;
 import ch.epfl.sdp.healthplay.model.Graph_Frag;
 
 @RunWith(AndroidJUnit4.class)
@@ -28,8 +30,10 @@ public class Graph_FragTest {
 
     @Before
     public void init() throws InterruptedException {
+        FirebaseAuth.getInstance().signOut();
         FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
-        ActivityScenario sc = ActivityScenario.launch(WelcomeScreenActivity.class);
+        WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
+        ActivityScenario sc = ActivityScenario.launch(HomeScreenActivity.class);
         onView(withId(R.id.switchFragButton)).perform(click());
         TimeUnit.SECONDS.sleep(1);
     }

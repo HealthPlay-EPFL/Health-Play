@@ -31,7 +31,7 @@ import ch.epfl.sdp.healthplay.api.CameraApi;
 
 public class PlanthuntNewPlantActivityTest {
 
-    @Before
+    /*@Before
     public void before() throws InterruptedException {
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
     }
@@ -82,6 +82,6 @@ public class PlanthuntNewPlantActivityTest {
 
             Espresso.onView(withId(R.id.planthuntLobbyButton)).check(matches(isDisplayed()));
         }
-    }
+    }*/
 
 }

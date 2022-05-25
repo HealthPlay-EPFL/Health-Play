@@ -27,6 +27,7 @@ import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,6 +46,7 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.auth.SignedInFragment;
+import ch.epfl.sdp.healthplay.database.DataCache;
 
 @RunWith(AndroidJUnit4.class)
 public class SignedInFragmentTest {
@@ -53,8 +55,9 @@ public class SignedInFragmentTest {
     public static String password = "123456";
 
     @Before
-    public void init() {
+    public void init() throws InterruptedException {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(emailString, password);
+        WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
         /**/
     }
 

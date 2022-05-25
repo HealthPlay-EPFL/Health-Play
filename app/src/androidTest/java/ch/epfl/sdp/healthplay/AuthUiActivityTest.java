@@ -26,6 +26,7 @@ import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +41,7 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.auth.AuthUiActivity;
+import ch.epfl.sdp.healthplay.database.DataCache;
 
 @RunWith(AndroidJUnit4.class)
 public class AuthUiActivityTest {
@@ -47,6 +49,7 @@ public class AuthUiActivityTest {
     @Before
     public void init() throws InterruptedException {
         FirebaseAuth.getInstance().signOut();
+        WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
         ActivityScenario home = ActivityScenario.launch(HomeScreenActivity.class);
         home.onActivity(new ActivityScenario.ActivityAction() {
             @Override
@@ -62,14 +65,29 @@ public class AuthUiActivityTest {
         onView(withText("Sign in with email")).perform(click());
         onView(withHint("Email")).perform(typeText(SignedInFragmentTest.emailString), ViewActions.closeSoftKeyboard());
         onView(withText("Next")).perform(click());
-        /*onView(withHint("Password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
+        onView(withHint("Password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
         onView(withText("SIGN IN")).perform(click());
-        TimeUnit.SECONDS.sleep(1);*/
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(SignedInFragmentTest.emailString, SignedInFragmentTest.password);
+        TimeUnit.SECONDS.sleep(1);
+        //FirebaseAuth.getInstance().signInWithEmailAndPassword(SignedInFragmentTest.emailString, SignedInFragmentTest.password);
+        ActivityScenario sc2 = ActivityScenario.launch(HomeScreenActivity.class);
+        sc2.onActivity(new ActivityScenario.ActivityAction() {
+            @Override
+            public void perform(Activity activity) {
+                BottomNavigationView b = activity.findViewById(R.id.bottomNavigationView);
+                Navigation.findNavController(activity.findViewById(R.id.fragmentContainerView)).navigate(R.id.SignedInFragment);
+            }
+        });
+        onView(withId(R.id.sign_out)).perform(click());
     }
 
-    /*@After
-    public void remove_account(){
+    @Test
+    public void remove_account() throws InterruptedException {
+        onView(withText("Sign in with email")).perform(click());
+        onView(withHint("Email")).perform(typeText("HPTest@admin.ch"), ViewActions.closeSoftKeyboard());
+        onView(withText("Next")).perform(click());
+        onView(withHint("New password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
+        onView(withText("Save")).perform(click());
+        TimeUnit.SECONDS.sleep(1);
         ActivityScenario sc2 = ActivityScenario.launch(HomeScreenActivity.class);
         sc2.onActivity(new ActivityScenario.ActivityAction() {
             @Override
@@ -80,6 +98,6 @@ public class AuthUiActivityTest {
         });
         onView(withId(R.id.delete_account)).perform(click());
         onView(withText("Yes, nuke it!")).perform(click());
-    }*/
+    }
 
 }
