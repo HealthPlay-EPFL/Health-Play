@@ -6,14 +6,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
+import static org.junit.Assert.*;
 
 import android.view.View;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
-import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
@@ -23,27 +22,15 @@ import org.junit.Test;
 
 import ch.epfl.sdp.healthplay.R;
 
-public class PlanthuntCreateLobbyActivityTest {
-    private static final String NAME = "test";
-    private static final String PASSWORD = "password";
-    private static final String USERNAME = "a";
-
+public class PlanthuntCreateJoinLobbyActivityTest {
 
     @Rule
-    public ActivityScenarioRule<PlanthuntCreateLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntCreateLobbyActivity.class);
+    public ActivityScenarioRule<PlanthuntCreateJoinLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntCreateJoinLobbyActivity.class);
+
 
     @Test
-    public void lobbyIsCorrectlyCreated() {
-        ViewInteraction textName = Espresso.onView(ViewMatchers.withId(R.id.planthuntCreateLobbyName));
-        textName.perform(ViewActions.typeText(NAME));
-        Espresso.closeSoftKeyboard();
-        ViewInteraction textPassword = Espresso.onView(withId(R.id.planthuntCreateLobbyPassword));
-        textPassword.perform(ViewActions.typeText(PASSWORD));
-        Espresso.closeSoftKeyboard();
-        ViewInteraction textUsername = Espresso.onView(withId(R.id.planthuntCreateLobbyUsername));
-        textUsername.perform(ViewActions.typeText(USERNAME));
-        Espresso.closeSoftKeyboard();
-        Espresso.onView(withId(R.id.planthuntCreateLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+    public void createButtonCorrectlyWorks() {
+        Espresso.onView(withId(R.id.planthuntCreateLobbyMain)).check(matches(allOf(isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
@@ -64,4 +51,29 @@ public class PlanthuntCreateLobbyActivityTest {
 
         Espresso.onView(withId(R.id.planthuntCreateLobbyButton)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void joinButtonCorrectlyWorks() {
+        Espresso.onView(withId(R.id.planthuntJoinLobbyMain)).check(matches(allOf(isEnabled(), isClickable()))).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+
+        Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(isDisplayed()));
+    }
+
 }
