@@ -157,16 +157,20 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
         );
 
         FloatingActionButton invitationButton = findViewById(R.id.createInvitation);
+        //Only the host can invite people to the lobby
         if(!hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
             invitationButton.setVisibility(View.INVISIBLE);
         }
+        //Handle the click on the "+" button
         invitationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
                 Context context = PlanthuntWaitLobbyActivity.this;
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(context.getString(R.string.choose_a_friend_to_invite_en));
+
                 db.readField(
                         mAuth.getCurrentUser().getUid(), "friends",
 

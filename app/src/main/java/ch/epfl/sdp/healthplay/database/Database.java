@@ -827,4 +827,17 @@ public final class Database {
         createConversationRecord(senderId, receiverId);
     }
 
+    /**
+     * Set the onlineStatus
+     * @param status
+     */
+    public void setOnlineStatus(String status) {
+        // check online status
+        Map<String, Object> hashMap = new HashMap<>();
+        hashMap.put("onlineStatus", status);
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            mDatabase.child(USERS).child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).updateChildren(hashMap);
+        }
+    }
+
 }

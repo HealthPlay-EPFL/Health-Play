@@ -207,50 +207,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     /**
-     * When we start the Activity
-     */
-    @Override
-    protected void onStart() {
-        getCurrentUser();
-        setOnlineStatus("online");
-        super.onStart();
-    }
-
-    /**
-     * When we leave the Activity
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //Get time and set the onlineStatus to it
-        String timestamp = String.valueOf(System.currentTimeMillis());
-        setOnlineStatus(timestamp);
-        setTypingStatus("notTyping");
-    }
-
-    /**
-     * When we get back to the Activity
-     */
-    @Override
-    protected void onResume() {
-        //The user is on the chat (with you or another user)
-        setOnlineStatus("online");
-        super.onResume();
-    }
-
-
-    /**
-     * Set the onlineStatus
-     * @param status
-     */
-    private void setOnlineStatus(String status) {
-        // check online status
-        Map<String, Object> hashMap = new HashMap<>();
-        hashMap.put("onlineStatus", status);
-        selfRef.updateChildren(hashMap);
-    }
-
-    /**
      * Set the typingStatus
      * @param typing
      */
