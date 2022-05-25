@@ -119,7 +119,7 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         db.getLobbyPlayerCount(lobbyName, Database.MAX_NBR_PLAYERS, task -> {
                             if (!task.isSuccessful() || snapshot.getValue() == null) {
-                                Log.e("ERROR", "An error happened");
+                                Log.e("ERROR", "Error getting lobby player count");
                                 return;
                             }
                             String name = task.getResult().getValue().toString();

@@ -49,7 +49,7 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
         Database db = new Database();
         db.getLobbyPlayerScore(lobbyName, currentUsername, task -> {
             if (!task.isSuccessful()) {
-                Log.e("ERROR", "An error happened");
+                Log.e("ERROR", "Error getting the player's score");
             }
             db.updateLobbyPlayerScore(lobbyName, currentUsername, Math.toIntExact((long) Objects.requireNonNull(task.getResult().getValue())) + points);
         });
