@@ -29,7 +29,7 @@ public class AdapterChatTest {
 
     @Before
     public void before() throws InterruptedException{
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         onView(withId(R.id.FriendList_button)).perform(click());
     }
 
