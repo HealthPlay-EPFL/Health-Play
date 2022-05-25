@@ -27,6 +27,22 @@ import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 
 public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
+    //Initialize database reference
+    Database db = new Database();
+    String lobbyName, hostStatus;
+    boolean isReady = false;
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(PlanthuntWaitLobbyActivity.this, PlanthuntMainActivity.class);
+        if (hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
+            db.deleteLobby(lobbyName);
+        }
+        else{
+            db.addLobbyGonePlayer(lobbyName);
+        }
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +52,10 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
         final ImageView waitView = findViewById(R.id.planthuntWaitGif);
         Glide.with(this).load(R.drawable.loading_planthunt).into(waitView);
 
-        //Initialize database reference
-        Database db = new Database();
-
         Intent intent = getIntent();
-        String lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
+        lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
         String currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
-        String hostStatus = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE);
+        hostStatus = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE);
 
         final TextView lobbyNameText = findViewById(R.id.planthuntWaitName);
         lobbyNameText.setText(lobbyName);
@@ -59,12 +72,12 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         db.getAllLobbyPlayerUids(lobbyName, task -> {
-                            if (!task.isSuccessful()) {
-
+                            if (!task.isSuccessful() || task.getResult().getValue() == null) {
                                 Log.e("ERROR", "An error happened");
+                                return;
                             }
                             String name = Objects.requireNonNull(task.getResult().getValue()).toString();
-                            if (!usernames.contains(name)){
+                            if (!usernames.contains(name) && name.length() > 0){
                                 usernames.add(name);
                                 if (usernames.size() == 1){
                                     username1Text.setText(usernames.get(0));
@@ -91,8 +104,10 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
         readyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.setLobbyPlayerReady(lobbyName, currentUsername);
-                db.addLobbyReadyPlayer(lobbyName);
+                if (!isReady){
+                    db.addLobbyReadyPlayer(lobbyName);
+                    isReady = true;
+                }
             }
         });
 
@@ -103,17 +118,19 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         db.getLobbyPlayerCount(lobbyName, Database.MAX_NBR_PLAYERS, task -> {
-                            if (!task.isSuccessful()) {
-
-                                Log.e("ERROR", "An error happened");
+                            if (!task.isSuccessful() || snapshot.getValue() == null) {
+                                Log.e("ERROR", "Error getting lobby player count");
+                                return;
                             }
                             String name = task.getResult().getValue().toString();
-                            if (Math.toIntExact((long) snapshot.getValue()) == Math.toIntExact((long) task.getResult().getValue())){
-                                Intent intent = new Intent(PlanthuntWaitLobbyActivity.this, PlanthuntLobbyActivity.class);
-                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
-                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
-                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
-                                startActivity(intent);
+                            if (snapshot.getValue() != null){
+                                if (Math.toIntExact((long) snapshot.getValue()) == Math.toIntExact((long) task.getResult().getValue())){
+                                    Intent intent = new Intent(PlanthuntWaitLobbyActivity.this, PlanthuntLobbyActivity.class);
+                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
+                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
+                                    startActivity(intent);
+                                }
                             }
                         });
                     }

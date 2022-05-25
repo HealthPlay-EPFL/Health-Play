@@ -9,15 +9,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import ch.epfl.sdp.healthplay.GameMenuFragment;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
-import ch.epfl.sdp.healthplay.kneetag.MainActivity;
 
 public class PlanthuntResultActivity extends AppCompatActivity {
 
@@ -28,6 +28,7 @@ public class PlanthuntResultActivity extends AppCompatActivity {
     TextView username1Text;
     TextView username2Text;
     TextView username3Text;
+    String currentUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class PlanthuntResultActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
+        currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
 
         final TextView lobbyNameText = findViewById(R.id.planthuntResultName);
         lobbyNameText.setText(lobbyName);
@@ -96,6 +98,7 @@ public class PlanthuntResultActivity extends AppCompatActivity {
         leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                db.addLobbyGonePlayer(lobbyName);
                 Intent intent = new Intent(PlanthuntResultActivity.this, PlanthuntMainActivity.class);
                 startActivity(intent);
             }
@@ -122,6 +125,17 @@ public class PlanthuntResultActivity extends AppCompatActivity {
 
         int second = first != 0 && third != 0 ? 0 :
                 (first != 1 && third != 1 ? 1 : 2);
+
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (usernames.get(first).equals(currentUsername)){
+            db.addHealthPoint(uid, 100);
+        }
+        else if (usernames.get(second).equals(currentUsername)){
+            db.addHealthPoint(uid, 50);
+        }
+        else if (usernames.get(third).equals(currentUsername)){
+            db.addHealthPoint(uid, 25);
+        }
 
         if(!usernames.get(first).equals("")){
             username1Text.setText(usernames.get(first) + "\n" + scores.get(first) + "points");
