@@ -11,15 +11,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureException;
+import androidx.camera.lifecycle.ProcessCameraProvider;
+import androidx.camera.view.PreviewView;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -27,6 +40,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
+import com.google.mlkit.vision.barcode.common.Barcode;
 
 import org.hamcrest.Matcher;
 import org.junit.After;
@@ -34,16 +50,39 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.database.DataCache;
+import ch.epfl.sdp.healthplay.database.Database;
 
 @RunWith(AndroidJUnit4.class)
 public class BarcodeScanFragmentTest {
 
+    @Before
+    public void init(){
+        WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
+        ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
+        activity.onActivity(new ActivityScenario.ActivityAction() {
+            @Override
+            public void perform(Activity activity) {
+                FragmentContainerView view = activity.findViewById(R.id.fragmentContainerView);
+                /*FragmentTransaction fragmentTransaction = view.getFragment().getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentContainerView, new MockBarcodeScanFragment());
+                fragmentTransaction.commit();*/
+                FragmentTransaction tr = FragmentManager.findFragment(view).getFragmentManager().beginTransaction();
+                tr.replace(R.id.fragmentContainerView, new MockBarcodeScanFragment());
+                tr.commit();
+            }
+        });
+    }
+
+
     @Test
     public void testEnterManually() throws InterruptedException {
-        WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
+        /*WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         activity.onActivity(new ActivityScenario.ActivityAction() {
             @Override
@@ -52,8 +91,7 @@ public class BarcodeScanFragmentTest {
                 Navigation.findNavController(activity.findViewById(R.id.fragmentContainerView)).navigate(R.id.barcodescanActivity);
 
             }
-        });
-        TimeUnit.SECONDS.sleep(5);
+        });*/
         onView(withId(R.id.enter_manually_button)).check(matches(isDisplayed()));
         onView(withId(R.id.enter_manually_button)).perform(click());
         onView(withId(R.id.findProductInfos)).check(matches(isDisplayed()));
@@ -62,7 +100,7 @@ public class BarcodeScanFragmentTest {
 
     @Test
     public void testScan() throws InterruptedException {
-        WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
+        /*WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         activity.onActivity(new ActivityScenario.ActivityAction() {
             @Override
@@ -71,7 +109,7 @@ public class BarcodeScanFragmentTest {
                 Navigation.findNavController(activity.findViewById(R.id.fragmentContainerView)).navigate(R.id.barcodescanActivity);
 
             }
-        });
+        });*/
         TimeUnit.SECONDS.sleep(1);
         onView(withId(R.id.get_information_from_barcode)).check(matches(isDisplayed()));
         onView(withId(R.id.get_information_from_barcode)).perform(
@@ -92,6 +130,71 @@ public class BarcodeScanFragmentTest {
                     }
                 }
         );
-        onView(withId(R.id.progressBar)).check(matches(isDisplayed()));
+        //onView(withId(R.id.progressBar)).check(matches(isDisplayed()));
+    }
+
+    public static class MockBarcodeScanFragment extends BarcodeScanFragment {
+
+        private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
+        private PreviewView previewView;
+        private final Database database = new Database();
+
+        // This field is only used in tests
+        protected final static CountingIdlingResource idlingResource =
+                new CountingIdlingResource("LOOKUP_BARCODE");
+
+        // The barcode formats used
+        private final static BarcodeScannerOptions options =
+                new BarcodeScannerOptions.Builder()
+                        .setBarcodeFormats(
+                                // Allow scanning of product barcodes
+                                Barcode.FORMAT_EAN_13,
+                                Barcode.FORMAT_EAN_8,
+                                // Allow scanning of QR codes
+                                Barcode.FORMAT_QR_CODE)
+                        .build();
+        private ImageCapture imageCapture;
+
+        private View view;
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            // Inflate the layout for this fragment
+            view = inflater.inflate(R.layout.fragment_barcode_scan, container, false);
+            previewView = view.findViewById(R.id.previewView2);
+
+
+            view.findViewById(R.id.get_information_from_barcode).setOnClickListener(v -> {
+                try {
+                    onClick();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            view.findViewById(R.id.enter_manually_button).setOnClickListener(v -> enterManually());
+            return view;
+        }
+
+        @Override
+        public void onClick() throws IOException {
+            idlingResource.increment();
+            // Set the progress bar to visible and disable user interaction
+            ProgressBar bar = view.findViewById(R.id.progressBar);
+            bar.setVisibility(View.VISIBLE);
+            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            Uri uri = Uri.parse("android.resource://" + getActivity().getPackageName() + "/drawable/barcode_example.png");
+            try {
+                scan(uri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Take out progress bar and clear not touchable flags
+            bar.setVisibility(View.GONE);
+            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        }
     }
 }

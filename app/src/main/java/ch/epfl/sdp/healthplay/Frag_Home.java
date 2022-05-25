@@ -98,17 +98,6 @@ public class Frag_Home extends Fragment {
         }
         );
 
-        //Update if logs in
-        /*userStats = null;
-        FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                //Necessary since the function is executed once on the creation of the Fragment
-                if(user != null){
-                    constructUserStats(user);
-                }
-            }
-        });*/
         userStats = WelcomeScreenActivity.cache.getDataMapCalendar();
 
         //Print a text when the date is changed
@@ -120,7 +109,6 @@ public class Frag_Home extends Fragment {
                 //No user logged in
                 if(user == null){
                     dataDisplay.setText(text[0]);
-                    //userStats = convert();
                     userStats = WelcomeScreenActivity.cache.getDataMapCalendar();
                 }
                 //User is logged in but no data at all
@@ -141,33 +129,6 @@ public class Frag_Home extends Fragment {
 
         //Update in real time the userStats
         if(user != null) {
-            /*database.mDatabase.child("users").child(user.getUid()).child("stats").child(date).addValueEventListener(new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    //Get the changes
-                    Map<String, String> value = (Map<String, String>) snapshot.getValue();
-                    if (userStats != null && value != null) {
-                        //Update all the values
-                        userStats.get(date).put(Database.CALORIE_COUNTER, String.valueOf(value.getOrDefault(Database.CALORIE_COUNTER, "Unknown")));
-                        userStats.get(date).put(Database.HEALTH_POINT, String.valueOf(value.getOrDefault(Database.HEALTH_POINT, "Unknown")));
-                        userStats.get(date).put(Database.WEIGHT, String.valueOf(value.getOrDefault(Database.WEIGHT, "Unknown")));
-
-                        //print the changes only if they happened on the focused date
-                        if (selectedDate != null && selectedDate.equals(date)) {
-                            printStats(
-                                    dataDisplay,
-                                    date);
-                        }
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    System.out.println(error.toString());
-                }
-            }
-
-            );*/
             userStats = WelcomeScreenActivity.cache.getDataMapCalendar();
             if(userStats != null) {
                 if (selectedDate != null && selectedDate.equals(date)) {
@@ -195,41 +156,6 @@ public class Frag_Home extends Fragment {
                             text[5] + String.valueOf(userStats.get(date).get(Database.HEALTH_POINT)));
         }
     }
-
-    /**
-     * Build the stats of all dates the user entered data in
-     * @param user
-     */
-    /*private void constructUserStats(FirebaseUser user){
-        if(database != null) {
-            database.getStats(user.getUid(), task -> {
-                if (!task.isSuccessful()) {
-                    Log.e("ERROR", "An error happened");
-                }
-                userStats = (Map<String, Map<String, String>>) task.getResult().getValue();
-            });
-        }
-    }*/
-    /**
-     * convert map<String, map<String, Number>> to map<String, Map<String, String>>
-     * @return map for calendar in format Map<String, Map<String, String>>
-     */
-    /*private Map<String, Map<String, String>> convert(){
-        Map<String, Map<String, String>> inter2 = new HashMap<>();
-        Map<String, Map<String, Number>> stat = WelcomeScreenActivity.cache.getDataMap();
-        if(stat == null){
-            return null;
-        }
-        for(String date : stat.keySet()){
-            Map<String, String> inter = new HashMap<>();
-            for(String categories : stat.get(date).keySet()){
-                inter.put(categories, stat.get(date).get(categories).toString());
-            }
-            inter2.put(date, inter);
-        }
-        if(inter2.isEmpty()) return null;
-        return inter2;
-    }*/
 
     private void initText(){
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());

@@ -90,16 +90,25 @@ public class ProfileFragment extends Fragment {
     }
 
     private void initProfile(){
+        //init the birthDay, get in the cache
         String birthday = WelcomeScreenActivity.cache.getField(Database.BIRTHDAY);
         String[] parts = birthday.split("-");
         birthday = parts[2] + "/" + parts[1] +"/" + parts[0];
         ((TextView) view.findViewById(R.id.profileBirthday)).setText(birthday);
+
+        //init the name (name + surname), get in the cache
         String name = WelcomeScreenActivity.cache.getField(Database.NAME) + " " + WelcomeScreenActivity.cache.getField(Database.SURNAME);
         ((TextView) view.findViewById(R.id.profileName)).setText(name);
+
+        //init the username, get in the cache
         String username = WelcomeScreenActivity.cache.getField(Database.USERNAME);
         ((TextView) view.findViewById(R.id.profileUsername)).setText(username);
+
+        //init the healthPoint, Weight and Daily calorie, get in the cache
         Map<String, Map<String, Number>> stats = WelcomeScreenActivity.cache.getDataMap();
         updateStats(stats, "", ((TextView) view.findViewById(R.id.statsButton)), ((TextView) view.findViewById(R.id.profileWeight)), ((TextView) view.findViewById(R.id.profileHealthPoint)));
+
+        //init the profile's image, get in the cache
         String image = WelcomeScreenActivity.cache.getField(Database.IMAGE);
         if(getActivity() != null){
             Glide.with(getActivity()).load(image).into((ImageView) view.findViewById(R.id.profile_picture));
