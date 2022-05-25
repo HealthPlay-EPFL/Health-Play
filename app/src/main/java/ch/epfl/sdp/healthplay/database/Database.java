@@ -561,7 +561,6 @@ public final class Database {
      * @param name the unique identifier given to the lobby
      */
     public void addLobbyGonePlayer(String name){
-        //TODO delete player fields: score, uid, isReady, nbrPlayersReady
         mDatabase
                 .child(LOBBIES)
                 .child(name)

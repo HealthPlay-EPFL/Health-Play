@@ -63,6 +63,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
         Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntMainActivity.class);
         if (hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
             db.deleteLobby(lobbyName);
+            remainingTime = 0;
         }
         else{
             db.addLobbyGonePlayer(lobbyName);
@@ -104,6 +105,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
             }
         });
 
+        System.out.println(hostStatus);
         if (remainingTime == 300 && hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
             startTimer();
         }
@@ -182,7 +184,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < remainingTime + 1; i++) {
+                while (remainingTime > 0) {
                     try {
                         Thread.sleep(1000);
                         db.updateLobbyTime(lobbyName, remainingTime);
