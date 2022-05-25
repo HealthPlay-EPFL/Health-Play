@@ -59,6 +59,18 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
     public static boolean isTested = false;
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntMainActivity.class);
+        if (hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
+            db.deleteLobby(lobbyName);
+        }
+        else{
+            db.addLobbyGonePlayer(lobbyName);
+        }
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planthunt_lobby);
@@ -153,14 +165,13 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
         leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(hostStatus);
+                Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntMainActivity.class);
                 if (hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
                     db.deleteLobby(lobbyName);
                 }
                 else{
                     db.addLobbyGonePlayer(lobbyName);
                 }
-                Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntMainActivity.class);
                 startActivity(intent);
             }
         });
