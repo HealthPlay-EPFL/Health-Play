@@ -115,7 +115,6 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                                 Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntResultActivity.class);
                                 intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
                                 intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
-                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
                                 startActivity(intent);
                             }
                         }
@@ -252,6 +251,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                                         if (Double.parseDouble(json.getJSONArray("results").getJSONObject(0).get("score").toString()) < .2){
                                             alert.dismiss();
                                             Snackbar.make(findViewById(R.id.planthuntLobbyLayout), "No plant was found", Snackbar.LENGTH_LONG).show();
+                                            storage.child("Planthunt").child(user.getUid()).child(photoFile.getName()).delete();
                                             return;
                                         }
 
@@ -279,6 +279,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                                                 System.out.println("lobby");
                                                 intent.putExtra(POINTS, 100 - 10 * finalPopularity);
                                                 intent.putExtra(NAME, commonName);
+                                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
                                                 storage.child("Planthunt").child(user.getUid()).child(photoFile.getName()).delete();
                                                 storage.child("Planthunt").child(user.getUid()).child(commonName + "_" + photoFile.getName()).putBytes(outputStream.toByteArray());
                                                 alert.dismiss();

@@ -30,6 +30,7 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
     //Initialize database reference
     Database db = new Database();
     String lobbyName, hostStatus;
+    boolean isReady = false;
 
     @Override
     public void onBackPressed() {
@@ -103,8 +104,10 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
         readyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.setLobbyPlayerReady(lobbyName, currentUsername);
-                db.addLobbyReadyPlayer(lobbyName);
+                if (!isReady){
+                    db.addLobbyReadyPlayer(lobbyName);
+                    isReady = true;
+                }
             }
         });
 

@@ -47,7 +47,6 @@ public final class Database {
     public static final String REMAINING_TIME = "remainingTime";
     public static final String PLAYER_UID = "playerUid";
     public static final String PLAYER_SCORE = "playerScore";
-    public static final String PLAYER_READY = "playerReady";
     public static final String PLAYERS_READY = "playersReady";
     public static final String PLAYERS_GONE = "playersGone";
     public static final String PASSWORD = "password";
@@ -466,34 +465,6 @@ public final class Database {
                         .setValue(readyPlayers);
             }
         });
-    }
-
-    /**
-     * Sets a lobby user as ready
-     *
-     * @param name      the unique identifier given to the lobby
-     * @param playerUid the unique identifier of the ready player
-     */
-    public void setLobbyPlayerReady (String name, String playerUid){
-        for (int i = 1; i < MAX_PLAYER_CAPACITY + 1; i++) {
-            int finalI = i;
-            mDatabase
-                    .child(LOBBIES)
-                    .child(name)
-                    .child(PLAYER_UID + i)
-                    .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                @Override
-                public void onSuccess(DataSnapshot dataSnapshot) {
-                    if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(playerUid)) {
-                        mDatabase
-                                .child(LOBBIES)
-                                .child(name)
-                                .child(PLAYER_READY + finalI)
-                                .setValue(true);
-                    }
-                }
-            });
-        }
     }
 
     /** Gets uids of all players in the lobby

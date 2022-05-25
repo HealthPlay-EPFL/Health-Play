@@ -10,7 +10,6 @@ public class Lobby {
     private int playersGone = 0;
     private String playerUid1, playerUid2, playerUid3;
     private int playerScore1 = 0, playerScore2 = 0, playerScore3 = 0;
-    private boolean playerReady1 = false, playerReady2 = false, playerReady3 = false;
     private int remainingTime = 300;
     private int maxNbrPlayers;
 
@@ -85,14 +84,4 @@ public class Lobby {
         return playerScore2;
     }
     public int getPlayerScore3(){ return playerScore3; }
-
-
-    //Get which player is ready in the lobby
-    public boolean getPlayerReady1(){
-        return playerReady1;
-    }
-    public boolean getPlayerReady2(){ return playerReady2; }
-    public boolean getPlayerReady3(){
-        return playerReady3;
-    }
 }
