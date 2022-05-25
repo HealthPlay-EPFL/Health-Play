@@ -105,7 +105,6 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
             }
         });
 
-        System.out.println(hostStatus);
         if (remainingTime == 300 && hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
             startTimer();
         }
@@ -255,8 +254,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                                     try  {
                                         //Returns built URL with given image link
                                         String urlString = PlantnetApi.buildUrl(PlantnetApi.API_KEY, urlImage, "flower");
-                                        System.out.println(urlString);
-
+                                        
                                         //Gets JSON object from built URL
                                         JSONObject json = PlantnetApi.readJsonFromUrl(urlString);
 

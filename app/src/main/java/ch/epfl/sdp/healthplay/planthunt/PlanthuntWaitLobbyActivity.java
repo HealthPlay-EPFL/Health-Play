@@ -79,27 +79,14 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                             String name = Objects.requireNonNull(task.getResult().getValue()).toString();
                             if (!usernames.contains(name) && name.length() > 0){
                                 usernames.add(name);
-                                if (hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
-                                    if (usernames.size() == 1){
-                                        username1Text.setText(usernames.get(0));
-                                    }
-                                    if (usernames.size() == 2){
-                                        username2Text.setText(usernames.get(1));
-                                    }
-                                    if (usernames.size() == 3){
-                                        username3Text.setText(usernames.get(2));
-                                    }
+                                if (usernames.size() == 1){
+                                    username1Text.setText(usernames.get(0));
                                 }
-                                else{
-                                    if (usernames.size() == 1){
-                                        username1Text.setText(usernames.get(0));
-                                    }
-                                    if (usernames.size() == 2){
-                                        username2Text.setText(usernames.get(1));
-                                    }
-                                    if (usernames.size() == 3){
-                                        username3Text.setText(usernames.get(2));
-                                    }
+                                if (usernames.size() == 2){
+                                    username2Text.setText(usernames.get(1));
+                                }
+                                if (usernames.size() == 3){
+                                    username3Text.setText(usernames.get(2));
                                 }
                             }
                         });
