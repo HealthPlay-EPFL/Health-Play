@@ -15,6 +15,8 @@ import ch.epfl.sdp.healthplay.database.Lobby;
 
 public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
 
+    int maxNbrPlayers = 2;
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(PlanthuntCreateLobbyActivity.this, PlanthuntMainActivity.class);
@@ -45,7 +47,7 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
                 String username = editUsername.getText().toString();
 
                 //Initialize new lobby with received values
-                Lobby newLobby = new Lobby(name, password, username, 500, 2);
+                Lobby newLobby = new Lobby(name, password, username, 300, maxNbrPlayers, 0);
                 db.writeNewLobby(newLobby.getName(), newLobby.getPassword(), newLobby.getPlayerUid1(), newLobby.getRemainingTime(), newLobby.getMaxNbrPlayers(), PlanthuntCreateLobbyActivity.this);
 
                 //Launch lobby waiting screen
@@ -68,7 +70,7 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
                 box1.setChecked(true);
                 box2.setChecked(false);
                 box3.setChecked(false);
-                //TODO update lobby players count
+                maxNbrPlayers = 1;
             }
         });
 
@@ -79,7 +81,7 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
                 box1.setChecked(false);
                 box2.setChecked(true);
                 box3.setChecked(false);
-                //TODO update lobby players count
+                maxNbrPlayers = 2;
             }
         });
 
@@ -90,7 +92,7 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
                 box1.setChecked(false);
                 box2.setChecked(false);
                 box3.setChecked(true);
-                //TODO update lobby players count
+                maxNbrPlayers = 3;
             }
         });
 

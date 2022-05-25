@@ -42,7 +42,7 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
         Intent intent = getIntent();
         lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
         String currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
-        int points = Integer.parseInt(intent.getStringExtra(PlanthuntLobbyActivity.POINTS));
+        int points = intent.getIntExtra(PlanthuntLobbyActivity.POINTS, 0);
 
         //Initialize database reference
         Database db = new Database();
@@ -53,13 +53,10 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
             db.updateLobbyPlayerScore(lobbyName, currentUsername, Math.toIntExact((long) Objects.requireNonNull(task.getResult().getValue())) + points);
         });
 
-        String imageUrl = intent.getStringExtra(PlanthuntLobbyActivity.URL);
-        System.out.println(imageUrl);
+        String plantName = "You found a " + intent.getStringExtra(PlanthuntLobbyActivity.NAME) + "!";
 
-        //Glide.with(PlanthuntNewPlantActivity.this).load(imageUrl).into(plantView);
-
-        plantView = findViewById(R.id.planthuntPlantImage);
         textView = findViewById(R.id.planthuntPlantName);
+        textView.setText(plantName);
 
         final Button plantButton = findViewById(R.id.planthuntPlantButton);
         plantButton.setOnClickListener(
@@ -73,28 +70,5 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
                     }
                 }
         );
-
-        //isLoaded.add
-
-        loadImageAndName();
-    }
-
-    private void loadImageAndName(){
-        //Creates a new Thread to update timer asynchronously
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 100; i++) {
-                    try {
-                        Thread.sleep(100);
-
-                        textView.setText("You found a " + getIntent().getStringExtra(PlanthuntLobbyActivity.NAME) + "!");
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        thread.start();
     }
 }

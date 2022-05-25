@@ -382,7 +382,7 @@ public final class Database {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.hasChild(name)) {
-                    mDatabase.child(LOBBIES).child(name).setValue(new Lobby(name, password, hostUid, remainingTime, maxNbrPlayers));
+                    mDatabase.child(LOBBIES).child(name).setValue(new Lobby(name, password, hostUid, remainingTime, maxNbrPlayers, 0));
                 }
                 else{
                     Snackbar.make(createLobby.findViewById(R.id.planthuntCreateLobbyLayout), "A lobby with this name already exists", Snackbar.LENGTH_LONG).show();

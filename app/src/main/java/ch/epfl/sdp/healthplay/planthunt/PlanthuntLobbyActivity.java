@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -53,7 +54,6 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
     private static final String STORAGE_URL = "gs://health-play-9e161.appspot.com";
     public static StorageReference storage;
     private FirebaseUser user;
-    public static final String URL = "URL";
     public static final String NAME = "NAME";
     public static final String POINTS = "POINTS";
     public static boolean isTested = false;
@@ -209,6 +209,11 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Analyzing capture...");//TODO translate Antoine
+        AlertDialog alert = builder.create();
+        alert.show();
+
         //Check request comes from camera
         if (requestCode == CameraApi.REQUEST_IMAGE_CAPTURE){
             //Convert image to byte array then to jpeg
@@ -235,15 +240,14 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                                     try  {
                                         //Returns built URL with given image link
                                         String urlString = PlantnetApi.buildUrl(PlantnetApi.API_KEY, urlImage, "flower");
-
-                                        System.out.println("okayyy");
                                         System.out.println(urlString);
 
                                         //Gets JSON object from built URL
                                         JSONObject json = PlantnetApi.readJsonFromUrl(urlString);
 
                                         //Return if plant probability is too low
-                                        if (Integer.parseInt(json.getJSONArray("results").getJSONObject(0).get("score").toString()) < .5){
+                                        if (Double.parseDouble(json.getJSONArray("results").getJSONObject(0).get("score").toString()) < .2){
+                                            alert.dismiss();
                                             Snackbar.make(findViewById(R.id.planthuntLobbyLayout), "No plant was found", Snackbar.LENGTH_LONG).show();
                                             return;
                                         }
@@ -251,7 +255,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                                         //Gets how common the plant is
                                         int popularity = 0;
                                         for (int i = 0; i < json.getJSONArray("results").length(); i++){
-                                            if (Integer.parseInt(json.getJSONArray("results").getJSONObject(i).get("score").toString()) > .1){
+                                            if (Double.parseDouble(json.getJSONArray("results").getJSONObject(i).get("score").toString()) > .05){
                                                 popularity++;
                                             }
                                         }
@@ -265,14 +269,16 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                                                 .toString();
 
                                         int finalPopularity = popularity;
+                                        System.out.println(popularity);
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                intent.putExtra(POINTS, 100 - 20 * finalPopularity);
+                                                System.out.println("lobby");
+                                                intent.putExtra(POINTS, 100 - 10 * finalPopularity);
                                                 intent.putExtra(NAME, commonName);
                                                 storage.child("Planthunt").child(user.getUid()).child(photoFile.getName()).delete();
                                                 storage.child("Planthunt").child(user.getUid()).child(commonName + "_" + photoFile.getName()).putBytes(outputStream.toByteArray());
-                                                intent.putExtra(URL, CameraApi.getNewImageUrl(user, photoFile.getName(), commonName));
+                                                alert.dismiss();
                                                 startActivity(intent);
                                             }
                                         });

@@ -120,12 +120,14 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                                 Log.e("ERROR", "An error happened");
                             }
                             String name = task.getResult().getValue().toString();
-                            if (Math.toIntExact((long) snapshot.getValue()) == Math.toIntExact((long) task.getResult().getValue())){
-                                Intent intent = new Intent(PlanthuntWaitLobbyActivity.this, PlanthuntLobbyActivity.class);
-                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
-                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
-                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
-                                startActivity(intent);
+                            if (snapshot.getValue() != null){
+                                if (Math.toIntExact((long) snapshot.getValue()) == Math.toIntExact((long) task.getResult().getValue())){
+                                    Intent intent = new Intent(PlanthuntWaitLobbyActivity.this, PlanthuntLobbyActivity.class);
+                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
+                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
+                                    startActivity(intent);
+                                }
                             }
                         });
                     }

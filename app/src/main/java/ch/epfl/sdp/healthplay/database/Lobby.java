@@ -11,10 +11,10 @@ public class Lobby {
     private String playerUid1, playerUid2, playerUid3;
     private int playerScore1 = 0, playerScore2 = 0, playerScore3 = 0;
     private boolean playerReady1 = false, playerReady2 = false, playerReady3 = false;
-    private int remainingTime = 500;
+    private int remainingTime = 300;
     private int maxNbrPlayers;
 
-    public Lobby(String name, String password, String hostUid, int remainingTime, int maxNbrPlayers){
+    public Lobby(String name, String password, String hostUid, int remainingTime, int maxNbrPlayers, int playersReady){
         this.name = name;
         this.password = password;
         playerUid1 = hostUid;
@@ -23,6 +23,7 @@ public class Lobby {
         this.remainingTime = remainingTime;
         this.maxNbrPlayers = maxNbrPlayers;
         nbrPlayers = 1;
+        this.playersReady = playersReady;
     }
 
 
