@@ -42,6 +42,7 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
         Intent intent = getIntent();
         lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
         String currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
+        String hostStatus = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE);
         int points = intent.getIntExtra(PlanthuntLobbyActivity.POINTS, 0);
 
         //Initialize database reference
@@ -66,6 +67,7 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
                         Intent intent = new Intent(PlanthuntNewPlantActivity.this, PlanthuntLobbyActivity.class);
                         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
                         intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
+                        intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
                         startActivity(intent);
                     }
                 }

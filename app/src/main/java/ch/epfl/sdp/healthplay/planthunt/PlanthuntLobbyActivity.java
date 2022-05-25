@@ -101,21 +101,23 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        int time = Math.toIntExact((long) snapshot.getValue());
-                        String first = round(time / 60) < 10
-                                ? "0" + round(time / 60)
-                                : Integer.toString((round(time / 60)));
-                        String second = time % 60 < 10
-                                ? "0" + time % 60
-                                : Integer.toString(time % 60);
-                        lobbyTimeText.setText(first + ":" + second);
-                        lobbyTimeBar.setProgress(time);
-                        if (time == 0){
-                            Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntResultActivity.class);
-                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
-                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
-
-                            startActivity(intent);
+                        if (snapshot.getValue() != null){
+                            int time = Math.toIntExact((long) snapshot.getValue());
+                            String first = round(time / 60) < 10
+                                    ? "0" + round(time / 60)
+                                    : Integer.toString((round(time / 60)));
+                            String second = time % 60 < 10
+                                    ? "0" + time % 60
+                                    : Integer.toString(time % 60);
+                            lobbyTimeText.setText(first + ":" + second);
+                            lobbyTimeBar.setProgress(time);
+                            if (time == 0){
+                                Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntResultActivity.class);
+                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
+                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
+                                startActivity(intent);
+                            }
                         }
                     }
                     @Override
@@ -152,6 +154,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
         leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println(hostStatus);
                 if (hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
                     db.deleteLobby(lobbyName);
                 }

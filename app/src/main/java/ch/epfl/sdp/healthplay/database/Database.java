@@ -568,7 +568,10 @@ public final class Database {
                     .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                 @Override
                 public void onSuccess(DataSnapshot dataSnapshot) {
-                    if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(playerUid)) {
+                    if (dataSnapshot.getValue() == null){
+                        return;
+                    }
+                    if (dataSnapshot.getValue().toString().equals(playerUid)) {
                         mDatabase
                                 .child(LOBBIES)
                                 .child(name)

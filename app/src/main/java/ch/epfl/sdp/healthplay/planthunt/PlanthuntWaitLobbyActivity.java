@@ -71,9 +71,9 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         db.getAllLobbyPlayerUids(lobbyName, task -> {
-                            if (!task.isSuccessful()) {
-
+                            if (!task.isSuccessful() || task.getResult().getValue() == null) {
                                 Log.e("ERROR", "An error happened");
+                                return;
                             }
                             String name = Objects.requireNonNull(task.getResult().getValue()).toString();
                             if (!usernames.contains(name)){
@@ -115,9 +115,9 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         db.getLobbyPlayerCount(lobbyName, Database.MAX_NBR_PLAYERS, task -> {
-                            if (!task.isSuccessful()) {
-
+                            if (!task.isSuccessful() || snapshot.getValue() == null) {
                                 Log.e("ERROR", "An error happened");
+                                return;
                             }
                             String name = task.getResult().getValue().toString();
                             if (snapshot.getValue() != null){
