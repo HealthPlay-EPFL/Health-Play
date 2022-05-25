@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.test.espresso.idling.CountingIdlingResource;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +83,7 @@ public class BarcodeScanFragment extends Fragment {
         previewView = view.findViewById(R.id.previewView2);
 
         // Get the camera provider of the device
-        cameraProviderFuture = ProcessCameraProvider.getInstance(getContext());
+        cameraProviderFuture = ProcessCameraProvider.getInstance(getContext().getApplicationContext());
 
         cameraProviderFuture.addListener(() -> {
             try {
