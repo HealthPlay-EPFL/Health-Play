@@ -1,31 +1,11 @@
 package ch.epfl.sdp.healthplay;
 
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.Map;
-
-import ch.epfl.sdp.healthplay.EditProfilePictureActivity;
-import ch.epfl.sdp.healthplay.ProfileSettingsActivity;
-import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.auth.ProfileActivity;
 import ch.epfl.sdp.healthplay.auth.SignedInFragment;
-import ch.epfl.sdp.healthplay.database.Database;
 
 
 public class ViewProfileActivity extends ProfileActivity {

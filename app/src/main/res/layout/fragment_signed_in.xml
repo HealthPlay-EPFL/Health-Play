@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +10,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -159,19 +159,19 @@
                 </androidx.appcompat.widget.AppCompatButton>
 
                     <TextView
+                        android:id="@+id/currentLanguage"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:textColor="?attr/text_color"
                         android:background="?attr/profileField_color"
-                        android:textSize="20sp"
-                        android:textAlignment="center"
                         android:gravity="center"
                         android:text="?attr/language"
+                        android:textAlignment="center"
+                        android:textColor="?attr/text_color"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toTopOf="@id/guidelineLH1"
                         app:layout_constraintLeft_toRightOf="@id/guidelineLV4"
                         app:layout_constraintRight_toLeftOf="@id/guidelineLV5"
-                        app:layout_constraintTop_toBottomOf="@id/guidelineLH"
-                        app:layout_constraintBottom_toTopOf="@id/guidelineLH1">
-                    </TextView>
+                        app:layout_constraintTop_toBottomOf="@id/guidelineLH"></TextView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

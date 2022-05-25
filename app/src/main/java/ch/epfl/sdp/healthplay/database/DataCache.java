@@ -35,11 +35,6 @@ public class DataCache {
     private FirebaseAuth fa = FirebaseAuth.getInstance();
     private String cacheName = "cacheFile.txt";
 
-    public DataCache(Context context, DatabaseReference dbr, FirebaseAuth fa){
-        db = new Database(dbr);
-        this.fa = fa;
-        init(context);
-    }
     public DataCache(Context context){
         init(context);
     }

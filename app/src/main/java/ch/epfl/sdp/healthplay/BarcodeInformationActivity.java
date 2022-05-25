@@ -242,6 +242,8 @@ public class BarcodeInformationActivity extends AppCompatActivity {
             }
         }
 
+        db.addProduct(user.getUid(), p.getCode());
+
         Toast t = Toast.makeText(getApplicationContext(), "Information saved on the profile !", Toast.LENGTH_SHORT);
         t.show();
     }
