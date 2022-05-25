@@ -632,6 +632,7 @@ public final class Database {
      * Get the friend list of the user
      * @return a map of String to Boolean
      */
+    //TODO make it work
     public Map<String, String> getFriendList() {
         Map<String, String> outputMap = new HashMap<>();
         readField(FirebaseAuth.getInstance().getCurrentUser().getUid(), "friends", new OnCompleteListener<DataSnapshot>() {
@@ -804,31 +805,5 @@ public final class Database {
         //Add the message to the database
         mDatabase.child("Chats").push().setValue(hashMap);
         createConversationRecord(senderId, receiverId);
-    }
-
-    /**
-     * Check if the given lobby is full
-     * @param lobbyName
-     * @return
-     */
-    public boolean ifNotFull(String lobbyName, OnCompleteListener listener) {
-        AtomicBoolean result = new AtomicBoolean(true);
-        getLobbyPlayerCount(lobbyName, Database.NBR_PLAYERS, task2 -> {
-            if (!task2.isSuccessful()) {
-                Log.e("ERROR", "Lobby does not exist!");
-            }
-            getLobbyPlayerCount(lobbyName, Database.MAX_NBR_PLAYERS, task3 -> {
-                if (!task3.isSuccessful()) {
-                    Log.e("ERROR", "Lobby does not exist!");
-                }
-                Log.e("Current PLAYER", String.valueOf(task2.getResult().getValue(Long.class)));
-                Log.e("Max Player", String.valueOf(task3.getResult().getValue(Long.class)));
-                if (Math.toIntExact((long) task2.getResult().getValue()) < Math.toIntExact((long) task3.getResult().getValue())){
-                    result.set(false);
-                }
-            });
-        });
-        Log.e("BOOLEAN IS FULL", String.valueOf(result.get()));
-        return result.get();
     }
 }
