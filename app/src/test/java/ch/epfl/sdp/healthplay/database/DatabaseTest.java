@@ -398,4 +398,10 @@ public class DatabaseTest {
         Database database = new Database(dbr);
         database.sendInvitation("Test", "SmjKxadXiEUzZPWoOvPcBE78qKr2", "SmjKxadXiEUzZPWoOvPcBE78qKr2");
     }
+
+    @Test
+    public void createConversationRecordTest(){
+        Database database = new Database(dbr);
+        database.createConversationRecord("SmjKxadXiEUzZPWoOvPcBE78qKr2", "SmjKxadXiEUzZPWoOvPcBE78qKr2");
+    }
 }

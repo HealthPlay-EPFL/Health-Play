@@ -7,6 +7,8 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -26,6 +28,7 @@ import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -51,9 +54,9 @@ public class ChatActivityTest {
 
     @Before
     public void before() throws InterruptedException{
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         onView(ViewMatchers.withId(R.id.FriendList_button)).perform(click());
-        onData(friendWithId("H7ZFXooYVWfASQfE5R3ej8PU1B33")).inAdapterView(withId(R.id.friendList)).onChildView(withId(R.id.goToChat)).perform(click());
+        onData(friendWithId("CdTrI7WKUUThqsVTFx6JZJZhk0s2")).inAdapterView(withId(R.id.friendList)).onChildView(withId(R.id.goToChat)).perform(click());
     }
 
     @Test
@@ -72,6 +75,20 @@ public class ChatActivityTest {
         onView(withId(R.id.onlinetv)).check(matches(withText("online")));
     }
 
+    @Test
+    public void sendAMessageAndDelete() throws InterruptedException {
+        onView(withId(R.id.messaget)).perform(typeText("a"));
+        onView(withId(R.id.sendmsg)).perform(click());
+        TimeUnit.SECONDS.sleep(1);
+        onView(withId(R.id.chatrecycle)).perform(click());
+        onView(ViewMatchers.withText("Delete")).perform(click());
+    }
+
+    @Test
+    public void openAttachDialog(){
+        onView(withId(R.id.attachbtn)).perform(click());
+        onData(anything()).inRoot(isDialog()).perform(click());
+    }
 
     public static Matcher<Object> friendWithId(String expectedName) {
         Checks.checkNotNull(expectedName);

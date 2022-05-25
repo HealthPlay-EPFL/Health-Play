@@ -826,4 +826,5 @@ public final class Database {
         mDatabase.child("Chats").push().setValue(hashMap);
         createConversationRecord(senderId, receiverId);
     }
+
 }

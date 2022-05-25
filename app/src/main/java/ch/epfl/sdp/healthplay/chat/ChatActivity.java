@@ -1,6 +1,7 @@
 package ch.epfl.sdp.healthplay.chat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -16,6 +17,7 @@ import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -462,6 +464,7 @@ public class ChatActivity extends AppCompatActivity {
         //Add the message to the database
         firebaseDatabase.mDatabase.child("Chats").push().setValue(hashMap);
         firebaseDatabase.createConversationRecord(myUid, uid);
+        hideKeyboard(this);
     }
 
 
@@ -474,4 +477,21 @@ public class ChatActivity extends AppCompatActivity {
             myUid = user.getUid();
         }
     }
+
+    /**
+     * Hide the soft keyboard
+     * @param activity
+     */
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+
 }
