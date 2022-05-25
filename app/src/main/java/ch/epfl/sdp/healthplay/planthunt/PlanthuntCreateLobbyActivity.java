@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import ch.epfl.sdp.healthplay.R;
@@ -13,6 +14,14 @@ import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Lobby;
 
 public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
+
+    int maxNbrPlayers = 2;
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(PlanthuntCreateLobbyActivity.this, PlanthuntMainActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +47,8 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
                 String username = editUsername.getText().toString();
 
                 //Initialize new lobby with received values
-                Lobby newLobby = new Lobby(name, password, username, 500, 2);
-                db.writeNewLobby(newLobby.getName(), newLobby.getPassword(), newLobby.getPlayerUid1(), newLobby.getRemainingTime(), newLobby.getMaxNbrPlayers());
+                Lobby newLobby = new Lobby(name, password, username, 300, maxNbrPlayers, 0);
+                db.writeNewLobby(newLobby.getName(), newLobby.getPassword(), newLobby.getPlayerUid1(), newLobby.getRemainingTime(), newLobby.getMaxNbrPlayers(), PlanthuntCreateLobbyActivity.this);
 
                 //Launch lobby waiting screen
                 Intent intent = new Intent(PlanthuntCreateLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
@@ -50,7 +59,42 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
             }
         });
 
+        CheckBox box1 = findViewById(R.id.planthuntCreateLobbyBox1);
+        CheckBox box2 = findViewById(R.id.planthuntCreateLobbyBox2);
+        CheckBox box3 = findViewById(R.id.planthuntCreateLobbyBox3);
 
+        //Selects the amount of players expected in the Lobby
+        box1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                box1.setChecked(true);
+                box2.setChecked(false);
+                box3.setChecked(false);
+                maxNbrPlayers = 1;
+            }
+        });
+
+        //Selects the amount of players expected in the Lobby
+        box2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                box1.setChecked(false);
+                box2.setChecked(true);
+                box3.setChecked(false);
+                maxNbrPlayers = 2;
+            }
+        });
+
+        //Selects the amount of players expected in the Lobby
+        box3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                box1.setChecked(false);
+                box2.setChecked(false);
+                box3.setChecked(true);
+                maxNbrPlayers = 3;
+            }
+        });
 
     }
 }
