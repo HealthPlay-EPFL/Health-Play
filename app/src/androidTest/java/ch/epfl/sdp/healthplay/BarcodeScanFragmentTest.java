@@ -53,7 +53,7 @@ public class BarcodeScanFragmentTest {
 
             }
         });
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(5);
         onView(withId(R.id.enter_manually_button)).check(matches(isDisplayed()));
         onView(withId(R.id.enter_manually_button)).perform(click());
         onView(withId(R.id.findProductInfos)).check(matches(isDisplayed()));
@@ -74,7 +74,24 @@ public class BarcodeScanFragmentTest {
         });
         TimeUnit.SECONDS.sleep(1);
         onView(withId(R.id.get_information_from_barcode)).check(matches(isDisplayed()));
-        onView(withId(R.id.get_information_from_barcode)).perform(click());
+        onView(withId(R.id.get_information_from_barcode)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
         onView(withId(R.id.progressBar)).check(matches(isDisplayed()));
     }
 }
