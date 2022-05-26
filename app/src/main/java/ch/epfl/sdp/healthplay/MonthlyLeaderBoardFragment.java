@@ -1,16 +1,22 @@
 package ch.epfl.sdp.healthplay;
 
-import androidx.annotation.NonNull;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -24,19 +30,31 @@ import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.database.Database;
 
-public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
-    /**
-     * Setup the leaderBoard representing the current top 5 of players based on healthPoint.
-     * The leaderBoard is reset monthly, a timer will be shown counting the time remaining until the next reset
-     * If you are not in the current top 5 but you still earned points that day, your rank will be shown above the leaderBoard
-     * If you haven t earned any points that day, a message saying that you are unranked will appear
-     * You can add any player of the top 5 (except you) to your friend list, you can also watch their profile but not modify it (except you).
-     * @param savedInstanceState
-     */
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link MonthlyLeaderBoardFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class MonthlyLeaderBoardFragment extends LeaderBoardFragment {
+
+    private View view;
+
+
+    public MonthlyLeaderBoardFragment() {
+        // Required empty public constructor
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_monthly_leader_board);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+         view =  inflater.inflate(R.layout.fragment_monthly_leader_board, container, false);
+
         initTimer();
         MIN_RANK = 5;
         tab = new Button[MIN_RANK];
@@ -44,26 +62,32 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
         ids = new String[MIN_RANK];
         images = new ImageView[MIN_RANK];
         myMenus = new PopupMenu.OnMenuItemClickListener[MIN_RANK];
+        topTexts = new TextView[MIN_RANK];
         if(mAuth.getCurrentUser() != null) {
             db.addHealthPoint(mAuth.getCurrentUser().getUid(), 40);
-            tab[0] = findViewById(R.id.top1);
-            tab[1] = findViewById(R.id.top2);
-            tab[2] = findViewById(R.id.top3);
-            tab[3] = findViewById(R.id.top4);
-            tab[4] = findViewById(R.id.top5);
-            images[0] = findViewById(R.id.profile_picture1);
-            images[1] = findViewById(R.id.profile_picture2);
-            images[2] = findViewById(R.id.profile_picture3);
-            images[3] = findViewById(R.id.profile_picture4);
-            images[4] = findViewById(R.id.profile_picture5);
-            Button todayButton = findViewById(R.id.todayButton);
+            tab[0] = view.findViewById(R.id.top1);
+            tab[1] = view.findViewById(R.id.top2);
+            tab[2] = view.findViewById(R.id.top3);
+            tab[3] = view.findViewById(R.id.top4);
+            tab[4] = view.findViewById(R.id.top5);
+            topTexts[0] = view.findViewById(R.id.topText1);
+            topTexts[1] = view.findViewById(R.id.topText2);
+            topTexts[2] = view.findViewById(R.id.topText3);
+            topTexts[3] = view.findViewById(R.id.topText4);
+            topTexts[4] = view.findViewById(R.id.topText5);
+
+            images[0] = view.findViewById(R.id.profile_picture1);
+            images[1] = view.findViewById(R.id.profile_picture2);
+            images[2] = view.findViewById(R.id.profile_picture3);
+            images[3] = view.findViewById(R.id.profile_picture4);
+            images[4] = view.findViewById(R.id.profile_picture5);
+            Button todayButton = view.findViewById(R.id.todayButton);
             todayButton.setOnClickListener(v -> {
-                Intent intent = new Intent(getApplicationContext(),LeaderBoardActivity.class);
-                startActivity(intent);
+                todayLeaderBoard();
             });
-            Button backButton = findViewById(R.id.monthBackButton);
+            Button backButton = view.findViewById(R.id.monthBackButton);
             backButton.setOnClickListener(v -> {
-                finish();
+                exitLeaderBoard();
             });
             for (int i = 0 ; i < MIN_RANK ; i++) {
                 menus[i] = initMenu(i);
@@ -71,6 +95,8 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
             }
             initTop(Database.formatYearMonth);
         }
+
+        return view;
     }
 
     /**
@@ -85,30 +111,24 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
                 @SuppressWarnings("unchecked")
 
                 Map<String,HashMap<String, HashMap<String, String>>> leaderBoard = (HashMap<String,HashMap<String, HashMap<String, String>>>) snapshot.getValue();
-                TextView myTopText = findViewById(R.id.myTop);
+                TextView myTopText = view.findViewById(R.id.myTop);
                 if(leaderBoard != null && leaderBoard.containsKey(Database.getTodayDate(format))) {
                     Map<String, HashMap<String, String>> leaderBoardOrdered = new TreeMap<>(Database.comparator);
                     Map<String, HashMap<String, String>> idsMap = leaderBoard.get(Database.getTodayDate(format));
                     leaderBoardOrdered.putAll(idsMap);
                     int count = 0;
-                    int myTop = 0;
+                    int myTop = -1;
                     for (TreeMap.Entry<String, HashMap<String, String>> entry : leaderBoardOrdered.entrySet()) {
                         String hp = entry.getKey();
                         for(HashMap.Entry<String,String> e : entry.getValue().entrySet()) {
                             int top = count + 1;
+                            String myPts = hp.substring(0, hp.length() - Database.SUFFIX_LEN);
 
-                            if (count < MIN_RANK){
+                            if (count < MIN_RANK && Long.parseLong(myPts) > 0){
                                 getImage(e.getKey(), images[count]);
                                 ids[count] = e.getKey();
-                                String myPts = hp.substring(0, hp.length() - Database.SUFFIX_LEN) + " pts";
-                                String str = top + RANK_NAME_SEPARATOR + e.getValue();
-                                StringBuilder sb = new StringBuilder();
-                                sb.append(str);
-                                while(sb.length() <= STRING_MAX_LEN) {
-                                    sb.append(' ');
-                                }
-                                sb.append(myPts);
-                                tab[count].setText(sb.toString());
+                                String str = top + RANK_NAME_SEPARATOR + e.getValue() + "\n" + "  " + RANK_NAME_SEPARATOR + myPts + " pts";
+                                topTexts[count].setText(str);
                                 if(e.getKey().equals(mAuth.getUid())) {
                                     myTop = top;
                                     tab[count].setOnClickListener(initMyButton(count));
@@ -122,7 +142,7 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
                     }
                     while(count < MIN_RANK) {
                         images[count].setImageResource(R.drawable.rounded_logo);
-                        tab[count].setText(R.string.NoUser);
+                        topTexts[count].setText("");
                         tab[count].setOnClickListener(null);
                         count++;
                     }
@@ -131,16 +151,16 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
                         myTopText.setText("your rank : " + myTop);
                     }
                     else {
-                        myTopText.setText("your rank : unranked");
+                        myTopText.setText(R.string.unranked);
                     }
                 }
                 else {
                     for(int i = 0 ; i < MIN_RANK ; i++) {
                         images[i].setImageResource(R.drawable.rounded_logo);
-                        tab[i].setText(R.string.NoUser);
+                        topTexts[i].setText("");
                         tab[i].setOnClickListener(null);
                     }
-                    myTopText.setText("your rank : unranked");
+                    myTopText.setText(R.string.unranked);
 
                 }
             }
@@ -160,7 +180,7 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
      */
     public View.OnClickListener initButton(int index) {
         return v -> {
-            PopupMenu popup = new PopupMenu(MonthlyLeaderBoardActivity.this, v);
+            PopupMenu popup = new PopupMenu(getActivity(), v);
             popup.setOnMenuItemClickListener(menus[index]);
             popup.inflate(R.menu.top_menu);
             popup.show();
@@ -174,7 +194,7 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
      */
     public View.OnClickListener initMyButton(int index) {
         return v -> {
-            PopupMenu popup = new PopupMenu(MonthlyLeaderBoardActivity.this, v);
+            PopupMenu popup = new PopupMenu(getActivity(), v);
             popup.setOnMenuItemClickListener(myMenus[index]);
             popup.inflate(R.menu.view_profile_menu);
             popup.show();
@@ -182,7 +202,7 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
     }
 
     private void initTimer() {
-        TextView tv_countdown = findViewById(R.id.myTimer);
+        TextView tv_countdown = view.findViewById(R.id.myTimer);
 
         Calendar start_calendar = Calendar.getInstance();
         Calendar end_calendar = Calendar.getInstance();
@@ -221,5 +241,17 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
         cdt.start();
     }
 
+    private void exitLeaderBoard() {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.replace(R.id.fragmentContainerView, new GameMenuFragment());
+        fragmentTransaction.commit();
+    }
 
+    private void todayLeaderBoard() {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.replace(R.id.fragmentContainerView, new LeaderBoardFragment());
+        fragmentTransaction.commit();
+    }
 }

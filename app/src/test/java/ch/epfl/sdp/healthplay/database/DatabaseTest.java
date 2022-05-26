@@ -59,6 +59,8 @@ public class DatabaseTest {
     @Mock
     Task<DataSnapshot> tUsername;
     @Mock
+    Task<Void> tu;
+    @Mock
     DataSnapshot dsUsername;
 
 
@@ -69,7 +71,7 @@ public class DatabaseTest {
        if(user != null) {
            user.setUsername(username);
        }
-        return null;
+        return tu;
     }
     public Task<Void> putName(String userId, String name, Map<String, User> map) {
 
@@ -103,8 +105,8 @@ public class DatabaseTest {
         }
         return null;
     }
-    public Task<Void> putWeight(String userId, int weight, Map<String, User> map) {
 
+    public Task<Void> putWeight(String userId, Number weight, Map<String, User> map) {
         User user = map.get(userId);
         if(user != null) {
             user.setLastCurrentWeight(weight);
@@ -154,7 +156,7 @@ public class DatabaseTest {
         closeable = MockitoAnnotations.openMocks(this);
         map = new HashMap<String, User>();
         stats = new HashMap<>();
-        map.put(userId,new User("a", "b", "c","empty@email.com", "2000-01-01", 10));
+        map.put(userId,new User("username", "b", "c","empty@email.com", "2000-01-01", 10));
         stats.put(userId, currentCalories);
         stats.put(userId, currentWeight);
         stats.put(userId, currentHealthPoint);
@@ -178,12 +180,7 @@ public class DatabaseTest {
 
     }
 
-    @Test
-    public void writeUsernameTest() {
-        Database db = new Database(dbr);
-        db.writeUsername(userId, "username");
-        assertEquals("username", map.get(userId).getUsername());
-    }
+
 
     @Test
     public void writeNameTest() {

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import ch.epfl.sdp.healthplay.auth.ProfileFragment;
 import ch.epfl.sdp.healthplay.kneetag.MainActivity;
 import ch.epfl.sdp.healthplay.planthunt.PlanthuntDescriptionFragment;
 import ch.epfl.sdp.healthplay.planthunt.PlanthuntMainActivity;
@@ -97,7 +98,9 @@ public class GameMenuFragment extends Fragment {
     }
 
     public void onClickLeaderBoard() {
-        Intent intent = new Intent(getContext(), MonthlyLeaderBoardActivity.class);
-        startActivity(intent);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.replace(R.id.fragmentContainerView, new MonthlyLeaderBoardFragment());
+        fragmentTransaction.commit();
     }
 }
