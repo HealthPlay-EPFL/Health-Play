@@ -231,7 +231,7 @@ public class ChatActivity extends AppCompatActivity {
     private void readMessages() {
         // show message after retrieving data
         chatList = new ArrayList<>();
-        DatabaseReference dbRef = firebaseDatabase.mDatabase.child("Chats");
+        DatabaseReference dbRef = firebaseDatabase.mDatabase.child(Database.CHATS);
 
         //Listen to the database where the messages are stored
         dbRef.addValueEventListener(new ValueEventListener() {
@@ -377,10 +377,10 @@ public class ChatActivity extends AppCompatActivity {
                     hashMap.put("timestamp", timestamp);
                     hashMap.put("type", "images");
                     //Add the message to the database
-                    firebaseDatabase.mDatabase.child("Chats").push().setValue(hashMap);
+                    firebaseDatabase.mDatabase.child(Database.CHATS).push().setValue(hashMap);
 
                     //Create the chatList
-                    final DatabaseReference ref1 = firebaseDatabase.mDatabase.child("ChatList").child(uid).child(myUid);
+                    final DatabaseReference ref1 = firebaseDatabase.mDatabase.child(Database.CHATLIST).child(uid).child(myUid);
                     firebaseDatabase.createConversationRecord(myUid,uid);
                 }
             }
@@ -427,7 +427,7 @@ public class ChatActivity extends AppCompatActivity {
         hashMap.put("timestamp", timestamp);
         hashMap.put("type", "text");
         //Add the message to the database
-        firebaseDatabase.mDatabase.child("Chats").push().setValue(hashMap);
+        firebaseDatabase.mDatabase.child(Database.CHATS).push().setValue(hashMap);
         firebaseDatabase.createConversationRecord(myUid, uid);
         hideKeyboard(this);
     }

@@ -69,6 +69,8 @@ public final class Database {
     public static final String LOBBIES = "lobbies";
     public final static int SUFFIX_LEN = 2;
     private final static String SUFFIX = "hp";
+    public static final String CHATS = "Chats";
+    public static final String CHATLIST = "ChatList";
 
 
     public static Comparator<String> comparator = (o1, o2) -> Long.compare(Long.parseLong(o2.substring(0,o2.length() - SUFFIX_LEN)), Long.parseLong(o1.substring(0,o1.length() - SUFFIX_LEN)));
@@ -655,7 +657,7 @@ public final class Database {
     //TODO make it work
     public Map<String, String> getFriendList() {
         Map<String, String> outputMap = new HashMap<>();
-        readField(FirebaseAuth.getInstance().getCurrentUser().getUid(), "friends", new OnCompleteListener<DataSnapshot>() {
+        readField(FirebaseAuth.getInstance().getCurrentUser().getUid(), FRIEND, new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if(task.getResult().getValue() != null) {
@@ -772,7 +774,7 @@ public final class Database {
      * @param receiverId
      */
     public void createConversationRecord(String senderId, String receiverId) {
-        final DatabaseReference ref1 = mDatabase.child("ChatList").child(receiverId).child(senderId);
+        final DatabaseReference ref1 = mDatabase.child(CHATLIST).child(receiverId).child(senderId);
         ref1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -789,7 +791,7 @@ public final class Database {
         });
 
         //Ref to the ChatList part of the user in the database
-        final DatabaseReference ref2 = mDatabase.child("ChatList").child(senderId).child(receiverId);
+        final DatabaseReference ref2 = mDatabase.child(CHATLIST).child(senderId).child(receiverId);
         ref2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -823,7 +825,7 @@ public final class Database {
         hashMap.put("timestamp", timestamp);
         hashMap.put("type", "invitation");
         //Add the message to the database
-        mDatabase.child("Chats").push().setValue(hashMap);
+        mDatabase.child(CHATS).push().setValue(hashMap);
         createConversationRecord(senderId, receiverId);
     }
 

@@ -382,4 +382,5 @@ Nimm deinen Kampf mit deinem Handy auf, um einen fairen Schiedsrichter zu haben 
     <string name="do_you_want_to_join_the_lobby_en">Are you sure you want to join the lobby:</string>
     <string name="join_en">Join</string>
     <string name="choose_a_friend_to_invite_en">Choose a friend to invite</string>
+    <string name="the_lobby_is_full_en">The lobby is full</string>
 </resources>

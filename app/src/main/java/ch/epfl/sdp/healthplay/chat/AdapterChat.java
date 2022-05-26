@@ -47,12 +47,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
     private static final int MSG_TYPE_LEFT = 0;
     private static final int MSG_TYPE_RIGHT = 1;
-    private Context context;
-    private List<ModelChat> list;
-    private String imageUrl;
+    private final Context context;
+    private final List<ModelChat> list;
+    private final String imageUrl;
     private FirebaseUser firebaseUser;
-    private Database database;
-    private String username = "";
+    private final Database database;
+    private String username;
 
     /**
      * Construct an AdapterChat
@@ -68,6 +68,7 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
         this.imageUrl = imageUrl;
         database = new Database();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
         database.readField(firebaseUser.getUid(), Database.USERNAME, new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -168,7 +169,7 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
                                         database.addUserToLobby(lobbyName, username);
                                         context.startActivity(intent);
                                     } else {
-                                        Snackbar.make(holder.itemView,"The lobby is full", Snackbar.LENGTH_SHORT ).show();
+                                        Snackbar.make(holder.itemView, R.string.the_lobby_is_full_en, Snackbar.LENGTH_SHORT ).show();
                                     }
                                 });
                             });

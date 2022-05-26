@@ -47,28 +47,25 @@ import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Friend;
 
 public class PlanthuntWaitLobbyActivityTest {
-
+    String test = "test", username = "a";
 
     @Before
     public void before() throws InterruptedException {
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntWaitLobbyActivity.class);
 
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "a");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, test);
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.HOST);
         ActivityScenario.launch(intent);
     }
-
-    //@Rule
-    //public ActivityScenarioRule<PlanthuntWaitLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntWaitLobbyActivity.class);
 
     @Test
     public void waitScreenIsCorrectlyLoaded() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntWaitLobbyActivity.class);
 
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "a");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, test);
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.HOST);
 
         try (ActivityScenario<PlanthuntWaitLobbyActivity> scenario = ActivityScenario.launch(intent)) {
