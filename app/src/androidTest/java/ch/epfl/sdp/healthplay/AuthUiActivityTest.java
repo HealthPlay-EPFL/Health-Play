@@ -85,6 +85,7 @@ public class AuthUiActivityTest {
         onView(withText("Sign in with email")).perform(click());
         onView(withHint("Email")).perform(typeText("HPTest@admin.ch"), ViewActions.closeSoftKeyboard());
         onView(withText("Next")).perform(click());
+        TimeUnit.SECONDS.sleep(5);
         onView(withHint("New password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
         onView(withText("Save")).perform(click());
         TimeUnit.SECONDS.sleep(1);
