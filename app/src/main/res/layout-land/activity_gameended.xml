@@ -78,7 +78,7 @@
                 android:id="@+id/quit"
                 android:layout_width="144dp"
                 android:layout_height="67dp"
-                android:backgroundTint="@color/blueButton"
+                android:backgroundTint="@color/planthuntOrange"
                 android:text="@string/quit" />
 
 
@@ -96,7 +96,7 @@
                 android:id="@+id/restart"
                 android:layout_width="146dp"
                 android:layout_height="68dp"
-                android:backgroundTint="@color/blueButton"
+                android:backgroundTint="@color/planthuntOrange"
                 android:text="@string/restart" />
         </LinearLayout>
 

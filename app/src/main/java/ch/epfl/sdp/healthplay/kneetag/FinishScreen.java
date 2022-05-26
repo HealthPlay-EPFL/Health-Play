@@ -11,6 +11,7 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,12 +37,18 @@ public class FinishScreen extends AppCompatActivity {
     public FinishScreen() {
         // Required empty public constructor
     }
+
     //winner and looser point modification
-    void pointComputation(String winner,String looser){
-        winner=winner.equals("YOU")?mAuth.getCurrentUser().getUid():winner;
-        looser=looser.equals("YOU")?mAuth.getCurrentUser().getUid():looser;
-      database.addHealthPoint(winner,POINT_WIN);
-      database.addHealthPoint(looser,POINT_LOOSE);
+    void pointComputation(String winner,String looser) {
+
+            winner = winner.equals("YOU") ? mAuth.getCurrentUser().getUid() : winner;
+            looser = looser.equals("YOU") ? mAuth.getCurrentUser().getUid() : looser;
+            database.addHealthPoint(winner, POINT_WIN);
+            database.addHealthPoint(looser, POINT_LOOSE);
+
+
+
+
     }
     //Initialize the point display button and the text displaying the winner.
     private void initButton(Button button,String userID,int points){
@@ -94,6 +101,7 @@ public class FinishScreen extends AppCompatActivity {
         });
 
     }
+
     @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,6 +111,11 @@ public class FinishScreen extends AppCompatActivity {
         String winnerId=getIntent().getStringExtra("WINNER_ID");
 
         String looser_id=getIntent().getStringExtra("LOOSER_ID");
+
+        if(!internetIsConnected()){
+            TextView text = findViewById(R.id.winner_display);
+            text.setText(getString(R.string.winnerMessage) + " " + winnerId);
+        }
 
         Button winnerButton=findViewById(R.id.winner);
         Button looserButton=findViewById(R.id.looser);
@@ -144,6 +157,15 @@ public class FinishScreen extends AppCompatActivity {
         );
 
     }
+    public boolean internetIsConnected() {
+        try {
+            String command = "ping -c 1 google.com";
+            return (Runtime.getRuntime().exec(command).waitFor() == 0);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }
 
 

@@ -118,10 +118,15 @@ class MainActivity : AppCompatActivity(),
         tvScore = findViewById(R.id.tvScore)
         tvFPS = findViewById(R.id.tvFps)
         surfaceView = findViewById(R.id.surfaceView)
-
-
+        spinnerCopy = findViewById<Spinner>(R.id.friendsCopy)
+        spinner = findViewById<Spinner>(R.id.friends)
+        if(!internetIsConnected()){
+            spinner.isVisible=false
+            spinnerCopy.isVisible=false
+        }
         // Get the Friend List of the current User
         val database = Database()
+
         database.readField(
             mAuth.currentUser!!.uid, "friends",
             OnCompleteListener { task: Task<DataSnapshot> ->
@@ -131,65 +136,81 @@ class MainActivity : AppCompatActivity(),
                     var friendsList: MutableList<String> = arrayListOf()
                     val friends =
                         task.result.value as Map<String, String>?
-                    if (friends != null) {
-                        friendsList = friends!!.values.toMutableList()
+                    if (internetIsConnected()) {
 
-                    }
-                    friendsList.add(0, "Anonymous")
-                    friendsList.add(0, "YOU")
-                    spinner = findViewById<Spinner>(R.id.friends)
-                    val adapter: ArrayAdapter<String> =
-                        ArrayAdapter<String>(
-                            this,
-                            android.R.layout.simple_spinner_dropdown_item,
-                            friendsList
-                        )
 
-                    //set the spinners adapter to the previously created one.
+                        if (friends != null) {
+                            friendsList = friends!!.values.toMutableList()
 
-                    spinner.adapter = adapter
-                    //Set the left person
-                    spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
                         }
 
-                        override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            position: Int,
-                            id: Long
-                        ) {
-                            val text = parent?.getItemAtPosition(position).toString()
-                            if (friends != null)
-                                leftPersonId =
-                                    friends!!.filterValues { id: String -> id == text }.keys.toMutableList()
-                                        .getOrElse(0, { index: Int -> text })
-                            poseDetector.leftPerson = Pair(poseDetector.leftPerson.first, text)
-                        }
+                        friendsList.add(0, "Anonymous")
+                        friendsList.add(0, "YOU")
                     }
-                    spinnerCopy = findViewById<Spinner>(R.id.friendsCopy)
-                    spinnerCopy.adapter = adapter
-                    //Set the right person
-                    spinnerCopy.onItemSelectedListener =
-                        object : AdapterView.OnItemSelectedListener {
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                    if(!internetIsConnected()){
+                        spinner.isVisible=false
+                    }
+                        val adapter: ArrayAdapter<String> =
+                            ArrayAdapter<String>(
+                                this,
+                                android.R.layout.simple_spinner_dropdown_item,
+                                friendsList
+                            )
+
+                        //set the spinners adapter to the previously created one.
+
+                        spinner.adapter = adapter
+                        //Set the left person
+                        spinner.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+
+                                    val text = parent?.getItemAtPosition(position).toString()
+                                    if (friends != null)
+                                        leftPersonId =
+                                            friends!!.filterValues { id: String -> id == text }.keys.toMutableList()
+                                                .getOrElse(0, { index: Int -> text })
+                                    poseDetector.leftPerson =
+                                        Pair(poseDetector.leftPerson.first, text)
+                                }
                             }
 
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                val text = parent?.getItemAtPosition(position).toString()
-                                if (friends != null)
-                                    rightPersonId =
-                                        friends!!.filterValues { id: String -> id == text }.keys.toMutableList()
-                                            .getOrElse(0, { index: Int -> text })
-                                poseDetector.rightPerson =
-                                    Pair(poseDetector.rightPerson.first, text)
+
+
+
+                        spinnerCopy.adapter = adapter
+                        //Set the right person
+                        spinnerCopy.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+
+                                    val text = parent?.getItemAtPosition(position).toString()
+                                    if (friends != null)
+                                        rightPersonId =
+                                            friends!!.filterValues { id: String -> id == text }.keys.toMutableList()
+                                                .getOrElse(0, { index: Int -> text })
+                                    poseDetector.rightPerson =
+                                        Pair(poseDetector.rightPerson.first, text)
+                                }
                             }
-                        }
+
 
                 }
             })
@@ -205,12 +226,16 @@ class MainActivity : AppCompatActivity(),
             if (cameraSource!!.gameState == 0) {
 
                 var text = getString(R.string.invalidPlayer)
-                val left = spinner.selectedItem.toString()
-                val right = spinnerCopy.selectedItem.toString()
+                var left = "Left player"
+                var right = "Right player"
+                if(internetIsConnected()) {
+                    left = spinner.selectedItem.toString()
+                    right = spinnerCopy.selectedItem.toString()
+                }
                 if (poseDetector.leftPerson.first != null
                     && poseDetector.rightPerson.first != null && !(left == "Anonymous" && right == "Anonymous")
                 ) {
-                    if (check(left) and check(right)) {
+                    if ((check(left) and check(right)) or (!internetIsConnected())) {
                         cameraSource!!.gameState = cameraSource!!.UNRANKED_GAME
                         text = getString(R.string.unrankedStart)
                         kneetagLaunchButton.text = "Fight!"
@@ -234,6 +259,7 @@ class MainActivity : AppCompatActivity(),
                 Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
             }
         }
+
 
     }
 
@@ -284,13 +310,24 @@ class MainActivity : AppCompatActivity(),
         val intent = Intent(this, FinishScreen::class.java)
         //transmit information about the participant to the FinishScreen
         if (result == 1) {
-
-            intent.putExtra("WINNER_ID", leftPersonId)
-            intent.putExtra("LOOSER_ID", rightPersonId)
+            if(internetIsConnected()) {
+                intent.putExtra("WINNER_ID", leftPersonId)
+                intent.putExtra("LOOSER_ID", rightPersonId)
+            }
+            if(!internetIsConnected()) {
+                intent.putExtra("WINNER_ID", "left")
+                intent.putExtra("LOOSER_ID", "right")
+            }
         }
         if (result == 2) {
-            intent.putExtra("WINNER_ID", rightPersonId)
-            intent.putExtra("LOOSER_ID", leftPersonId)
+            if(internetIsConnected()) {
+                intent.putExtra("WINNER_ID", rightPersonId)
+                intent.putExtra("LOOSER_ID", leftPersonId)
+            }
+            if(!internetIsConnected()) {
+                intent.putExtra("WINNER_ID", "right")
+                intent.putExtra("LOOSER_ID", "left")
+            }
         }
         intent.putExtra("RANKED", cameraSource!!.gameState == 2)
         startActivity(intent)
@@ -402,6 +439,15 @@ class MainActivity : AppCompatActivity(),
             fun newInstance(message: String): ErrorDialog = ErrorDialog().apply {
                 arguments = Bundle().apply { putString(ARG_MESSAGE, message) }
             }
+        }
+    }
+
+    fun internetIsConnected(): Boolean {
+        return try {
+            val command = "ping -c 1 google.com"
+            Runtime.getRuntime().exec(command).waitFor() == 0
+        } catch (e: Exception) {
+            false
         }
     }
 }
