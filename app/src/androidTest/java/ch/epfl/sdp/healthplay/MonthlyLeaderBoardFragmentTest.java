@@ -22,6 +22,7 @@ import androidx.navigation.Navigation;
 
 import androidx.test.core.app.ActivityScenario;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -36,6 +37,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sdp.healthplay.database.DataCache;
 import ch.epfl.sdp.healthplay.database.Database;
 
 @RunWith(AndroidJUnit4.class)
@@ -47,6 +49,7 @@ public class MonthlyLeaderBoardFragmentTest {
     @Before
     public void init(){
         FirebaseAuth.getInstance().signInWithEmailAndPassword("a.b@admin.ch", "123456");
+        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         new Database().addHealthPoint(FirebaseAuth.getInstance().getCurrentUser().getUid(), 10);
         activity = ActivityScenario.launch(HomeScreenActivity.class);
         activity.onActivity(new ActivityScenario.ActivityAction() {

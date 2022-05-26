@@ -116,7 +116,7 @@ public final class Database {
                 .setValue(name)
                 .addOnCompleteListener(t -> {
                     if(!t.isSuccessful()) {
-                        Log.e("ERROR", "EREREREROOORORO");
+                        Log.e("ERROR", "could not set the new username");
                     }
                     else {
                         getLeaderBoard(updateUsernameLeaderboard(userId, name, format, LEADERBOARD_DAILY),LEADERBOARD_DAILY);
@@ -124,7 +124,7 @@ public final class Database {
                 })
                 .addOnCompleteListener(t -> {
                     if(!t.isSuccessful()) {
-                        Log.e("ERROR", "EREREREROOORORO");
+                        Log.e("ERROR", "could not update the daily leaderboard");
                     }
                     else {
                         getLeaderBoard(updateUsernameLeaderboard(userId, name, formatYearMonth, LEADERBOARD_MONTHLY),LEADERBOARD_MONTHLY);
@@ -136,7 +136,7 @@ public final class Database {
     private OnCompleteListener<DataSnapshot> updateUsernameLeaderboard(String userId, String name, SimpleDateFormat pformat, String pleaderBoard) {
         return task -> {
             if(!task.isSuccessful()) {
-                Log.e("ERROR", "EREREREROOORORO");
+                Log.e("ERROR", "could not get the leaderboard from firebase");
             }
             else {
                 @SuppressWarnings("unchecked")

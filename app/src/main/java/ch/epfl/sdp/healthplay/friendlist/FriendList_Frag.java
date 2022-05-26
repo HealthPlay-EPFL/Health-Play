@@ -118,7 +118,7 @@ public class  FriendList_Frag extends Fragment {
                 Friend selectedFriend = (Friend)listView.getAdapter().getItem(position);
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.setReorderingAllowed(true);
-                fragmentTransaction.replace(R.id.fragmentContainerView, viewProfileFragment.newInstance(selectedFriend.getUserId(), ""));
+                fragmentTransaction.replace(R.id.fragmentContainerView, viewProfileFragment.newInstance(selectedFriend.getUserId()));
                 fragmentTransaction.commit();
             }
         });

@@ -192,13 +192,13 @@ public class LeaderBoardFragment extends Fragment {
                 case R.id.viewProfile:
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.setReorderingAllowed(true);
-                    fragmentTransaction.replace(R.id.fragmentContainerView, viewProfileFragment.newInstance(ids[index], ""));
+                    fragmentTransaction.replace(R.id.fragmentContainerView, viewProfileFragment.newInstance(ids[index]));
                     fragmentTransaction.commit();
                     return true;
                 case R.id.addFriendLeaderBoard:
                     db.readField(mAuth.getCurrentUser().getUid(), Database.FRIEND,task -> {
                         if (!task.isSuccessful()) {
-                            Log.e("ERROR", "EREREREROOORORO");
+                            Log.e("ERROR", "could not get the friend list from firebase");
                         }
                         else {
                             Map<String, String> friendList = (Map<String, String>)task.getResult().getValue();
