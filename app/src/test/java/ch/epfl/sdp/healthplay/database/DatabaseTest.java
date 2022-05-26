@@ -156,7 +156,7 @@ public class DatabaseTest {
         closeable = MockitoAnnotations.openMocks(this);
         map = new HashMap<String, User>();
         stats = new HashMap<>();
-        map.put(userId,new User("a", "b", "c","empty@email.com", "2000-01-01", 10));
+        map.put(userId,new User("username", "b", "c","empty@email.com", "2000-01-01", 10));
         stats.put(userId, currentCalories);
         stats.put(userId, currentWeight);
         stats.put(userId, currentHealthPoint);
@@ -180,13 +180,7 @@ public class DatabaseTest {
 
     }
 
-    @Test
-    public void writeUsernameTest() {
-        when(t2.isSuccessful()).thenReturn(true);
-        Database db = new Database(dbr);
-        db.writeUsername(userId, "username");
-        assertEquals("username", map.get(userId).getUsername());
-    }
+
 
     @Test
     public void writeNameTest() {

@@ -2,21 +2,15 @@ package ch.epfl.sdp.healthplay;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
-
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-
 
 import android.app.Activity;
 
 import androidx.navigation.Navigation;
-
 import androidx.test.core.app.ActivityScenario;
-
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,13 +18,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import ch.epfl.sdp.healthplay.database.Database;
 
-@RunWith(AndroidJUnit4.class)
-
-public class MonthlyLeaderBoardFragmentTest {
+public class LeaderBoardFragmentTest {
 
     ActivityScenario activity;
 
@@ -47,6 +38,7 @@ public class MonthlyLeaderBoardFragmentTest {
             }
         });
         onView(withId(R.id.button3)).perform(click());
+        onView(withId(R.id.todayButton)).perform(click());
     }
 
     @Test
@@ -66,15 +58,14 @@ public class MonthlyLeaderBoardFragmentTest {
         onView(withId(R.id.profile_picture3)).check(matches(isDisplayed()));
         onView(withId(R.id.profile_picture4)).check(matches(isDisplayed()));
         onView(withId(R.id.profile_picture5)).check(matches(isDisplayed()));
-        onView(withId(R.id.todayButton)).check(matches(isDisplayed()));
-        onView(withId(R.id.monthBackButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.todayBackButton)).check(matches(isDisplayed()));
 
     }
     @Test
     public void viewMyProfileButtonTest(){
         onView(withId(R.id.top1)).check(matches(isDisplayed()));
         onView(withId(R.id.top1)).perform(click());
-       // onView(withId(R.id.viewProfileNoFriend)).perform(click());
+        // onView(withId(R.id.viewProfileNoFriend)).perform(click());
         onData(Matchers.anything()).atPosition(0).perform(click());
         onView(withId(R.id.profile_picture)).check(matches(isDisplayed()));
     }
@@ -100,16 +91,9 @@ public class MonthlyLeaderBoardFragmentTest {
     @Test
     public void returnTest() {
         onView(withId(R.id.top1)).check(matches(isDisplayed()));
-        onView(withId(R.id.monthBackButton)).perform(click());
-        onView(withId(R.id.button3)).check(matches(isDisplayed()));
+        onView(withId(R.id.todayBackButton)).perform(click());
+        onView(withId(R.id.todayButton)).check(matches(isDisplayed()));
 
-    }
-
-    @Test
-    public void todayTest() {
-        onView(withId(R.id.top1)).check(matches(isDisplayed()));
-        onView(withId(R.id.todayButton)).perform(click());
-        onView(withId(R.id.todayBackButton)).check(matches(isDisplayed()));
     }
 
 
