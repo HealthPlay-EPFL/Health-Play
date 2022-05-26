@@ -30,7 +30,7 @@ import ch.epfl.sdp.healthplay.R;
 
 public class PlanthuntResultActivityTest {
 
-    @Before
+    /*@Before
     public void before() throws InterruptedException {
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
     }
@@ -44,9 +44,9 @@ public class PlanthuntResultActivityTest {
             Espresso.onView(withId(R.id.planthuntResultButton)).check(matches(isDisplayed()));
         }
 
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void buttonCorrectlyWorks() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntResultActivity.class);
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
@@ -73,6 +73,6 @@ public class PlanthuntResultActivityTest {
 
             Espresso.onView(withId(R.id.planthuntMainPlay)).check(matches(isDisplayed()));
         }
-    }
+    }*/
 
 }

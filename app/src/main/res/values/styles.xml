@@ -310,8 +310,8 @@
 
         <!-- SignedIn String -->
         <item name="delete_account">Supprimer compte</item>
-        <item name="Night">Nuit</item>
-        <item name="Light">Jour</item>
+        <item name="Night">Sombre</item>
+        <item name="Light">Clair</item>
         <item name="LeaderBoard">Classement</item>
         <item name="sign_out">déconnection</item>
         <item name="language">Français</item>

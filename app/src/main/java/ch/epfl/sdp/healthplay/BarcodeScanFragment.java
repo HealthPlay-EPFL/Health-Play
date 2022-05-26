@@ -238,7 +238,7 @@ public class BarcodeScanFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void initButton(){
+    public void initButton(){
         view.findViewById(R.id.get_information_from_barcode).setOnClickListener(v -> {
             try {
                 onClick();

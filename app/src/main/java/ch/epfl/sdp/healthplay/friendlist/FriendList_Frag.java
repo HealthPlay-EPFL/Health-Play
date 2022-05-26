@@ -34,52 +34,21 @@ import ch.epfl.sdp.healthplay.viewProfileFragment;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FriendList_Frag#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class  FriendList_Frag extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private final Database database = new Database();
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
 
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public FriendList_Frag() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FriendList_Frag.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FriendList_Frag newInstance(String param1, String param2) {
-        FriendList_Frag fragment = new FriendList_Frag();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -119,7 +88,7 @@ public class  FriendList_Frag extends Fragment {
 
         // Get the Friend List of the current User
         if(auth.getCurrentUser() != null) {
-            Map<String, Boolean> friends = database.getFriendList();
+            Map<String, String> friends = database.getFriendList();
 
             buildListView(view, listView, buildFriendListFromFirebase(friends));
 
@@ -129,7 +98,7 @@ public class  FriendList_Frag extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     //Get the changes
-                    Map<String, Boolean> value = (Map<String, Boolean>) snapshot.getValue();
+                    Map<String, String> value = (Map<String, String>) snapshot.getValue();
                     if(value != null) {
 
                         updateListView(listView, buildFriendListFromFirebase(value));
@@ -137,13 +106,12 @@ public class  FriendList_Frag extends Fragment {
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    System.out.println(error.toString());
                 }
             }
 
             );
         }
-
+        //Go to the profile of the friend
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -158,13 +126,17 @@ public class  FriendList_Frag extends Fragment {
         return view;
     }
 
-    private List<Friend> buildFriendListFromFirebase(Map<String, Boolean> map){
+    /**
+     * Build the friend list from the map returned by Firebase
+     * @param map
+     * @return
+     */
+    private List<Friend> buildFriendListFromFirebase(Map<String, String> map){
         List<Friend> friendList = new ArrayList<>();;
         if(map != null) {
-
             for (String friend : map.keySet()
             ) {
-                friendList.add(new Friend(friend));
+                friendList.add(new Friend(friend, map.get(friend)));
             }
         }
         return friendList;

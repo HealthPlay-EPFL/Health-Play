@@ -105,8 +105,8 @@ public class DatabaseTest {
         }
         return null;
     }
-    public Task<Void> putWeight(String userId, Number weight, Map<String, User> map) {
 
+    public Task<Void> putWeight(String userId, Number weight, Map<String, User> map) {
         User user = map.get(userId);
         if(user != null) {
             user.setLastCurrentWeight(weight);
@@ -389,5 +389,16 @@ public class DatabaseTest {
         assertEquals("a-01-01", map.get(userId).getBirthday());
         assertEquals(10, map.get(userId).getAge());
     }
-    
+
+    @Test
+    public void sendInvitationTest(){
+        Database database = new Database(dbr);
+        database.sendInvitation("Test", "SmjKxadXiEUzZPWoOvPcBE78qKr2", "SmjKxadXiEUzZPWoOvPcBE78qKr2");
+    }
+
+    @Test
+    public void createConversationRecordTest(){
+        Database database = new Database(dbr);
+        database.createConversationRecord("SmjKxadXiEUzZPWoOvPcBE78qKr2", "SmjKxadXiEUzZPWoOvPcBE78qKr2");
+    }
 }
