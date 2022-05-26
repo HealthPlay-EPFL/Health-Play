@@ -6,7 +6,6 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,17 +17,12 @@ import android.widget.ProgressBar;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.testing.FragmentScenario;
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
@@ -42,7 +36,6 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import ch.epfl.sdp.healthplay.database.DataCache;
 import ch.epfl.sdp.healthplay.database.Database;
 
 @RunWith(AndroidJUnit4.class)
@@ -50,36 +43,12 @@ public class BarcodeScanFragmentTest {
 
     @Before
     public void init(){
-        //WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
-        /*ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
-        activity.onActivity(new ActivityScenario.ActivityAction() {
-            @Override
-            public void perform(Activity activity) {
-                FragmentContainerView view = activity.findViewById(R.id.fragmentContainerView);
-                /*FragmentTransaction fragmentTransaction = view.getFragment().getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentContainerView, new MockBarcodeScanFragment());
-                fragmentTransaction.commit();*/
-                /*FragmentTransaction tr = FragmentManager.findFragment(view).getFragmentManager().beginTransaction();
-                tr.replace(R.id.fragmentContainerView, new MockBarcodeScanFragment());
-                tr.commit();
-            }
-        });*/
         FragmentScenario frag = FragmentScenario.launchInContainer(MockBarcodeScanFragment.class);
     }
 
 
     @Test
-    public void testEnterManually() throws InterruptedException {
-        /*WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
-        ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
-        activity.onActivity(new ActivityScenario.ActivityAction() {
-            @Override
-            public void perform(Activity activity) {
-                BottomNavigationView b = activity.findViewById(R.id.bottomNavigationView);
-                Navigation.findNavController(activity.findViewById(R.id.fragmentContainerView)).navigate(R.id.barcodescanActivity);
-
-            }
-        });*/
+    public void testEnterManually() {
         onView(withId(R.id.enter_manually_button)).check(matches(isDisplayed()));
         onView(withId(R.id.enter_manually_button)).perform(click());
         onView(withId(R.id.findProductInfos)).check(matches(isDisplayed()));
@@ -88,16 +57,6 @@ public class BarcodeScanFragmentTest {
 
     @Test
     public void testScan() throws InterruptedException {
-        /*WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
-        ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
-        activity.onActivity(new ActivityScenario.ActivityAction() {
-            @Override
-            public void perform(Activity activity) {
-                BottomNavigationView b = activity.findViewById(R.id.bottomNavigationView);
-                Navigation.findNavController(activity.findViewById(R.id.fragmentContainerView)).navigate(R.id.barcodescanActivity);
-
-            }
-        });*/
         TimeUnit.SECONDS.sleep(1);
         onView(withId(R.id.get_information_from_barcode)).check(matches(isDisplayed()));
         onView(withId(R.id.get_information_from_barcode)).perform(
