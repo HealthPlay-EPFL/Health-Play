@@ -21,6 +21,7 @@ import androidx.camera.view.PreviewView;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -50,7 +51,7 @@ public class BarcodeScanFragmentTest {
     @Before
     public void init(){
         WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
-        ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
+        /*ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         activity.onActivity(new ActivityScenario.ActivityAction() {
             @Override
             public void perform(Activity activity) {
@@ -58,11 +59,12 @@ public class BarcodeScanFragmentTest {
                 /*FragmentTransaction fragmentTransaction = view.getFragment().getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragmentContainerView, new MockBarcodeScanFragment());
                 fragmentTransaction.commit();*/
-                FragmentTransaction tr = FragmentManager.findFragment(view).getFragmentManager().beginTransaction();
+                /*FragmentTransaction tr = FragmentManager.findFragment(view).getFragmentManager().beginTransaction();
                 tr.replace(R.id.fragmentContainerView, new MockBarcodeScanFragment());
                 tr.commit();
             }
-        });
+        });*/
+        FragmentScenario frag = FragmentScenario.launchInContainer(MockBarcodeScanFragment.class);
     }
 
 
