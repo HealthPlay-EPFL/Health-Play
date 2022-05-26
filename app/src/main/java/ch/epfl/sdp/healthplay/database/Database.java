@@ -104,8 +104,55 @@ public final class Database {
                 .child(USERS)
                 .child(userId)
                 .child(USERNAME)
-                .setValue(name);
+                .setValue(name)
+                .addOnCompleteListener(t -> {
+                    if(!t.isSuccessful()) {
+                        Log.e("ERROR", "EREREREROOORORO");
+                    }
+                    else {
+                        getLeaderBoard(updateUsernameLeaderboard(userId, name, format, LEADERBOARD_DAILY),LEADERBOARD_DAILY);
+                    }
+                })
+                .addOnCompleteListener(t -> {
+                    if(!t.isSuccessful()) {
+                        Log.e("ERROR", "EREREREROOORORO");
+                    }
+                    else {
+                        getLeaderBoard(updateUsernameLeaderboard(userId, name, formatYearMonth, LEADERBOARD_MONTHLY),LEADERBOARD_MONTHLY);
+                    }
+                });
+
     }
+
+    private OnCompleteListener<DataSnapshot> updateUsernameLeaderboard(String userId, String name, SimpleDateFormat pformat, String pleaderBoard) {
+        return task -> {
+            if(!task.isSuccessful()) {
+                Log.e("ERROR", "EREREREROOORORO");
+            }
+            else {
+                @SuppressWarnings("unchecked")
+                HashMap<String,HashMap<String,HashMap<String, String>>> leaderBoard = (HashMap<String,HashMap<String, HashMap<String, String>>>)task.getResult().getValue();
+                if(leaderBoard != null && leaderBoard.containsKey(getTodayDate(pformat))) {
+                    HashMap<String, HashMap<String, String>> todayLeaderBoard = leaderBoard.get(getTodayDate(pformat));
+                    if(todayLeaderBoard != null) {
+                        for(Map.Entry<String, HashMap<String, String>> entry : todayLeaderBoard.entrySet()) {
+                            for(Map.Entry<String, String> e : entry.getValue().entrySet()) {
+                                if(e.getKey().equals(userId)) {
+                                    entry.getValue().put(userId, name);
+                                }
+                            }
+                        }
+                    }
+                    leaderBoard.put(getTodayDate(pformat), todayLeaderBoard);
+                    mDatabase.child(pleaderBoard).setValue(leaderBoard);
+
+
+                }
+            }
+        };
+    }
+
+
 
     /**
      * Writes the calorie counter for today and overwrites any
@@ -171,13 +218,50 @@ public final class Database {
     }
 
     public void initStatToDay(String userId){
-        addCalorie(userId, 0);
-        addHealthPoint(userId, 0);
-        readField(userId, LAST_CURRENT_WEIGHT, (task -> {
+        getStats(userId, task -> {
             if (!task.isSuccessful()) {
-                Log.e("firebase", "Error getting data", task.getException());
+                Log.e("ERROR", "EREREREROOORORO");
+            }
+            @SuppressWarnings("unchecked")
+            Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>) task.getResult().getValue();
+            Number hp = 0;
+            Number calo = 0;
+            if (map != null && map.containsKey(getTodayDate())) {
+                Map<String, Number> today = map.get(getTodayDate());
+                if (today!= null && today.containsKey(HEALTH_POINT)) {
+                    hp = today.get(HEALTH_POINT);
+                }
+                if (today!= null && today.containsKey(CALORIE_COUNTER)) {
+                    calo = today.get(CALORIE_COUNTER);
+                }
+            }
+
+            mDatabase.child(USERS)
+                    .child(userId)
+                    .child(STATS)
+                    .child(getTodayDate())
+                    .child(CALORIE_COUNTER)
+                    .setValue(calo);
+            mDatabase.child(USERS)
+                    .child(userId)
+                    .child(STATS)
+                    .child(getTodayDate())
+                    .child(HEALTH_POINT)
+                    .setValue(hp);
+
+        });
+
+        readField(userId, LAST_CURRENT_WEIGHT, (t -> {
+            if (!t.isSuccessful()) {
+                Log.e("firebase", "Error getting data", t.getException());
             } else {
-                mDatabase.child(USERS).child(userId).child(STATS).child(getTodayDate()).child(WEIGHT).setValue(task.getResult().getValue());
+                Number weight = (Number)t.getResult().getValue();
+                mDatabase.child(USERS)
+                        .child(userId)
+                        .child(STATS)
+                        .child(getTodayDate())
+                        .child(WEIGHT)
+                        .setValue(weight);
             }
         }));
     }

@@ -178,12 +178,17 @@
         <entry key="app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.202" />
         <entry key="app/src/main/res/drawable/rounded_button.xml" value="0.202" />
         <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.16818642350557245" />
+        <entry key="app/src/main/res/layout/activity_leader_board.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_monthly_leader_board.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_profile_settings.xml" value="0.22509057971014493" />
         <entry key="app/src/main/res/layout/activity_profile_setup.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_view_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/auth_ui_layout.xml" value="0.254888916015625" />
         <entry key="app/src/main/res/layout/fragment_frag__home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_graph_.xml" value="0.16818642350557245" />
+        <entry key="app/src/main/res/layout/fragment_monthly_leader_board.xml" value="0.13677536231884058" />
+        <entry key="app/src/main/res/layout/fragment_view_profile.xml" value="0.4398057578266531" />
         <entry key="app/src/main/res/layout/signed_in_layout.xml" value="0.2391304347826087" />
         <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.1796875" />
       </map>

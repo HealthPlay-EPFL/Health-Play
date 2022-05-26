@@ -57,6 +57,7 @@
         </TextView>
     </RelativeLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -85,22 +86,41 @@
                 app:civ_border_width="2dp"
                 android:gravity ="center_horizontal"/>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/top1"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:text="@string/NoUser"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/topText1"
+                android:layout_width="175dp"
+                android:layout_height="40dp"
+                android:text=""
                 android:paddingStart="25dp"
-                android:paddingEnd="25dp"
                 android:textAllCaps="false"
                 android:layout_marginStart="15dp"
+                android:textColor="#1973ff"
+                android:gravity="start|center_vertical"
+                android:textStyle="bold">
+
+            </androidx.appcompat.widget.AppCompatTextView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/top1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginStart="15dp"
                 android:background="@drawable/rounded_button_lb"
+                android:gravity="start|center_vertical"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:text="@string/view_more"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
-                />
+                android:textSize="11sp" />
 
         </LinearLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="11dp"
+            android:background="#CED4DF" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -118,21 +138,43 @@
                 app:civ_border_width="2dp"
                 android:gravity ="center_horizontal"/>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/top2"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:text="@string/NoUser"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/topText2"
+                android:layout_width="175dp"
+                android:layout_height="40dp"
+                android:text=""
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
                 android:textAllCaps="false"
                 android:layout_marginStart="15dp"
+                android:textColor="#1973ff"
+                android:gravity="start|center_vertical"
+                android:textStyle="bold">
+
+            </androidx.appcompat.widget.AppCompatTextView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/top2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginStart="15dp"
                 android:background="@drawable/rounded_button_lb"
+                android:gravity="start|center_vertical"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:text="@string/view_more"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
+                android:textSize="11sp"
                 />
 
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="11dp"
+            android:background="#CED4DF" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -151,23 +193,44 @@
                 app:civ_border_width="2dp"
                 android:gravity ="center_horizontal"/>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/top3"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:text="@string/NoUser"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/topText3"
+                android:layout_width="175dp"
+                android:layout_height="40dp"
+                android:text=""
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
                 android:textAllCaps="false"
                 android:layout_marginStart="15dp"
+                android:textColor="#1973ff"
+                android:gravity="start|center_vertical"
+                android:textStyle="bold">
+
+            </androidx.appcompat.widget.AppCompatTextView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/top3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginStart="15dp"
                 android:background="@drawable/rounded_button_lb"
+                android:gravity="start|center_vertical"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:text="@string/view_more"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
+                android:textSize="11sp"
                 />
 
         </LinearLayout>
 
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="11dp"
+            android:background="#CED4DF" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -185,22 +248,43 @@
                 app:civ_border_width="2dp"
                 android:gravity ="center_horizontal"/>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/top4"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:text="@string/NoUser"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/topText4"
+                android:layout_width="175dp"
+                android:layout_height="40dp"
+                android:text=""
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
                 android:textAllCaps="false"
                 android:layout_marginStart="15dp"
+                android:textColor="#1973ff"
+                android:gravity="start|center_vertical"
+                android:textStyle="bold">
+
+            </androidx.appcompat.widget.AppCompatTextView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/top4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginStart="15dp"
                 android:background="@drawable/rounded_button_lb"
+                android:gravity="start|center_vertical"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:text="@string/view_more"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
+                android:textSize="11sp"
                 />
 
         </LinearLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="11dp"
+            android:background="#CED4DF"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -218,18 +302,35 @@
                 app:civ_border_width="2dp"
                 android:gravity ="center_horizontal"/>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/top5"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:text="@string/NoUser"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/topText5"
+                android:layout_width="175dp"
+                android:layout_height="40dp"
+                android:text=""
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
                 android:textAllCaps="false"
                 android:layout_marginStart="15dp"
+                android:textColor="#1973ff"
+                android:gravity="start|center_vertical"
+                android:textStyle="bold">
+
+            </androidx.appcompat.widget.AppCompatTextView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/top5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginStart="15dp"
                 android:background="@drawable/rounded_button_lb"
+                android:gravity="start|center_vertical"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:text="@string/view_more"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
+                android:textSize="11sp"
                 />
         </LinearLayout>
         <View
@@ -237,7 +338,6 @@
             android:layout_height="1dp"
             android:layout_marginTop="11dp"
             android:background="#CED4DF" />
-
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/todayBackButton"

@@ -44,6 +44,7 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
         ids = new String[MIN_RANK];
         images = new ImageView[MIN_RANK];
         myMenus = new PopupMenu.OnMenuItemClickListener[MIN_RANK];
+        topTexts = new TextView[MIN_RANK];
         if(mAuth.getCurrentUser() != null) {
             db.addHealthPoint(mAuth.getCurrentUser().getUid(), 40);
             tab[0] = findViewById(R.id.top1);
@@ -51,6 +52,12 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
             tab[2] = findViewById(R.id.top3);
             tab[3] = findViewById(R.id.top4);
             tab[4] = findViewById(R.id.top5);
+            topTexts[0] = findViewById(R.id.topText1);
+            topTexts[1] = findViewById(R.id.topText2);
+            topTexts[2] = findViewById(R.id.topText3);
+            topTexts[3] = findViewById(R.id.topText4);
+            topTexts[4] = findViewById(R.id.topText5);
+
             images[0] = findViewById(R.id.profile_picture1);
             images[1] = findViewById(R.id.profile_picture2);
             images[2] = findViewById(R.id.profile_picture3);
@@ -91,24 +98,18 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
                     Map<String, HashMap<String, String>> idsMap = leaderBoard.get(Database.getTodayDate(format));
                     leaderBoardOrdered.putAll(idsMap);
                     int count = 0;
-                    int myTop = 0;
+                    int myTop = -1;
                     for (TreeMap.Entry<String, HashMap<String, String>> entry : leaderBoardOrdered.entrySet()) {
                         String hp = entry.getKey();
                         for(HashMap.Entry<String,String> e : entry.getValue().entrySet()) {
                             int top = count + 1;
+                            String myPts = hp.substring(0, hp.length() - Database.SUFFIX_LEN);
 
-                            if (count < MIN_RANK){
+                            if (count < MIN_RANK && Long.parseLong(myPts) > 0){
                                 getImage(e.getKey(), images[count]);
                                 ids[count] = e.getKey();
-                                String myPts = hp.substring(0, hp.length() - Database.SUFFIX_LEN) + " pts";
-                                String str = top + RANK_NAME_SEPARATOR + e.getValue();
-                                StringBuilder sb = new StringBuilder();
-                                sb.append(str);
-                                while(sb.length() <= STRING_MAX_LEN) {
-                                    sb.append(' ');
-                                }
-                                sb.append(myPts);
-                                tab[count].setText(sb.toString());
+                                String str = top + RANK_NAME_SEPARATOR + e.getValue() + "\n" + "  " + RANK_NAME_SEPARATOR + myPts + " pts";
+                                topTexts[count].setText(str);
                                 if(e.getKey().equals(mAuth.getUid())) {
                                     myTop = top;
                                     tab[count].setOnClickListener(initMyButton(count));
@@ -122,7 +123,7 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
                     }
                     while(count < MIN_RANK) {
                         images[count].setImageResource(R.drawable.rounded_logo);
-                        tab[count].setText(R.string.NoUser);
+                        topTexts[count].setText("");
                         tab[count].setOnClickListener(null);
                         count++;
                     }
@@ -131,16 +132,16 @@ public class MonthlyLeaderBoardActivity extends LeaderBoardActivity {
                         myTopText.setText("your rank : " + myTop);
                     }
                     else {
-                        myTopText.setText("your rank : unranked");
+                        myTopText.setText(R.string.unranked);
                     }
                 }
                 else {
                     for(int i = 0 ; i < MIN_RANK ; i++) {
                         images[i].setImageResource(R.drawable.rounded_logo);
-                        tab[i].setText(R.string.NoUser);
+                        topTexts[i].setText("");
                         tab[i].setOnClickListener(null);
                     }
-                    myTopText.setText("your rank : unranked");
+                    myTopText.setText(R.string.unranked);
 
                 }
             }
