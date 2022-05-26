@@ -5,23 +5,32 @@ import static androidx.test.espresso.Espresso.onView;
 
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 
+import static org.hamcrest.Matchers.allOf;
+
 import android.app.Activity;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.navigation.Navigation;
 
 import androidx.test.core.app.ActivityScenario;
 
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,7 +84,6 @@ public class MonthlyLeaderBoardFragmentTest {
     public void viewMyProfileButtonTest(){
         onView(withId(R.id.top1)).check(matches(isDisplayed()));
         onView(withId(R.id.top1)).perform(click());
-       // onView(withId(R.id.viewProfileNoFriend)).perform(click());
         onData(Matchers.anything()).atPosition(0).perform(click());
         onView(withId(R.id.profile_picture)).check(matches(isDisplayed()));
     }
@@ -83,7 +91,6 @@ public class MonthlyLeaderBoardFragmentTest {
     public void viewProfileButtonTest(){
         onView(withId(R.id.top2)).check(matches(isDisplayed()));
         onView(withId(R.id.top2)).perform(click());
-        // onView(withId(R.id.viewProfileNoFriend)).perform(click());
         onData(Matchers.anything()).atPosition(0).perform(click());
         onView(withId(R.id.profile_picture)).check(matches(isDisplayed()));
     }
@@ -109,7 +116,26 @@ public class MonthlyLeaderBoardFragmentTest {
     @Test
     public void todayTest() {
         onView(withId(R.id.top1)).check(matches(isDisplayed()));
-        onView(withId(R.id.todayButton)).perform(click());
+        Espresso.onView(withId(R.id.todayButton)).check(matches(allOf(isEnabled(), isClickable()))).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+
+
+                }
+        );
         onView(withId(R.id.todayBackButton)).check(matches(isDisplayed()));
     }
 
