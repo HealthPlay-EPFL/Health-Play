@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners
         android:bottomLeftRadius="0dp"
-        android:bottomRightRadius="100dp"
+        android:bottomRightRadius="150dp"
         android:topLeftRadius="0dp"
-        android:topRightRadius="100dp" />
+        android:topRightRadius="150dp" />
 </shape>
