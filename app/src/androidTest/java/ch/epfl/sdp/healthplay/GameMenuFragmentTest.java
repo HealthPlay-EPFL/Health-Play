@@ -19,19 +19,25 @@ import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-//@RunWith(AndroidJUnit4.class)
+import ch.epfl.sdp.healthplay.database.DataCache;
+
+@RunWith(AndroidJUnit4.class)
 public class GameMenuFragmentTest {
 
-    /*@Before
+    @Before
     public void init(){
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(SignedInFragmentTest.emailString, SignedInFragmentTest.password);
+        WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         activity.onActivity(new ActivityScenario.ActivityAction() {
             @Override
@@ -40,7 +46,7 @@ public class GameMenuFragmentTest {
                 Navigation.findNavController(activity.findViewById(R.id.fragmentContainerView)).navigate(R.id.gamesMenu);
             }
         });
-    }*/
+    }
 
     /*@Test
     public void planthuntDescriptionCorrectlyDisplays() {
@@ -56,7 +62,7 @@ public class GameMenuFragmentTest {
         onView(withId(R.id.kneetagDescButtonBack)).check(matches(isDisplayed()));
     }*/
 
-    /*@Test
+    @Test
     public void planthuntPlayCorrectlyLaunches() {
         onView(withId(R.id.planthuntPlay)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
@@ -77,9 +83,9 @@ public class GameMenuFragmentTest {
                 }
         );
         onView(withId(R.id.planthuntMainPlay)).check(matches(isDisplayed()));
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void kneetagPlayCorrectlyLaunches() {
         onView(withId(R.id.kneetagPlay)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
@@ -100,7 +106,7 @@ public class GameMenuFragmentTest {
                 }
         );
         //onView(withId(R.id.planthuntMainPlay)).check(matches(isDisplayed()));
-    }*/
+    }
 
     /*@Test
     public void viewIsDisplayed() {

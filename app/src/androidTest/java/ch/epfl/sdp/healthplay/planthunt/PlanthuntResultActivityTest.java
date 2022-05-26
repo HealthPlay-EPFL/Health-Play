@@ -30,7 +30,7 @@ import ch.epfl.sdp.healthplay.R;
 
 public class PlanthuntResultActivityTest {
 
-    @Before
+    /*@Before
     public void before() throws InterruptedException {
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
     }
@@ -44,7 +44,7 @@ public class PlanthuntResultActivityTest {
             Espresso.onView(withId(R.id.planthuntResultButton)).check(matches(isDisplayed()));
         }
 
-    }
+    }*/
 
     /*@Test
     public void buttonCorrectlyWorks() {
