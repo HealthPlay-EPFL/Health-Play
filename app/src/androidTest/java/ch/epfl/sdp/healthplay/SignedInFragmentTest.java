@@ -23,11 +23,11 @@ import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,7 +57,7 @@ public class SignedInFragmentTest {
     @Before
     public void init() throws InterruptedException {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(emailString, password);
-        WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
+        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         /**/
     }
 

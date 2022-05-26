@@ -14,9 +14,9 @@ import android.widget.TextView;
 
 import androidx.navigation.Navigation;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +37,7 @@ public class ProfileFragmentTest {
     @Before
     public void init(){
         FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
-        WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
+        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         activity = ActivityScenario.launch(HomeScreenActivity.class);
         activity.onActivity(new ActivityScenario.ActivityAction() {
             @Override

@@ -9,9 +9,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -32,7 +32,7 @@ public class Graph_FragTest {
     public void init() throws InterruptedException {
         FirebaseAuth.getInstance().signOut();
         FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
-        WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
+        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         ActivityScenario sc = ActivityScenario.launch(HomeScreenActivity.class);
         onView(withId(R.id.switchFragButton)).perform(click());
         TimeUnit.SECONDS.sleep(1);

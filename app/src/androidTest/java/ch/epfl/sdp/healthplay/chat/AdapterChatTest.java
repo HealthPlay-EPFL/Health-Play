@@ -8,9 +8,9 @@ import static org.junit.Assert.assertEquals;
 import android.app.Activity;
 
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -34,7 +34,7 @@ public class AdapterChatTest {
     public void before() throws InterruptedException{
         FirebaseAuth.getInstance().signOut();
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
-        WelcomeScreenActivity.cache = new DataCache(InstrumentationRegistry.getInstrumentation().getContext());
+        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         onView(withId(R.id.FriendList_button)).perform(click());
     }
