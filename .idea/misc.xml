@@ -3,6 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ANTON/Documents/EPFL/Bachelor/3eme_annee/BA6/SDP/4/Health-Play/app/src/main/res/layout/activity_planhunt_camera.xml" value="0.25815217391304346" />
+        <entry key="..\:/Users/ANTON/Documents/EPFL/Bachelor/3eme_annee/BA6/SDP/4/Health-Play/app/src/main/res/layout/activity_planthunt_collection.xml" value="0.25815217391304346" />
+        <entry key="..\:/Users/ANTON/Documents/EPFL/Bachelor/3eme_annee/BA6/SDP/4/Health-Play/app/src/main/res/layout/activity_planthunt_collection_item.xml" value="0.25815217391304346" />
+        <entry key="..\:/Users/ANTON/Documents/EPFL/Bachelor/3eme_annee/BA6/SDP/4/Health-Play/app/src/main/res/layout/activity_planthunt_lobby.xml" value="0.25815217391304346" />
+        <entry key="..\:/Users/ANTON/Documents/EPFL/Bachelor/3eme_annee/BA6/SDP/4/Health-Play/app/src/main/res/layout/activity_planthunt_main.xml" value="0.25815217391304346" />
+        <entry key="..\:/Users/ANTON/Documents/EPFL/Bachelor/3eme_annee/BA6/SDP/4/Health-Play/app/src/main/res/layout/activity_planthunt_new_plant.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/ANTON/Documents/EPFL/Bachelor/3eme_annee/BA6/SDP/4/Health-Play/app/src/main/res/layout/activity_planthunt_result.xml" value="0.25815217391304346" />
+        <entry key="..\:/Users/ANTON/Documents/EPFL/Bachelor/3eme_annee/BA6/SDP/4/Health-Play/app/src/main/res/layout/activity_planthunt_wait_lobby.xml" value="0.25815217391304346" />
+        <entry key="..\:/Users/ANTON/Documents/EPFL/Bachelor/3eme_annee/BA6/SDP/4/Health-Play/app/src/main/res/layout/activity_plantnet_api.xml" value="0.25815217391304346" />
+        <entry key="..\:/Users/ANTON/Documents/EPFL/Bachelor/3eme_annee/BA6/SDP/4/Health-Play/app/src/main/res/layout/fragment_barcode_scan.xml" value="0.21145833333333333" />
         <entry key="..\:/Users/FunProg/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_greeting.xml" value="0.25" />
         <entry key="..\:/Users/FunProg/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/drawable/ic_nutriscore_a.xml" value="0.32" />
