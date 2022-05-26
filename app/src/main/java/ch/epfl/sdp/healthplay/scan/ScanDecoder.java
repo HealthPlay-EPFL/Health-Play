@@ -38,6 +38,7 @@ public final class ScanDecoder {
                             // Allow scanning of QR codes
                             Barcode.FORMAT_QR_CODE)
                     .build();
+    private static final String IMAGE = "image";
 
     public static void scan(Uri uri, Context context,
                             Consumer<String> onProduct, View view) throws IOException {
@@ -66,12 +67,14 @@ public final class ScanDecoder {
                                             onProduct.accept(p.get().getJsonString());
                                         else
                                             Toast.makeText(view.getContext(),
+                                                            // TODO: Enable translation
                                                             "An error occurred. Please try again !",
                                                             Toast.LENGTH_SHORT)
                                                     .show();
                                     }).get(3, TimeUnit.SECONDS);
                                 } catch (ExecutionException | InterruptedException | TimeoutException e) {
                                     Toast.makeText(view.getContext(),
+                                                    // TODO: Enable translation
                                                     "An error occurred while scanning the product. This might be due to the server not being responsive. Please try again in a few moments.",
                                                     Toast.LENGTH_SHORT)
                                             .show();
@@ -94,7 +97,7 @@ public final class ScanDecoder {
                                                 String username = (String) user.getOrDefault(Database.USERNAME, "None");
                                                 TextView usernameText = view.findViewById(R.id.userNameScan);
                                                 usernameText.setText(username);
-                                                String pPicture = (String) user.get("image");
+                                                String pPicture = (String) user.get(IMAGE);
                                                 Glide.with(context.getApplicationContext()).load(pPicture).into((ImageView) view.findViewById(R.id.profilePictureAddFriend));
 
                                                 view.findViewById(R.id.addFriendScanButton).setOnClickListener(onClick -> {
@@ -103,6 +106,7 @@ public final class ScanDecoder {
                                                     // Remove info view
                                                     view.findViewById(R.id.shadowFrameScanFriend).setVisibility(View.GONE);
                                                     Toast.makeText(view.getContext(),
+                                                                    // TODO: Enable translation
                                                                     username + " was added in your friends list !",
                                                                     Toast.LENGTH_SHORT)
                                                             .show();

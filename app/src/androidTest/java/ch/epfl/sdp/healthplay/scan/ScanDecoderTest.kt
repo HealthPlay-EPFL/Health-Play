@@ -41,7 +41,7 @@ class ScanDecoderTest {
         TimeUnit.SECONDS.sleep(2)
         scenario.onFragment { f ->
             try {
-                val uri: Uri = Uri.parse("android.resource://" + "ch.epfl.sdp.healthplay" + "/drawable/barcode_example");
+                val uri: Uri = Uri.parse("android.resource://ch.epfl.sdp.healthplay/drawable/barcode_example");
                 ScanDecoder.scan(uri, f.context, { println("") }, f.view)
             } catch (e: Exception) {
             }
@@ -61,7 +61,7 @@ class ScanDecoderTest {
         scenario.onFragment { f ->
             try {
                 f.view!!.findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.shadowFrameScanFriend).visibility = View.VISIBLE
-                val uri = Uri.parse("android.resource://" + "ch.epfl.sdp.healthplay" + "/drawable/qr_example")
+                val uri = Uri.parse("android.resource://ch.epfl.sdp.healthplay/drawable/qr_example")
                 ScanDecoder.scan(uri, f.context, Consumer { println("") }, f.view).wait()
 
                 onView(withId(R.id.addFriendScanButton)).perform(click())
@@ -83,7 +83,7 @@ class ScanDecoderTest {
         TimeUnit.SECONDS.sleep(2)
         scenario.onFragment { f ->
             try {
-                val uri = Uri.parse("android.resource://" + "ch.epfl.sdp.healthplay" + "/drawable/logo")
+                val uri = Uri.parse("android.resource://ch.epfl.sdp.healthplay/drawable/logo")
                 ScanDecoder.scan(uri, f.context, Consumer { println("") }, f.view)
             } catch (e: Exception) {
             }
