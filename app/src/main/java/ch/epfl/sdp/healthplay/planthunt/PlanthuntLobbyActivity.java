@@ -49,6 +49,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
     private final Database db = new Database();
     private String lobbyName, currentUsername, hostStatus;
     private static int remainingTime = 300;
+    private AlertDialog alert;
 
     private File photoFile;
     private static final String STORAGE_URL = "gs://health-play-9e161.appspot.com";
@@ -101,6 +102,13 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isTested){
+                    showLoadingAlert();
+                    Intent intentTest = new Intent(PlanthuntLobbyActivity.this, PlanthuntNewPlantActivity.class);
+                    intentTest.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+                    intentTest.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
+                    analysisThread("https://www.jardiner-malin.fr/wp-content/uploads/2022/01/orchidee.jpg", intentTest, null);
+                }
                 startCameraIntent();
             }
         });
@@ -223,10 +231,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Analyzing capture...");//TODO translate Antoine
-        AlertDialog alert = builder.create();
-        alert.show();
+        showLoadingAlert();
 
         //Check request comes from camera
         if (requestCode == CameraApi.REQUEST_IMAGE_CAPTURE){
@@ -247,66 +252,79 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                     new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            //Creates a new Thread to receive Url response asynchronously
-                            Thread thread = new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try  {
-                                        //Returns built URL with given image link
-                                        String urlString = PlantnetApi.buildUrl(PlantnetApi.API_KEY, urlImage, "flower");
-                                        
-                                        //Gets JSON object from built URL
-                                        JSONObject json = PlantnetApi.readJsonFromUrl(urlString);
-
-                                        //Return if plant probability is too low
-                                        if (Double.parseDouble(json.getJSONArray("results").getJSONObject(0).get("score").toString()) < .2){
-                                            alert.dismiss();
-                                            Snackbar.make(findViewById(R.id.planthuntLobbyLayout), "No plant was found", Snackbar.LENGTH_LONG).show();
-                                            storage.child("Planthunt").child(user.getUid()).child(photoFile.getName()).delete();
-                                            return;
-                                        }
-
-                                        //Gets how common the plant is
-                                        int popularity = 0;
-                                        for (int i = 0; i < json.getJSONArray("results").length(); i++){
-                                            if (Double.parseDouble(json.getJSONArray("results").getJSONObject(i).get("score").toString()) > .05){
-                                                popularity++;
-                                            }
-                                        }
-
-                                        //Extracts plant name from received JSON
-                                        String commonName = json.getJSONArray("results")
-                                                .getJSONObject(0)
-                                                .getJSONObject("species")
-                                                .getJSONArray("commonNames")
-                                                .get(0)
-                                                .toString();
-
-                                        int finalPopularity = popularity;
-                                        System.out.println(popularity);
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                System.out.println("lobby");
-                                                intent.putExtra(POINTS, 100 - 10 * finalPopularity);
-                                                intent.putExtra(NAME, commonName);
-                                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
-                                                storage.child("Planthunt").child(user.getUid()).child(photoFile.getName()).delete();
-                                                storage.child("Planthunt").child(user.getUid()).child(commonName + "_" + photoFile.getName()).putBytes(outputStream.toByteArray());
-                                                alert.dismiss();
-                                                startActivity(intent);
-                                            }
-                                        });
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                            thread.start();
+                            analysisThread(urlImage, intent, outputStream);
                         }
                     }
             );
         }
+    }
+
+    private void showLoadingAlert(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Analyzing capture...");//TODO translate Antoine
+        alert = builder.create();
+        alert.show();
+    }
+
+    private void analysisThread(String urlImage, Intent intent, ByteArrayOutputStream outputStream){
+        //Creates a new Thread to receive Url response asynchronously
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try  {
+                    //Returns built URL with given image link
+                    String urlString = PlantnetApi.buildUrl(PlantnetApi.API_KEY, urlImage, "flower");
+
+                    //Gets JSON object from built URL
+                    JSONObject json = PlantnetApi.readJsonFromUrl(urlString);
+
+                    //Return if plant probability is too low
+                    if (Double.parseDouble(json.getJSONArray("results").getJSONObject(0).get("score").toString()) < .2){
+                        alert.dismiss();
+                        Snackbar.make(findViewById(R.id.planthuntLobbyLayout), "No plant was found", Snackbar.LENGTH_LONG).show();
+                        storage.child("Planthunt").child(user.getUid()).child(photoFile.getName()).delete();
+                        return;
+                    }
+
+                    //Gets how common the plant is
+                    int popularity = 0;
+                    for (int i = 0; i < json.getJSONArray("results").length(); i++){
+                        if (Double.parseDouble(json.getJSONArray("results").getJSONObject(i).get("score").toString()) > .05){
+                            popularity++;
+                        }
+                    }
+
+                    //Extracts plant name from received JSON
+                    String commonName = json.getJSONArray("results")
+                            .getJSONObject(0)
+                            .getJSONObject("species")
+                            .getJSONArray("commonNames")
+                            .get(0)
+                            .toString();
+
+                    int finalPopularity = popularity;
+                    System.out.println(popularity);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            System.out.println("lobby");
+                            intent.putExtra(POINTS, 100 - 10 * finalPopularity);
+                            intent.putExtra(NAME, commonName);
+                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
+                            storage.child("Planthunt").child(user.getUid()).child(photoFile.getName()).delete();
+                            if (!isTested){
+                                storage.child("Planthunt").child(user.getUid()).child(commonName + "_" + photoFile.getName()).putBytes(outputStream.toByteArray());
+                            }
+                            alert.dismiss();
+                            startActivity(intent);
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
     }
 }

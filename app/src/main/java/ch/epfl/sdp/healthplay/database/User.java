@@ -37,7 +37,9 @@ public final class User {
     // A yyyy-MM-dd formatted date
     private String birthday;
     private int age;
-    private int lastCurrentWeight;
+
+    private Number lastCurrentWeight;
+
 
     // Format used to format date when adding stats
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -80,7 +82,8 @@ public final class User {
         return age;
     }
 
-    public int getLastCurrentWeight() {
+
+    public Number getLastCurrentWeight() {
         return lastCurrentWeight;
     }
 
@@ -104,7 +107,7 @@ public final class User {
         this.surname = surname;
     }
 
-    public void setLastCurrentWeight(int lastCurrentWeight) {
+    public void setLastCurrentWeight(Number lastCurrentWeight) {
         this.lastCurrentWeight = lastCurrentWeight;
     }
 }

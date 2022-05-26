@@ -11,9 +11,11 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,6 +71,12 @@ public final class Database {
     public final static int SUFFIX_LEN = 2;
     private final static String SUFFIX = "hp";
 
+    public static final String CHATS = "Chats";
+    public static final String CHATLIST = "ChatList";
+    public static final String ONLINESTATUS = "onlineStatus";
+    public static final String TYPINGTO = "typingTo";
+
+
 
     public static Comparator<String> comparator = (o1, o2) -> Long.compare(Long.parseLong(o2.substring(0,o2.length() - SUFFIX_LEN)), Long.parseLong(o1.substring(0,o1.length() - SUFFIX_LEN)));
 
@@ -94,8 +102,8 @@ public final class Database {
     public void writeNewUser(String userId, String userName, int age, int weight) {
         mDatabase.child(USERS).child(userId).setValue( new User(userName, "empty name", "empty surname", "empty@email.com", "2000-01-01", age));
         Map<String, Object> chatStatus = new HashMap<>();
-        chatStatus.put("onlineStatus", "offline");
-        chatStatus.put("typingTo", "notTyping");
+        chatStatus.put(ONLINESTATUS, "offline");
+        chatStatus.put(TYPINGTO, "notTyping");
         mDatabase.child(USERS).child(userId).updateChildren(chatStatus);
 
     }
@@ -105,8 +113,55 @@ public final class Database {
                 .child(USERS)
                 .child(userId)
                 .child(USERNAME)
-                .setValue(name);
+                .setValue(name)
+                .addOnCompleteListener(t -> {
+                    if(!t.isSuccessful()) {
+                        Log.e("ERROR", "could not set the new username");
+                    }
+                    else {
+                        getLeaderBoard(updateUsernameLeaderboard(userId, name, format, LEADERBOARD_DAILY),LEADERBOARD_DAILY);
+                    }
+                })
+                .addOnCompleteListener(t -> {
+                    if(!t.isSuccessful()) {
+                        Log.e("ERROR", "could not update the daily leaderboard");
+                    }
+                    else {
+                        getLeaderBoard(updateUsernameLeaderboard(userId, name, formatYearMonth, LEADERBOARD_MONTHLY),LEADERBOARD_MONTHLY);
+                    }
+                });
+
     }
+
+    private OnCompleteListener<DataSnapshot> updateUsernameLeaderboard(String userId, String name, SimpleDateFormat pformat, String pleaderBoard) {
+        return task -> {
+            if(!task.isSuccessful()) {
+                Log.e("ERROR", "could not get the leaderboard from firebase");
+            }
+            else {
+                @SuppressWarnings("unchecked")
+                HashMap<String,HashMap<String,HashMap<String, String>>> leaderBoard = (HashMap<String,HashMap<String, HashMap<String, String>>>)task.getResult().getValue();
+                if(leaderBoard != null && leaderBoard.containsKey(getTodayDate(pformat))) {
+                    HashMap<String, HashMap<String, String>> todayLeaderBoard = leaderBoard.get(getTodayDate(pformat));
+                    if(todayLeaderBoard != null) {
+                        for(Map.Entry<String, HashMap<String, String>> entry : todayLeaderBoard.entrySet()) {
+                            for(Map.Entry<String, String> e : entry.getValue().entrySet()) {
+                                if(e.getKey().equals(userId)) {
+                                    entry.getValue().put(userId, name);
+                                }
+                            }
+                        }
+                    }
+                    leaderBoard.put(getTodayDate(pformat), todayLeaderBoard);
+                    mDatabase.child(pleaderBoard).setValue(leaderBoard);
+
+
+                }
+            }
+        };
+    }
+
+
 
     /**
      * Writes the calorie counter for today and overwrites any
@@ -172,13 +227,50 @@ public final class Database {
     }
 
     public void initStatToDay(String userId){
-        addCalorie(userId, 0);
-        addHealthPoint(userId, 0);
-        readField(userId, LAST_CURRENT_WEIGHT, (task -> {
+        getStats(userId, task -> {
             if (!task.isSuccessful()) {
-                Log.e("firebase", "Error getting data", task.getException());
+                Log.e("ERROR", "EREREREROOORORO");
+            }
+            @SuppressWarnings("unchecked")
+            Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>) task.getResult().getValue();
+            Number hp = 0;
+            Number calo = 0;
+            if (map != null && map.containsKey(getTodayDate())) {
+                Map<String, Number> today = map.get(getTodayDate());
+                if (today!= null && today.containsKey(HEALTH_POINT)) {
+                    hp = today.get(HEALTH_POINT);
+                }
+                if (today!= null && today.containsKey(CALORIE_COUNTER)) {
+                    calo = today.get(CALORIE_COUNTER);
+                }
+            }
+
+            mDatabase.child(USERS)
+                    .child(userId)
+                    .child(STATS)
+                    .child(getTodayDate())
+                    .child(CALORIE_COUNTER)
+                    .setValue(calo);
+            mDatabase.child(USERS)
+                    .child(userId)
+                    .child(STATS)
+                    .child(getTodayDate())
+                    .child(HEALTH_POINT)
+                    .setValue(hp);
+
+        });
+
+        readField(userId, LAST_CURRENT_WEIGHT, (t -> {
+            if (!t.isSuccessful()) {
+                Log.e("firebase", "Error getting data", t.getException());
             } else {
-                mDatabase.child(USERS).child(userId).child(STATS).child(getTodayDate()).child(WEIGHT).setValue(task.getResult().getValue());
+                Number weight = (Number)t.getResult().getValue();
+                mDatabase.child(USERS)
+                        .child(userId)
+                        .child(STATS)
+                        .child(getTodayDate())
+                        .child(WEIGHT)
+                        .setValue(weight);
             }
         }));
     }
@@ -651,13 +743,14 @@ public final class Database {
      * Get the friend list of the user
      * @return a map of String to Boolean
      */
-    public Map<String, Boolean> getFriendList() {
-        Map<String, Boolean> outputMap = new HashMap<>();
-        readField(FirebaseAuth.getInstance().getCurrentUser().getUid(), "friends", new OnCompleteListener<DataSnapshot>() {
+    //TODO make it work
+    public Map<String, String> getFriendList() {
+        Map<String, String> outputMap = new HashMap<>();
+        readField(FirebaseAuth.getInstance().getCurrentUser().getUid(), FRIEND, new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if(task.getResult().getValue() != null) {
-                    outputMap.putAll((Map<String, Boolean>) task.getResult().getValue());
+                    outputMap.putAll((Map<String, String>) task.getResult().getValue());
                 }
             }
         });
@@ -762,6 +855,80 @@ public final class Database {
         mDatabase.child(pleaderBoard)
                 .get()
                 .addOnCompleteListener(onCompleteListener);
+    }
+
+    /**
+     * Create a record of the conversation, i.e add the other user for both user, in the list of users the user has a conversation with
+     * @param senderId
+     * @param receiverId
+     */
+    public void createConversationRecord(String senderId, String receiverId) {
+        final DatabaseReference ref1 = mDatabase.child(CHATLIST).child(receiverId).child(senderId);
+        ref1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //If no record of the conversation, create one
+                if (!dataSnapshot.exists()) {
+                    ref1.child("id").setValue(senderId);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //Ref to the ChatList part of the user in the database
+        final DatabaseReference ref2 = mDatabase.child(CHATLIST).child(senderId).child(receiverId);
+        ref2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //If no record of the conversation, create one
+                if (!dataSnapshot.exists()) {
+                    ref2.child("id").setValue(receiverId);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    /**
+     * Send an invitation the a lobby
+     * @param lobbyName
+     * @param senderId
+     * @param receiverId
+     */
+    public void sendInvitation(String lobbyName, String senderId, String receiverId){
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String message = "You've been invited to the lobby: " + lobbyName;
+
+        //Create the message with the informations about the sender, receiver ...
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("sender", senderId);
+        hashMap.put("receiver", receiverId);
+        hashMap.put("message", message);
+        hashMap.put("timestamp", timestamp);
+        hashMap.put("type", "invitation");
+        //Add the message to the database
+        mDatabase.child(CHATS).push().setValue(hashMap);
+        createConversationRecord(senderId, receiverId);
+    }
+
+    /**
+     * Set the onlineStatus
+     * @param status
+     */
+    public void setOnlineStatus(String status) {
+        // check online status
+        Map<String, Object> hashMap = new HashMap<>();
+        hashMap.put(ONLINESTATUS, status);
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            mDatabase.child(USERS).child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).updateChildren(hashMap);
+        }
     }
 
 }

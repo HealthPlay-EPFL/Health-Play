@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BarcodeScanFragment">
+    tools:context=".BarcodeScanFragment"
+    android:id="@+id/fragmentScan">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -11,6 +11,7 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,18 +37,24 @@ public class FinishScreen extends AppCompatActivity {
     public FinishScreen() {
         // Required empty public constructor
     }
+
     //winner and looser point modification
-    void pointComputation(String winner,String looser){
-        winner=winner.equals("YOU")?mAuth.getCurrentUser().getUid():winner;
-        looser=looser.equals("YOU")?mAuth.getCurrentUser().getUid():looser;
-      database.addHealthPoint(winner,POINT_WIN);
-      database.addHealthPoint(looser,POINT_LOOSE);
+    void pointComputation(String winner,String looser) {
+
+            winner = winner.equals(getString(R.string.you)) ? mAuth.getCurrentUser().getUid() : winner;
+            looser = looser.equals(getString(R.string.you)) ? mAuth.getCurrentUser().getUid() : looser;
+            database.addHealthPoint(winner, POINT_WIN);
+            database.addHealthPoint(looser, POINT_LOOSE);
+
+
+
+
     }
     //Initialize the point display button and the text displaying the winner.
     private void initButton(Button button,String userID,int points){
 
 
-        database.getStats(userID.equals("YOU")?mAuth.getCurrentUser().getUid():userID,t->{
+        database.getStats(userID.equals(getString(R.string.you))?mAuth.getCurrentUser().getUid():userID,t->{
             if(!t.isSuccessful()){
                 Log.e("ERROR", "EREREREROOORORO");
             }
@@ -66,7 +73,7 @@ public class FinishScreen extends AppCompatActivity {
                 else{
                     hp="0";
                 }
-                String id=userID.equals("YOU")?mAuth.getCurrentUser().getUid():userID;
+                String id=userID.equals(getString(R.string.you))?mAuth.getCurrentUser().getUid():userID;
                 database.readField(id,Database.USERNAME,task -> {
                     if(!task.isSuccessful()){
                         Log.e("ERROR", "EREREREROOORORO");
@@ -94,20 +101,26 @@ public class FinishScreen extends AppCompatActivity {
         });
 
     }
+
     @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_gameended);
         super.onCreate(savedInstanceState);
         //recover information about winner/looser from main activity.
-        String winnerId=getIntent().getStringExtra("WINNER_ID");
+        String winnerId=getIntent().getStringExtra(getString(R.string.winnner_id));
 
-        String looser_id=getIntent().getStringExtra("LOOSER_ID");
+        String looser_id=getIntent().getStringExtra(getString(R.string.looser_id));
+
+        if(!internetIsConnected()){
+            TextView text = findViewById(R.id.winner_display);
+            text.setText(getString(R.string.winnerMessage) + " " + winnerId);
+        }
 
         Button winnerButton=findViewById(R.id.winner);
         Button looserButton=findViewById(R.id.looser);
         //change behavior if the game is ranked or unranked
-        if(getIntent().getBooleanExtra("RANKED",false)) {
+        if(getIntent().getBooleanExtra(getString(R.string.ranked),false)) {
 
             initButton(winnerButton,winnerId,POINT_WIN);
             initButton(looserButton, looser_id,POINT_LOOSE);
@@ -144,6 +157,15 @@ public class FinishScreen extends AppCompatActivity {
         );
 
     }
+    public boolean internetIsConnected() {
+        try {
+            String command = "ping -c 1 google.com";
+            return (Runtime.getRuntime().exec(command).waitFor() == 0);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }
 
 

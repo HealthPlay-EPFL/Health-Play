@@ -120,7 +120,7 @@
         <item name="text_color">@color/white</item>
         <item name="title_color">@color/lightGray</item>
         <item name="gradientPrimary_color">#181818</item>
-        <item name="gradientSecondary_color">#181818</item>
+        <item name="gradientSecondary_color">@color/light_blue_600</item>
         <item name="plantHuntGreen_color">@color/planthuntGreen</item>
         <item name="plantHuntPlay_color">@color/planthuntPlayColor</item>
         <item name="profileBorder_color">@color/profileBorder</item>
@@ -774,6 +774,7 @@
     </style>
 
     <style name="CalenderViewCustom" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColorPrimary">@color/CalendarDate_color</item>
         <item name="colorAccent">@color/CalendarHighLight_color</item>
         <item name="colorPrimary">@color/CalendarHighLight_color</item>
     </style>
