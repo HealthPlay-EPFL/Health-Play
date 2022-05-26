@@ -91,7 +91,7 @@ public class PlanthuntLobbyActivityTest {
         assertEquals(lobby.getPlayerScore1(), 0);
         assertEquals(lobby.getPlayerScore2(), 0);
         assertEquals(lobby.getPlayerScore3(), 0);
-        assertEquals(lobby.getPlayerUid1(), "host");
+        assertEquals(lobby.getPlayerUid1(), PlanthuntCreateJoinLobbyActivity.HOST);
         assertEquals(lobby.getPlayerUid2(), "");
         assertEquals(lobby.getPlayerUid3(), "");
     }
