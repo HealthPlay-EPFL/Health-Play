@@ -1,6 +1,7 @@
 package ch.epfl.sdp.healthplay.planthunt;
 
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -45,6 +46,7 @@ public class PlanthuntCreateLobbyActivityTest {
         textUsername.perform(ViewActions.typeText(USERNAME));
         Espresso.closeSoftKeyboard();
         Espresso.onView(withId(R.id.planthuntCreateLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+                scrollTo(),
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
@@ -86,7 +88,6 @@ public class PlanthuntCreateLobbyActivityTest {
 
     @Test
     public void backButtonCorrectlyGoesBack() {
-        PlanthuntCreateLobbyActivity temp = new PlanthuntCreateLobbyActivity();
-        temp.onBackPressed();
+        Espresso.pressBack();
     }
 }

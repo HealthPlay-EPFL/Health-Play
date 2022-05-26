@@ -18,6 +18,8 @@ import ch.epfl.sdp.healthplay.database.Database;
 
 public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
 
+    public static boolean isTested = false;
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntMainActivity.class);
@@ -59,6 +61,11 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                             db.getLobbyPlayerCount(lobbyName, Database.MAX_NBR_PLAYERS, task3 -> {
                                 if (!task3.isSuccessful()) {
                                     Log.e("ERROR", "Lobby does not exist!");
+                                }
+                                if (isTested){
+                                    handleJoinLobby(2, lobbyName, username);
+                                    handleJoinLobby(1, lobbyName, username);
+                                    handleJoinLobby(0, lobbyName, username);
                                 }
                                 if (Math.toIntExact((long) task2.getResult().getValue()) < Math.toIntExact((long) task3.getResult().getValue())){
                                     int temp = db.addUserToLobby(lobbyName, username);

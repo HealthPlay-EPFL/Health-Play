@@ -85,7 +85,7 @@ public class PlanthuntLobbyActivityTest {
     public void gettersCorrectlyWork() {
         Lobby lobby = new Lobby("name", "password", "host", 300, 1, 0);
         assertEquals(lobby.getMaxNbrPlayers(), 1);
-        assertEquals(lobby.getNbrPlayers(), 0);
+        assertEquals(lobby.getNbrPlayers(), 1);
         assertEquals(lobby.getPlayersReady(), 0);
         assertEquals(lobby.getPlayersGone(), 0);
         assertEquals(lobby.getPlayerScore1(), 0);
@@ -98,8 +98,7 @@ public class PlanthuntLobbyActivityTest {
 
     @Test
     public void backButtonCorrectlyGoesBack() {
-        PlanthuntLobbyActivity temp = new PlanthuntLobbyActivity();
-        temp.onBackPressed();
+        Espresso.pressBack();
     }
 
 

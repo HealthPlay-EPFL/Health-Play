@@ -101,16 +101,7 @@ public class PlanthuntJoinLobbyActivityTest {
     }
 
     @Test
-    public void handleJoinCorrectlyWorks() {
-        PlanthuntJoinLobbyActivity temp = new PlanthuntJoinLobbyActivity();
-        temp.handleJoinLobby(2, "lobby", "player");
-        temp.handleJoinLobby(1, "lobby", "player");
-        temp.handleJoinLobby(0, "lobby", "player");
-    }
-
-    @Test
     public void backButtonCorrectlyGoesBack() {
-        PlanthuntJoinLobbyActivity temp = new PlanthuntJoinLobbyActivity();
-        temp.onBackPressed();
+        Espresso.pressBack();
     }
 }
