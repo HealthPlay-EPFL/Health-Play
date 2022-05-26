@@ -81,7 +81,6 @@ public class MonthlyLeaderBoardFragmentTest {
         onView(withId(R.id.profile_picture5)).check(matches(isDisplayed()));
         onView(withId(R.id.todayButton)).check(matches(isDisplayed()));
         onView(withId(R.id.monthBackButton)).check(matches(isDisplayed()));
-
     }
     @Test
     public void viewMyProfileButtonTest(){
