@@ -79,9 +79,6 @@
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
                 android:fontFamily="@font/alata"
-                android:drawableEnd="@drawable/check_icon"
-                android:drawableTint="@color/white"
-                android:paddingEnd="40dp"
                 android:text=""
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
@@ -98,9 +95,6 @@
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
                 android:fontFamily="@font/alata"
-                android:drawableEnd="@drawable/check_icon"
-                android:drawableTint="@color/white"
-                android:paddingEnd="40dp"
                 android:text=""
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
@@ -116,9 +110,6 @@
                 android:layout_height="wrap_content"
                 android:background="@color/planthuntLightGreen"
                 android:fontFamily="@font/alata"
-                android:drawableEnd="@drawable/check_icon"
-                android:drawableTint="@color/white"
-                android:paddingEnd="40dp"
                 android:text=""
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
@@ -127,6 +118,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp" />
+
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -146,6 +138,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/createInvitation"
+            android:backgroundTint="@color/planthuntLightGreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@drawable/add_icon" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

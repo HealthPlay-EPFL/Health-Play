@@ -7,8 +7,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 
+import android.content.Intent;
 import android.view.View;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -17,7 +19,10 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -33,6 +38,11 @@ public class PlanthuntJoinLobbyActivityTest {
 
     @Rule
     public ActivityScenarioRule<PlanthuntJoinLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntJoinLobbyActivity.class);
+
+    @Before
+    public void init(){
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+    }
 
     @Test
     public void lobbyIsCorrectlyJoined() {
@@ -96,5 +106,10 @@ public class PlanthuntJoinLobbyActivityTest {
                 }
         );
         Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void backButtonCorrectlyGoesBack() {
+        Espresso.pressBack();
     }
 }

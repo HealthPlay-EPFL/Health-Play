@@ -4,29 +4,60 @@ import static java.lang.Math.round;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ListAdapter;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.chat.ChatActivity;
 import ch.epfl.sdp.healthplay.database.Database;
+import ch.epfl.sdp.healthplay.database.Friend;
+import ch.epfl.sdp.healthplay.friendlist.ListAdapterFriend;
 
 public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
+    //Initialize database reference
+    Database db = new Database();
+    String lobbyName, hostStatus;
+    boolean isReady = false;
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(PlanthuntWaitLobbyActivity.this, PlanthuntMainActivity.class);
+        if (hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
+            db.deleteLobby(lobbyName);
+        }
+        else{
+            db.addLobbyGonePlayer(lobbyName);
+        }
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +67,10 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
         final ImageView waitView = findViewById(R.id.planthuntWaitGif);
         Glide.with(this).load(R.drawable.loading_planthunt).into(waitView);
 
-        //Initialize database reference
-        Database db = new Database();
-
         Intent intent = getIntent();
-        String lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
+        lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
         String currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
-        String hostStatus = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE);
+        hostStatus = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE);
 
         final TextView lobbyNameText = findViewById(R.id.planthuntWaitName);
         lobbyNameText.setText(lobbyName);
@@ -59,12 +87,12 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         db.getAllLobbyPlayerUids(lobbyName, task -> {
-                            if (!task.isSuccessful()) {
-
+                            if (!task.isSuccessful() || task.getResult().getValue() == null) {
                                 Log.e("ERROR", "An error happened");
+                                return;
                             }
                             String name = Objects.requireNonNull(task.getResult().getValue()).toString();
-                            if (!usernames.contains(name)){
+                            if (!usernames.contains(name) && name.length() > 0){
                                 usernames.add(name);
                                 if (usernames.size() == 1){
                                     username1Text.setText(usernames.get(0));
@@ -91,8 +119,10 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
         readyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.setLobbyPlayerReady(lobbyName, currentUsername);
-                db.addLobbyReadyPlayer(lobbyName);
+                if (!isReady){
+                    db.addLobbyReadyPlayer(lobbyName);
+                    isReady = true;
+                }
             }
         });
 
@@ -103,17 +133,15 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         db.getLobbyPlayerCount(lobbyName, Database.MAX_NBR_PLAYERS, task -> {
-                            if (!task.isSuccessful()) {
-
-                                Log.e("ERROR", "An error happened");
+                            if (!task.isSuccessful() || snapshot.getValue() == null) {
+                                Log.e("ERROR", "Error getting lobby player count");
+                                return;
                             }
                             String name = task.getResult().getValue().toString();
-                            if (Math.toIntExact((long) snapshot.getValue()) == Math.toIntExact((long) task.getResult().getValue())){
-                                Intent intent = new Intent(PlanthuntWaitLobbyActivity.this, PlanthuntLobbyActivity.class);
-                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
-                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
-                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
-                                startActivity(intent);
+                            if (snapshot.getValue() != null){
+                                if (Math.toIntExact((long) snapshot.getValue()) == Math.toIntExact((long) task.getResult().getValue())){
+                                    launchLobby(lobbyName, currentUsername, hostStatus);
+                                }
                             }
                         });
                     }
@@ -124,5 +152,73 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                 }
         );
 
+        FloatingActionButton invitationButton = findViewById(R.id.createInvitation);
+        //Only the host can invite people to the lobby
+        if(!hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
+            invitationButton.setVisibility(View.INVISIBLE);
+        }
+        //Handle the click on the "+" button
+        invitationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                Context context = PlanthuntWaitLobbyActivity.this;
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(context.getString(R.string.choose_a_friend_to_invite_en));
+
+                db.readField(
+                        mAuth.getCurrentUser().getUid(), "friends",
+
+                new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e("ERROR", "EREREREROOORORO");
+                        } else {
+                            List<String> friendUsername = new ArrayList<>();
+                            List<String> friendId = new ArrayList<>();
+                            Map<String, String> friends =
+                                    (Map<String, String>) task.getResult().getValue();
+                            if (friends != null) {
+                                for (String friend : friends.keySet()) {
+                                    friendUsername.add(friends.get(friend));
+                                    friendId.add(friend);
+                                }
+                                ArrayAdapter<String> adapterFriend = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1 , friendUsername);
+
+                                builder.setAdapter(adapterFriend, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Log.e("RECEIVER", friendId.get(which) + " " + friendId.size() );
+                                        db.sendInvitation(lobbyName, FirebaseAuth.getInstance().getCurrentUser().getUid(), friendId.get(which));
+                                        Snackbar mySnackbar = Snackbar.make(findViewById(android.R.id.content).getRootView(), "Invitation sent to " + friendUsername.get(which), Snackbar.LENGTH_SHORT);
+                                        mySnackbar.show();
+                                    }
+                                });
+                            }
+                        }
+                        builder.create().show();
+                    }
+                });
+
+                //Handle the click on the Cancel button
+                builder.setNegativeButton(context.getString(R.string.cancel_en), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //close the AlertDialog
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+    }
+
+    public void launchLobby(String lobbyName, String currentUsername, String hostStatus){
+        Intent intent = new Intent(PlanthuntWaitLobbyActivity.this, PlanthuntLobbyActivity.class);
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
+        startActivity(intent);
     }
 }

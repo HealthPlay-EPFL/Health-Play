@@ -1,5 +1,6 @@
 package ch.epfl.sdp.healthplay.planthunt;
 
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -53,6 +54,7 @@ public class PlanthuntResultActivityTest {
 
         try (ActivityScenario<PlanthuntResultActivity> scenario = ActivityScenario.launch(intent)) {
             Espresso.onView(withId(R.id.planthuntResultButton)).check(matches(allOf(isEnabled(), isClickable()))).perform(
+                    scrollTo(),
                     new ViewAction() {
                         @Override
                         public Matcher<View> getConstraints() {

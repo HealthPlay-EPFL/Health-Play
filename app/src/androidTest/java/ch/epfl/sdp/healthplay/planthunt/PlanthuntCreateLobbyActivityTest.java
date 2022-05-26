@@ -1,5 +1,7 @@
 package ch.epfl.sdp.healthplay.planthunt;
 
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -22,7 +24,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import ch.epfl.sdp.healthplay.R;
-import ch.epfl.sdp.healthplay.planthunt.PlanthuntCreateLobbyActivity;
 
 public class PlanthuntCreateLobbyActivityTest {
     private static final String NAME = "test";
@@ -44,7 +45,8 @@ public class PlanthuntCreateLobbyActivityTest {
         ViewInteraction textUsername = Espresso.onView(withId(R.id.planthuntCreateLobbyUsername));
         textUsername.perform(ViewActions.typeText(USERNAME));
         Espresso.closeSoftKeyboard();
-        Espresso.onView(withId(R.id.planthuntWaitButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+        Espresso.onView(withId(R.id.planthuntCreateLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+                scrollTo(),
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
@@ -63,6 +65,29 @@ public class PlanthuntCreateLobbyActivityTest {
                 }
         );
 
-        Espresso.onView(withId(R.id.planthuntWaitButton)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.planthuntCreateLobbyButton)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkBox1CorrectlyAppears() {
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox1)).perform(click());
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox1)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkBox2CorrectlyAppears() {
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox2)).perform(click());
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox2)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkBox3CorrectlyAppears() {
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox3)).perform(click());
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox3)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void backButtonCorrectlyGoesBack() {
+        Espresso.pressBack();
     }
 }

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,14 +49,28 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
     private final Database db = new Database();
     private String lobbyName, currentUsername, hostStatus;
     private static int remainingTime = 300;
+    private AlertDialog alert;
 
     private File photoFile;
     private static final String STORAGE_URL = "gs://health-play-9e161.appspot.com";
     public static StorageReference storage;
     private FirebaseUser user;
-    public static final String URL = "URL";
     public static final String NAME = "NAME";
+    public static final String POINTS = "POINTS";
     public static boolean isTested = false;
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntMainActivity.class);
+        if (hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
+            db.deleteLobby(lobbyName);
+            remainingTime = 0;
+        }
+        else{
+            db.addLobbyGonePlayer(lobbyName);
+        }
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +102,13 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isTested){
+                    showLoadingAlert();
+                    Intent intentTest = new Intent(PlanthuntLobbyActivity.this, PlanthuntNewPlantActivity.class);
+                    intentTest.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+                    intentTest.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
+                    analysisThread("https://www.jardiner-malin.fr/wp-content/uploads/2022/01/orchidee.jpg", intentTest, null);
+                }
                 startCameraIntent();
             }
         });
@@ -99,19 +122,22 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        int time = Math.toIntExact((long) snapshot.getValue());
-                        String first = round(time / 60) < 10
-                                ? "0" + round(time / 60)
-                                : Integer.toString((round(time / 60)));
-                        String second = time % 60 < 10
-                                ? "0" + time % 60
-                                : Integer.toString(time % 60);
-                        lobbyTimeText.setText(first + ":" + second);
-                        lobbyTimeBar.setProgress(time);
-                        if (time == 0){
-                            Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntResultActivity.class);
-                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
-                            startActivity(intent);
+                        if (snapshot.getValue() != null){
+                            int time = Math.toIntExact((long) snapshot.getValue());
+                            String first = round(time / 60) < 10
+                                    ? "0" + round(time / 60)
+                                    : Integer.toString((round(time / 60)));
+                            String second = time % 60 < 10
+                                    ? "0" + time % 60
+                                    : Integer.toString(time % 60);
+                            lobbyTimeText.setText(first + ":" + second);
+                            lobbyTimeBar.setProgress(time);
+                            if (time == 0){
+                                Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntResultActivity.class);
+                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+                                intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
+                                startActivity(intent);
+                            }
                         }
                     }
                     @Override
@@ -141,6 +167,23 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        Button leaveButton = findViewById(R.id.planthuntLobbyLeave);
+
+        //Leave lobby when clicking on Leave button
+        leaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PlanthuntLobbyActivity.this, PlanthuntMainActivity.class);
+                if (hostStatus.equals(PlanthuntCreateJoinLobbyActivity.HOST)){
+                    db.deleteLobby(lobbyName);
+                }
+                else{
+                    db.addLobbyGonePlayer(lobbyName);
+                }
+                startActivity(intent);
+            }
+        });
     }
 
     private void startTimer(){
@@ -148,7 +191,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < remainingTime + 1; i++) {
+                while (remainingTime > 0) {
                     try {
                         Thread.sleep(1000);
                         db.updateLobbyTime(lobbyName, remainingTime);
@@ -188,6 +231,8 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        showLoadingAlert();
+
         //Check request comes from camera
         if (requestCode == CameraApi.REQUEST_IMAGE_CAPTURE){
             //Convert image to byte array then to jpeg
@@ -207,45 +252,79 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                     new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            //Creates a new Thread to receive Url response asynchronously
-                            Thread thread = new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try  {
-                                        //Returns built URL with given image link
-                                        String urlString = PlantnetApi.buildUrl(PlantnetApi.API_KEY, urlImage, "flower");
-
-                                        //Gets JSON object from built URL
-                                        JSONObject json = PlantnetApi.readJsonFromUrl(urlString);
-
-                                        //Extracts plant name from received JSON
-                                        String commonName = json.getJSONArray("results")
-                                                .getJSONObject(0)
-                                                .getJSONObject("species")
-                                                .getJSONArray("commonNames")
-                                                .get(0)
-                                                .toString();
-
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                intent.putExtra(NAME, commonName);
-                                                storage.child("Planthunt").child(user.getUid()).child(photoFile.getName()).delete();
-                                                storage.child("Planthunt").child(user.getUid()).child(commonName + "_" + photoFile.getName()).putBytes(outputStream.toByteArray());
-                                                intent.putExtra(URL, CameraApi.getNewImageUrl(user, photoFile.getName(), commonName));
-                                                startActivity(intent);
-                                            }
-                                        });
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                            thread.start();
+                            analysisThread(urlImage, intent, outputStream);
                         }
                     }
             );
         }
+    }
+
+    private void showLoadingAlert(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Analyzing capture...");//TODO translate Antoine
+        alert = builder.create();
+        alert.show();
+    }
+
+    private void analysisThread(String urlImage, Intent intent, ByteArrayOutputStream outputStream){
+        //Creates a new Thread to receive Url response asynchronously
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try  {
+                    //Returns built URL with given image link
+                    String urlString = PlantnetApi.buildUrl(PlantnetApi.API_KEY, urlImage, "flower");
+
+                    //Gets JSON object from built URL
+                    JSONObject json = PlantnetApi.readJsonFromUrl(urlString);
+
+                    //Return if plant probability is too low
+                    if (Double.parseDouble(json.getJSONArray("results").getJSONObject(0).get("score").toString()) < .2){
+                        alert.dismiss();
+                        Snackbar.make(findViewById(R.id.planthuntLobbyLayout), "No plant was found", Snackbar.LENGTH_LONG).show();
+                        storage.child("Planthunt").child(user.getUid()).child(photoFile.getName()).delete();
+                        return;
+                    }
+
+                    //Gets how common the plant is
+                    int popularity = 0;
+                    for (int i = 0; i < json.getJSONArray("results").length(); i++){
+                        if (Double.parseDouble(json.getJSONArray("results").getJSONObject(i).get("score").toString()) > .05){
+                            popularity++;
+                        }
+                    }
+
+                    //Extracts plant name from received JSON
+                    String commonName = json.getJSONArray("results")
+                            .getJSONObject(0)
+                            .getJSONObject("species")
+                            .getJSONArray("commonNames")
+                            .get(0)
+                            .toString();
+
+                    int finalPopularity = popularity;
+                    System.out.println(popularity);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            System.out.println("lobby");
+                            intent.putExtra(POINTS, 100 - 10 * finalPopularity);
+                            intent.putExtra(NAME, commonName);
+                            intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
+                            storage.child("Planthunt").child(user.getUid()).child(photoFile.getName()).delete();
+                            if (!isTested){
+                                storage.child("Planthunt").child(user.getUid()).child(commonName + "_" + photoFile.getName()).putBytes(outputStream.toByteArray());
+                            }
+                            alert.dismiss();
+                            startActivity(intent);
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
     }
 }

@@ -20,27 +20,12 @@ import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link QrCodeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class QrCodeFragment extends Fragment {
 
     public QrCodeFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment QrCodeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static QrCodeFragment newInstance() {
-        QrCodeFragment fragment = new QrCodeFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -57,7 +42,7 @@ public class QrCodeFragment extends Fragment {
         Button goBackButton = view.findViewById(R.id.backToProfileButton);
 
         // initializing onclick listener for button.
-        Bitmap myBitmap = QRCode.from(FirebaseAuth.getInstance().getCurrentUser().getUid()).bitmap();
+        Bitmap myBitmap = WelcomeScreenActivity.cache.getQrCode();
         qrCode.setImageBitmap(myBitmap);
 
         goBackButton.setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new ProfileFragment()));

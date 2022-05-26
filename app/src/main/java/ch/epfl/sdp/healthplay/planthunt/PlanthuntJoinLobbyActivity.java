@@ -9,12 +9,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.Objects;
 
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 
 public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
+
+    public static boolean isTested = false;
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntMainActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +53,7 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         Log.e("ERROR", "Lobby does not exist!");
                     }
-                    if (Objects.requireNonNull(task.getResult().getValue()).toString().equals(password)){
+                    if (Objects.requireNonNull(task.getResult().getValue()).toString().equals(password)) {
                         db.getLobbyPlayerCount(lobbyName, Database.NBR_PLAYERS, task2 -> {
                             if (!task2.isSuccessful()) {
                                 Log.e("ERROR", "Lobby does not exist!");
@@ -52,18 +62,17 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                                 if (!task3.isSuccessful()) {
                                     Log.e("ERROR", "Lobby does not exist!");
                                 }
+                                if (isTested){
+                                    handleJoinLobby(2, lobbyName, username);
+                                    handleJoinLobby(1, lobbyName, username);
+                                    handleJoinLobby(0, lobbyName, username);
+                                }
                                 if (Math.toIntExact((long) task2.getResult().getValue()) < Math.toIntExact((long) task3.getResult().getValue())){
-                                    db.addUserToLobby(lobbyName, username);
+                                    int temp = db.addUserToLobby(lobbyName, username);
+                                    handleJoinLobby(temp, lobbyName, username);
 
-                                    //Launch lobby waiting screen
-                                    Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
-                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
-                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
-                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.PLAYER);
-                                    startActivity(intent);
                                 }
                                 else{
-                                    //TODO actual pop ups
                                     Log.e("ERROR", "Lobby is full!");
                                 }
                             });
@@ -77,4 +86,23 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
     private String getString(EditText text){
         return text.getText().toString();
     }
+
+    protected void handleJoinLobby(int temp, String lobbyName, String username){
+        if (temp == 0){
+            //Launch lobby waiting screen
+            Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
+            intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+            intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
+            intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.PLAYER);
+            startActivity(intent);
+        }
+        else if (temp == 1){
+            Snackbar.make(findViewById(R.id.planthuntJoinLobbyLayout), "Lobby does not exist", Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            Snackbar.make(findViewById(R.id.planthuntJoinLobbyLayout), "Lobby is full", Snackbar.LENGTH_LONG).show();
+        }
+    }
+
 }
+

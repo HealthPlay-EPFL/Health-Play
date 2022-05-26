@@ -21,7 +21,18 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
 
     ImageView plantView;
     TextView textView;
+    String lobbyName;
     boolean isLoaded = false;
+
+    //Initialize database reference
+    Database db = new Database();
+
+    @Override
+    public void onBackPressed() {
+        db.addLobbyGonePlayer(lobbyName);
+        Intent intent = new Intent(PlanthuntNewPlantActivity.this, PlanthuntMainActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,26 +40,24 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_planthunt_new_plant);
 
         Intent intent = getIntent();
-        String lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
+        lobbyName = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME);
         String currentUsername = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.USERNAME);
+        String hostStatus = intent.getStringExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE);
+        int points = intent.getIntExtra(PlanthuntLobbyActivity.POINTS, 0);
 
         //Initialize database reference
         Database db = new Database();
         db.getLobbyPlayerScore(lobbyName, currentUsername, task -> {
             if (!task.isSuccessful()) {
-
-                Log.e("ERROR", "An error happened");
+                Log.e("ERROR", "Error getting the player's score");
             }
-            db.updateLobbyPlayerScore(lobbyName, currentUsername, Math.toIntExact((long) Objects.requireNonNull(task.getResult().getValue())) + 50);
+            db.updateLobbyPlayerScore(lobbyName, currentUsername, Math.toIntExact((long) Objects.requireNonNull(task.getResult().getValue())) + points);
         });
 
-        String imageUrl = intent.getStringExtra(PlanthuntLobbyActivity.URL);
-        System.out.println(imageUrl);
+        String plantName = "You found a " + intent.getStringExtra(PlanthuntLobbyActivity.NAME) + "!";
 
-        //Glide.with(PlanthuntNewPlantActivity.this).load(imageUrl).into(plantView);
-
-        plantView = findViewById(R.id.planthuntPlantImage);
         textView = findViewById(R.id.planthuntPlantName);
+        textView.setText(plantName);
 
         final Button plantButton = findViewById(R.id.planthuntPlantButton);
         plantButton.setOnClickListener(
@@ -58,32 +67,10 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
                         Intent intent = new Intent(PlanthuntNewPlantActivity.this, PlanthuntLobbyActivity.class);
                         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
                         intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
+                        intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
                         startActivity(intent);
                     }
                 }
         );
-
-        //isLoaded.add
-
-        loadImageAndName();
-    }
-
-    private void loadImageAndName(){
-        //Creates a new Thread to update timer asynchronously
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 100; i++) {
-                    try {
-                        Thread.sleep(100);
-
-                        textView.setText("You found a " + getIntent().getStringExtra(PlanthuntLobbyActivity.NAME) + "!");
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        thread.start();
     }
 }
