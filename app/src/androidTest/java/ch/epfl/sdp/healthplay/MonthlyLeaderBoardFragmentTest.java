@@ -50,7 +50,7 @@ public class MonthlyLeaderBoardFragmentTest {
     public void init(){
         FirebaseAuth.getInstance().signInWithEmailAndPassword("a.b@admin.ch", "123456");
         WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
-        new Database().addHealthPoint(FirebaseAuth.getInstance().getCurrentUser().getUid(), 10);
+        new Database().addHealthPoint(FirebaseAuth.getInstance().getCurrentUser().getUid(), 1000);
         activity = ActivityScenario.launch(HomeScreenActivity.class);
         activity.onActivity(new ActivityScenario.ActivityAction() {
             @Override
