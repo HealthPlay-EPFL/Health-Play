@@ -49,7 +49,7 @@ import ch.epfl.sdp.healthplay.database.Friend;
 public class PlanthuntWaitLobbyActivityTest {
     String test = "test", username = "a";
 
-    @Before
+    /*@Before
     public void before() throws InterruptedException {
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntWaitLobbyActivity.class);
@@ -71,7 +71,7 @@ public class PlanthuntWaitLobbyActivityTest {
         try (ActivityScenario<PlanthuntWaitLobbyActivity> scenario = ActivityScenario.launch(intent)) {
             onView(withId(R.id.planthuntWaitButton)).check(matches(isDisplayed()));
         }
-    }
+    }*/
 
     @Test
     public void inviteFriendToLobbyTest() {

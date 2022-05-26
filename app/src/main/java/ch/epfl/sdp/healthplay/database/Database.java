@@ -43,6 +43,7 @@ public final class Database {
     public static final String NAME = "name";
     public static final String SURNAME = "surname";
     public static final String BIRTHDAY = "birthday";
+    public static final String IMAGE = "image";
 
     //Lobby related constants
     public static final String NBR_PLAYERS = "nbrPlayers";

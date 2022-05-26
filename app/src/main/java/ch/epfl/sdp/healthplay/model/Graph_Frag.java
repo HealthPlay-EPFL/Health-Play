@@ -257,15 +257,9 @@ public class Graph_Frag extends Fragment {
      * @param ID userID of the user
      */
     private void initGraph(String ID){
-        new Database().getStats(ID, (task -> {
-            if (!task.isSuccessful()) {
-                Log.e("firebase", "Error getting data", task.getException());
-            } else {
-                Map<String, Map<String, Number>> map = (Map<String, Map<String, Number>>) task.getResult().getValue();
-                initData(map);
-                initBarChart(view);
-            }
-        }));
+        Map<String, Map<String, Number>> map = WelcomeScreenActivity.cache.getDataMap();
+        initData(map);
+        initBarChart(view);
     }
 
     private void initLabel() {
