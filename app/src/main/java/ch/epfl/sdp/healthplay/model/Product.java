@@ -4,10 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
 import java.util.StringJoiner;
 
@@ -300,6 +296,7 @@ public final class Product {
 
         /**
          * Get the integer score of the nutriscore
+         *
          * @return the integer score
          */
         public int getScore() {

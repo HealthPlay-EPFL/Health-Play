@@ -2,8 +2,6 @@ package ch.epfl.sdp.healthplay;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,18 +19,12 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.Locale;
-import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.model.Product;
-import ch.epfl.sdp.healthplay.model.ProductInfoClient;
-import ch.epfl.sdp.healthplay.scan.ProductManager;
 //import static ch.epfl.sdp.healthplay.database.Database.INSTANCE;
 
 public class BarcodeInformationActivity extends AppCompatActivity {

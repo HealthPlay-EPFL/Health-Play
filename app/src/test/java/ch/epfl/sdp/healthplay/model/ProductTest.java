@@ -168,7 +168,7 @@ public class ProductTest {
         assertTrue(optionalProduct.isPresent());
         Product p = optionalProduct.get();
         //"energy-kcal"
-        for (Product.Nutriments nutriment: Product.Nutriments.values()) {
+        for (Product.Nutriments nutriment : Product.Nutriments.values()) {
             assertEquals(Product.UNKNOWN_VALUE, p.getNutriment100Grams(nutriment), 0.1);
         }
     }
