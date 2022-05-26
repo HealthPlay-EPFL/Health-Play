@@ -60,7 +60,6 @@ public class AddFriendFragmentTest {
 
     @Test
     public void backToFriendListTest(){
-
         Espresso.onView(withId(R.id.backButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
@@ -80,15 +79,11 @@ public class AddFriendFragmentTest {
                 }
         );
         onView(withId(R.id.addFriendBouton)).check(matches(isDisplayed()));
-
-
     }
 
     @Test
     public void listViewIsCorrectlyDisplayed(){
-
         onView(withId(R.id.allUserList)).check(matches(isDisplayed()));
-
     }
 
     @Test
@@ -136,12 +131,17 @@ public class AddFriendFragmentTest {
                 }
         );
         Database database = new Database();
-        Map<String, Boolean> map = database.getFriendList();
+        Map<String, String> map = database.getFriendList();
         TimeUnit.SECONDS.sleep(1);
         assertTrue(map.containsKey("123"));
     }
 
-
+    @Test
+    public void showProfile(){
+        onView(withId(R.id.friendSearch)).perform(ViewActions.typeText("Tetard"));
+        onData(anything()).inAdapterView(withId(R.id.allUserList)).atPosition(0).perform(click());
+        onView(withId(R.id.profile_picture)).check(matches(isDisplayed()));
+    }
 
 
 }

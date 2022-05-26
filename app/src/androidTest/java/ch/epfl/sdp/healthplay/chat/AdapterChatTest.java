@@ -9,6 +9,7 @@ import android.app.Activity;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -33,7 +34,7 @@ public class AdapterChatTest {
     @Before
     public void before() throws InterruptedException{
         FirebaseAuth.getInstance().signOut();
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
         WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         onView(withId(R.id.FriendList_button)).perform(click());

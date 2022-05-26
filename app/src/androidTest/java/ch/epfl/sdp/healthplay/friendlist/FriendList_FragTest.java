@@ -59,7 +59,7 @@ public class FriendList_FragTest {
         Espresso.onView(ViewMatchers.withId(R.id.FriendList_button)).perform(ViewActions.click());
         Database database = new Database();
         database.addToFriendList("123");
-        Map<String, Boolean> map = database.getFriendList();
+        Map<String, String> map = database.getFriendList();
         List<String> friends = new ArrayList<>();
         TimeUnit.SECONDS.sleep(1);
         numberOfFriends = map.keySet().size();
@@ -137,7 +137,6 @@ public class FriendList_FragTest {
 
     /*@Test
     public void listViewDisplayAllFriends() throws InterruptedException {
-
         onView(withId(R.id.friendList)).check(matches(new TypeSafeMatcher<View>() {
 
             @Override
@@ -153,10 +152,12 @@ public class FriendList_FragTest {
             }
 
         }));
-
-
-
     }*/
 
+    @Test
+    public void showProfile(){
+        onData(anything()).inAdapterView(withId(R.id.friendList)).atPosition(1).perform(click());
+        onView(withId(R.id.profile_picture)).check(matches(isDisplayed()));
+    }
 
 }

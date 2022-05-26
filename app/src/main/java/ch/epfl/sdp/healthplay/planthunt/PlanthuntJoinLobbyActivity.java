@@ -53,7 +53,7 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         Log.e("ERROR", "Lobby does not exist!");
                     }
-                    if (Objects.requireNonNull(task.getResult().getValue()).toString().equals(password)){
+                    if (Objects.requireNonNull(task.getResult().getValue()).toString().equals(password)) {
                         db.getLobbyPlayerCount(lobbyName, Database.NBR_PLAYERS, task2 -> {
                             if (!task2.isSuccessful()) {
                                 Log.e("ERROR", "Lobby does not exist!");
