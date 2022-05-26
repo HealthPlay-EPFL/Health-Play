@@ -97,5 +97,5 @@ public class PlanthuntJoinLobbyActivityTest {
         );
         Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(isDisplayed()));
     }
-    
+
 }

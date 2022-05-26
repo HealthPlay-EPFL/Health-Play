@@ -348,7 +348,7 @@
                 android:backgroundTint="#1973ff"
                 android:text="Back"
                 android:textColor="@color/white"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="1dp"
                 android:layout_gravity="center_horizontal"
                 >
             </androidx.appcompat.widget.AppCompatButton>
