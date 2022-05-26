@@ -65,23 +65,22 @@ public class ParseDataGraph {
             Date date = null;
             try {
                 date = format.parse(dateFormat);
+                Map<String, Number> data = dataMap.get(dateFormat);
+                float calories = 0;
+                float health = 0;
+                List<Float> dataParse = new ArrayList<>();
+                Number calorie = data.get(calorieCounter);
+                Number healthP = data.get(healthS);
+                if(calorie!=null)
+                    calories += calorie.floatValue();
+                if(healthP != null)
+                    health += healthP.floatValue();
+                dataParse.add(calories);
+                dataParse.add(health);
+                mapData.put(date, dataParse);
             } catch (ParseException e) {
-                e.printStackTrace();
-                return new HashMap<>();
+
             }
-            Map<String, Number> data = dataMap.get(dateFormat);
-            float calories = 0;
-            float health = 0;
-            List<Float> dataParse = new ArrayList<>();
-            Number calorie = data.get(calorieCounter);
-            Number healthP = data.get(healthS);
-            if(calorie!=null)
-                calories += calorie.floatValue();
-            if(healthP != null)
-                health += healthP.floatValue();
-            dataParse.add(calories);
-            dataParse.add(health);
-            mapData.put(date, dataParse);
         }
         return mapData;
     }
