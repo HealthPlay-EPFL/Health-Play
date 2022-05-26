@@ -144,8 +144,8 @@ class MainActivity : AppCompatActivity(),
 
                         }
 
-                        friendsList.add(0, "Anonymous")
-                        friendsList.add(0, "YOU")
+                        friendsList.add(0, getString(R.string.anon))
+                        friendsList.add(0, getString(R.string.you))
                     }
 
                     if(!internetIsConnected()){
@@ -226,14 +226,14 @@ class MainActivity : AppCompatActivity(),
             if (cameraSource!!.gameState == 0) {
 
                 var text = getString(R.string.invalidPlayer)
-                var left = "Left player"
-                var right = "Right player"
+                var left = getString(R.string.left_player)
+                var right = getString(R.string.right_player)
                 if(internetIsConnected()) {
                     left = spinner.selectedItem.toString()
                     right = spinnerCopy.selectedItem.toString()
                 }
                 if (poseDetector.leftPerson.first != null
-                    && poseDetector.rightPerson.first != null && !(left == "Anonymous" && right == "Anonymous")
+                    && poseDetector.rightPerson.first != null && !(left == getString(R.string.anon) && right == getString(R.string.anon))
                 ) {
                     if ((check(left) and check(right)) or (!internetIsConnected())) {
                         cameraSource!!.gameState = cameraSource!!.UNRANKED_GAME
@@ -244,7 +244,7 @@ class MainActivity : AppCompatActivity(),
                         spinnerCopy.isVisible = false
                         facingSwitch.isVisible = false
                     }
-                    if ((left == "YOU" && !check(right)) or (right == "YOU" && !check(left))) {
+                    if ((left == getString(R.string.you) && !check(right)) or (right == getString(R.string.you) && !check(left))) {
                         cameraSource!!.gameState = cameraSource!!.RANKED_GAME
                         text = getString(R.string.gameStarted)
                         kneetagLaunchButton.text = "Fight!"
@@ -265,7 +265,7 @@ class MainActivity : AppCompatActivity(),
 
 
     fun check(string: String): Boolean {
-        return string == "Anonymous" || string == "YOU"
+        return string == getString(R.string.anon) || string == getString(R.string.you)
     }
 
 

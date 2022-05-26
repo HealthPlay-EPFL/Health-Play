@@ -37,8 +37,7 @@ import ch.epfl.sdp.healthplay.database.DataCache;
 
 @RunWith(AndroidJUnit4.class)
 public class SignedTest {
-    public static String emailString = "HP@admin.ch";
-    public static String password = "123456";
+
     @Before
     public void init() throws InterruptedException {
         FirebaseAuth.getInstance().signOut();
@@ -55,7 +54,7 @@ public class SignedTest {
     @Test
     public void authenticate() throws InterruptedException {
         onView(withText("Sign in with email")).perform(click());
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(emailString, password);
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(SignedInFragmentTest.emailString, SignedInFragmentTest.password);
         WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         onView(withHint("Email")).perform(typeText(SignedInFragmentTest.emailString), ViewActions.closeSoftKeyboard());
         onView(withText("Next")).perform(click());

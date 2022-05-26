@@ -378,4 +378,11 @@ Nimm deinen Kampf mit deinem Handy auf, um einen fairen Schiedsrichter zu haben 
     <string name="_0hp">0hp</string>
     <string name="zero">0</string>
     <string name="list_of_products_consumed">List of products consumed</string>
+    <string name="ranked">RANKED</string>
+    <string name="winnner_id">WINNER_ID</string>
+    <string name="looser_id">LOOSER_ID</string>
+    <string name="you">YOU</string>
+    <string name="anon">Anonymous</string>
+    <string name="left_player">Left player</string>
+    <string name="right_player">Right player</string>
 </resources>
