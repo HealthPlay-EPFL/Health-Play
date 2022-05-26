@@ -1,5 +1,6 @@
 package ch.epfl.sdp.healthplay.planthunt;
 
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -63,5 +64,23 @@ public class PlanthuntCreateLobbyActivityTest {
         );
 
         Espresso.onView(withId(R.id.planthuntCreateLobbyButton)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkBox1CorrectlyAppears() {
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox1)).perform(click());
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox1)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkBox2CorrectlyAppears() {
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox2)).perform(click());
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox2)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkBox3CorrectlyAppears() {
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox3)).perform(click());
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox3)).check(matches(isDisplayed()));
     }
 }

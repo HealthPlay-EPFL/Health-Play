@@ -7,8 +7,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 
+import android.content.Intent;
 import android.view.View;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -96,5 +98,13 @@ public class PlanthuntJoinLobbyActivityTest {
                 }
         );
         Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void handleJoinCorrectlyWorks() {
+        PlanthuntJoinLobbyActivity temp = new PlanthuntJoinLobbyActivity();
+        temp.handleJoinLobby(2, "lobby", "player");
+        temp.handleJoinLobby(1, "lobby", "player");
+        temp.handleJoinLobby(0, "lobby", "player");
     }
 }

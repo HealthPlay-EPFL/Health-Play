@@ -77,4 +77,28 @@ public class PlanthuntMainActivityTest {
         Espresso.onView(withId(R.id.plantCollectionList)).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void leaveButtonCorrectlyWorks() {
+        Espresso.onView(withId(R.id.planthuntMainLeave)).check(matches(allOf(isEnabled(), isClickable()))).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+
+        Espresso.onView(withId(R.id.bottomNavigationView)).check(matches(isDisplayed()));
+    }
+
 }

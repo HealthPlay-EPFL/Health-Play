@@ -62,21 +62,8 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                                 }
                                 if (Math.toIntExact((long) task2.getResult().getValue()) < Math.toIntExact((long) task3.getResult().getValue())){
                                     int temp = db.addUserToLobby(lobbyName, username);
+                                    handleJoinLobby(temp, lobbyName, username);
 
-                                    if (temp == 0){
-                                        //Launch lobby waiting screen
-                                        Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
-                                        intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
-                                        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
-                                        intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.PLAYER);
-                                        startActivity(intent);
-                                    }
-                                    else if (temp == 1){
-                                        Snackbar.make(findViewById(R.id.planthuntJoinLobbyLayout), "Lobby does not exist", Snackbar.LENGTH_LONG).show();
-                                    }
-                                    else{
-                                        Snackbar.make(findViewById(R.id.planthuntJoinLobbyLayout), "Lobby is full", Snackbar.LENGTH_LONG).show();
-                                    }
                                 }
                                 else{
                                     Log.e("ERROR", "Lobby is full!");
@@ -92,4 +79,23 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
     private String getString(EditText text){
         return text.getText().toString();
     }
+
+    protected void handleJoinLobby(int temp, String lobbyName, String username){
+        if (temp == 0){
+            //Launch lobby waiting screen
+            Intent intent = new Intent(PlanthuntJoinLobbyActivity.this, PlanthuntWaitLobbyActivity.class);
+            intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+            intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
+            intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.PLAYER);
+            startActivity(intent);
+        }
+        else if (temp == 1){
+            Snackbar.make(findViewById(R.id.planthuntJoinLobbyLayout), "Lobby does not exist", Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            Snackbar.make(findViewById(R.id.planthuntJoinLobbyLayout), "Lobby is full", Snackbar.LENGTH_LONG).show();
+        }
+    }
+
 }
+
