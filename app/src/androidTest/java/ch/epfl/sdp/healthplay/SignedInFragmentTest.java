@@ -71,7 +71,6 @@ public class SignedInFragmentTest {
         onView(withId(R.id.french)).check(matches(isDisplayed()));
         onView(withId(R.id.italian)).check(matches(isDisplayed()));
         onView(withId(R.id.german)).check(matches(isDisplayed()));
-        onView(withId(R.id.currentLanguage)).check(matches(withText("English")));
     }
 
     @Test
@@ -81,10 +80,8 @@ public class SignedInFragmentTest {
         onView(withId(R.id.french)).perform(click());
         onView(withId(R.id.switchFragButton)).check(matches(isDisplayed()));
         FragmentScenario restore = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppThemeFrench);
-        onView(withId(R.id.currentLanguage)).check(matches(withText("Français")));
         onView(withId(R.id.english)).perform(click());
         FragmentScenario restore2 = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppTheme);
-        onView(withId(R.id.currentLanguage)).check(matches(withText("English")));
     }
 
     @Test
@@ -94,11 +91,9 @@ public class SignedInFragmentTest {
         onView(withId(R.id.french)).perform(click());
         onView(withId(R.id.switchFragButton)).check(matches(isDisplayed()));
         FragmentScenario restore = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.darkThemeFrench);
-        onView(withId(R.id.currentLanguage)).check(matches(withText("Français")));
         onView(withId(R.id.english)).perform(click());
         FragmentScenario restore2 = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.darkTheme);
         onView(withId(R.id.light)).perform(click());
-        onView(withId(R.id.currentLanguage)).check(matches(withText("English")));
     }
 
     @Test
@@ -108,7 +103,6 @@ public class SignedInFragmentTest {
         onView(withId(R.id.french)).perform(click());
         onView(withId(R.id.switchFragButton)).check(matches(isDisplayed()));
         FragmentScenario restore = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppThemeFrench);
-        onView(withId(R.id.currentLanguage)).check(matches(withText("Français")));
         onView(withId(R.id.english)).perform(click());
     }
 
@@ -120,7 +114,6 @@ public class SignedInFragmentTest {
         onView(withId(R.id.switchFragButton)).check(matches(isDisplayed()));
         FragmentScenario restore = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.darkThemeFrench);
         onView(withId(R.id.light)).perform(click());
-        onView(withId(R.id.currentLanguage)).check(matches(withText("Français")));
         onView(withId(R.id.english)).perform(click());
     }
 
@@ -131,7 +124,6 @@ public class SignedInFragmentTest {
         onView(withId(R.id.italian)).perform(click());
         onView(withId(R.id.switchFragButton)).check(matches(isDisplayed()));
         FragmentScenario restore = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppThemeItalian);
-        onView(withId(R.id.currentLanguage)).check(matches(withText("Italiano")));
         onView(withId(R.id.english)).perform(click());
     }
 
@@ -143,7 +135,6 @@ public class SignedInFragmentTest {
         onView(withId(R.id.switchFragButton)).check(matches(isDisplayed()));
         FragmentScenario restore = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.darkThemeItalian);
         onView(withId(R.id.light)).perform(click());
-        onView(withId(R.id.currentLanguage)).check(matches(withText("Italiano")));
         onView(withId(R.id.english)).perform(click());
     }
 
@@ -154,7 +145,6 @@ public class SignedInFragmentTest {
         onView(withId(R.id.german)).perform(click());
         onView(withId(R.id.switchFragButton)).check(matches(isDisplayed()));
         FragmentScenario restore = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.AppThemeGerman);
-        onView(withId(R.id.currentLanguage)).check(matches(withText("Deutsch")));
         onView(withId(R.id.english)).perform(click());
     }
 
@@ -166,7 +156,6 @@ public class SignedInFragmentTest {
         onView(withId(R.id.switchFragButton)).check(matches(isDisplayed()));
         FragmentScenario restore = FragmentScenario.launchInContainer(SignedInFragment.class, new Bundle(), R.style.darkThemeGerman);
         onView(withId(R.id.light)).perform(click());
-        onView(withId(R.id.currentLanguage)).check(matches(withText("Deutsch")));
         onView(withId(R.id.english)).perform(click());
     }
 
