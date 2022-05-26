@@ -53,7 +53,7 @@ public class BarcodeScanFragment extends Fragment {
     protected final static CountingIdlingResource idlingResource =
             new CountingIdlingResource("LOOKUP_BARCODE");
 
-    private ImageCapture imageCapture;
+    protected ImageCapture imageCapture;
     private View view;
 
     public void createCamera(ProcessCameraProvider cameraProvider, Preview preview) {

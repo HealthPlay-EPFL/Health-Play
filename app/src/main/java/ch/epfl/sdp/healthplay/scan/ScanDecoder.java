@@ -95,7 +95,7 @@ public final class ScanDecoder {
                                                 TextView usernameText = view.findViewById(R.id.userNameScan);
                                                 usernameText.setText(username);
                                                 String pPicture = (String) user.get("image");
-                                                Glide.with(view).load(pPicture).into((ImageView) view.findViewById(R.id.profilePictureAddFriend));
+                                                Glide.with(context.getApplicationContext()).load(pPicture).into((ImageView) view.findViewById(R.id.profilePictureAddFriend));
 
                                                 view.findViewById(R.id.addFriendScanButton).setOnClickListener(onClick -> {
                                                     // Add the user to the friend list
