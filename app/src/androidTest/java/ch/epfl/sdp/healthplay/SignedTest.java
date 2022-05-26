@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay.auth;
+package ch.epfl.sdp.healthplay;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -16,6 +16,7 @@ import android.app.Activity;
 
 import androidx.navigation.Navigation;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -32,10 +33,12 @@ import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.database.DataCache;
 
 @RunWith(AndroidJUnit4.class)
-public class AuthUiActivityTest {
-
+public class SignedTest {
+    public static String emailString = "HP@admin.ch";
+    public static String password = "123456";
     @Before
     public void init() throws InterruptedException {
         FirebaseAuth.getInstance().signOut();
@@ -52,21 +55,22 @@ public class AuthUiActivityTest {
     @Test
     public void authenticate() throws InterruptedException {
         onView(withText("Sign in with email")).perform(click());
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(emailString, password);
+        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         onView(withHint("Email")).perform(typeText(SignedInFragmentTest.emailString), ViewActions.closeSoftKeyboard());
         onView(withText("Next")).perform(click());
         onView(withHint("New password")).perform(typeText(SignedInFragmentTest.password));
         /*onView(withHint("Password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
         onView(withText("SIGN IN")).perform(click());
         TimeUnit.SECONDS.sleep(1);*/
+
         onView(withText("Save")).perform(click());
         TimeUnit.SECONDS.sleep(1);
-        onView(withId(R.id.bottomNavigationView)).check(matches(isDisplayed()));
 
     }
 
     @After
     public void remove_account(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(SignedInFragmentTest.emailString, SignedInFragmentTest.password);
         ActivityScenario sc2 = ActivityScenario.launch(HomeScreenActivity.class);
         sc2.onActivity(new ActivityScenario.ActivityAction() {
             @Override
@@ -78,5 +82,6 @@ public class AuthUiActivityTest {
         onView(withId(R.id.delete_account)).perform(click());
         onView(withText("Yes, nuke it!")).perform(click());
     }
+
 
 }

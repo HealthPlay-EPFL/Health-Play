@@ -97,9 +97,11 @@ public class Frag_Home extends Fragment {
             }
         }
         );
-
-        userStats = WelcomeScreenActivity.cache.getDataMapCalendar();
-
+        try {
+            userStats = WelcomeScreenActivity.cache.getDataMapCalendar();
+        }catch (Exception e){
+            userStats=null;
+        }
         //Print a text when the date is changed
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @SuppressLint("SetTextI18n")
@@ -163,6 +165,14 @@ public class Frag_Home extends Fragment {
         TypedArray t = getActivity().obtainStyledAttributes(style[language_mode], attrText);
         for(int i=0; i<text.length; i++){
             text[i] = t.getString(i);
+        }
+    }
+    public boolean internetIsConnected() {
+        try {
+            String command = "ping -c 1 google.com";
+            return (Runtime.getRuntime().exec(command).waitFor() == 0);
+        } catch (Exception e) {
+            return false;
         }
     }
 

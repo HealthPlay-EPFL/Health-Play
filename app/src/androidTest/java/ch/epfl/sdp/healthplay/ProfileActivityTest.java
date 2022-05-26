@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay.auth;
+package ch.epfl.sdp.healthplay;
 
 public class ProfileActivityTest {
 }
