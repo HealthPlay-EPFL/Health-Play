@@ -70,8 +70,12 @@ public final class Database {
     public static final String LOBBIES = "lobbies";
     public final static int SUFFIX_LEN = 2;
     private final static String SUFFIX = "hp";
+
     public static final String CHATS = "Chats";
     public static final String CHATLIST = "ChatList";
+    public static final String ONLINESTATUS = "onlineStatus";
+    public static final String TYPINGTO = "typingTo";
+
 
 
     public static Comparator<String> comparator = (o1, o2) -> Long.compare(Long.parseLong(o2.substring(0,o2.length() - SUFFIX_LEN)), Long.parseLong(o1.substring(0,o1.length() - SUFFIX_LEN)));
@@ -98,8 +102,8 @@ public final class Database {
     public void writeNewUser(String userId, String userName, int age, int weight) {
         mDatabase.child(USERS).child(userId).setValue( new User(userName, "empty name", "empty surname", "empty@email.com", "2000-01-01", age));
         Map<String, Object> chatStatus = new HashMap<>();
-        chatStatus.put("onlineStatus", "offline");
-        chatStatus.put("typingTo", "notTyping");
+        chatStatus.put(ONLINESTATUS, "offline");
+        chatStatus.put(TYPINGTO, "notTyping");
         mDatabase.child(USERS).child(userId).updateChildren(chatStatus);
 
     }
@@ -837,7 +841,7 @@ public final class Database {
     public void setOnlineStatus(String status) {
         // check online status
         Map<String, Object> hashMap = new HashMap<>();
-        hashMap.put("onlineStatus", status);
+        hashMap.put(ONLINESTATUS, status);
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
             mDatabase.child(USERS).child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).updateChildren(hashMap);
         }

@@ -166,9 +166,9 @@ public class ChatActivity extends AppCompatActivity {
                 if(dataSnapshot.exists()) {
 
                     String username = (String) dataSnapshot.child(Database.USERNAME).getValue();
-                    image = (String) dataSnapshot.child("image").getValue();
-                    String onlineStatus = (String) dataSnapshot.child("onlineStatus").getValue();
-                    String typingTo = (String) dataSnapshot.child("typingTo").getValue();
+                    image = (String) dataSnapshot.child(Database.IMAGE).getValue();
+                    String onlineStatus = (String) dataSnapshot.child(Database.ONLINESTATUS).getValue();
+                    String typingTo = (String) dataSnapshot.child(Database.TYPINGTO).getValue();
 
                     //If his typingStatus is equal to the user id, then show that he is typing
                     if (typingTo.equals(myUid)) {// if user is typing to my chat
@@ -221,7 +221,7 @@ public class ChatActivity extends AppCompatActivity {
      */
     private void setTypingStatus(String typing) {
         Map<String, Object> hashMap = new HashMap<>();
-        hashMap.put("typingTo", typing);
+        hashMap.put(Database.TYPINGTO, typing);
         selfRef.updateChildren(hashMap);
     }
 
