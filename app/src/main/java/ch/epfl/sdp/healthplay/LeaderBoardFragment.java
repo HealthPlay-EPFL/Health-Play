@@ -1,6 +1,5 @@
 package ch.epfl.sdp.healthplay;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -31,7 +30,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
-import ch.epfl.sdp.healthplay.auth.ProfileActivity;
 import ch.epfl.sdp.healthplay.auth.ProfileFragment;
 import ch.epfl.sdp.healthplay.database.Database;
 

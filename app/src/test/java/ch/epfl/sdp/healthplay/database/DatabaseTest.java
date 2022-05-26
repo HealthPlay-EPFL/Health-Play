@@ -59,6 +59,8 @@ public class DatabaseTest {
     @Mock
     Task<DataSnapshot> tUsername;
     @Mock
+    Task<Void> tu;
+    @Mock
     DataSnapshot dsUsername;
 
 
@@ -69,7 +71,7 @@ public class DatabaseTest {
        if(user != null) {
            user.setUsername(username);
        }
-        return null;
+        return tu;
     }
     public Task<Void> putName(String userId, String name, Map<String, User> map) {
 
@@ -103,7 +105,7 @@ public class DatabaseTest {
         }
         return null;
     }
-    public Task<Void> putWeight(String userId, String weight, Map<String, User> map) {
+    public Task<Void> putWeight(String userId, Number weight, Map<String, User> map) {
 
         User user = map.get(userId);
         if(user != null) {
@@ -167,7 +169,7 @@ public class DatabaseTest {
         when(dbr.child(Database.USERS).child(userId).child(Database.SURNAME).setValue("surname"))
                 .thenReturn(putSurname(userId, "surname",map));
         when(dbr.child(Database.USERS).child(userId).child(Database.LAST_CURRENT_WEIGHT).setValue(60))
-                .thenReturn(putWeight(userId, "60",map));
+                .thenReturn(putWeight(userId, 60,map));
         when(dbr.child(Database.USERS).child(userId).child(Database.STATS).child(Database.HEALTH_POINT).setValue(currentHealthPoint))
                 .thenReturn(putHealthPointStats(currentHealthPoint, stats));
         when(dbr.child(Database.USERS).child(userId).child(Database.STATS).child(Database.WEIGHT).setValue(60))
@@ -180,6 +182,7 @@ public class DatabaseTest {
 
     @Test
     public void writeUsernameTest() {
+        when(t2.isSuccessful()).thenReturn(true);
         Database db = new Database(dbr);
         db.writeUsername(userId, "username");
         assertEquals("username", map.get(userId).getUsername());
@@ -221,7 +224,7 @@ public class DatabaseTest {
     public void writeWeightTest() {
         Database db = new Database(dbr);
         db.writeWeight(userId, 60);
-        assertEquals("60", map.get(userId).getLastCurrentWeight());
+        assertEquals(60, map.get(userId).getLastCurrentWeight());
         assertEquals("60", stats.get(Database.WEIGHT));
     }
 
