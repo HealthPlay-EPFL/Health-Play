@@ -35,7 +35,7 @@ public class PlanthuntCreateLobbyActivity extends AppCompatActivity {
         EditText editName = findViewById(R.id.planthuntCreateLobbyName);
         EditText editPassword = findViewById(R.id.planthuntCreateLobbyPassword);
         EditText editUsername = findViewById(R.id.planthuntCreateLobbyUsername);
-        Button lobbyButton = findViewById(R.id.planthuntWaitButton);
+        Button lobbyButton = findViewById(R.id.planthuntCreateLobbyButton);
 
         //Create new lobby when clicking on Create lobby button
         lobbyButton.setOnClickListener(new View.OnClickListener() {
