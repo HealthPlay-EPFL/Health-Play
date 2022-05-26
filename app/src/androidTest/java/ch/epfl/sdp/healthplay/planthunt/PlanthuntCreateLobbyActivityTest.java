@@ -83,4 +83,10 @@ public class PlanthuntCreateLobbyActivityTest {
         Espresso.onView(withId(R.id.planthuntCreateLobbyBox3)).perform(click());
         Espresso.onView(withId(R.id.planthuntCreateLobbyBox3)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void backButtonCorrectlyGoesBack() {
+        PlanthuntCreateLobbyActivity temp = new PlanthuntCreateLobbyActivity();
+        temp.onBackPressed();
+    }
 }

@@ -125,11 +125,7 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                             String name = task.getResult().getValue().toString();
                             if (snapshot.getValue() != null){
                                 if (Math.toIntExact((long) snapshot.getValue()) == Math.toIntExact((long) task.getResult().getValue())){
-                                    Intent intent = new Intent(PlanthuntWaitLobbyActivity.this, PlanthuntLobbyActivity.class);
-                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
-                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
-                                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
-                                    startActivity(intent);
+                                    launchLobby(lobbyName, currentUsername, hostStatus);
                                 }
                             }
                         });
@@ -141,5 +137,13 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                 }
         );
 
+    }
+
+    public void launchLobby(String lobbyName, String currentUsername, String hostStatus){
+        Intent intent = new Intent(PlanthuntWaitLobbyActivity.this, PlanthuntLobbyActivity.class);
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, hostStatus);
+        startActivity(intent);
     }
 }

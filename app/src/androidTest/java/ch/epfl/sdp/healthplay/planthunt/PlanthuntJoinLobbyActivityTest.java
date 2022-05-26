@@ -107,4 +107,10 @@ public class PlanthuntJoinLobbyActivityTest {
         temp.handleJoinLobby(1, "lobby", "player");
         temp.handleJoinLobby(0, "lobby", "player");
     }
+
+    @Test
+    public void backButtonCorrectlyGoesBack() {
+        PlanthuntJoinLobbyActivity temp = new PlanthuntJoinLobbyActivity();
+        temp.onBackPressed();
+    }
 }

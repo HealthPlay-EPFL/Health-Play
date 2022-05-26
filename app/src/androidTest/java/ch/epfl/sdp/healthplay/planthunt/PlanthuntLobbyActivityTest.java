@@ -96,5 +96,11 @@ public class PlanthuntLobbyActivityTest {
         assertEquals(lobby.getPlayerUid3(), "");
     }
 
+    @Test
+    public void backButtonCorrectlyGoesBack() {
+        PlanthuntLobbyActivity temp = new PlanthuntLobbyActivity();
+        temp.onBackPressed();
+    }
+
 
 }
