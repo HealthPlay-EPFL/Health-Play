@@ -105,6 +105,7 @@ public class PlanthuntWaitLobbyActivityTest {
     public void launchLobbyCorrectlyWorks() {
         PlanthuntWaitLobbyActivity temp = new PlanthuntWaitLobbyActivity();
         temp.launchLobby("lobby", "player", PlanthuntCreateJoinLobbyActivity.HOST);
+    }
       
     public void inviteFriendToLobbyTest() {
         onView(withId(R.id.createInvitation)).perform(click());

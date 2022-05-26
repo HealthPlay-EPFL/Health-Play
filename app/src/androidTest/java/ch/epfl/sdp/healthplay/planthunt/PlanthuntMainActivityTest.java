@@ -29,7 +29,7 @@ public class PlanthuntMainActivityTest {
     @Rule
     public ActivityScenarioRule<PlanthuntMainActivity> testRule = new ActivityScenarioRule<>(PlanthuntMainActivity.class);
 
-    /*@Test
+    @Test
     public void createJoinMenuCorrectlyAppears() {
         Espresso.onView(withId(R.id.planthuntMainPlay)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
@@ -51,7 +51,7 @@ public class PlanthuntMainActivityTest {
         );
 
         Espresso.onView(withId(R.id.planthuntCreateLobbyMain)).check(matches(isDisplayed()));
-    }*/
+    }
 
     @Test
     public void collectionMenuCorrectlyAppears() {

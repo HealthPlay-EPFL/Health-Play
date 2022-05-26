@@ -76,7 +76,7 @@ public class PlanthuntJoinLobbyActivityTest {
         Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(isDisplayed()));
     }
 
-    /*@Test
+    @Test
     public void lobbyIsCorrectlyJoinedTwice() {
         ViewInteraction textName = Espresso.onView(ViewMatchers.withId(R.id.planthuntJoinLobbyName));
         textName.perform(ViewActions.typeText(NAME));
@@ -107,7 +107,7 @@ public class PlanthuntJoinLobbyActivityTest {
         );
         Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(isDisplayed()));
     }
-    */
+
     @Test
     public void backButtonCorrectlyGoesBack() {
         Espresso.pressBack();
