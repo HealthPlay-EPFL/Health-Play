@@ -1,6 +1,7 @@
 package ch.epfl.sdp.healthplay.chat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -16,6 +17,7 @@ import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -71,7 +73,6 @@ public class ChatActivity extends AppCompatActivity {
     private Uri imageUri = null;
     private Database firebaseDatabase;
     private DatabaseReference selfRef;
-    private DatabaseReference friendRef;
 
 
     /**
@@ -100,7 +101,6 @@ public class ChatActivity extends AppCompatActivity {
 
         // initialize database
         firebaseDatabase = new Database();
-        friendRef = firebaseDatabase.mDatabase.child(Database.USERS).child(uid);
         //Get the current user id
         getCurrentUser();
         selfRef = firebaseDatabase.mDatabase.child(Database.USERS).child(myUid);
@@ -166,9 +166,9 @@ public class ChatActivity extends AppCompatActivity {
                 if(dataSnapshot.exists()) {
 
                     String username = (String) dataSnapshot.child(Database.USERNAME).getValue();
-                    image = (String) dataSnapshot.child("image").getValue();
-                    String onlineStatus = (String) dataSnapshot.child("onlineStatus").getValue();
-                    String typingTo = (String) dataSnapshot.child("typingTo").getValue();
+                    image = (String) dataSnapshot.child(Database.IMAGE).getValue();
+                    String onlineStatus = (String) dataSnapshot.child(Database.ONLINESTATUS).getValue();
+                    String typingTo = (String) dataSnapshot.child(Database.TYPINGTO).getValue();
 
                     //If his typingStatus is equal to the user id, then show that he is typing
                     if (typingTo.equals(myUid)) {// if user is typing to my chat
@@ -211,48 +211,8 @@ public class ChatActivity extends AppCompatActivity {
      */
     @Override
     protected void onStart() {
-        getCurrentUser();
-        setOnlineStatus("online");
+        firebaseDatabase.setOnlineStatus("online");
         super.onStart();
-    }
-
-    /**
-     * When we leave the Activity
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //Get time and set the onlineStatus to it
-        String timestamp = String.valueOf(System.currentTimeMillis());
-        setOnlineStatus(timestamp);
-        setTypingStatus("notTyping");
-    }
-
-    /**
-     * When we get back to the Activity
-     */
-    @Override
-    protected void onResume() {
-        //The user is on the chat (with you or another user)
-        setOnlineStatus("online");
-        super.onResume();
-    }
-
-    /*@Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return super.onSupportNavigateUp();
-    }*/
-
-    /**
-     * Set the onlineStatus
-     * @param status
-     */
-    private void setOnlineStatus(String status) {
-        // check online status
-        Map<String, Object> hashMap = new HashMap<>();
-        hashMap.put("onlineStatus", status);
-        selfRef.updateChildren(hashMap);
     }
 
     /**
@@ -261,7 +221,7 @@ public class ChatActivity extends AppCompatActivity {
      */
     private void setTypingStatus(String typing) {
         Map<String, Object> hashMap = new HashMap<>();
-        hashMap.put("typingTo", typing);
+        hashMap.put(Database.TYPINGTO, typing);
         selfRef.updateChildren(hashMap);
     }
 
@@ -271,7 +231,7 @@ public class ChatActivity extends AppCompatActivity {
     private void readMessages() {
         // show message after retrieving data
         chatList = new ArrayList<>();
-        DatabaseReference dbRef = firebaseDatabase.mDatabase.child("Chats");
+        DatabaseReference dbRef = firebaseDatabase.mDatabase.child(Database.CHATS);
 
         //Listen to the database where the messages are stored
         dbRef.addValueEventListener(new ValueEventListener() {
@@ -417,11 +377,11 @@ public class ChatActivity extends AppCompatActivity {
                     hashMap.put("timestamp", timestamp);
                     hashMap.put("type", "images");
                     //Add the message to the database
-                    firebaseDatabase.mDatabase.child("Chats").push().setValue(hashMap);
+                    firebaseDatabase.mDatabase.child(Database.CHATS).push().setValue(hashMap);
 
                     //Create the chatList
-                    final DatabaseReference ref1 = firebaseDatabase.mDatabase.child("ChatList").child(uid).child(myUid);
-                    createConversationRecord();
+                    final DatabaseReference ref1 = firebaseDatabase.mDatabase.child(Database.CHATLIST).child(uid).child(myUid);
+                    firebaseDatabase.createConversationRecord(myUid,uid);
                 }
             }
         });
@@ -467,9 +427,11 @@ public class ChatActivity extends AppCompatActivity {
         hashMap.put("timestamp", timestamp);
         hashMap.put("type", "text");
         //Add the message to the database
-        firebaseDatabase.mDatabase.child("Chats").push().setValue(hashMap);
-        createConversationRecord();
+        firebaseDatabase.mDatabase.child(Database.CHATS).push().setValue(hashMap);
+        firebaseDatabase.createConversationRecord(myUid, uid);
+        hideKeyboard(this);
     }
+
 
     /**
      * get the current user
@@ -482,40 +444,19 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     /**
-     * Create a record of the conversation, i.e add the other user for both user, in the list of users the user has a conversation with
+     * Hide the soft keyboard
+     * @param activity
      */
-    private void createConversationRecord(){
-        //Ref to the ChatList part of the friend in the database
-        final DatabaseReference ref1 = firebaseDatabase.mDatabase.child("ChatList").child(uid).child(myUid);
-        ref1.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //If no record of the conversation, create one
-                if (!dataSnapshot.exists()) {
-                    ref1.child("id").setValue(myUid);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        //Ref to the ChatList part of the user in the database
-        final DatabaseReference ref2 = firebaseDatabase.mDatabase.child("ChatList").child(myUid).child(uid);
-        ref2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //If no record of the conversation, create one
-                if (!dataSnapshot.exists()) {
-                    ref2.child("id").setValue(uid);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+
 }

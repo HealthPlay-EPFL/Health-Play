@@ -39,4 +39,11 @@ public class FriendTest {
         friend.setUsername(newName);
         assertEquals(friend.getUsername(), newName);
     }
+
+    @Test
+    public void toStringTest(){
+        String name = "name", username = "username";
+        Friend friend = new Friend(name, username);
+        friend.toString();
+    }
 }
