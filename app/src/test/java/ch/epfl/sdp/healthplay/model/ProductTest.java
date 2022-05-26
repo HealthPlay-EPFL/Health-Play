@@ -17,6 +17,73 @@ public class ProductTest {
             "  \"nutriments\":{\n" +
             "  \"energy-kcal\":385,\n" +
             "  }}}";
+
+    private final static String N_A_N_1 = "{\n" +
+            "  \"code\":\"0737628064502\",\n" +
+            "  \"product\":{\n" +
+            "  \"generic_name\":\"Rice Noodles\",\n" +
+            "  \"product_name\":\"Thai peanut noodle kit includes stir-fry rice noodles & thai peanut seasoning\",\n" +
+            "  \"nova_groups\":1,\n" +
+            "  \"nutriscore_grade\":\"a\",\n" +
+            "  \"nutriments\":{\n" +
+            "  \"energy-kcal\":385,\n" +
+            "  }}}";
+
+    private final static String N_B_N_2 = "{\n" +
+            "  \"code\":\"0737628064502\",\n" +
+            "  \"product\":{\n" +
+            "  \"generic_name\":\"Rice Noodles\",\n" +
+            "  \"product_name\":\"Thai peanut noodle kit includes stir-fry rice noodles & thai peanut seasoning\",\n" +
+            "  \"nova_groups\":2,\n" +
+            "  \"nutriscore_grade\":\"b\",\n" +
+            "  \"nutriments\":{\n" +
+            "  \"energy-kcal\":385,\n" +
+            "  }}}";
+
+    private final static String N_C_N_3 = "{\n" +
+            "  \"code\":\"0737628064502\",\n" +
+            "  \"product\":{\n" +
+            "  \"generic_name\":\"Rice Noodles\",\n" +
+            "  \"product_name\":\"Thai peanut noodle kit includes stir-fry rice noodles & thai peanut seasoning\",\n" +
+            "  \"nova_groups\":3,\n" +
+            "  \"nutriscore_grade\":\"c\",\n" +
+            "  \"nutriments\":{\n" +
+            "  \"energy-kcal\":385,\n" +
+            "  }}}";
+
+    private final static String N_D_N_4 = "{\n" +
+            "  \"code\":\"0737628064502\",\n" +
+            "  \"product\":{\n" +
+            "  \"generic_name\":\"Rice Noodles\",\n" +
+            "  \"product_name\":\"Thai peanut noodle kit includes stir-fry rice noodles & thai peanut seasoning\",\n" +
+            "  \"nova_groups\":4,\n" +
+            "  \"nutriscore_grade\":\"d\",\n" +
+            "  \"nutriments\":{\n" +
+            "  \"energy-kcal\":385,\n" +
+            "  }}}";
+
+    private final static String N_E_N_U = "{\n" +
+            "  \"code\":\"0737628064502\",\n" +
+            "  \"product\":{\n" +
+            "  \"generic_name\":\"Rice Noodles\",\n" +
+            "  \"product_name\":\"Thai peanut noodle kit includes stir-fry rice noodles & thai peanut seasoning\",\n" +
+            "  \"nova_groups\":5,\n" +
+            "  \"nutriscore_grade\":\"e\",\n" +
+            "  \"nutriments\":{\n" +
+            "  \"energy-kcal\":385,\n" +
+            "  }}}";
+
+    private final static String N_U_N_U = "{\n" +
+            "  \"code\":\"0737628064502\",\n" +
+            "  \"product\":{\n" +
+            "  \"generic_name\":\"Rice Noodles\",\n" +
+            "  \"product_name\":\"Thai peanut noodle kit includes stir-fry rice noodles & thai peanut seasoning\",\n" +
+            "  \"nova_groups\":6,\n" +
+            "  \"nutriscore_grade\":\"f\",\n" +
+            "  \"nutriments\":{\n" +
+            "  \"energy-kcal\":385,\n" +
+            "  }}}";
+
     private final static String EMPTY_JSON = "{\n" +
             "  \"code\":\"0737628064502\",\n" +
             "  \"product\":{\n" +
@@ -133,5 +200,50 @@ public class ProductTest {
                 0.1);
         assertEquals(Product.UNKNOWN_VALUE, p.getNutriment(Product.Nutriments.SALT),
                 0.1);
+    }
+
+    @Test
+    public void testNutriAndNova() {
+        Optional<Product> optionalProduct = Product.of(N_A_N_1);
+        assertTrue(optionalProduct.isPresent());
+        Product p = optionalProduct.get();
+        p.getNutriscore();
+        p.getNova();
+        p.getNutriscore().getScore();
+
+        optionalProduct = Product.of(N_B_N_2);
+        assertTrue(optionalProduct.isPresent());
+        p = optionalProduct.get();
+        p.getNutriscore();
+        p.getNova();
+        p.getNutriscore().getScore();
+
+        optionalProduct = Product.of(N_C_N_3);
+        assertTrue(optionalProduct.isPresent());
+        p = optionalProduct.get();
+        p.getNutriscore();
+        p.getNova();
+        p.getNutriscore().getScore();
+
+        optionalProduct = Product.of(N_D_N_4);
+        assertTrue(optionalProduct.isPresent());
+        p = optionalProduct.get();
+        p.getNutriscore();
+        p.getNova();
+        p.getNutriscore().getScore();
+
+        optionalProduct = Product.of(N_E_N_U);
+        assertTrue(optionalProduct.isPresent());
+        p = optionalProduct.get();
+        p.getNutriscore();
+        p.getNova();
+        p.getNutriscore().getScore();
+
+        optionalProduct = Product.of(N_U_N_U);
+        assertTrue(optionalProduct.isPresent());
+        p = optionalProduct.get();
+        p.getNutriscore();
+        p.getNova();
+        p.getNutriscore().getScore();
     }
 }

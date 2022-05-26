@@ -275,17 +275,18 @@ public final class Product {
      * Enum representing the nutriscore of a product
      */
     public enum Nutriscore {
-        A(R.drawable.ic_nutriscore_a),
-        B(R.drawable.ic_nutriscore_b),
-        C(R.drawable.ic_nutriscore_c),
-        D(R.drawable.ic_nutriscore_d),
-        E(R.drawable.ic_nutriscore_e),
-        UNKNOWN(R.drawable.ic_nutriscore_unknown);
+        A(R.drawable.ic_nutriscore_a, 0),
+        B(R.drawable.ic_nutriscore_b, 1),
+        C(R.drawable.ic_nutriscore_c, 2),
+        D(R.drawable.ic_nutriscore_d, 3),
+        E(R.drawable.ic_nutriscore_e, 4),
+        UNKNOWN(R.drawable.ic_nutriscore_unknown, -1);
 
-        private final int res;
+        private final int res, score;
 
-        Nutriscore(int res) {
+        Nutriscore(int res, int score) {
             this.res = res;
+            this.score = score;
         }
 
         /**
@@ -295,6 +296,14 @@ public final class Product {
          */
         public int getRes() {
             return res;
+        }
+
+        /**
+         * Get the integer score of the nutriscore
+         * @return the integer score
+         */
+        public int getScore() {
+            return score;
         }
 
         /**

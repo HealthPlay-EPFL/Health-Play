@@ -233,8 +233,31 @@ public class BarcodeInformationActivity extends AppCompatActivity {
         }
 
         db.addProduct(user.getUid(), p.getCode());
+        addPoints();
 
         Toast t = Toast.makeText(getApplicationContext(), "Information saved on the profile !", Toast.LENGTH_SHORT);
         t.show();
+    }
+
+    /**
+     * Add healthPoints to the user
+     */
+    private void addPoints() {
+        Database db = new Database();
+        int score = 10;
+        switch (p.getNutriscore().getScore()) {
+            case 0:
+                score *= 10;
+                break;
+            case 1:
+                score *= 5;
+                break;
+            case 2:
+                score *= 3;
+            case 3:
+                score *= 2;
+                break;
+        }
+        db.addHealthPoint(user.getUid(), 4 * p.getNutriscore().getScore());
     }
 }
