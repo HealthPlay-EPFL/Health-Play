@@ -32,7 +32,7 @@ public class ProductInfoActivity extends AppCompatActivity {
                         startActivity(intent);
                     } else {
                         Toast.makeText(getApplicationContext(),
-                                // TODO: Enable translation
+                                // TODO: Enable translations
                                 "Sorry, the barcode you have entered does not exist on the server, or we are unable to join the server at the moment.",
                                 Toast.LENGTH_SHORT).show();
                     }
