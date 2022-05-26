@@ -7,8 +7,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 
+import android.content.Intent;
 import android.view.View;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -74,7 +76,7 @@ public class PlanthuntJoinLobbyActivityTest {
         Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(isDisplayed()));
     }
 
-    /*@Test
+    @Test
     public void lobbyIsCorrectlyJoinedTwice() {
         ViewInteraction textName = Espresso.onView(ViewMatchers.withId(R.id.planthuntJoinLobbyName));
         textName.perform(ViewActions.typeText(NAME));
@@ -104,7 +106,11 @@ public class PlanthuntJoinLobbyActivityTest {
                 }
         );
         Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(isDisplayed()));
+    }
 
-    }*/
-
+    @Test
+    public void backButtonCorrectlyGoesBack() {
+        Espresso.pressBack();
+    }
 }
+

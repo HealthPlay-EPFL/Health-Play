@@ -13,8 +13,6 @@ import android.view.View;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
-import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
@@ -24,14 +22,15 @@ import org.junit.Test;
 
 import ch.epfl.sdp.healthplay.R;
 
-public class PlanthuntMainActivityTest {
+public class PlanthuntCreateJoinLobbyActivityTest {
 
     @Rule
-    public ActivityScenarioRule<PlanthuntMainActivity> testRule = new ActivityScenarioRule<>(PlanthuntMainActivity.class);
+    public ActivityScenarioRule<PlanthuntCreateJoinLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntCreateJoinLobbyActivity.class);
+
 
     @Test
-    public void createJoinMenuCorrectlyAppears() {
-        Espresso.onView(withId(R.id.planthuntMainPlay)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+    public void createButtonCorrectlyWorks() {
+        Espresso.onView(withId(R.id.planthuntCreateLobbyMain)).check(matches(allOf(isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
@@ -50,12 +49,12 @@ public class PlanthuntMainActivityTest {
                 }
         );
 
-        Espresso.onView(withId(R.id.planthuntCreateLobbyMain)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox1)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void collectionMenuCorrectlyAppears() {
-        Espresso.onView(withId(R.id.planthuntMainCollection)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+    public void joinButtonCorrectlyWorks() {
+        Espresso.onView(withId(R.id.planthuntJoinLobbyMain)).check(matches(allOf(isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
@@ -74,31 +73,7 @@ public class PlanthuntMainActivityTest {
                 }
         );
 
-        Espresso.onView(withId(R.id.plantCollectionList)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void leaveButtonCorrectlyWorks() {
-        Espresso.onView(withId(R.id.planthuntMainLeave)).check(matches(allOf(isEnabled(), isClickable()))).perform(
-                new ViewAction() {
-                    @Override
-                    public Matcher<View> getConstraints() {
-                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
-                    }
-
-                    @Override
-                    public String getDescription() {
-                        return "click plus button";
-                    }
-
-                    @Override
-                    public void perform(UiController uiController, View view) {
-                        view.performClick();
-                    }
-                }
-        );
-
-        Espresso.onView(withId(R.id.bottomNavigationView)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(isDisplayed()));
     }
 
 }
