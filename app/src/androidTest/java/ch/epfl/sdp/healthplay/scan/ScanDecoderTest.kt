@@ -119,27 +119,4 @@ class ScanDecoderTest {
             f.enterManually()
         }
     }
-
-    /*@Test
-    public void testScanNothing3() {
-
-        Intent intente = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
-        intente.putExtra(null, "a");
-
-        try (ActivityScenario<BarcodeInformationActivity> testRule = ActivityScenario.launch(intente)) {
-
-            testRule.onActivity(a -> {
-                try {
-                    Uri uri = Uri.parse("android.resource://" + a.getApplicationContext().getPackageName() + "/drawable/logo");
-                    ScanDecoder.scan(uri, a.getApplicationContext(),
-                            productJson -> {
-                                System.out.println("hi");
-                            }, a.findViewById(R.id.fragmentScan).getRootView());
-                    TimeUnit.SECONDS.sleep(2);
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
-    }*/
 }

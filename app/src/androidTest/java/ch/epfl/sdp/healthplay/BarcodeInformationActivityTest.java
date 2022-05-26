@@ -65,16 +65,7 @@ public class BarcodeInformationActivityTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), BarcodeInformationActivity.class);
         intent.putExtra(null, "TEST_CODE");
         try (ActivityScenario<BarcodeInformationActivity> ignored = ActivityScenario.launch(intent)) {
-            /*Espresso.onView(withId(R.id.pName)).check(
-                    ViewAssertions.matches(
-                            ViewMatchers.withText("Unknown")
-                    )
-            );
-            Espresso.onView(withId(R.id.pEnergy)).check(
-                    ViewAssertions.matches(
-                            ViewMatchers.withText("Unknown")
-                    )
-            );*/
+
         }
 
     }
