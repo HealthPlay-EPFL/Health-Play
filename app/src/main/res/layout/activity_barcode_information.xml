@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BarcodeInformationActivity"
-    android:background="?attr/fragView_color">
+    android:background="?attr/fragView_color"
+    android:id="@+id/barcodeInformationView">
 
     <FrameLayout
         android:id="@+id/frameLayout"

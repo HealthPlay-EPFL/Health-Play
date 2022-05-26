@@ -54,7 +54,7 @@ public class AddFriendFragmentTest {
     }
 
 
-    @Test
+    /*@Test
     public void backToFriendListTest(){
 
         Espresso.onView(withId(R.id.backButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
@@ -78,7 +78,7 @@ public class AddFriendFragmentTest {
         onView(withId(R.id.addFriendBouton)).check(matches(isDisplayed()));
 
 
-    }
+    }*/
 
     /*@Test
     public void listViewIsCorrectlyDisplayed(){

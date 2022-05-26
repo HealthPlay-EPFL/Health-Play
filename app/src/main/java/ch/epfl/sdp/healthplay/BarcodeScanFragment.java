@@ -56,6 +56,13 @@ public class BarcodeScanFragment extends Fragment {
     private ImageCapture imageCapture;
     private View view;
 
+    public void createCamera(ProcessCameraProvider cameraProvider, Preview preview) {
+        cameraProvider.bindToLifecycle((LifecycleOwner) this,
+                CameraSelector.DEFAULT_BACK_CAMERA,
+                imageCapture,
+                preview);
+    }
+
     public BarcodeScanFragment() {
         // Required empty public constructor
     }
@@ -106,10 +113,7 @@ public class BarcodeScanFragment extends Fragment {
                 .build();
 
         // Create the camera
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this,
-                CameraSelector.DEFAULT_BACK_CAMERA,
-                imageCapture,
-                preview);
+        createCamera(cameraProvider, preview);
     }
 
     public void onClick() throws IOException {
