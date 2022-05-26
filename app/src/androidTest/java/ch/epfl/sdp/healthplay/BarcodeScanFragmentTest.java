@@ -25,6 +25,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.common.Barcode;
 
@@ -43,6 +44,7 @@ public class BarcodeScanFragmentTest {
 
     @Before
     public void init(){
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(SignedInFragmentTest.emailString, SignedInFragmentTest.password);
         FragmentScenario frag = FragmentScenario.launchInContainer(MockBarcodeScanFragment.class);
     }
 
