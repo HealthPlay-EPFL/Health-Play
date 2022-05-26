@@ -1,12 +1,12 @@
 package ch.epfl.sdp.healthplay.friendlist;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,10 +27,10 @@ import java.util.Map;
 
 import ch.epfl.sdp.healthplay.Frag_Home;
 import ch.epfl.sdp.healthplay.R;
-import ch.epfl.sdp.healthplay.ViewProfileActivity;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Friend;
 import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
+import ch.epfl.sdp.healthplay.viewProfileFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -116,9 +116,10 @@ public class  FriendList_Frag extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Friend selectedFriend = (Friend)listView.getAdapter().getItem(position);
-                Intent intent = new Intent(getActivity(), ViewProfileActivity.class);
-                intent.putExtra(ViewProfileActivity.MESSAGE, selectedFriend.getUserId());
-                startActivity(intent);
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.setReorderingAllowed(true);
+                fragmentTransaction.replace(R.id.fragmentContainerView, viewProfileFragment.newInstance(selectedFriend.getUserId()));
+                fragmentTransaction.commit();
             }
         });
 

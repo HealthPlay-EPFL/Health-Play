@@ -44,6 +44,7 @@ public class AuthUiActivityTest {
         onView(withText("Sign in with email")).perform(click());
         onView(withHint("Email")).perform(typeText(SignedInFragmentTest.emailString), ViewActions.closeSoftKeyboard());
         onView(withText("Next")).perform(click());
+        TimeUnit.SECONDS.sleep(2);
         onView(withHint("Password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
         onView(withText("SIGN IN")).perform(click());
         TimeUnit.SECONDS.sleep(1);
