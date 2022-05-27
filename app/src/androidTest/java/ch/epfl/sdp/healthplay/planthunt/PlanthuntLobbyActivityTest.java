@@ -46,7 +46,7 @@ public class PlanthuntLobbyActivityTest {
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.HOST);
 
         try (ActivityScenario<PlanthuntLobbyActivity> scenario = ActivityScenario.launch(intent)) {
-            Espresso.onView(withId(R.id.planthuntLobbyTimeBar)).check(matches(isDisplayed()));
+            Espresso.onView(withId(R.id.planthuntLobbyLayout)).check(matches(isDisplayed()));
         }
     }
 
