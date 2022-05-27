@@ -113,3 +113,4 @@ public class PlanthuntJoinLobbyActivityTest {
         Espresso.pressBack();
     }
 }
+
