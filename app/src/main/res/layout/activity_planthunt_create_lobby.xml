@@ -33,7 +33,7 @@
             android:text="Create a new lobby"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="72sp" />
+            android:textSize="60sp" />
 
         <Space
             android:layout_width="match_parent"
@@ -98,9 +98,21 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/planthuntCreateLobbyButton"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/planthuntLightGreen"
+            android:fontFamily="@font/alata"
+            android:text="Create lobby"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal">
 
@@ -143,18 +155,6 @@
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/planthuntCreateLobbyButton"
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/planthuntLightGreen"
-            android:fontFamily="@font/alata"
-            android:text="Create lobby"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp" />
 
         <Space
             android:layout_width="match_parent"
