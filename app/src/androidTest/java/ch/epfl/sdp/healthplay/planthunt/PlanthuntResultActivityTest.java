@@ -54,7 +54,6 @@ public class PlanthuntResultActivityTest {
 
         try (ActivityScenario<PlanthuntResultActivity> scenario = ActivityScenario.launch(intent)) {
             Espresso.onView(withId(R.id.planthuntResultButton)).check(matches(allOf(isEnabled(), isClickable()))).perform(
-                    scrollTo(),
                     new ViewAction() {
                         @Override
                         public Matcher<View> getConstraints() {

@@ -73,8 +73,7 @@ public class PlanthuntWaitLobbyActivityTest {
 
     @Test
     public void backButtonCorrectlyGoesBack() {
-        PlanthuntWaitLobbyActivity temp = new PlanthuntWaitLobbyActivity();
-        temp.onBackPressed();
+        Espresso.pressBack();
     }
 
     @Test
@@ -102,11 +101,6 @@ public class PlanthuntWaitLobbyActivityTest {
     }
 
     @Test
-    public void launchLobbyCorrectlyWorks() {
-        PlanthuntWaitLobbyActivity temp = new PlanthuntWaitLobbyActivity();
-        temp.launchLobby("lobby", "player", PlanthuntCreateJoinLobbyActivity.HOST);
-    }
-      
     public void inviteFriendToLobbyTest() {
         onView(withId(R.id.createInvitation)).perform(click());
         onData(anything()).inRoot(isDialog()).atPosition(0).perform(ViewActions.click());

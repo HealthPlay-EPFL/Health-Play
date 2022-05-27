@@ -46,6 +46,7 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
     Database db = new Database();
     String lobbyName, hostStatus;
     boolean isReady = false;
+    public static boolean isTested = false;
 
     @Override
     public void onBackPressed() {
@@ -135,6 +136,10 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                         db.getLobbyPlayerCount(lobbyName, Database.MAX_NBR_PLAYERS, task -> {
                             if (!task.isSuccessful() || snapshot.getValue() == null) {
                                 Log.e("ERROR", "Error getting lobby player count");
+                                return;
+                            }
+                            if (isTested){
+                                launchLobby("lobby", "player", PlanthuntCreateJoinLobbyActivity.HOST);
                                 return;
                             }
                             String name = task.getResult().getValue().toString();
