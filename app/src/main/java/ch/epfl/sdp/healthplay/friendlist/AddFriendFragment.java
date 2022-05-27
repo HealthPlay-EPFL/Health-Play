@@ -1,10 +1,10 @@
 package ch.epfl.sdp.healthplay.friendlist;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,16 +24,15 @@ import com.google.firebase.database.DataSnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import ch.epfl.sdp.healthplay.R;
-import ch.epfl.sdp.healthplay.ViewProfileActivity;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Friend;
 import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
+import ch.epfl.sdp.healthplay.viewProfileFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -116,9 +115,10 @@ public class AddFriendFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Friend selectedFriend = (Friend)listView.getAdapter().getItem(position);
-                Intent intent = new Intent(getActivity(), ViewProfileActivity.class);
-                intent.putExtra(ViewProfileActivity.MESSAGE, selectedFriend.getUserId());
-                startActivity(intent);
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.setReorderingAllowed(true);
+                fragmentTransaction.replace(R.id.fragmentContainerView, viewProfileFragment.newInstance(selectedFriend.getUserId()));
+                fragmentTransaction.commit();
             }
         });
 
