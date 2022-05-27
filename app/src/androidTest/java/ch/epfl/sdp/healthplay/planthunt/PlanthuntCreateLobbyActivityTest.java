@@ -45,7 +45,7 @@ public class PlanthuntCreateLobbyActivityTest {
         ViewInteraction textUsername = Espresso.onView(withId(R.id.planthuntCreateLobbyUsername));
         textUsername.perform(ViewActions.typeText(USERNAME));
         Espresso.closeSoftKeyboard();
-        Espresso.onView(withId(R.id.planthuntCreateLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+        Espresso.onView(withId(R.id.planthuntCreateLobbyButton2)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
@@ -64,7 +64,7 @@ public class PlanthuntCreateLobbyActivityTest {
                 }
         );
 
-        Espresso.onView(withId(R.id.planthuntCreateLobbyButton)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.planthuntCreateLobbyButton2)).check(matches(isDisplayed()));
     }
 
     @Test
