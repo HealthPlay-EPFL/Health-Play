@@ -94,18 +94,6 @@
             android:inputType="textPersonName"
             android:textColorHint="@color/white" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/planthuntCreateLobbyButton2"
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/planthuntLightGreen"
-            android:fontFamily="@font/alata"
-            android:text="Create lobby"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp" />
-
         <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -156,6 +144,18 @@
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/planthuntCreateLobbyButton2"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/planthuntLightGreen"
+            android:fontFamily="@font/alata"
+            android:text="Create lobby"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
 
         <Space
             android:layout_width="match_parent"
