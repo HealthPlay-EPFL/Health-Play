@@ -46,7 +46,6 @@ public class PlanthuntCreateLobbyActivityTest {
         textUsername.perform(ViewActions.typeText(USERNAME));
         Espresso.closeSoftKeyboard();
         Espresso.onView(withId(R.id.planthuntCreateLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
-                scrollTo(),
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {

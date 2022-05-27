@@ -96,10 +96,12 @@ public class PlanthuntLobbyActivityTest {
         assertEquals(lobby.getPlayerUid3(), "");
     }
 
+    /*
     @Test
     public void backButtonCorrectlyGoesBack() {
         Espresso.pressBack();
     }
+     */
 
 
 }

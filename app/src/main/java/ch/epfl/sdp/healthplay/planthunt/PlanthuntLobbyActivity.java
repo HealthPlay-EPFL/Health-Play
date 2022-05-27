@@ -107,7 +107,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
                     Intent intentTest = new Intent(PlanthuntLobbyActivity.this, PlanthuntNewPlantActivity.class);
                     intentTest.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
                     intentTest.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, currentUsername);
-                    analysisThread("https://www.jardiner-malin.fr/wp-content/uploads/2022/01/orchidee.jpg", intentTest, null);
+                    //analysisThread("https://www.jardiner-malin.fr/wp-content/uploads/2022/01/orchidee.jpg", intentTest, null);
                 }
                 startCameraIntent();
             }
