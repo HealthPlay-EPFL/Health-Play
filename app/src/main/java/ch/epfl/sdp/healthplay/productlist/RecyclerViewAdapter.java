@@ -96,7 +96,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.productListLayout.setOnClickListener(v -> {
             Log.d(TAG, "onBindViewHolder: clicked");
             Intent intent = new Intent(mContext, BarcodeInformationActivity.class);
-            String message = product.get().getCode();
+            String message = product.get().getJsonString();
             intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, message);
             mContext.startActivity(intent);
         });

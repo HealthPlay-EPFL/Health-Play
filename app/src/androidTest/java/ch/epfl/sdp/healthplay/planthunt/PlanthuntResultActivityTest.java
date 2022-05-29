@@ -49,6 +49,7 @@ public class PlanthuntResultActivityTest {
 
     @Test
     public void buttonCorrectlyWorks() {
+        PlanthuntResultActivity.isTested = true;
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntResultActivity.class);
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
 

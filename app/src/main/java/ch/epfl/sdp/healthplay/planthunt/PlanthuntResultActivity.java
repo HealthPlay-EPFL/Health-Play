@@ -29,6 +29,7 @@ public class PlanthuntResultActivity extends AppCompatActivity {
     TextView username2Text;
     TextView username3Text;
     String currentUsername;
+    public static boolean isTested = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,9 @@ public class PlanthuntResultActivity extends AppCompatActivity {
                 .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot countSnapshot) {
+                if (isTested){
+                    return;
+                }
                 for (int i = 1; i < Math.toIntExact((long) countSnapshot.getValue()) + 1; i++) {
                     db.mDatabase
                             .child(Database.LOBBIES).child(lobbyName).child(Database.PLAYER_UID + i)
@@ -58,7 +62,6 @@ public class PlanthuntResultActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(DataSnapshot uidSnapshot) {
                             usernames.add(Objects.requireNonNull(uidSnapshot.getValue()).toString());
-                            System.out.println(usernames.toString());
                             if (usernames.size() == Math.toIntExact((long) countSnapshot.getValue()) && scores.size() == Math.toIntExact((long) countSnapshot.getValue())){
                                 fillScores();
                             }
@@ -79,8 +82,10 @@ public class PlanthuntResultActivity extends AppCompatActivity {
                             .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                         @Override
                         public void onSuccess(DataSnapshot uidSnapshot) {
+                            if (isTested){
+                                return;
+                            }
                             scores.add(Math.toIntExact((long) uidSnapshot.getValue()));
-                            System.out.println(scores.toString());
                             if (usernames.size() == Math.toIntExact((long) countSnapshot.getValue()) && scores.size() == Math.toIntExact((long) countSnapshot.getValue())){
                                 fillScores();
                             }

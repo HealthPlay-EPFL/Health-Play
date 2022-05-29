@@ -78,6 +78,7 @@ public class PlanthuntWaitLobbyActivityTest {
 
     @Test
     public void readyButtonCorrectlyWorks() {
+        PlanthuntWaitLobbyActivity.isTested = true;
         Espresso.onView(withId(R.id.planthuntWaitButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override

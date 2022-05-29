@@ -46,6 +46,7 @@ public class PlanthuntJoinLobbyActivityTest {
 
     @Test
     public void lobbyIsCorrectlyJoined() {
+        PlanthuntJoinLobbyActivity.isTested = true;
         ViewInteraction textName = Espresso.onView(ViewMatchers.withId(R.id.planthuntJoinLobbyName));
         textName.perform(ViewActions.typeText(NAME));
         Espresso.closeSoftKeyboard();
@@ -73,11 +74,11 @@ public class PlanthuntJoinLobbyActivityTest {
                     }
                 }
         );
-        Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(isDisplayed()));
     }
 
     @Test
     public void lobbyIsCorrectlyJoinedTwice() {
+        PlanthuntJoinLobbyActivity.isTested = true;
         ViewInteraction textName = Espresso.onView(ViewMatchers.withId(R.id.planthuntJoinLobbyName));
         textName.perform(ViewActions.typeText(NAME));
         Espresso.closeSoftKeyboard();
@@ -105,7 +106,6 @@ public class PlanthuntJoinLobbyActivityTest {
                     }
                 }
         );
-        Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(isDisplayed()));
     }
 
     @Test

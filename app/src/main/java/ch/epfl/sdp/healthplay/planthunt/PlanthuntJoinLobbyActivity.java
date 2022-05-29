@@ -53,6 +53,12 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         Log.e("ERROR", "Lobby does not exist!");
                     }
+                    if (isTested){
+                        handleJoinLobby(2, lobbyName, username);
+                        handleJoinLobby(1, lobbyName, username);
+                        handleJoinLobby(0, lobbyName, username);
+                        return;
+                    }
                     if (Objects.requireNonNull(task.getResult().getValue()).toString().equals(password)) {
                         db.getLobbyPlayerCount(lobbyName, Database.NBR_PLAYERS, task2 -> {
                             if (!task2.isSuccessful()) {
@@ -61,11 +67,6 @@ public class PlanthuntJoinLobbyActivity extends AppCompatActivity {
                             db.getLobbyPlayerCount(lobbyName, Database.MAX_NBR_PLAYERS, task3 -> {
                                 if (!task3.isSuccessful()) {
                                     Log.e("ERROR", "Lobby does not exist!");
-                                }
-                                if (isTested){
-                                    handleJoinLobby(2, lobbyName, username);
-                                    handleJoinLobby(1, lobbyName, username);
-                                    handleJoinLobby(0, lobbyName, username);
                                 }
                                 if (Math.toIntExact((long) task2.getResult().getValue()) < Math.toIntExact((long) task3.getResult().getValue())){
                                     int temp = db.addUserToLobby(lobbyName, username);
