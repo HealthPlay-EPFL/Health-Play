@@ -14,6 +14,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.concurrent.TimeUnit;
+
 @RunWith(AndroidJUnit4.class)
 public class ProductInfoActivityTest {
     private static final String TEST_CODE = "737628064502";
@@ -21,7 +23,7 @@ public class ProductInfoActivityTest {
     public ActivityScenarioRule<ProductInfoActivity> testRule = new ActivityScenarioRule<>(ProductInfoActivity.class);
 
     @Test
-    public void intentContainsCorrectBarcodeWhenButtonPressed() {
+    public void intentContainsCorrectBarcodeWhenButtonPressed() throws InterruptedException {
 
         Intents.init();
         // Get the TextView and write the test name onto it
@@ -33,6 +35,7 @@ public class ProductInfoActivityTest {
         // Get the button and click on it
         ViewInteraction button = Espresso.onView(withId(R.id.findProductInfos));
         button.perform(ViewActions.click());
+        TimeUnit.SECONDS.sleep(2);
 
         // This line checks that the intent has the correct key and the correct test name
         //Intents.intended(toPackage("ch.epfl.sdp.healthplay"));
@@ -41,7 +44,7 @@ public class ProductInfoActivityTest {
     }
 
     @Test
-    public void intentContainsCorrectBarcodeWhenButtonPressedWrong() {
+    public void intentContainsCorrectBarcodeWhenButtonPressedWrong() throws InterruptedException {
 
         Intents.init();
         // Get the TextView and write the test name onto it
@@ -53,6 +56,25 @@ public class ProductInfoActivityTest {
         // Get the button and click on it
         ViewInteraction button = Espresso.onView(withId(R.id.findProductInfos));
         button.perform(ViewActions.click());
+        TimeUnit.SECONDS.sleep(2);
+        // This line checks that the intent has the correct key and the correct test name
+        //Intents.intended(toPackage("ch.epfl.sdp.healthplay"));
+
+        Intents.release();
+    }
+
+    @Test
+    public void barcodeDoesNotExist() throws InterruptedException {
+        Intents.init();
+        // Get the TextView and write the test name onto it
+        ViewInteraction textView = Espresso.onView(withId(R.id.barcodeText));
+        textView.perform(ViewActions.typeText("000"));
+        Espresso.closeSoftKeyboard();
+
+        // Get the button and click on it
+        ViewInteraction button = Espresso.onView(withId(R.id.findProductInfos));
+        button.perform(ViewActions.click());
+        TimeUnit.SECONDS.sleep(2);
 
         // This line checks that the intent has the correct key and the correct test name
         //Intents.intended(toPackage("ch.epfl.sdp.healthplay"));
