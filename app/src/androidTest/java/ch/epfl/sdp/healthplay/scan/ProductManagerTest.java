@@ -21,4 +21,11 @@ public class ProductManagerTest {
     public void getCorrectProductManager() {
         assertTrue(ProductManager.getProduct("737628064502").join().isPresent());
     }
+
+    @Test
+    public void withExceptionProductManager() {
+        assertFalse(ProductManager.getProductInner(() -> {
+            throw new Exception();
+        }).join().isPresent());
+    }
 }
