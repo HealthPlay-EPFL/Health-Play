@@ -407,6 +407,25 @@ public final class Database {
         });
     }
 
+    /** Creates a new lobby in the database for testing
+     *
+     * @param name          the unique identifier given to the lobby
+     * @param password      the password required to join the lobby
+     * @param hostUid       the unique identifier of the lobby host
+     * @param remainingTime the time the game will last for
+     * @param maxNbrPlayers the number of expected players in the lobby
+     */
+    public void writeNewLobbyNoActivity(String name, String password, String hostUid, int remainingTime, int maxNbrPlayers){
+        mDatabase.child(LOBBIES).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.hasChild(name)) {
+                    mDatabase.child(LOBBIES).child(name).setValue(new Lobby(name, password, hostUid, remainingTime, maxNbrPlayers, 0));
+                }
+            }
+        });
+    }
+
     /**
      * Adds a user to the database lobby
      *

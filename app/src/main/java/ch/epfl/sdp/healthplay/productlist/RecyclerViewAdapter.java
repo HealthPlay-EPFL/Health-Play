@@ -87,6 +87,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.productDate.setText(mDates.get(position));
 
+        
         String name = product.get().getGenericName().isEmpty() ?
                 product.get().getName() :
                 product.get().getGenericName();
