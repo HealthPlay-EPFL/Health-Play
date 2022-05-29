@@ -77,36 +77,4 @@ public class PlanthuntJoinLobbyActivityTest {
         );
         Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(isDisplayed()));
     }
-
-    @Test
-    public void lobbyIsCorrectlyJoinedTwice() {
-        ViewInteraction textName = Espresso.onView(ViewMatchers.withId(R.id.planthuntJoinLobbyName));
-        textName.perform(ViewActions.typeText(NAME));
-        Espresso.closeSoftKeyboard();
-        ViewInteraction textPassword = Espresso.onView(withId(R.id.planthuntJoinLobbyPassword));
-        textPassword.perform(ViewActions.typeText(PASSWORD));
-        Espresso.closeSoftKeyboard();
-        ViewInteraction textUsername = Espresso.onView(withId(R.id.planthuntJoinLobbyUsername));
-        textUsername.perform(ViewActions.typeText(USERNAME_2));
-        Espresso.closeSoftKeyboard();
-        Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
-                new ViewAction() {
-                    @Override
-                    public Matcher<View> getConstraints() {
-                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
-                    }
-
-                    @Override
-                    public String getDescription() {
-                        return "click plus button";
-                    }
-
-                    @Override
-                    public void perform(UiController uiController, View view) {
-                        view.performClick();
-                    }
-                }
-        );
-        Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(isDisplayed()));
-    }
 }

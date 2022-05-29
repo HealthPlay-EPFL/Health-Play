@@ -85,8 +85,6 @@ public class PlanthuntMainActivityTest {
                     }
                 }
         );
-
-        Espresso.onView(withId(R.id.plantCollectionLayout)).check(matches(isDisplayed()));
     }
 
     @Test
