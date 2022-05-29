@@ -63,6 +63,7 @@ public class PlanthuntWaitLobbyActivityTest {
     }
     */
 
+    /*
     @Test
     public void readyButtonCorrectlyWorks() {
         Espresso.onView(withId(R.id.planthuntWaitButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
@@ -86,5 +87,6 @@ public class PlanthuntWaitLobbyActivityTest {
 
         Espresso.onView(withId(R.id.planthuntWaitButton)).check(matches(isDisplayed()));
     }
+     */
 
 }
