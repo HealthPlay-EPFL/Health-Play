@@ -51,4 +51,28 @@ public class PlanthuntWaitLobbyActivityTest {
         }
     }
 
+    @Test
+    public void readyButtonCorrectlyWorks() {
+        Espresso.onView(withId(R.id.planthuntWaitButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+
+        Espresso.onView(withId(R.id.planthuntWaitButton)).check(matches(isDisplayed()));
+    }
+
 }

@@ -29,6 +29,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.database.Lobby;
 
 public class PlanthuntLobbyActivityTest {
 
@@ -77,6 +78,21 @@ public class PlanthuntLobbyActivityTest {
                 }
             );
         }
+    }
+
+    @Test
+    public void gettersCorrectlyWork() {
+        Lobby lobby = new Lobby("name", "password", "host", 300, 1, 0);
+        assertEquals(lobby.getMaxNbrPlayers(), 1);
+        assertEquals(lobby.getNbrPlayers(), 1);
+        assertEquals(lobby.getPlayersReady(), 0);
+        assertEquals(lobby.getPlayersGone(), 0);
+        assertEquals(lobby.getPlayerScore1(), 0);
+        assertEquals(lobby.getPlayerScore2(), 0);
+        assertEquals(lobby.getPlayerScore3(), 0);
+        assertEquals(lobby.getPlayerUid1(), PlanthuntCreateJoinLobbyActivity.HOST);
+        assertEquals(lobby.getPlayerUid2(), "");
+        assertEquals(lobby.getPlayerUid3(), "");
     }
 
 
