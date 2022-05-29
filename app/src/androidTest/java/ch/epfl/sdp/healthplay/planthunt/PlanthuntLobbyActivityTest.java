@@ -46,7 +46,7 @@ public class PlanthuntLobbyActivityTest {
     public void timerCorrectlyAppears() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntLobbyActivity.class);
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "a");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "host");
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.HOST);
 
         try (ActivityScenario<PlanthuntLobbyActivity> scenario = ActivityScenario.launch(intent)) {
@@ -59,7 +59,7 @@ public class PlanthuntLobbyActivityTest {
     public void cameraCorrectlyLaunches() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntLobbyActivity.class);
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "a");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "host");
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.HOST);
         PlanthuntLobbyActivity.isTested = true;
         try (ActivityScenario<PlanthuntLobbyActivity> scenario = ActivityScenario.launch(intent)) {
@@ -86,7 +86,7 @@ public class PlanthuntLobbyActivityTest {
 
     @Test
     public void gettersCorrectlyWork() {
-        Lobby lobby = new Lobby("name", "password", "host", 300, 1, 0);
+        Lobby lobby = new Lobby("test", "password", "host", 300, 1, 0);
         assertEquals(lobby.getMaxNbrPlayers(), 1);
         assertEquals(lobby.getNbrPlayers(), 1);
         assertEquals(lobby.getPlayersReady(), 0);

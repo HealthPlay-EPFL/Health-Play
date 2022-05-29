@@ -28,12 +28,16 @@ import org.junit.Test;
 
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.api.CameraApi;
+import ch.epfl.sdp.healthplay.database.Database;
 
 public class PlanthuntNewPlantActivityTest {
 
     @Before
     public void before() throws InterruptedException {
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        Database db = new Database();
+        db.deleteLobby("test");
+        db.writeNewLobbyNoActivity("test", "password", "host", 300, 2);
     }
 
     @Test
@@ -41,7 +45,7 @@ public class PlanthuntNewPlantActivityTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntNewPlantActivity.class);
 
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "a");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "host");
         intent.putExtra(PlanthuntLobbyActivity.NAME, "plant");
 
         try (ActivityScenario<PlanthuntNewPlantActivity> scenario = ActivityScenario.launch(intent)) {
@@ -54,7 +58,7 @@ public class PlanthuntNewPlantActivityTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntNewPlantActivity.class);
 
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "a");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "host");
         intent.putExtra(PlanthuntLobbyActivity.NAME, "plant");
 
 
