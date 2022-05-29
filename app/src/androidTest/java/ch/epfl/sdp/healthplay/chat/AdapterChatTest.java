@@ -5,6 +5,8 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertEquals;
 
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -20,16 +22,17 @@ import java.util.List;
 
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.WelcomeScreenActivity;
+import ch.epfl.sdp.healthplay.database.DataCache;
 
 @RunWith(AndroidJUnit4.class)
 public class AdapterChatTest {
 
-    @Rule
-    public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
-
     @Before
     public void before() throws InterruptedException{
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
+        ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         onView(withId(R.id.FriendList_button)).perform(click());
     }
 
