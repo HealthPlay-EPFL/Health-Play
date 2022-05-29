@@ -35,7 +35,27 @@ public class ProductInfoActivityTest {
         button.perform(ViewActions.click());
 
         // This line checks that the intent has the correct key and the correct test name
-        Intents.intended(toPackage("ch.epfl.sdp.healthplay"));
+        //Intents.intended(toPackage("ch.epfl.sdp.healthplay"));
+
+        Intents.release();
+    }
+
+    @Test
+    public void intentContainsCorrectBarcodeWhenButtonPressedWrong() {
+
+        Intents.init();
+        // Get the TextView and write the test name onto it
+        ViewInteraction textView = Espresso.onView(withId(R.id.barcodeText));
+        textView.perform(ViewActions.typeText("1"));
+        Espresso.closeSoftKeyboard();
+
+
+        // Get the button and click on it
+        ViewInteraction button = Espresso.onView(withId(R.id.findProductInfos));
+        button.perform(ViewActions.click());
+
+        // This line checks that the intent has the correct key and the correct test name
+        //Intents.intended(toPackage("ch.epfl.sdp.healthplay"));
 
         Intents.release();
     }
