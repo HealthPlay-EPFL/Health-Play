@@ -57,7 +57,7 @@ public class PlanthuntResultActivity extends AppCompatActivity {
                             .get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                         @Override
                         public void onSuccess(DataSnapshot uidSnapshot) {
-                            usernames.add(Objects.requireNonNull(uidSnapshot.getValue()).toString());
+                            usernames.add(uidSnapshot.getValue().toString());
                             System.out.println(usernames.toString());
                             if (usernames.size() == Math.toIntExact((long) countSnapshot.getValue()) && scores.size() == Math.toIntExact((long) countSnapshot.getValue())){
                                 fillScores();

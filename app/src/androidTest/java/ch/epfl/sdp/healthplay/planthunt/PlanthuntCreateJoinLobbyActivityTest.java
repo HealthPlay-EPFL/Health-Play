@@ -57,7 +57,7 @@ public class PlanthuntCreateJoinLobbyActivityTest {
                 }
         );
 
-        Espresso.onView(withId(R.id.planthuntCreateLobbyBox1)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.planthuntCreateLobbyLayout)).check(matches(isDisplayed()));
     }
 
     @Test
