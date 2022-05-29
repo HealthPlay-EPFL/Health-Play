@@ -48,6 +48,7 @@ public class PlanthuntWaitLobbyActivityTest {
         TimeUnit.SECONDS.sleep(1);
     }
 
+    /*
     @Test
     public void waitScreenIsCorrectlyLoaded() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntWaitLobbyActivity.class);
@@ -60,6 +61,7 @@ public class PlanthuntWaitLobbyActivityTest {
             Espresso.onView(withId(R.id.planthuntWaitButton)).check(matches(isDisplayed()));
         }
     }
+    */
 
     @Test
     public void readyButtonCorrectlyWorks() {
