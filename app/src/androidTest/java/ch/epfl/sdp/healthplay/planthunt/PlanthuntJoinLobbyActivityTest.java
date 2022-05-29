@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.view.View;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -36,8 +37,14 @@ public class PlanthuntJoinLobbyActivityTest {
     private static final String USERNAME_2 = "c";
 
 
-    @Rule
+    /*@Rule
     public ActivityScenarioRule<PlanthuntJoinLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntJoinLobbyActivity.class);
+*/
+    @Before
+    public void init(){
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        ActivityScenario activityScenario = ActivityScenario.launch(PlanthuntJoinLobbyActivity.class);
+    }
 
     @Before
     public void init(){
@@ -113,4 +120,3 @@ public class PlanthuntJoinLobbyActivityTest {
         Espresso.pressBack();
     }
 }
-

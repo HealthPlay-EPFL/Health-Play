@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.view.View;
 import androidx.navigation.Navigation;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -125,4 +126,3 @@ public class GameMenuFragmentTest {
     }*/
 
 }
-

@@ -29,6 +29,7 @@ public class AuthUiActivityTest {
     public void init() throws InterruptedException {
         FirebaseAuth.getInstance().signOut();
         ActivityScenario init = ActivityScenario.launch(WelcomeScreenActivity.class);
+        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         ActivityScenario home = ActivityScenario.launch(HomeScreenActivity.class);
         home.onActivity(new ActivityScenario.ActivityAction() {
             @Override

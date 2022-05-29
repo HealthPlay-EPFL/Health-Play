@@ -6,6 +6,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
@@ -19,6 +22,7 @@ import com.google.firebase.database.DataSnapshot;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -51,7 +55,7 @@ public class HomeScreenActivityTest {
             }
         });
     }
-      
+
     @Test
     public void activityInitialization() {
          Espresso.onView(withId(R.id.fragmentContainerView)).check(matches(isDisplayed()));
