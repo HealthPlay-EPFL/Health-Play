@@ -29,13 +29,20 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.database.Database;
 
 public class PlanthuntWaitLobbyActivityTest {
+
+    @Rule
+    public ActivityScenarioRule<PlanthuntWaitLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntWaitLobbyActivity.class);
 
 
     @Before
     public void before() throws InterruptedException {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        Database db = new Database();
+        db.deleteLobby("test");
+        db.writeNewLobbyNoActivity("test", "password", "host", 300, 2);
     }
 
     @Test

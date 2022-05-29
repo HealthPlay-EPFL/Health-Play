@@ -18,18 +18,28 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.planthunt.PlanthuntCreateLobbyActivity;
 
 public class PlanthuntCreateLobbyActivityTest {
     private static final String NAME = "test";
     private static final String PASSWORD = "password";
-    private static final String USERNAME = "a";
+    private static final String USERNAME = "host";
 
+    @Before
+    public void before() throws InterruptedException {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        Database db = new Database();
+        db.deleteLobby("test");
+    }
 
     @Rule
     public ActivityScenarioRule<PlanthuntCreateLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntCreateLobbyActivity.class);

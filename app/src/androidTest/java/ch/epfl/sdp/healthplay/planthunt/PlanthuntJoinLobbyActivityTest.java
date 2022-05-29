@@ -17,11 +17,15 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.planthunt.PlanthuntJoinLobbyActivity;
 
 public class PlanthuntJoinLobbyActivityTest {
@@ -33,6 +37,14 @@ public class PlanthuntJoinLobbyActivityTest {
 
     @Rule
     public ActivityScenarioRule<PlanthuntJoinLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntJoinLobbyActivity.class);
+
+    @Before
+    public void before() throws InterruptedException {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        Database db = new Database();
+        db.deleteLobby("test");
+        db.writeNewLobbyNoActivity("test", "password", "host", 300, 2);
+    }
 
     @Test
     public void lobbyIsCorrectlyJoined() {
