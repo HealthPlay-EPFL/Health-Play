@@ -31,7 +31,7 @@ public class PlanthuntMainActivity extends AppCompatActivity {
         Button collectionButton = findViewById(R.id.planthuntMainCollection);
         Button leaveButton = findViewById(R.id.planthuntMainLeave);
 
-        //Start main activity when clicking on Play button
+        //Start collection activity when clicking on Collection button
         collectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,7 +40,7 @@ public class PlanthuntMainActivity extends AppCompatActivity {
             }
         });
 
-        //Start collection activity when clicking on Collection button
+        //Start main activity when clicking on Play button
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

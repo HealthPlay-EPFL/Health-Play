@@ -73,10 +73,10 @@ public class PlanthuntWaitLobbyActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         db.getAllLobbyPlayerUids(lobbyName, task -> {
                             if (!task.isSuccessful() || task.getResult().getValue() == null) {
-                                Log.e("ERROR", "An error happened");
+                                Log.e("ERROR", "Error getting lobby player uids");
                                 return;
                             }
-                            String name = Objects.requireNonNull(task.getResult().getValue()).toString();
+                            String name = task.getResult().getValue().toString();
                             if (!usernames.contains(name) && name.length() > 0){
                                 usernames.add(name);
                                 if (usernames.size() == 1){

@@ -17,11 +17,17 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.concurrent.TimeUnit;
+
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.planthunt.PlanthuntJoinLobbyActivity;
 
 public class PlanthuntJoinLobbyActivityTest {
@@ -34,6 +40,15 @@ public class PlanthuntJoinLobbyActivityTest {
     @Rule
     public ActivityScenarioRule<PlanthuntJoinLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntJoinLobbyActivity.class);
 
+    @Before
+    public void before() throws InterruptedException {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        Database db = new Database();
+        db.deleteLobby("test");
+        db.writeNewLobbyNoActivity("test", "password", "host", 300, 2);
+        TimeUnit.SECONDS.sleep(1);
+    }
+
     @Test
     public void lobbyIsCorrectlyJoined() {
         ViewInteraction textName = Espresso.onView(ViewMatchers.withId(R.id.planthuntJoinLobbyName));
@@ -44,38 +59,6 @@ public class PlanthuntJoinLobbyActivityTest {
         Espresso.closeSoftKeyboard();
         ViewInteraction textUsername = Espresso.onView(withId(R.id.planthuntJoinLobbyUsername));
         textUsername.perform(ViewActions.typeText(USERNAME));
-        Espresso.closeSoftKeyboard();
-        Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
-                new ViewAction() {
-                    @Override
-                    public Matcher<View> getConstraints() {
-                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
-                    }
-
-                    @Override
-                    public String getDescription() {
-                        return "click plus button";
-                    }
-
-                    @Override
-                    public void perform(UiController uiController, View view) {
-                        view.performClick();
-                    }
-                }
-        );
-        Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void lobbyIsCorrectlyJoinedTwice() {
-        ViewInteraction textName = Espresso.onView(ViewMatchers.withId(R.id.planthuntJoinLobbyName));
-        textName.perform(ViewActions.typeText(NAME));
-        Espresso.closeSoftKeyboard();
-        ViewInteraction textPassword = Espresso.onView(withId(R.id.planthuntJoinLobbyPassword));
-        textPassword.perform(ViewActions.typeText(PASSWORD));
-        Espresso.closeSoftKeyboard();
-        ViewInteraction textUsername = Espresso.onView(withId(R.id.planthuntJoinLobbyUsername));
-        textUsername.perform(ViewActions.typeText(USERNAME_2));
         Espresso.closeSoftKeyboard();
         Espresso.onView(withId(R.id.planthuntJoinLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {

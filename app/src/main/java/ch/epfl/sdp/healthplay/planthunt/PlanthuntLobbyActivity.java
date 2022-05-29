@@ -150,7 +150,7 @@ public class PlanthuntLobbyActivity extends AppCompatActivity {
 
                                 Log.e("ERROR", "An error happened");
                             }
-                            lobbyScore.setText("Score: " + Objects.requireNonNull(task.getResult().getValue()));
+                            lobbyScore.setText("Score: " + task.getResult().getValue());
                         });
                     }
                     @Override

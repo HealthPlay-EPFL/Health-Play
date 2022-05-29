@@ -51,7 +51,7 @@ public class PlanthuntNewPlantActivity extends AppCompatActivity {
             if (!task.isSuccessful()) {
                 Log.e("ERROR", "Error getting the player's score");
             }
-            db.updateLobbyPlayerScore(lobbyName, currentUsername, Math.toIntExact((long) Objects.requireNonNull(task.getResult().getValue())) + points);
+            db.updateLobbyPlayerScore(lobbyName, currentUsername, Math.toIntExact((long) task.getResult().getValue()) + points);
         });
 
         String plantName = "You found a " + intent.getStringExtra(PlanthuntLobbyActivity.NAME) + "!";
