@@ -24,6 +24,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.concurrent.TimeUnit;
+
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.planthunt.PlanthuntJoinLobbyActivity;
@@ -44,6 +46,7 @@ public class PlanthuntJoinLobbyActivityTest {
         Database db = new Database();
         db.deleteLobby("test");
         db.writeNewLobbyNoActivity("test", "password", "host", 300, 2);
+        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test

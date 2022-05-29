@@ -407,7 +407,7 @@ public final class Database {
         });
     }
 
-    /** Creates a new lobby in the database
+    /** Creates a new lobby in the database for testing
      *
      * @param name          the unique identifier given to the lobby
      * @param password      the password required to join the lobby
