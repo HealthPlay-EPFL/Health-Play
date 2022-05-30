@@ -4,6 +4,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -31,19 +32,13 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sdp.healthplay.database.DataCache;
 
-//@RunWith(AndroidJUnit4.class)
+@RunWith(AndroidJUnit4.class)
 public class GameMenuFragmentTest {
 
     @Before
     public void init(){
-        ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
-        activity.onActivity(new ActivityScenario.ActivityAction() {
-            @Override
-            public void perform(Activity activity) {
-                BottomNavigationView b = activity.findViewById(R.id.bottomNavigationView);
-                Navigation.findNavController(activity.findViewById(R.id.fragmentContainerView)).navigate(R.id.gamesMenu);
-            }
-        });
+        ActivityScenario activity = ActivityScenario.launch(WelcomeScreenActivity.class);
+        onView( allOf( withId(R.id.gamesMenu), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
     }
 
     /*@Test

@@ -98,11 +98,7 @@ public class Frag_Home extends Fragment {
         }
         );
 
-        try {
-            userStats = WelcomeScreenActivity.cache.getDataMapCalendar();
-        }catch (Exception e){
-            userStats=null;
-        }
+        tryCache();
 
         //Print a text when the date is changed
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -113,7 +109,7 @@ public class Frag_Home extends Fragment {
                 //No user logged in
                 if(user == null){
                     dataDisplay.setText(text[0]);
-                    userStats = WelcomeScreenActivity.cache.getDataMapCalendar();
+                    tryCache();
                 }
                 //User is logged in but no data at all
                 if(userStats == null) {
@@ -133,7 +129,7 @@ public class Frag_Home extends Fragment {
 
         //Update in real time the userStats
         if(user != null) {
-            userStats = WelcomeScreenActivity.cache.getDataMapCalendar();
+            tryCache();
             if(userStats != null) {
                 if (selectedDate != null && selectedDate.equals(date)) {
                     printStats(
@@ -143,6 +139,14 @@ public class Frag_Home extends Fragment {
             }
         }
         return view;
+    }
+
+    private void tryCache(){
+        try {
+            userStats = WelcomeScreenActivity.cache.getDataMapCalendar();
+        }catch (Exception e){
+            userStats=null;
+        }
     }
 
 
