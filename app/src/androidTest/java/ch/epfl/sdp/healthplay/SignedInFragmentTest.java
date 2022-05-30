@@ -23,6 +23,7 @@ import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -45,6 +46,7 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.auth.SignedInFragment;
+import ch.epfl.sdp.healthplay.database.DataCache;
 
 @RunWith(AndroidJUnit4.class)
 public class SignedInFragmentTest {
@@ -55,6 +57,7 @@ public class SignedInFragmentTest {
     @Before
     public void init() {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(emailString, password);
+        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         /**/
     }
 

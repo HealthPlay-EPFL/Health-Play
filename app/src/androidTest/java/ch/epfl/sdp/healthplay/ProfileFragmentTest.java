@@ -10,6 +10,7 @@ import android.app.Activity;
 
 import androidx.navigation.Navigation;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -19,11 +20,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sdp.healthplay.database.DataCache;
+
 @RunWith(AndroidJUnit4.class)
 public class ProfileFragmentTest {
     @Before
     public void init(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
+        FirebaseAuth.getInstance().signOut();
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(SignedInFragmentTest.emailString, SignedInFragmentTest.password);
+        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         activity.onActivity(new ActivityScenario.ActivityAction() {
             @Override

@@ -15,6 +15,8 @@ import static org.junit.Assert.assertTrue;
 import android.view.View;
 import android.widget.ListView;
 
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -38,17 +40,19 @@ import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.WelcomeScreenActivity;
+import ch.epfl.sdp.healthplay.database.DataCache;
 import ch.epfl.sdp.healthplay.database.Database;
 
 
 @RunWith(AndroidJUnit4.class)
 public class AddFriendFragmentTest {
-    @Rule
-    public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
 
     @Before
     public void before() throws InterruptedException{
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
+        ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         onView(ViewMatchers.withId(R.id.FriendList_button)).perform(click());
         onView(withId(R.id.addFriendBouton)).perform(click());
     }
