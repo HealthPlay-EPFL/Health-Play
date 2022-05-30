@@ -27,10 +27,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-//@RunWith(AndroidJUnit4.class)
+@RunWith(AndroidJUnit4.class)
 public class GameMenuFragmentTest {
 
-    /*@Before
+    @Before
     public void init(){
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         activity.onActivity(new ActivityScenario.ActivityAction() {
@@ -40,7 +40,7 @@ public class GameMenuFragmentTest {
                 Navigation.findNavController(activity.findViewById(R.id.fragmentContainerView)).navigate(R.id.gamesMenu);
             }
         });
-    }*/
+    }
 
     /*@Test
     public void planthuntDescriptionCorrectlyDisplays() {
