@@ -36,8 +36,6 @@ public class GameMenuFragmentTest {
 
     @Before
     public void init(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(SignedInFragmentTest.emailString, SignedInFragmentTest.password);
-        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         activity.onActivity(new ActivityScenario.ActivityAction() {
             @Override
