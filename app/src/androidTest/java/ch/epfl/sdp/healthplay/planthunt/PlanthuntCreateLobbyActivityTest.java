@@ -1,5 +1,6 @@
 package ch.epfl.sdp.healthplay.planthunt;
 
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -17,18 +18,28 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.planthunt.PlanthuntCreateLobbyActivity;
 
 public class PlanthuntCreateLobbyActivityTest {
     private static final String NAME = "test";
     private static final String PASSWORD = "password";
-    private static final String USERNAME = "a";
+    private static final String USERNAME = "host";
 
+    @Before
+    public void before() throws InterruptedException {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        Database db = new Database();
+        db.deleteLobby("test");
+    }
 
     @Rule
     public ActivityScenarioRule<PlanthuntCreateLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntCreateLobbyActivity.class);
@@ -44,7 +55,7 @@ public class PlanthuntCreateLobbyActivityTest {
         ViewInteraction textUsername = Espresso.onView(withId(R.id.planthuntCreateLobbyUsername));
         textUsername.perform(ViewActions.typeText(USERNAME));
         Espresso.closeSoftKeyboard();
-        Espresso.onView(withId(R.id.planthuntWaitButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+        Espresso.onView(withId(R.id.planthuntCreateLobbyButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
@@ -65,4 +76,23 @@ public class PlanthuntCreateLobbyActivityTest {
 
         Espresso.onView(withId(R.id.planthuntWaitButton)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void checkBox1CorrectlyAppears() {
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox1)).perform(click());
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox1)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkBox2CorrectlyAppears() {
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox2)).perform(click());
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox2)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkBox3CorrectlyAppears() {
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox3)).perform(click());
+        Espresso.onView(withId(R.id.planthuntCreateLobbyBox3)).check(matches(isDisplayed()));
+    }
+
 }

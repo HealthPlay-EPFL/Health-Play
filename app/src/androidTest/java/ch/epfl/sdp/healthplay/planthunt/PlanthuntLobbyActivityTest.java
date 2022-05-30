@@ -28,20 +28,28 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.concurrent.TimeUnit;
+
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.database.Database;
+import ch.epfl.sdp.healthplay.database.Lobby;
 
 public class PlanthuntLobbyActivityTest {
 
     @Before
     public void before() throws InterruptedException {
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        Database db = new Database();
+        db.deleteLobby("test");
+        db.writeNewLobbyNoActivity("test", "password", "host", 300, 2);
+        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test
     public void timerCorrectlyAppears() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntLobbyActivity.class);
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "a");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "host");
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.HOST);
 
         try (ActivityScenario<PlanthuntLobbyActivity> scenario = ActivityScenario.launch(intent)) {
@@ -54,7 +62,7 @@ public class PlanthuntLobbyActivityTest {
     public void cameraCorrectlyLaunches() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntLobbyActivity.class);
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, "test");
-        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "a");
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, "host");
         intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.HOST);
         PlanthuntLobbyActivity.isTested = true;
         try (ActivityScenario<PlanthuntLobbyActivity> scenario = ActivityScenario.launch(intent)) {
@@ -77,6 +85,21 @@ public class PlanthuntLobbyActivityTest {
                 }
             );
         }
+    }
+
+    @Test
+    public void gettersCorrectlyWork() {
+        Lobby lobby = new Lobby("test", "password", "host", 300, 1, 0);
+        assertEquals(lobby.getMaxNbrPlayers(), 1);
+        assertEquals(lobby.getNbrPlayers(), 1);
+        assertEquals(lobby.getPlayersReady(), 0);
+        assertEquals(lobby.getPlayersGone(), 0);
+        assertEquals(lobby.getPlayerScore1(), 0);
+        assertEquals(lobby.getPlayerScore2(), 0);
+        assertEquals(lobby.getPlayerScore3(), 0);
+        assertEquals(lobby.getPlayerUid1(), PlanthuntCreateJoinLobbyActivity.HOST);
+        assertEquals(lobby.getPlayerUid2(), "");
+        assertEquals(lobby.getPlayerUid3(), "");
     }
 
 
