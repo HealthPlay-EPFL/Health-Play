@@ -29,6 +29,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.epfl.sdp.healthplay.database.DataCache;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.friendlist.FriendList_Frag;
 import ch.epfl.sdp.healthplay.model.Graph_Frag;
@@ -69,6 +70,8 @@ public class Frag_Home extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_frag__home, container, false);
+        if(WelcomeScreenActivity.cache == null)
+            WelcomeScreenActivity.cache = new DataCache(getContext());
         initText();
         CalendarView calendarView = (CalendarView) view.findViewById(R.id.calendar);
         TextView dataDisplay = (TextView) view.findViewById(R.id.my_date);

@@ -27,7 +27,7 @@ public class PlanthuntDescriptionFragmentTest {
 
     @Before
     public void init(){
-        ActivityScenario activity = ActivityScenario.launch(WelcomeScreenActivity.class);
+        ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         onView( allOf( withId(R.id.gamesMenu), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
         onView(withId(R.id.planthuntThumbnail)).perform(click());
     }

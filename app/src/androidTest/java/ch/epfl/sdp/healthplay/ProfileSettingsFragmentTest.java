@@ -38,7 +38,6 @@ public class ProfileSettingsFragmentTest {
     public void init(){
         FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         activity = ActivityScenario.launch(HomeScreenActivity.class);
-        ActivityScenario activity = ActivityScenario.launch(WelcomeScreenActivity.class);
         onView( allOf( withId(R.id.profileActivity), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
         onView(withId(R.id.statsButton)).perform(click());
     }

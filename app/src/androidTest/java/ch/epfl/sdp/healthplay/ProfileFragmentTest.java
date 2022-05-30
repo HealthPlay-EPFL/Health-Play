@@ -27,7 +27,7 @@ public class ProfileFragmentTest {
     @Before
     public void init(){
         FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
-        ActivityScenario activity = ActivityScenario.launch(WelcomeScreenActivity.class);
+        ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         onView( allOf( withId(R.id.profileActivity), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
     }
 

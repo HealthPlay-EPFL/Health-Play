@@ -40,7 +40,6 @@ import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.R;
-import ch.epfl.sdp.healthplay.WelcomeScreenActivity;
 import ch.epfl.sdp.healthplay.database.Friend;
 import ch.epfl.sdp.healthplay.friendlist.FriendListItemActivity;
 
@@ -48,7 +47,7 @@ import ch.epfl.sdp.healthplay.friendlist.FriendListItemActivity;
 public class ChatActivityTest {
 
     @Rule
-    public ActivityScenarioRule<WelcomeScreenActivity> testRule = new ActivityScenarioRule<>(WelcomeScreenActivity.class);
+    public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
 
     @Before
     public void before() throws InterruptedException{
