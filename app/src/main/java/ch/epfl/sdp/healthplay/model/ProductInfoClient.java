@@ -57,16 +57,16 @@ public final class ProductInfoClient {
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 String line;
-                BufferedReader bufferedReader = new BufferedReader(
+                try(BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(connection.getInputStream())
-                );
+                )) {
+                    while ((line = bufferedReader.readLine()) != null)
+                        response.append(line);
 
-                while ((line = bufferedReader.readLine()) != null)
-                    response.append(line);
+                    bufferedReader.close();
 
-                bufferedReader.close();
-
-                return response.toString();
+                    return response.toString();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

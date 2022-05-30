@@ -1,12 +1,15 @@
 package ch.epfl.sdp.healthplay;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
-import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
@@ -18,29 +21,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.test.espresso.idling.CountingIdlingResource;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.mlkit.vision.barcode.BarcodeScanner;
-import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
-import com.google.mlkit.vision.barcode.BarcodeScanning;
-import com.google.mlkit.vision.barcode.common.Barcode;
-import com.google.mlkit.vision.common.InputImage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import ch.epfl.sdp.healthplay.database.Database;
+import ch.epfl.sdp.healthplay.scan.ScanDecoder;
 
 public class BarcodeScanFragment extends Fragment {
 
@@ -52,18 +40,15 @@ public class BarcodeScanFragment extends Fragment {
     protected final static CountingIdlingResource idlingResource =
             new CountingIdlingResource("LOOKUP_BARCODE");
 
-    // The barcode formats used
-    private final static BarcodeScannerOptions options =
-            new BarcodeScannerOptions.Builder()
-                    .setBarcodeFormats(
-                            // Allow scanning of product barcodes
-                            Barcode.FORMAT_EAN_13,
-                            Barcode.FORMAT_EAN_8,
-                            // Allow scanning of QR codes
-                            Barcode.FORMAT_QR_CODE)
-                    .build();
-    private ImageCapture imageCapture;
+    protected ImageCapture imageCapture;
     private View view;
+
+    public void createCamera(ProcessCameraProvider cameraProvider, Preview preview) {
+        cameraProvider.bindToLifecycle((LifecycleOwner) this,
+                CameraSelector.DEFAULT_BACK_CAMERA,
+                imageCapture,
+                preview);
+    }
 
     public BarcodeScanFragment() {
         // Required empty public constructor
@@ -115,10 +100,7 @@ public class BarcodeScanFragment extends Fragment {
                 .build();
 
         // Create the camera
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this,
-                CameraSelector.DEFAULT_BACK_CAMERA,
-                imageCapture,
-                preview);
+        createCamera(cameraProvider, preview);
     }
 
     public void onClick() throws IOException {
@@ -164,73 +146,14 @@ public class BarcodeScanFragment extends Fragment {
     }
 
     public void scan(Uri uri) throws IOException {
-        InputImage image = InputImage.fromFilePath(getActivity().getApplicationContext(), uri);
-        BarcodeScanner scanner = BarcodeScanning.getClient(options);
-        scanner.process(image)
-                .addOnSuccessListener(barcodes -> {
-                    if (barcodes.isEmpty()) {
-                        String error = "Error";
-                        String message = "An error occurred. Please try again";
-                        String OK = "OK";
-                        // Popup dialog whenever an error occurs
-                        new AlertDialog.Builder(getContext())
-                                .setTitle(error)
-                                .setMessage(message)
-                                .setNeutralButton(OK, null)
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
-                        return;
-                    }
-
-                    for (Barcode barcode : barcodes) {
-                        // Get the code from the barcode
-                        final String barcodeString;
-                        barcodeString = barcode.getRawValue();
-                        int barcodeType = barcode.getValueType();
-                        switch (barcodeType) {
-                            case Barcode.TYPE_PRODUCT:
-                                Intent intent = new Intent(getContext(), BarcodeInformationActivity.class);
-                                intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, barcodeString);
-                                // Go to barcode information activity
-                                startActivity(intent);
-                                break;
-                            case Barcode.TYPE_TEXT:
-                                // This part is for the friends QR code
-                                database.mDatabase
-                                        .child(Database.USERS)
-                                        .child(barcodeString)
-                                        .get()
-                                        .addOnSuccessListener(dataSnapshot -> {
-                                            // Check if the user exists in the database
-                                            if (dataSnapshot.exists()) {
-                                                // Set the info view to be visible
-                                                view.findViewById(R.id.shadowFrameScanFriend).setVisibility(View.VISIBLE);
-                                                @SuppressWarnings("unchecked")
-                                                Map<String, Object> user = (Map<String, Object>) dataSnapshot.getValue();
-                                                assert user != null;
-                                                String username = (String) user.getOrDefault(Database.USERNAME, "None");
-                                                TextView usernameText = view.findViewById(R.id.userNameScan);
-                                                usernameText.setText(username);
-                                                String pPicture = (String) user.get("image");
-                                                Glide.with(this).load(pPicture).into((ImageView) view.findViewById(R.id.profilePictureAddFriend));
-
-                                                view.findViewById(R.id.addFriendScanButton).setOnClickListener(onClick -> {
-                                                    // Add the user to the friend list
-                                                    database.addToFriendList(barcodeString);
-                                                    // Remove info view
-                                                    view.findViewById(R.id.shadowFrameScanFriend).setVisibility(View.GONE);
-                                                    Toast.makeText(getContext(),
-                                                            username+" was added in your friends list !",
-                                                            Toast.LENGTH_SHORT)
-                                                            .show();
-                                                });
-                                            }
-                                        });
-                                break;
-                        }
-
-                    }
-                });
+        ScanDecoder.scan(uri, getActivity().getApplicationContext(),
+                productJson -> {
+                    // Create the intent for the product information
+                    Intent intent = new Intent(getContext(), BarcodeInformationActivity.class);
+                    intent.putExtra(BarcodeInformationActivity.EXTRA_MESSAGE, productJson);
+                    // Go to barcode information activity
+                    startActivity(intent);
+                }, getView());
     }
 
     public void enterManually() {
@@ -238,7 +161,8 @@ public class BarcodeScanFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void initButton(){
+
+    public void initButton() {
         view.findViewById(R.id.get_information_from_barcode).setOnClickListener(v -> {
             try {
                 onClick();
