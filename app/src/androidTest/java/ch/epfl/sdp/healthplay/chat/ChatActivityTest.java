@@ -19,8 +19,6 @@ import static java.util.EnumSet.allOf;
 
 import android.widget.TextView;
 
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.intent.Checks;
@@ -42,20 +40,18 @@ import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.R;
-import ch.epfl.sdp.healthplay.WelcomeScreenActivity;
-import ch.epfl.sdp.healthplay.database.DataCache;
 import ch.epfl.sdp.healthplay.database.Friend;
 import ch.epfl.sdp.healthplay.friendlist.FriendListItemActivity;
 
 @RunWith(AndroidJUnit4.class)
 public class ChatActivityTest {
 
+    @Rule
+    public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
+
     @Before
     public void before() throws InterruptedException{
-        FirebaseAuth.getInstance().signOut();
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
-        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
-        ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         onView(ViewMatchers.withId(R.id.FriendList_button)).perform(click());
         onData(friendWithId("H7ZFXooYVWfASQfE5R3ej8PU1B33")).inAdapterView(withId(R.id.friendList)).onChildView(withId(R.id.goToChat)).perform(click());
     }
