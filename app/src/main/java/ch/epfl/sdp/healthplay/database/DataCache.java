@@ -137,4 +137,17 @@ public class DataCache {
     public Map<String, Map<String, Number>> getDataMap(){
         return current_map;
     }
+
+    public Map<String, Map<String, String>> getDataMapCalendar(){
+        if(current_map == null || current_map.isEmpty()) return null;
+        Map<String , Map<String, String>> map = new HashMap<>();
+        current_map.forEach((date, datas) -> {
+            Map<String, String> inter = new HashMap<>();
+            datas.forEach((l, d) -> {
+                inter.put(l, String.valueOf(d));
+            });
+            map.put(date, inter);
+        });
+        return map;
+    }
 }
