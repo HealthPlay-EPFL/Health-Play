@@ -130,8 +130,7 @@ public class LeaderBoardFragmentTest {
                     public void perform(UiController uiController, View view) {
                         view.performClick();
                     }
-
-
+                    
                 }
         );
         // onView(withId(R.id.viewProfileNoFriend)).perform(click());
