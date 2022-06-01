@@ -30,6 +30,7 @@ public class Graph_FragTest {
     public void init() throws InterruptedException {
         FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         ActivityScenario sc = ActivityScenario.launch(WelcomeScreenActivity.class);
+        TimeUnit.SECONDS.sleep(3);
         onView(withId(R.id.switchFragButton)).perform(click());
         TimeUnit.SECONDS.sleep(1);
     }

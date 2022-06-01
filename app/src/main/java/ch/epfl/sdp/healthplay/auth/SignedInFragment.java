@@ -80,8 +80,6 @@ public class SignedInFragment extends Fragment {
         mBinding = FragmentSignedInBinding.inflate(inflater);
         view = mBinding.getRoot();
         initButton();
-        populateProfile(response);
-        populateIdpToken(response);
 
         mBinding.deleteAccount.setOnClickListener(view -> deleteAccountClicked());
         mBinding.signOut.setOnClickListener(view -> signOut());
@@ -191,86 +189,6 @@ public class SignedInFragment extends Fragment {
                         showSnackbar(R.string.delete_account_failed);
                     }
                 });
-    }
-
-    private void populateProfile(@Nullable IdpResponse response) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        String email = TextUtils.isEmpty(user.getEmail()) ? "No email" : user.getEmail();
-        String phone = TextUtils.isEmpty(user.getPhoneNumber()) ? "No phone number" : user.getPhoneNumber();
-        String display = TextUtils.isEmpty(user.getDisplayName()) ? "No display name" : user.getDisplayName();
-
-        mBinding.userEmail.setText(email);
-        mBinding.userPhoneNumber.setText(phone);
-        mBinding.userDisplayName.setText(display);
-
-        if (response == null) {
-            mBinding.userIsNew.setVisibility(View.GONE);
-        } else {
-            mBinding.userIsNew.setVisibility(View.VISIBLE);
-            String userDisplay = response.isNewUser() ? "New user" : "Existing user";
-            mBinding.userIsNew.setText(userDisplay);
-        }
-
-        List<String> providers = new ArrayList<>();
-        if (user.getProviderData().isEmpty()) {
-            providers.add(getString(R.string.providers_anonymous));
-        } else {
-            for (UserInfo info : user.getProviderData()) {
-                switch (info.getProviderId()) {
-                    case GoogleAuthProvider.PROVIDER_ID:
-                        providers.add(getString(R.string.providers_google));
-                        break;
-                    case FacebookAuthProvider.PROVIDER_ID:
-                        providers.add(getString(R.string.providers_facebook));
-                        break;
-                    case TwitterAuthProvider.PROVIDER_ID:
-                        providers.add(getString(R.string.providers_twitter));
-                        break;
-                    case EmailAuthProvider.PROVIDER_ID:
-                        providers.add(getString(R.string.providers_email));
-                        break;
-                    case PhoneAuthProvider.PROVIDER_ID:
-                        providers.add(getString(R.string.providers_phone));
-                        break;
-                    case EMAIL_LINK_PROVIDER:
-                        providers.add(getString(R.string.providers_email_link));
-                        break;
-                    case FirebaseAuthProvider.PROVIDER_ID:
-                        // Ignore this provider, it's not very meaningful
-                        break;
-                    default:
-                        providers.add(info.getProviderId());
-                }
-            }
-        }
-
-        mBinding.userEnabledProviders.setText(getString(R.string.used_providers, providers));
-    }
-
-    private void populateIdpToken(@Nullable IdpResponse response) {
-        String token = null;
-        String secret = null;
-        if (response != null) {
-            token = response.getIdpToken();
-            secret = response.getIdpSecret();
-        }
-
-        View idpTokenLayout = view.findViewById(R.id.idp_token_layout);
-        if (token == null) {
-            idpTokenLayout.setVisibility(View.GONE);
-        } else {
-            idpTokenLayout.setVisibility(View.VISIBLE);
-            ((TextView) view.findViewById(R.id.idp_token)).setText(token);
-        }
-
-        View idpSecretLayout = view.findViewById(R.id.idp_secret_layout);
-        if (secret == null) {
-            idpSecretLayout.setVisibility(View.GONE);
-        } else {
-            idpSecretLayout.setVisibility(View.VISIBLE);
-            ((TextView) view.findViewById(R.id.idp_secret)).setText(secret);
-        }
     }
 
     private void showSnackbar(@StringRes int errorMessageRes) {

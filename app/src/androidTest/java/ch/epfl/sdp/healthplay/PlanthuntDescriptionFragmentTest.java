@@ -3,8 +3,11 @@ package ch.epfl.sdp.healthplay;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
+import static org.hamcrest.Matchers.allOf;
 
 import android.app.Activity;
 
@@ -25,13 +28,7 @@ public class PlanthuntDescriptionFragmentTest {
     @Before
     public void init(){
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
-        activity.onActivity(new ActivityScenario.ActivityAction() {
-            @Override
-            public void perform(Activity activity) {
-                BottomNavigationView b = activity.findViewById(R.id.bottomNavigationView);
-                Navigation.findNavController(activity.findViewById(R.id.fragmentContainerView)).navigate(R.id.gamesMenu);
-            }
-        });
+        onView( allOf( withId(R.id.gamesMenu), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
         onView(withId(R.id.planthuntThumbnail)).perform(click());
     }
 
