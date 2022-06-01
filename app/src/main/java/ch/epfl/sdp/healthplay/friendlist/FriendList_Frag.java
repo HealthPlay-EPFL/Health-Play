@@ -94,6 +94,20 @@ public class  FriendList_Frag extends Fragment {
 
             // Listen to changes to the FriendList of the User
             database.mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("friends").addValueEventListener(new ValueEventListener() {
+                                                                                                                               @SuppressLint("SetTextI18n")
+                                                                                                                               @Override
+                                                                                                                               public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                                                                                   //Get the changes
+                                                                                                                                   Map<String, String> value = (Map<String, String>) snapshot.getValue();
+                                                                                                                                   if(value != null) {
+
+                                                                                                                                       updateListView(listView, buildFriendListFromFirebase(value));
+                                                                                                                                   }
+                                                                                                                               }
+                                                                                                                               @Override
+                                                                                                                               public void onCancelled(@NonNull DatabaseError error) {
+                                                                                                                               }
+                                                                                                                           }
 
             );
         }
