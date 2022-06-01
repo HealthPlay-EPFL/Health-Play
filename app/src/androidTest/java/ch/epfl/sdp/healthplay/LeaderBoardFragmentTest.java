@@ -137,7 +137,7 @@ public class LeaderBoardFragmentTest {
         onData(Matchers.anything()).atPosition(0).perform(click());
         TimeUnit.SECONDS.sleep(2);
         //onView(withId(R.id.profile_picture)).check(matches(isDisplayed()));
-        
+
         */
     }
     @Test

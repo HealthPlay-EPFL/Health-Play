@@ -1,7 +1,6 @@
 package ch.epfl.sdp.healthplay.friendlist;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,7 +27,6 @@ import java.util.Map;
 
 import ch.epfl.sdp.healthplay.Frag_Home;
 import ch.epfl.sdp.healthplay.R;
-import ch.epfl.sdp.healthplay.ViewProfileActivity;
 import ch.epfl.sdp.healthplay.ViewProfileFragment;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Friend;
