@@ -72,7 +72,7 @@ public class PlanthuntWaitLobbyActivityTest {
                         view.performClick();
                     }
                 }
-        ););
+        );
         onData(anything()).inRoot(isDialog()).atPosition(0).perform(
                 new ViewAction() {
                     @Override
@@ -90,7 +90,7 @@ public class PlanthuntWaitLobbyActivityTest {
                         view.performClick();
                     }
                 }
-        ););
+        );
     }
 
     @Test
@@ -112,7 +112,7 @@ public class PlanthuntWaitLobbyActivityTest {
                         view.performClick();
                     }
                 }
-        ););
+        );
         onView(ViewMatchers.withText("Cancel")).perform(
                 new ViewAction() {
                     @Override
@@ -130,7 +130,7 @@ public class PlanthuntWaitLobbyActivityTest {
                         view.performClick();
                     }
                 }
-        ););
+        );
     }
 
     /*
