@@ -23,9 +23,7 @@
         <activity
             android:name=".chat.ChatActivity"
             android:exported="false"/>
-        <activity
-            android:name=".MonthlyLeaderBoardActivity"
-            android:exported="false" />
+
         <activity
             android:name=".planthunt.PlanthuntNewPlantActivity"
             android:exported="false" />
@@ -42,13 +40,7 @@
             android:name=".planthunt.PlanthuntMainActivity"
             android:exported="false" />
         <activity
-            android:name=".ViewProfileActivity"
-            android:exported="false" />
-        <activity
             android:name=".friendlist.FriendListItemActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EditProfilePictureActivity"
             android:exported="false" />
         <activity
             android:name=".planthunt.PlanthuntCreateLobbyActivity"
@@ -72,9 +64,6 @@
         <activity android:name=".planthunt.PlanthuntDescriptionActivity" />
         <activity android:name=".planthunt.PlanthuntResultActivity" />
         <activity
-            android:name=".ProfileSettingsActivity"
-            android:exported="true" />
-        <activity
             android:name=".HomeScreenActivity"
             android:exported="true" />
         <activity
@@ -88,15 +77,8 @@
             android:exported="false"
             android:parentActivityName=".BarcodeInformationActivity" />
         <activity
-            android:name=".LeaderBoardActivity"
-            android:exported="false" />
-        <activity
             android:name=".ProductInfoActivity"
             android:exported="true" />
-        <activity
-            android:name=".auth.ProfileActivity"
-            android:exported="false"
-            android:parentActivityName=".HomeScreenActivity" />
         <activity
             android:name=".WelcomeScreenActivity"
             android:exported="true">

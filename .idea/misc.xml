@@ -185,6 +185,8 @@
         <entry key="app/src/main/res/layout/auth_ui_layout.xml" value="0.254888916015625" />
         <entry key="app/src/main/res/layout/fragment_frag__home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_graph_.xml" value="0.16818642350557245" />
+        <entry key="app/src/main/res/layout/fragment_monthly_leader_board.xml" value="0.34375" />
+        <entry key="app/src/main/res/layout/fragment_view_profile.xml" value="0.2803442028985507" />
         <entry key="app/src/main/res/layout/signed_in_layout.xml" value="0.2391304347826087" />
         <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.1796875" />
       </map>
