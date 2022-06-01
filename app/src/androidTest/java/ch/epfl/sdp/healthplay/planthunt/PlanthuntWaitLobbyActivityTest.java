@@ -1,11 +1,16 @@
 package ch.epfl.sdp.healthplay.planthunt;
 
+import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.junit.Assert.*;
 
 import android.content.Intent;
@@ -46,6 +51,18 @@ public class PlanthuntWaitLobbyActivityTest {
         db.deleteLobby("test");
         db.writeNewLobbyNoActivity("test", "password", "host", 300, 2);
         TimeUnit.SECONDS.sleep(1);
+    }
+
+    @Test
+    public void inviteFriendToLobbyTest() {
+        onView(withId(R.id.createInvitation)).perform(click());
+        onData(anything()).inRoot(isDialog()).atPosition(0).perform(click());
+    }
+
+    @Test
+    public void closeInvitationTest() {
+        onView(withId(R.id.createInvitation)).perform(click());
+        onView(ViewMatchers.withText("Cancel")).perform(click());
     }
 
     /*

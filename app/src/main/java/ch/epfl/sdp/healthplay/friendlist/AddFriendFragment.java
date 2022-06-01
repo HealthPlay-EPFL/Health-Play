@@ -40,9 +40,6 @@ import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
  */
 public class AddFriendFragment extends Fragment {
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private final Database database = new Database();
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
 

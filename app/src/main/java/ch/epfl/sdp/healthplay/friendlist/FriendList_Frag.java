@@ -27,10 +27,10 @@ import java.util.Map;
 
 import ch.epfl.sdp.healthplay.Frag_Home;
 import ch.epfl.sdp.healthplay.R;
-import ch.epfl.sdp.healthplay.ViewProfileFragment;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Friend;
 import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
+import ch.epfl.sdp.healthplay.ViewProfileFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,10 +38,6 @@ import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
  */
 public class  FriendList_Frag extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private final Database database = new Database();
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
 
@@ -50,12 +46,9 @@ public class  FriendList_Frag extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -71,55 +64,40 @@ public class  FriendList_Frag extends Fragment {
 
         // Switch to the Home Fragment
         calendarButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { ;
-                FragmentNavigation.switchToFragment(fragmentManager, new Frag_Home());
-            }
-        }
+                                              @Override
+                                              public void onClick(View v) { ;
+                                                  FragmentNavigation.switchToFragment(fragmentManager, new Frag_Home());
+                                              }
+                                          }
         );
 
         // Switch to the AddFriend Fragment
         addFriendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(auth.getCurrentUser() != null ){
-                    FragmentNavigation.switchToFragment(fragmentManager, new AddFriendFragment());
-                }
-                else{
-                    Snackbar mySnackbar = Snackbar.make(view, "Cannot add friends when offline", Snackbar.LENGTH_SHORT);
-                    mySnackbar.show();
-                }
-            }
-        }
+                                               @Override
+                                               public void onClick(View v) {
+                                                   if(auth.getCurrentUser() != null ){
+                                                       FragmentNavigation.switchToFragment(fragmentManager, new AddFriendFragment());
+                                                   }
+                                                   else{
+                                                       Snackbar mySnackbar = Snackbar.make(view, "Cannot add friends when offline", Snackbar.LENGTH_SHORT);
+                                                       mySnackbar.show();
+                                                   }
+                                               }
+                                           }
         );
 
         // Get the Friend List of the current User
         if(auth.getCurrentUser() != null) {
-            Map<String, Boolean> friends = database.getFriendList();
+            Map<String, String> friends = database.getFriendList();
 
             buildListView(view, listView, buildFriendListFromFirebase(friends));
 
             // Listen to changes to the FriendList of the User
             database.mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("friends").addValueEventListener(new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    //Get the changes
-                    Map<String, Boolean> value = (Map<String, Boolean>) snapshot.getValue();
-                    if(value != null) {
-
-                        updateListView(listView, buildFriendListFromFirebase(value));
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    System.out.println(error.toString());
-                }
-            }
 
             );
         }
-
+        //Go to the profile of the friend
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -134,13 +112,17 @@ public class  FriendList_Frag extends Fragment {
         return view;
     }
 
-    private List<Friend> buildFriendListFromFirebase(Map<String, Boolean> map){
+    /**
+     * Build the friend list from the map returned by Firebase
+     * @param map
+     * @return
+     */
+    private List<Friend> buildFriendListFromFirebase(Map<String, String> map){
         List<Friend> friendList = new ArrayList<>();;
         if(map != null) {
-
             for (String friend : map.keySet()
             ) {
-                friendList.add(new Friend(friend));
+                friendList.add(new Friend(friend, map.get(friend)));
             }
         }
         return friendList;
