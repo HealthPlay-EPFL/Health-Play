@@ -157,7 +157,7 @@ public class FriendList_FragTest {
                     }
                 }
         );
-        onView(withId(R.id.profile_picture)).check(matches(isDisplayed()));
+        onView(withId(R.id.changeButton)).check(matches(isDisplayed()));
     }
 
 
