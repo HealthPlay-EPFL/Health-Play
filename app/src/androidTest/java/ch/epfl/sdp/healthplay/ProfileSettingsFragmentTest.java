@@ -4,9 +4,12 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
+import static org.hamcrest.Matchers.allOf;
 
 import android.app.Activity;
 
@@ -35,13 +38,7 @@ public class ProfileSettingsFragmentTest {
     public void init(){
         FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         activity = ActivityScenario.launch(HomeScreenActivity.class);
-        activity.onActivity(new ActivityScenario.ActivityAction() {
-            @Override
-            public void perform(Activity activity) {
-                BottomNavigationView b = activity.findViewById(R.id.bottomNavigationView);
-                Navigation.findNavController(activity.findViewById(R.id.fragmentContainerView)).navigate(R.id.profileActivity);
-            }
-        });
+        onView( allOf( withId(R.id.profileActivity), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
         onView(withId(R.id.statsButton)).perform(click());
     }
 

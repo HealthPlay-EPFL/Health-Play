@@ -294,87 +294,12 @@
                     android:orientation="horizontal"
                     app:layout_constraintGuide_percent="0.4"/>
 
-            <TextView
-                style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/user_profile_header"
-                android:textColor="?attr/text_color"
-                android:visibility="invisible"
-                app:layout_constraintLeft_toRightOf="@id/guidelineV"
-                app:layout_constraintRight_toLeftOf="@id/guidelineV1"
-                app:layout_constraintTop_toBottomOf="@id/guidelineH4"
-                app:layout_constraintBottom_toTopOf="@id/guidelineH5"/>
-
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelineH7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     app:layout_constraintGuide_percent="0.6"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="invisible"
-                app:layout_constraintLeft_toRightOf="@id/guidelineV"
-                app:layout_constraintRight_toLeftOf="@id/guidelineV1"
-                app:layout_constraintTop_toBottomOf="@id/guidelineH5"
-                app:layout_constraintBottom_toTopOf="@id/guidelineH7">
-
-                <ImageView
-                    android:id="@+id/user_profile_picture"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="16dp"
-                    android:contentDescription="@string/profile_picture_content_desc"
-                    app:srcCompat="@drawable/ic_anon_user_48dp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/user_email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textIsSelectable="true"
-                        android:textColor="?attr/text_color"/>
-
-                    <TextView
-                        android:id="@+id/user_phone_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textIsSelectable="true"
-                        android:textColor="?attr/text_color"/>
-
-                    <TextView
-                        android:id="@+id/user_display_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textIsSelectable="true"
-                        android:textColor="?attr/text_color"/>
-
-                    <TextView
-                        android:id="@+id/user_enabled_providers"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textIsSelectable="true"
-                        android:textColor="?attr/text_color"/>
-
-                    <TextView
-                        android:id="@+id/user_is_new"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textIsSelectable="false"
-                        android:textColor="?attr/text_color"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelineH8"
@@ -484,30 +409,6 @@
                     app:layout_constraintTop_toBottomOf="@id/guidelineTESTH12"
                     app:layout_constraintBottom_toTopOf="@id/guidelineTESTH13"/>
 
-            <LinearLayout
-                android:id="@+id/idp_token_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintLeft_toRightOf="@id/guidelineV"
-                app:layout_constraintRight_toLeftOf="@id/guidelineV1"
-                app:layout_constraintTop_toBottomOf="@id/guidelineH8"
-                app:layout_constraintBottom_toTopOf="@id/guidelineH9">
-
-                <TextView
-                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/idp_token" />
-
-                <TextView
-                    android:id="@+id/idp_token"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textIsSelectable="true" />
-
-            </LinearLayout>
-
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelineH10"
                     android:layout_width="wrap_content"
@@ -521,30 +422,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     app:layout_constraintGuide_percent="0.85"/>
-
-            <LinearLayout
-                android:id="@+id/idp_secret_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintLeft_toRightOf="@id/guidelineV"
-                app:layout_constraintRight_toLeftOf="@id/guidelineV1"
-                app:layout_constraintTop_toBottomOf="@id/guidelineH10"
-                app:layout_constraintBottom_toTopOf="@id/guidelineH11">
-
-                <TextView
-                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/idp_secret" />
-
-                <TextView
-                    android:id="@+id/idp_secret"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textIsSelectable="true" />
-
-            </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
