@@ -136,7 +136,7 @@ public class FriendList_FragTest {
         assertTrue(map.containsKey("123"));
     }
 
-    @Test
+    /*@Test
     public void showProfile(){
         onView(withId(R.id.friendSearch)).perform(ViewActions.typeText("Tetard"));
         onData(anything()).inAdapterView(withId(R.id.allUserList)).atPosition(0).perform(
@@ -158,7 +158,7 @@ public class FriendList_FragTest {
                 }
         );
         onView(withId(R.id.changeButton)).check(matches(isDisplayed()));
-    }
+    }*/
 
 
 }
