@@ -99,14 +99,52 @@ public class MonthlyLeaderBoardFragmentTest {
     @Test
     public void viewMyProfileButtonTest(){
         onView(withId(R.id.top1)).check(matches(isDisplayed()));
-        onView(withId(R.id.top1)).perform(click());
+        Espresso.onView(withId(R.id.top1)).check(matches(allOf(isEnabled(), isClickable()))).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+
+
+                }
+        );
         onData(Matchers.anything()).atPosition(0).perform(click());
         onView(withId(R.id.profile_picture)).check(matches(isDisplayed()));
     }
     @Test
     public void viewProfileButtonTest(){
         onView(withId(R.id.top2)).check(matches(isDisplayed()));
-        onView(withId(R.id.top2)).perform(click());
+        Espresso.onView(withId(R.id.top2)).check(matches(allOf(isEnabled(), isClickable()))).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+
+
+                }
+        );
         onData(Matchers.anything()).atPosition(0).perform(click());
         onView(withId(R.id.profile_picture)).check(matches(isDisplayed()));
     }
@@ -114,7 +152,6 @@ public class MonthlyLeaderBoardFragmentTest {
     @Test
     public void addFriendMonthlyLeaderBoardTest(){
         onView(withId(R.id.top2)).check(matches(isDisplayed()));
-        onView(withId(R.id.top2)).perform(click());
         //openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
         //onView(withId(R.id.addFriendLeaderBoard)).perform(click());
         //onView(withContentDescription(R.string.add_to_friendlist)).perform(click());
