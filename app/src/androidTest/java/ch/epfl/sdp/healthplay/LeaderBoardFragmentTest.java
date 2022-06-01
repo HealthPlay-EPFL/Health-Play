@@ -175,7 +175,26 @@ public class LeaderBoardFragmentTest {
     @Test
     public void returnTest() {
         onView(withId(R.id.top1)).check(matches(isDisplayed()));
-        onView(withId(R.id.todayBackButton)).perform(click());
+        Espresso.onView(withId(R.id.todayBackButton)).check(matches(allOf(isEnabled(), isClickable()))).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+
+
+                }
+        );
         onView(withId(R.id.todayButton)).check(matches(isDisplayed()));
 
     }
