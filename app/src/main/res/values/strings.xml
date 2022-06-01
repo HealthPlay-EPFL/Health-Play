@@ -384,4 +384,5 @@ Nimm deinen Kampf mit deinem Handy auf, um einen fairen Schiedsrichter zu haben 
     <string name="do_you_want_to_join_the_lobby_en">Do you want to join the lobby </string>
     <string name="invitation_en">Invitation</string>
     <string name="unranked">you rank : unranked</string>
+    <string name="choose_a_friend_to_invite_en">Choose a friend to invite</string>
 </resources>
