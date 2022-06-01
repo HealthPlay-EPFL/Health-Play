@@ -178,12 +178,6 @@ public class DatabaseTest {
 
     }
 
-    @Test
-    public void writeUsernameTest() {
-        Database db = new Database(dbr);
-        db.writeUsername(userId, "username");
-        assertEquals("username", map.get(userId).getUsername());
-    }
 
     @Test
     public void writeNameTest() {
@@ -364,19 +358,7 @@ public class DatabaseTest {
         db.writeNewUser(userId2, "w", 10, 60);
         assertEquals("w", map.get(userId2).getUsername());
     }
-
-    @Test
-    public void deleteUserTest() {
-        Database db = new Database(dbr);
-        db.writeNewUser(userId2, "w", 10, 60);
-        assertEquals("w", map.get(userId2).getUsername());
-        when(dbr.child(Database.USERS).child(userId2).removeValue())
-                .thenReturn(removeUser(userId2, map));
-        db.deleteUser(userId2);
-        assertNull(map.get(userId2));
-
-    }
-
+    
     @Test
     public void defaultConstructorUserTest() {
         map.put(userId3, new User());
