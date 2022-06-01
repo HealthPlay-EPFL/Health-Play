@@ -55,14 +55,82 @@ public class PlanthuntWaitLobbyActivityTest {
 
     @Test
     public void inviteFriendToLobbyTest() {
-        onView(withId(R.id.createInvitation)).perform(click());
-        onData(anything()).inRoot(isDialog()).atPosition(0).perform(click());
+        onView(withId(R.id.createInvitation)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        ););
+        onData(anything()).inRoot(isDialog()).atPosition(0).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        ););
     }
 
     @Test
     public void closeInvitationTest() {
-        onView(withId(R.id.createInvitation)).perform(click());
-        onView(ViewMatchers.withText("Cancel")).perform(click());
+        onView(withId(R.id.createInvitation)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        ););
+        onView(ViewMatchers.withText("Cancel")).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        ););
     }
 
     /*

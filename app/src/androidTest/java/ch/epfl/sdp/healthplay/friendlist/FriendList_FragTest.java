@@ -139,7 +139,24 @@ public class FriendList_FragTest {
     @Test
     public void showProfile(){
         onView(withId(R.id.friendSearch)).perform(ViewActions.typeText("Tetard"));
-        onData(anything()).inAdapterView(withId(R.id.allUserList)).atPosition(0).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.allUserList)).atPosition(0).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
         onView(withId(R.id.profile_picture)).check(matches(isDisplayed()));
     }
 
