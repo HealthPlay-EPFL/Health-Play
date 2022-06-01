@@ -87,9 +87,12 @@ public class ChatActivityTest {
     }
 
     @Test
-    public void openAttachDialog(){
+    public void openAttachDialog() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(1);
         onView(withId(R.id.attachbtn)).perform(click());
+        TimeUnit.SECONDS.sleep(1);
         onData(anything()).inRoot(isDialog()).perform(click());
+        TimeUnit.SECONDS.sleep(1);
     }
 
     public static Matcher<Object> friendWithId(String expectedName) {
