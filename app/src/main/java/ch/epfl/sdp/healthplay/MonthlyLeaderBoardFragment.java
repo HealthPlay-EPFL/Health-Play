@@ -1,5 +1,6 @@
 package ch.epfl.sdp.healthplay;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,10 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -30,29 +28,15 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
-import ch.epfl.sdp.healthplay.auth.ProfileFragment;
 import ch.epfl.sdp.healthplay.database.Database;
 
-/**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
- */
-public class LeaderBoardFragment extends Fragment {
 
-    public final Database db = new Database();
-    public final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    public int MIN_RANK;
-    public Button[] tab;
-    public PopupMenu.OnMenuItemClickListener[] menus;
-    public String[] ids;
-    public PopupMenu.OnMenuItemClickListener[] myMenus;
-    public TextView[] topTexts;
-    public ImageView[] images;
-    public final static String RANK_NAME_SEPARATOR = "    ";
+public class MonthlyLeaderBoardFragment extends LeaderBoardFragment {
+
     private View view;
 
 
-    public LeaderBoardFragment() {
+    public MonthlyLeaderBoardFragment() {
         // Required empty public constructor
     }
 
@@ -65,7 +49,7 @@ public class LeaderBoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_leader_board, container, false);
+        view =  inflater.inflate(R.layout.fragment_monthly_leader_board, container, false);
 
         initTimer();
         MIN_RANK = 5;
@@ -76,7 +60,6 @@ public class LeaderBoardFragment extends Fragment {
         myMenus = new PopupMenu.OnMenuItemClickListener[MIN_RANK];
         topTexts = new TextView[MIN_RANK];
         if(mAuth.getCurrentUser() != null) {
-            //db.addHealthPoint(mAuth.getCurrentUser().getUid(), 40);
             tab[0] = view.findViewById(R.id.top1);
             tab[1] = view.findViewById(R.id.top2);
             tab[2] = view.findViewById(R.id.top3);
@@ -93,15 +76,20 @@ public class LeaderBoardFragment extends Fragment {
             images[2] = view.findViewById(R.id.profile_picture3);
             images[3] = view.findViewById(R.id.profile_picture4);
             images[4] = view.findViewById(R.id.profile_picture5);
-            Button backButton = view.findViewById(R.id.todayBackButton);
+            Button todayButton = view.findViewById(R.id.todayButton);
+            todayButton.setOnClickListener(v -> {
+                todayLeaderBoard();
+            });
+            Button backButton = view.findViewById(R.id.monthBackButton);
             backButton.setOnClickListener(v -> {
                 exitLeaderBoard();
+
             });
             for (int i = 0 ; i < MIN_RANK ; i++) {
                 menus[i] = initMenu(i);
                 myMenus[i] = initMyMenu();
             }
-            initTop(Database.format);
+            initTop(Database.formatYearMonth);
         }
 
         return view;
@@ -109,11 +97,11 @@ public class LeaderBoardFragment extends Fragment {
 
     /**
      * initialize the leaderboard and add a listener to its values on the database
-     * @param format the format used to store the date in the daily leaderboard
+     * @param format the format used to store the date in the monthly leaderboard
      */
     public void initTop(SimpleDateFormat format) {
 
-        db.mDatabase.child(Database.LEADERBOARD_DAILY).addValueEventListener(new ValueEventListener() {
+        db.mDatabase.child(Database.LEADERBOARD_MONTHLY).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 @SuppressWarnings("unchecked")
@@ -131,6 +119,7 @@ public class LeaderBoardFragment extends Fragment {
                         for(HashMap.Entry<String,String> e : entry.getValue().entrySet()) {
                             int top = count + 1;
                             String myPts = hp.substring(0, hp.length() - Database.SUFFIX_LEN);
+
                             if (count < MIN_RANK && Long.parseLong(myPts) > 0){
                                 getImage(e.getKey(), images[count]);
                                 ids[count] = e.getKey();
@@ -158,16 +147,16 @@ public class LeaderBoardFragment extends Fragment {
                         myTopText.setText("your rank : " + myTop);
                     }
                     else {
-                        myTopText.setText("your rank : unranked");
+                        myTopText.setText(R.string.unranked);
                     }
                 }
                 else {
                     for(int i = 0 ; i < MIN_RANK ; i++) {
                         images[i].setImageResource(R.drawable.rounded_logo);
-                        tab[i].setText("");
+                        topTexts[i].setText("");
                         tab[i].setOnClickListener(null);
                     }
-                    myTopText.setText("your rank : unranked");
+                    myTopText.setText(R.string.unranked);
 
                 }
             }
@@ -183,63 +172,6 @@ public class LeaderBoardFragment extends Fragment {
     /**
      *
      * @param index the index of the player you clicked on
-     * @return an onMenu listener that add the index player as a friend if you clicked "add friend" and that send you to the profile of the idx player if you clicked on "view profile"
-     */
-    public PopupMenu.OnMenuItemClickListener initMenu(int index) {
-        return item -> {
-            switch (item.getItemId()) {
-                case R.id.viewProfile:
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.setReorderingAllowed(true);
-                    fragmentTransaction.replace(R.id.fragmentContainerView, ViewProfileFragment.newInstance(ids[index]));
-                    fragmentTransaction.commit();
-                    return true;
-                case R.id.addFriendLeaderBoard:
-                    db.readField(mAuth.getCurrentUser().getUid(), Database.FRIEND,task -> {
-                        if (!task.isSuccessful()) {
-                            Log.e("ERROR", "could not get the friend list from firebase");
-                        }
-                        else {
-                            Map<String, String> friendList = (Map<String, String>)task.getResult().getValue();
-                            if(friendList != null && friendList.containsKey(ids[index])) {
-                                Toast.makeText(getActivity(), friendList.get(ids[index]) + " is already in your friend list", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                db.addToFriendList(ids[index]);
-                                Toast.makeText(getActivity(),  "user added to your friend list", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                    return true;
-                default:
-                    return false;
-            }
-
-        };
-    }
-
-    /**
-     *
-     * @return an onMenu listener send you to your profile if you clicked "view my profile"
-     */
-    public PopupMenu.OnMenuItemClickListener initMyMenu() {
-        return item -> {
-            switch (item.getItemId()) {
-                case R.id.viewProfileNoFriend:
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.setReorderingAllowed(true);
-                    fragmentTransaction.replace(R.id.fragmentContainerView, new ProfileFragment());
-                    fragmentTransaction.commit();
-                    return true;
-                default:
-                    return false;
-            }
-        };
-    }
-
-    /**
-     *
-     * @param index the index of the player you clicked on
      * @return an on click listener that show a menu where you can either add friends or view profiles when you click on the idx th player (the menu only appears if you clicked on a player that is not yourself)
      */
     public View.OnClickListener initButton(int index) {
@@ -250,6 +182,7 @@ public class LeaderBoardFragment extends Fragment {
             popup.show();
         };
     }
+
     /**
      *
      * @param index the index of the player you clicked on
@@ -264,32 +197,13 @@ public class LeaderBoardFragment extends Fragment {
         };
     }
 
-    public void getImage(String userId, ImageView imageView) {
-        db.mDatabase.child(Database.USERS).child(userId).child("image").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
-                    if(snapshot.getValue() != null){
-                        String image = snapshot.getValue().toString();
-                        if(getActivity() != null) {
-                            Glide.with(getActivity()).load(image).into(imageView);
-                        }
-                    }
-
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-    }
-
     private void initTimer() {
         TextView tv_countdown = view.findViewById(R.id.myTimer);
 
         Calendar start_calendar = Calendar.getInstance();
         Calendar end_calendar = Calendar.getInstance();
-        end_calendar.add(Calendar.DAY_OF_YEAR, 1);
+        end_calendar.add(Calendar.MONTH, 1);
+        end_calendar.set(Calendar.DAY_OF_MONTH, 0);
         end_calendar.set(Calendar.HOUR_OF_DAY, 0);
         end_calendar.set(Calendar.MINUTE, 0);
         end_calendar.set(Calendar.SECOND, 0);
@@ -301,6 +215,9 @@ public class LeaderBoardFragment extends Fragment {
             @Override
             public void onTick(long millisUntilFinished) {
 
+                long days = TimeUnit.MILLISECONDS.toDays(millisUntilFinished);
+                millisUntilFinished -= TimeUnit.DAYS.toMillis(days);
+
                 long hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
                 millisUntilFinished -= TimeUnit.HOURS.toMillis(hours);
 
@@ -309,7 +226,7 @@ public class LeaderBoardFragment extends Fragment {
 
                 long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
 
-                tv_countdown.setText(hours + ":" + minutes + ":" + seconds);
+                tv_countdown.setText(days + ":" + hours + ":" + minutes + ":" + seconds);
             }
 
             @Override
@@ -323,8 +240,14 @@ public class LeaderBoardFragment extends Fragment {
     private void exitLeaderBoard() {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.setReorderingAllowed(true);
-        fragmentTransaction.replace(R.id.fragmentContainerView, new MonthlyLeaderBoardFragment());
+        fragmentTransaction.replace(R.id.fragmentContainerView, new GameMenuFragment());
         fragmentTransaction.commit();
     }
 
+    private void todayLeaderBoard() {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.replace(R.id.fragmentContainerView, new LeaderBoardFragment());
+        fragmentTransaction.commit();
+    }
 }

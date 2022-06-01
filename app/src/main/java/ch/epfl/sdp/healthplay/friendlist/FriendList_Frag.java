@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,13 +29,13 @@ import java.util.Map;
 import ch.epfl.sdp.healthplay.Frag_Home;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.ViewProfileActivity;
+import ch.epfl.sdp.healthplay.ViewProfileFragment;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Friend;
 import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FriendList_Frag#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class  FriendList_Frag extends Fragment {
@@ -47,38 +48,15 @@ public class  FriendList_Frag extends Fragment {
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
 
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public FriendList_Frag() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FriendList_Frag.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FriendList_Frag newInstance(String param1, String param2) {
-        FriendList_Frag fragment = new FriendList_Frag();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -148,9 +126,10 @@ public class  FriendList_Frag extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Friend selectedFriend = (Friend)listView.getAdapter().getItem(position);
-                Intent intent = new Intent(getActivity(), ViewProfileActivity.class);
-                intent.putExtra(ViewProfileActivity.MESSAGE, selectedFriend.getUserId());
-                startActivity(intent);
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.setReorderingAllowed(true);
+                fragmentTransaction.replace(R.id.fragmentContainerView, ViewProfileFragment.newInstance(selectedFriend.getUserId()));
+                fragmentTransaction.commit();
             }
         });
 

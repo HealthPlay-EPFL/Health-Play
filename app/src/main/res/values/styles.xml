@@ -774,6 +774,7 @@
     </style>
 
     <style name="CalenderViewCustom" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColorPrimary">@color/CalendarDate_color</item>
         <item name="colorAccent">@color/CalendarHighLight_color</item>
         <item name="colorPrimary">@color/CalendarHighLight_color</item>
     </style>

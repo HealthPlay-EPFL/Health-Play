@@ -46,6 +46,7 @@ import java.util.List;
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.LeaderBoardActivity;
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.databinding.FragmentSignedInBinding;
 
 public class SignedInFragment extends Fragment {
@@ -179,10 +180,12 @@ public class SignedInFragment extends Fragment {
     }
 
     private void deleteAccount() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         AuthUI.getInstance()
                 .delete(getActivity())
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
+                        new Database().deleteUser(userId);
                         startActivity(new Intent(getActivity(),HomeScreenActivity.class));
                     } else {
                         showSnackbar(R.string.delete_account_failed);

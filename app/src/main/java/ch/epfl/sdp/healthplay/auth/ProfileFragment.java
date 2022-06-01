@@ -315,7 +315,7 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void initString(){
+    public void initString(){
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         int language_mode = sharedPref.getInt(getString(R.string.saved_language_mode), 0);
         TypedArray t = getActivity().obtainStyledAttributes(style[language_mode], attrText);
