@@ -3,9 +3,12 @@ package ch.epfl.sdp.healthplay;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
+import static org.hamcrest.Matchers.allOf;
 
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.core.app.ActivityScenario;
@@ -94,13 +97,15 @@ public class Graph_FragTest {
         onView(withId(R.id.buttonHealth)).check(matches(isEnabled()));
     }
 
-    /*@Test
+    @Test
     public void cache() throws InterruptedException {
-        FirebaseAuth.getInstance().signOut();
-        ActivityScenario sc = ActivityScenario.launch(WelcomeScreenActivity.class);
+        onView(withId(R.id.buttonSwap)).perform(click());
+        onView( allOf( withId(R.id.SignedInFragment), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
+        onView(withId(R.id.sign_out)).perform(click());
+        TimeUnit.SECONDS.sleep(1);
         onView(withId(R.id.switchFragButton)).perform(click());
         TimeUnit.SECONDS.sleep(1);
         onView(withId(R.id.buttonSwap)).perform(click());
         FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
-    }*/
+    }
 }

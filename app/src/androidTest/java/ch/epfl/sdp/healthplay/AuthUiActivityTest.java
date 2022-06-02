@@ -46,7 +46,7 @@ import ch.epfl.sdp.healthplay.auth.AuthUiActivity;
 @RunWith(AndroidJUnit4.class)
 public class AuthUiActivityTest {
 
-    private String emailTest = "HPTest@admin.ch";
+    public static String emailTest = "HPTest@admin.ch";
 
     @Before
     public void init() throws InterruptedException {
@@ -94,6 +94,7 @@ public class AuthUiActivityTest {
         });
         onView(withId(R.id.delete_account)).perform(click());
         onView(withText("Yes, nuke it!")).perform(click());
+        TimeUnit.SECONDS.sleep(3);
     }
 
     @Test
