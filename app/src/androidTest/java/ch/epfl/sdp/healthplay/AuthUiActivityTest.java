@@ -15,8 +15,10 @@ import static org.hamcrest.Matchers.allOf;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
+import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
@@ -49,14 +51,7 @@ public class AuthUiActivityTest {
     @Before
     public void init() throws InterruptedException {
         FirebaseAuth.getInstance().signOut();
-        ActivityScenario home = ActivityScenario.launch(HomeScreenActivity.class);
-        home.onActivity(new ActivityScenario.ActivityAction() {
-            @Override
-            public void perform(Activity activity) {
-                BottomNavigationView b = activity.findViewById(R.id.bottomNavigationView);
-                Navigation.findNavController(activity.findViewById(R.id.fragmentContainerView)).navigate(R.id.SignedInFragment);
-            }
-        });
+        ActivityScenario home = ActivityScenario.launch(AuthUiActivity.class);
     }
 
     @Test
@@ -99,6 +94,19 @@ public class AuthUiActivityTest {
         });
         onView(withId(R.id.delete_account)).perform(click());
         onView(withText("Yes, nuke it!")).perform(click());
+    }
+
+    @Test
+    public void alreadySignIn() throws InterruptedException {
+        onView(withText("Sign in with email")).perform(click());
+        onView(withHint("Email")).perform(typeText(SignedInFragmentTest.emailString), ViewActions.closeSoftKeyboard());
+        onView(withText("Next")).perform(click());
+        TimeUnit.SECONDS.sleep(1);
+        onView(withHint("Password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
+        onView(withText("SIGN IN")).perform(click());
+        TimeUnit.SECONDS.sleep(1);
+        ActivityScenario home = ActivityScenario.launch(AuthUiActivity.class);
+        TimeUnit.SECONDS.sleep(1);
     }
 
 }
