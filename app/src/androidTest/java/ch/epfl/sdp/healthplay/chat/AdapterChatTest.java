@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sdp.healthplay.AuthUiActivityTest;
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.R;
 
@@ -29,7 +30,7 @@ public class AdapterChatTest {
 
     @Before
     public void before() throws InterruptedException{
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        AuthUiActivityTest.signIn("health.play@gmail.com", "123456");
         onView(withId(R.id.FriendList_button)).perform(click());
     }
 

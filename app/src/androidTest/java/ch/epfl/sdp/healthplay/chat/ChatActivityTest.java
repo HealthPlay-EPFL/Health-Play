@@ -38,6 +38,7 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
 
+import ch.epfl.sdp.healthplay.AuthUiActivityTest;
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Friend;
@@ -51,7 +52,7 @@ public class ChatActivityTest {
 
     @Before
     public void before() throws InterruptedException{
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        AuthUiActivityTest.signIn("health.play@gmail.com", "123456");
         onView(ViewMatchers.withId(R.id.FriendList_button)).perform(click());
         onData(friendWithId("H7ZFXooYVWfASQfE5R3ej8PU1B33")).inAdapterView(withId(R.id.friendList)).onChildView(withId(R.id.goToChat)).perform(click());
     }

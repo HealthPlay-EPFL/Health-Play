@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import ch.epfl.sdp.healthplay.AuthUiActivityTest;
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
@@ -51,7 +52,7 @@ public class FriendList_FragTest {
     @Before
     public void before() throws InterruptedException{
 
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        AuthUiActivityTest.signIn("health.play@gmail.com", "123456");
         Espresso.onView(ViewMatchers.withId(R.id.FriendList_button)).perform(ViewActions.click());
         Database database = new Database();
         database.addToFriendList("123");

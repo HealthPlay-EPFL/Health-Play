@@ -53,8 +53,8 @@ public class SignedInFragmentTest {
     public static String password = "123456";
 
     @Before
-    public void init() {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(emailString, password);
+    public void init() throws InterruptedException {
+        AuthUiActivityTest.signIn(emailString, password);
         /**/
     }
 

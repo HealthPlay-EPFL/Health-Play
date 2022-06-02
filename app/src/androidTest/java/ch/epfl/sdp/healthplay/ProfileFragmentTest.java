@@ -37,10 +37,8 @@ import ch.epfl.sdp.healthplay.database.Friend;
 @RunWith(AndroidJUnit4.class)
 public class ProfileFragmentTest {
     @Before
-    public void init(){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
-        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
-        ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
+    public void init() throws InterruptedException {
+        AuthUiActivityTest.signIn("HP@admin.ch", "123456");
         onView( allOf( withId(R.id.profileActivity), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
     }
 

@@ -42,7 +42,7 @@ public class QrCodeFragmentTest {
 
     @Before
     public void before() throws InterruptedException{
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        AuthUiActivityTest.signIn("health.play@gmail.com", "123456");
         ActivityScenario activityScenario = ActivityScenario.launch(HomeScreenActivity.class);
         onView( allOf( withId(R.id.profileActivity), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
         onView(withId(R.id.goToQRCode)).perform(click());

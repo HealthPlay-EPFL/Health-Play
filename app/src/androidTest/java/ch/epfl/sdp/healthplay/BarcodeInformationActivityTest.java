@@ -26,9 +26,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.hamcrest.Matcher;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.concurrent.TimeUnit;
 
 @RunWith(AndroidJUnit4.class)
 public class BarcodeInformationActivityTest {
@@ -36,8 +39,13 @@ public class BarcodeInformationActivityTest {
     private float calorieCount = 385;
 
     @Before
-    public void before() {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
+    public void before() throws InterruptedException {
+        AuthUiActivityTest.signIn("health-play@admin.ch", "123456");
+    }
+
+    @After
+    public void after() throws InterruptedException {
+        AuthUiActivityTest.signOut();
     }
 
     @Test

@@ -27,9 +27,8 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class HomeScreenActivityTest {
     @Before
-    public void init(){
-        FirebaseAuth.getInstance().signOut();
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(SignedInFragmentTest.emailString, SignedInFragmentTest.password);
+    public void init() throws InterruptedException {
+        AuthUiActivityTest.signIn(SignedInFragmentTest.emailString, SignedInFragmentTest.password);
         ActivityScenario activityScenario = ActivityScenario.launch(HomeScreenActivity.class);
     }
     @Test()
