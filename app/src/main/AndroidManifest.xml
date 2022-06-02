@@ -84,7 +84,7 @@
             android:name=".BarcodeInformationActivity"
             android:exported="false" />
         <activity
-            android:name=".AdditionalProductInformationActivity"
+            android:name=".scan.AdditionalProductInformationActivity"
             android:exported="false"
             android:parentActivityName=".BarcodeInformationActivity" />
         <activity

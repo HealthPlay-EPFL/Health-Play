@@ -8,7 +8,7 @@
         <entry key="..\:/Users/FunProg/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/drawable/ic_nutriscore_a.xml" value="0.32" />
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_additional_information.xml" value="0.21739130434782608" />
-        <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_additional_product_information.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_additional_product_information.xml" value="0.3224852071005917" />
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_barcode_information.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_barcode_scan.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/activity_friend_list_item.xml" value="0.36666666666666664" />
@@ -29,7 +29,7 @@
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_friend_list_.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_graph_.xml" value="0.22282608695652173" />
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_product_list.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_profile.xml" value="0.1658206429780034" />
+        <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_profile.xml" value="0.42604166666666665" />
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/fragment_settings.xml" value="0.22282608695652173" />
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/layout_list_product.xml" value="0.67" />
         <entry key="..\:/Users/Ozan/Documents/EPFL/SDP/Health-Play/app/src/main/res/layout/signed_in_layout.xml" value="0.22282608695652173" />

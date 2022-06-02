@@ -35,10 +35,22 @@ public class ProductListFragment extends Fragment {
 
     ProgressBar bar;
 
-    private Database db = new Database();
+    protected Database getDatabase() {
+        return new Database();
+    }
+
+    private Database db;
     private List<String> mProducts;
     private List<String> mDates;
-    private FirebaseUser user;
+    FirebaseUser user;
+
+    protected void initUser() {
+        // Get the authenticated user if any
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        // Check if user is not null
+        // The user should not be null as this page is accessed through the profile page
+        Objects.requireNonNull(user);
+    }
 
     public ProductListFragment() {
         // Required empty public constructor
@@ -47,6 +59,7 @@ public class ProductListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = getDatabase();
     }
 
     @Override
