@@ -77,7 +77,7 @@ public class GameMenuFragment extends Fragment {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), PlanthuntMainActivity.class);
                         startActivity(intent);
-                     }
+                    }
                 }
         );
         //It's the button to launch the kneetag Game
@@ -97,7 +97,9 @@ public class GameMenuFragment extends Fragment {
     }
 
     public void onClickLeaderBoard() {
-        Intent intent = new Intent(getContext(), MonthlyLeaderBoardActivity.class);
-        startActivity(intent);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.replace(R.id.fragmentContainerView, new MonthlyLeaderBoardFragment());
+        fragmentTransaction.commit();
     }
 }

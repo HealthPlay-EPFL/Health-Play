@@ -31,6 +31,7 @@ import ch.epfl.sdp.healthplay.EditProfilePictureFragment;
 import ch.epfl.sdp.healthplay.ProfileSettingsFragment;
 import ch.epfl.sdp.healthplay.QrCodeFragment;
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.WelcomeScreenActivity;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
 import ch.epfl.sdp.healthplay.productlist.ProductListFragment;
@@ -77,12 +78,45 @@ public class ProfileFragment extends Fragment {
             initStats(user.getUid(), textViewStatsButton, textViewWeight, textViewHealthPoint);
             TextView textViewName = view.findViewById(R.id.profileName);
             initName(user.getUid(), textViewName);
+        }else {
+            initProfile();
+            view.findViewById(R.id.statsButton).setEnabled(false);
+            view.findViewById(R.id.changeButton).setEnabled(false);
+            view.findViewById(R.id.changeButton).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.goToProductList).setEnabled(false);
+            view.findViewById(R.id.goToProductList).setVisibility(View.INVISIBLE);
         }
         return view;
     }
 
+    private void initProfile(){
+        //init the birthDay, get in the cache
+        String birthday = WelcomeScreenActivity.cache.getField(Database.BIRTHDAY);
+        String[] parts = birthday.split("-");
+        birthday = parts[2] + "/" + parts[1] +"/" + parts[0];
+        ((TextView) view.findViewById(R.id.profileBirthday)).setText(birthday);
+
+        //init the name (name + surname), get in the cache
+        String name = WelcomeScreenActivity.cache.getField(Database.NAME) + " " + WelcomeScreenActivity.cache.getField(Database.SURNAME);
+        ((TextView) view.findViewById(R.id.profileName)).setText(name);
+
+        //init the username, get in the cache
+        String username = WelcomeScreenActivity.cache.getField(Database.USERNAME);
+        ((TextView) view.findViewById(R.id.profileUsername)).setText(username);
+
+        //init the healthPoint, Weight and Daily calorie, get in the cache
+        Map<String, Map<String, Number>> stats = WelcomeScreenActivity.cache.getDataMap();
+        updateStats(stats, "", ((TextView) view.findViewById(R.id.statsButton)), ((TextView) view.findViewById(R.id.profileWeight)), ((TextView) view.findViewById(R.id.profileHealthPoint)));
+
+        //init the profile's image, get in the cache
+        String image = WelcomeScreenActivity.cache.getField(Database.IMAGE);
+        if(getActivity() != null){
+            Glide.with(getActivity()).load(image).into((ImageView) view.findViewById(R.id.profile_picture));
+        }
+    }
+
     public void getImage(String userId, ImageView imageView) {
-        db.mDatabase.child(Database.USERS).child(userId).child("image").addValueEventListener(new ValueEventListener() {
+        db.mDatabase.child(Database.USERS).child(userId).child(Database.IMAGE).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
@@ -106,6 +140,11 @@ public class ProfileFragment extends Fragment {
      * Initiate the "onClick" property of the buttons of the view
      */
     private void initButton(){
+        view.findViewById(R.id.statsButton).setEnabled(true);
+        view.findViewById(R.id.changeButton).setEnabled(true);
+        view.findViewById(R.id.changeButton).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.goToProductList).setEnabled(true);
+        view.findViewById(R.id.goToProductList).setVisibility(View.VISIBLE);
         Button statsButton = view.findViewById(R.id.statsButton);
         //Go to the Profile Settings
         statsButton.setOnClickListener(FragmentNavigation.switchToFragmentListener(getParentFragmentManager(), new ProfileSettingsFragment()));
@@ -315,7 +354,7 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void initString(){
+    public void initString(){
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         int language_mode = sharedPref.getInt(getString(R.string.saved_language_mode), 0);
         TypedArray t = getActivity().obtainStyledAttributes(style[language_mode], attrText);

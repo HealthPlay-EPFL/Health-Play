@@ -1,50 +1,29 @@
 package ch.epfl.sdp.healthplay.auth;
 
-import static com.firebase.ui.auth.AuthUI.EMAIL_LINK_PROVIDER;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthProvider;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.auth.TwitterAuthProvider;
-import com.google.firebase.auth.UserInfo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
-import ch.epfl.sdp.healthplay.LeaderBoardActivity;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.databinding.FragmentSignedInBinding;
@@ -178,11 +157,12 @@ public class SignedInFragment extends Fragment {
     }
 
     private void deleteAccount() {
-        new Database().deleteUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         AuthUI.getInstance()
                 .delete(getActivity())
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
+                        new Database().deleteUser(userId);
                         startActivity(new Intent(getActivity(),HomeScreenActivity.class));
                     } else {
                         showSnackbar(R.string.delete_account_failed);

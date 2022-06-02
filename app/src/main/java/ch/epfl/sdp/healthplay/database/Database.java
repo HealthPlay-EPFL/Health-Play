@@ -41,6 +41,7 @@ public final class Database {
     public static final String NAME = "name";
     public static final String SURNAME = "surname";
     public static final String BIRTHDAY = "birthday";
+    public static final String IMAGE = "image";
 
     //Lobby related constants
     public static final String NBR_PLAYERS = "nbrPlayers";
@@ -99,12 +100,60 @@ public final class Database {
 
     }
 
+    /**
+     * Writes the username for the user and update the leaderBoard with the new username
+     *
+     * @param userId the user ID
+     * @param name the new username
+     */
     public void writeUsername(String userId, String name) {
         mDatabase
                 .child(USERS)
                 .child(userId)
                 .child(USERNAME)
-                .setValue(name);
+                .setValue(name)
+                .addOnCompleteListener(t -> {
+                    if(!t.isSuccessful()) {
+                        Log.e("ERROR", "could not set the new username");
+                    }
+                    else {
+                        getLeaderBoard(updateUsernameLeaderboard(userId, name, format, LEADERBOARD_DAILY),LEADERBOARD_DAILY);
+                    }
+                })
+                .addOnCompleteListener(t -> {
+                    if(!t.isSuccessful()) {
+                        Log.e("ERROR", "could not update the daily leaderboard");
+                    }
+                    else {
+                        getLeaderBoard(updateUsernameLeaderboard(userId, name, formatYearMonth, LEADERBOARD_MONTHLY),LEADERBOARD_MONTHLY);
+                    }
+                });
+    }
+
+    private OnCompleteListener<DataSnapshot> updateUsernameLeaderboard(String userId, String name, SimpleDateFormat pformat, String pleaderBoard) {
+        return task -> {
+            if(!task.isSuccessful()) {
+                Log.e("ERROR", "could not get the leaderboard from firebase");
+            }
+            else {
+                @SuppressWarnings("unchecked")
+                HashMap<String,HashMap<String,HashMap<String, String>>> leaderBoard = (HashMap<String,HashMap<String, HashMap<String, String>>>)task.getResult().getValue();
+                if(leaderBoard != null && leaderBoard.containsKey(getTodayDate(pformat))) {
+                    HashMap<String, HashMap<String, String>> todayLeaderBoard = leaderBoard.get(getTodayDate(pformat));
+                    if(todayLeaderBoard != null) {
+                        for(Map.Entry<String, HashMap<String, String>> entry : todayLeaderBoard.entrySet()) {
+                            for(Map.Entry<String, String> e : entry.getValue().entrySet()) {
+                                if(e.getKey().equals(userId)) {
+                                    entry.getValue().put(userId, name);
+                                }
+                            }
+                        }
+                    }
+                    leaderBoard.put(getTodayDate(pformat), todayLeaderBoard);
+                    mDatabase.child(pleaderBoard).setValue(leaderBoard);
+                }
+            }
+        };
     }
 
     /**
@@ -231,7 +280,52 @@ public final class Database {
     }
 
     public void deleteUser(String userId) {
-        mDatabase.child(USERS).child(userId).removeValue();
+        mDatabase.child(USERS)
+                 .child(userId)
+                 .removeValue()
+                 .addOnCompleteListener(t -> {
+                    if(!t.isSuccessful()) {
+                        Log.e("ERROR", "could not delete the user");
+                    }
+                    else {
+                        getLeaderBoard(deleteLeaderBoardUser(userId,format, LEADERBOARD_DAILY),LEADERBOARD_DAILY);
+                    }
+                 })
+                 .addOnCompleteListener(t -> {
+                    if(!t.isSuccessful()) {
+                        Log.e("ERROR", "could not delete the user from the leaderBoard");
+                    }
+                    else {
+                        getLeaderBoard(deleteLeaderBoardUser(userId, formatYearMonth, LEADERBOARD_MONTHLY),LEADERBOARD_MONTHLY);
+                    }
+                 });
+
+    }
+
+    private OnCompleteListener<DataSnapshot> deleteLeaderBoardUser(String userId, SimpleDateFormat pformat, String pleaderBoard) {
+        return task -> {
+            if(!task.isSuccessful()) {
+                Log.e("ERROR", "could not get the leaderboard from firebase");
+            }
+            else {
+                @SuppressWarnings("unchecked")
+                HashMap<String,HashMap<String,HashMap<String, String>>> leaderBoard = (HashMap<String,HashMap<String, HashMap<String, String>>>)task.getResult().getValue();
+                if(leaderBoard != null && leaderBoard.containsKey(getTodayDate(pformat))) {
+                    HashMap<String, HashMap<String, String>> todayLeaderBoard = leaderBoard.get(getTodayDate(pformat));
+                    if(todayLeaderBoard != null) {
+                        for(Map.Entry<String, HashMap<String, String>> entry : todayLeaderBoard.entrySet()) {
+                            for(Map.Entry<String, String> e : entry.getValue().entrySet()) {
+                                if(e.getKey().equals(userId)) {
+                                    entry.getValue().remove(userId);
+                                }
+                            }
+                        }
+                    }
+                    leaderBoard.put(getTodayDate(pformat), todayLeaderBoard);
+                    mDatabase.child(pleaderBoard).setValue(leaderBoard);
+                }
+            }
+        };
     }
 
     /**
