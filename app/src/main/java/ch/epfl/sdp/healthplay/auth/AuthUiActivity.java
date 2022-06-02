@@ -138,6 +138,7 @@ public class AuthUiActivity extends AppCompatActivity
                 db.initStatToDay(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 startActivity(intent);
             } else {
+                db.initStatToDay(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 startActivity(new Intent(this, HomeScreenActivity.class));
             }
             finish();
