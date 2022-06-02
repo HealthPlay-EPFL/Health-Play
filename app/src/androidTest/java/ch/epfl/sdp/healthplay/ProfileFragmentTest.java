@@ -12,6 +12,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
 
+import static ch.epfl.sdp.healthplay.AuthUiActivityTest.emailTest;
+
 import android.app.Activity;
 
 import androidx.navigation.Navigation;
@@ -30,6 +32,7 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.database.DataCache;
+import ch.epfl.sdp.healthplay.database.Friend;
 
 @RunWith(AndroidJUnit4.class)
 public class ProfileFragmentTest {
@@ -84,6 +87,30 @@ public class ProfileFragmentTest {
         onView(withHint("Password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
         onView(withText("SIGN IN")).perform(click());
         TimeUnit.SECONDS.sleep(1);
+    }
+
+    @Test
+    public void notInitiateToday() throws InterruptedException {
+        String id = WelcomeScreenActivity.cache.getUserId();
+        String friend = new Friend(id, "my username").toString();
+        onView( allOf( withId(R.id.SignedInFragment), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
+        onView(withId(R.id.sign_out)).perform(click());
+        TimeUnit.SECONDS.sleep(1);
+        ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
+        onView( allOf( withId(R.id.SignedInFragment), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
+        onView(withText("Sign in with email")).perform(click());
+        onView(withHint("Email")).perform(typeText(emailTest), ViewActions.closeSoftKeyboard());
+        onView(withText("Next")).perform(click());
+        TimeUnit.SECONDS.sleep(1);
+        onView(withHint("New password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
+        onView(withText("Save")).perform(click());
+        TimeUnit.SECONDS.sleep(1);
+        onView( allOf( withId(R.id.profileActivity), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
+        onView(withId(R.id.profileUsername)).check(matches(isDisplayed()));
+        onView( allOf( withId(R.id.SignedInFragment), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
+        onView(withId(R.id.delete_account)).perform(click());
+        onView(withText("Yes, nuke it!")).perform(click());
+        TimeUnit.SECONDS.sleep(3);
     }
 
 }
