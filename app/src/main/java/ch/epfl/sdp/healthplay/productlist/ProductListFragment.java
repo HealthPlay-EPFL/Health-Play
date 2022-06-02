@@ -40,9 +40,12 @@ public class ProductListFragment extends Fragment {
     }
 
     private Database db;
-    private List<String> mProducts;
-    private List<String> mDates;
+    private List<String> mProducts = new ArrayList<>();
+    private List<String> mDates = new ArrayList<>();
     FirebaseUser user;
+
+    RecyclerView recyclerView;
+    RecyclerViewAdapter adapter;
 
     protected void initUser() {
         // Get the authenticated user if any
@@ -68,6 +71,11 @@ public class ProductListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_product_list, container, false);
 
+        recyclerView = view.findViewById(R.id.productListRecyclerView);
+        adapter = new RecyclerViewAdapter(getContext(), mProducts, mDates);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         bar = view.findViewById(R.id.progressBarProductList);
         bar.setVisibility(View.VISIBLE);
 
@@ -92,8 +100,8 @@ public class ProductListFragment extends Fragment {
      * Init the arrays of products and dates
      */
     private void initProductsAndDates(View view) {
-        mProducts = new ArrayList<>();
-        mDates = new ArrayList<>();
+        mProducts.clear();
+        mDates.clear();
 
         db.mDatabase
                 .child(Database.USERS)
@@ -109,21 +117,10 @@ public class ProductListFragment extends Fragment {
                         products.forEach((date, pMap) -> pMap.forEach((p, quantity) -> {
                             mProducts.add(p);
                             mDates.add(date);
+                            adapter.notifyDataSetChanged();
                         }));
                     }
-                    initRecyclerView(view);
+                    bar.setVisibility(View.GONE);
                 });
-    }
-
-    /**
-     * Init the recycler view with the two arrays
-     */
-    private void initRecyclerView(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.productListRecyclerView);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getContext(), mProducts, mDates);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        bar.setVisibility(View.GONE);
     }
 }
