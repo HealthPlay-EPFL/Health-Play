@@ -75,7 +75,9 @@ public class AddFriendFragment extends Fragment {
                         List<Friend> allPossibleFriend = new ArrayList<>();
 
                         for (String user : allUsers) {
-                            allPossibleFriend.add(new Friend(user, Objects.requireNonNull(map.get(user)).get(Database.USERNAME)));
+                            if(map.get(user).get(Database.USERNAME) != null){
+                                allPossibleFriend.add(new Friend(user, Objects.requireNonNull(map.get(user)).get(Database.USERNAME)));
+                            }
                         }
 
                         buildListView(view, listView, allPossibleFriend);
