@@ -35,10 +35,25 @@ public class ProductListFragment extends Fragment {
 
     ProgressBar bar;
 
-    private Database db = new Database();
-    private List<String> mProducts;
-    private List<String> mDates;
-    private FirebaseUser user;
+    protected Database getDatabase() {
+        return new Database();
+    }
+
+    private Database db;
+    private List<String> mProducts = new ArrayList<>();
+    private List<String> mDates = new ArrayList<>();
+    FirebaseUser user;
+
+    RecyclerView recyclerView;
+    RecyclerViewAdapter adapter;
+
+    protected void initUser() {
+        // Get the authenticated user if any
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        // Check if user is not null
+        // The user should not be null as this page is accessed through the profile page
+        Objects.requireNonNull(user);
+    }
 
     public ProductListFragment() {
         // Required empty public constructor
@@ -47,6 +62,7 @@ public class ProductListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = getDatabase();
     }
 
     @Override
@@ -54,6 +70,11 @@ public class ProductListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_product_list, container, false);
+
+        recyclerView = view.findViewById(R.id.productListRecyclerView);
+        adapter = new RecyclerViewAdapter(getContext(), mProducts, mDates);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         bar = view.findViewById(R.id.progressBarProductList);
         bar.setVisibility(View.VISIBLE);
@@ -79,8 +100,8 @@ public class ProductListFragment extends Fragment {
      * Init the arrays of products and dates
      */
     private void initProductsAndDates(View view) {
-        mProducts = new ArrayList<>();
-        mDates = new ArrayList<>();
+        mProducts.clear();
+        mDates.clear();
 
         db.mDatabase
                 .child(Database.USERS)
@@ -96,21 +117,10 @@ public class ProductListFragment extends Fragment {
                         products.forEach((date, pMap) -> pMap.forEach((p, quantity) -> {
                             mProducts.add(p);
                             mDates.add(date);
+                            adapter.notifyDataSetChanged();
                         }));
                     }
-                    initRecyclerView(view);
+                    bar.setVisibility(View.GONE);
                 });
-    }
-
-    /**
-     * Init the recycler view with the two arrays
-     */
-    private void initRecyclerView(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.productListRecyclerView);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getContext(), mProducts, mDates);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        bar.setVisibility(View.GONE);
     }
 }
