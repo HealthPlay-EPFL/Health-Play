@@ -59,7 +59,9 @@ public class FriendList_FragTest {
 
 
     @Test
-    public void backToFriendListTest(){
+    public void backToFriendListTest() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(1);
+
         Espresso.onView(withId(R.id.backButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
@@ -78,6 +80,8 @@ public class FriendList_FragTest {
                     }
                 }
         );
+        TimeUnit.SECONDS.sleep(1);
+
         onView(withId(R.id.addFriendBouton)).check(matches(isDisplayed()));
     }
 
