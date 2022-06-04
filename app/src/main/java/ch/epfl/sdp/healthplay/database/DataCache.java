@@ -1,6 +1,9 @@
 package ch.epfl.sdp.healthplay.database;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -14,9 +17,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import net.glxn.qrgen.android.QRCode;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,16 +36,18 @@ import java.util.Map;
 
 public class DataCache {
     private Map<String, Map<String, Number>> current_map;
+    private Map<String, String> mapProfile = new HashMap<>();
     private Context context;
     private Database db = new Database();
     private FirebaseAuth fa = FirebaseAuth.getInstance();
-    private String cacheName = "cacheFile.txt";
+    private String cacheNameStats = "cacheFileStats.txt", cacheNameProfile = "cacheFileProfile.txt";
+    private String UserID = "UserId", QrCode = "QrCode";
 
     public DataCache(Context context){
         init(context);
     }
 
-    /**
+    /*
      * init the listener to firebaseAuth
      * @param context for initilazation of cachedirectory
      */
@@ -57,7 +65,7 @@ public class DataCache {
                     db.mDatabase.child(Database.USERS).child(user.getUid()).child(Database.STATS).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            store(user.getUid());
+                            storeStats(user.getUid());
                         }
 
                         @Override
@@ -65,8 +73,31 @@ public class DataCache {
 
                         }
                     });
+                    listenField(user.getUid(), Database.BIRTHDAY);
+                    listenField(user.getUid(), Database.NAME);
+                    listenField(user.getUid(), Database.SURNAME);
+                    listenField(user.getUid(), Database.USERNAME);
+                    listenField(user.getUid(), Database.IMAGE);
                     store(user.getUid());
                 }
+            }
+        });
+    }
+
+    private void listenField(String userID, String field){
+        db.mDatabase.child(Database.USERS).child(userID).child(field).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    if (snapshot.getValue() != null) {
+                        storeProfile(userID, field);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
@@ -74,7 +105,7 @@ public class DataCache {
      * readFile the file in format json
      * @return the text of the file
      */
-    private String readFile() throws IOException{
+    private String readFile(String cacheName) throws IOException{
         //Open File Input
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File(new File(context.getCacheDir(),"")+cacheName)));
         //Create the Reader for the file
@@ -93,9 +124,9 @@ public class DataCache {
      * read the file in format json, convert to a Map<String, Map<String, Number>>
      *
      */
-    private void read(){
+    private void readStats(){
         try {
-            String jsonInput = readFile();
+            String jsonInput = readFile(cacheNameStats);
             ObjectMapper mapper = new ObjectMapper();
             TypeReference<HashMap<String, HashMap<String, Number>>> typeRef = new TypeReference<HashMap<String, HashMap<String, Number>>>(){};
             Map<String, Map<String, Number>> map = mapper.readValue(jsonInput, typeRef);
@@ -105,11 +136,28 @@ public class DataCache {
         }
     }
 
+    private void readProfile(){
+        try {
+            String jsonInput = readFile(cacheNameProfile);
+            ObjectMapper mapper = new ObjectMapper();
+            TypeReference<HashMap<String, String>> typeRef = new TypeReference<HashMap<String, String>>(){};
+            Map<String, String> map = mapper.readValue(jsonInput, typeRef);
+            mapProfile = map;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void read(){
+        readProfile();
+        readStats();
+    }
+
     /**
      * store the database in the cache file in json format
      * @param id String user id
      */
-    private void store(String id){
+    private void storeStats(String id){
         db.getStats(id, task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
@@ -122,7 +170,7 @@ public class DataCache {
                 try {
                     String json = mapper.writerFor(typeRef).writeValueAsString(map);
                     //Log.d("Ecriture", json);
-                    out = new ObjectOutputStream(new FileOutputStream(new File(context.getCacheDir(),"")+cacheName));
+                    out = new ObjectOutputStream(new FileOutputStream(new File(context.getCacheDir(),"")+cacheNameStats));
                     out.writeBytes(json);
                     out.close();
                 } catch (IOException e) {
@@ -134,6 +182,50 @@ public class DataCache {
     /**
      * @return the current map in the cache
      */
+
+    private void storeProfile(String id, String field){
+        db.readField(id, field, task -> {
+            if (!task.isSuccessful()) {
+                Log.e("firebase", "Error getting data", task.getException());
+            } else {
+                mapProfile.put(field, (String) task.getResult().getValue());
+                ObjectMapper mapper = new ObjectMapper();
+                TypeReference<HashMap<String, String>> typeRef = new TypeReference<HashMap<String, String>>(){};
+                ObjectOutputStream out = null;
+                try {
+                    String json = mapper.writerFor(typeRef).writeValueAsString(mapProfile);
+                    //Log.d("Ecriture", json);
+                    out = new ObjectOutputStream(new FileOutputStream(new File(context.getCacheDir(),"")+cacheNameProfile));
+                    out.writeBytes(json);
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void store(String userId){
+        storeStats(userId);
+        mapProfile.put(UserID, userId);
+        mapProfile.put(QrCode, getStringFromBitmap(QRCode.from(userId).bitmap()));
+        storeProfile(userId, Database.NAME);
+        storeProfile(userId, Database.USERNAME);
+        storeProfile(userId, Database.SURNAME);
+        storeProfile(userId, Database.BIRTHDAY);
+    }
+
+    private String getStringFromBitmap(Bitmap bitmapPicture) {
+        final int COMPRESSION_QUALITY = 100;
+        String encodedImage;
+        ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
+        bitmapPicture.compress(Bitmap.CompressFormat.PNG, COMPRESSION_QUALITY,
+                byteArrayBitmapStream);
+        byte[] b = byteArrayBitmapStream.toByteArray();
+        encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+        return encodedImage;
+    }
+
     public Map<String, Map<String, Number>> getDataMap(){
         return current_map;
     }
@@ -149,5 +241,23 @@ public class DataCache {
             map.put(date, inter);
         });
         return map;
+    }
+
+    public String getField(String field){
+        return mapProfile.get(field);
+    }
+
+    public String getUserId(){
+        return mapProfile.get(UserID);
+    }
+
+    private Bitmap getBitmapFromString(String stringPicture) {
+        byte[] decodedString = Base64.decode(stringPicture, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        return decodedByte;
+    }
+
+    public Bitmap getQrCode(){
+        return getBitmapFromString(mapProfile.get(QrCode));
     }
 }

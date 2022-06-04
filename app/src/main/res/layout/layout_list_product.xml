@@ -4,11 +4,11 @@
     android:layout_height="wrap_content"
     android:id="@+id/productListLayout"
     android:clickable="true"
-    android:background="?attr/selectableItemBackground"
     android:focusable="true"
     >
 
     <LinearLayout
+        android:background="?android:selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

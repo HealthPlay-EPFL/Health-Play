@@ -1,4 +1,4 @@
-package ch.epfl.sdp.healthplay;
+package ch.epfl.sdp.healthplay.scan;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -12,6 +12,8 @@ import org.w3c.dom.Text;
 
 import java.util.Optional;
 
+import ch.epfl.sdp.healthplay.BarcodeInformationActivity;
+import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.model.Product;
 
 public class AdditionalProductInformationActivity extends AppCompatActivity {

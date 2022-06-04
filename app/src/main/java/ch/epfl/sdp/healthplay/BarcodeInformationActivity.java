@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import ch.epfl.sdp.healthplay.auth.SignedInFragment;
 import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.model.Product;
+import ch.epfl.sdp.healthplay.scan.AdditionalProductInformationActivity;
 
 public class BarcodeInformationActivity extends AppCompatActivity {
 

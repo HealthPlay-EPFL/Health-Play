@@ -15,9 +15,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthPlay">
         <activity
@@ -73,7 +73,7 @@
             android:name=".BarcodeInformationActivity"
             android:exported="false" />
         <activity
-            android:name=".AdditionalProductInformationActivity"
+            android:name=".scan.AdditionalProductInformationActivity"
             android:exported="false"
             android:parentActivityName=".BarcodeInformationActivity" />
         <activity
