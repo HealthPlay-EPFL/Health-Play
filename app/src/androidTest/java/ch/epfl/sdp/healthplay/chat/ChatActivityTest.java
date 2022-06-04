@@ -34,6 +34,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -59,6 +60,12 @@ public class ChatActivityTest {
         onView(ViewMatchers.withId(R.id.FriendList_button)).perform(click());
         TimeUnit.SECONDS.sleep(1);
         onData(friendWithId("H7ZFXooYVWfASQfE5R3ej8PU1B33")).inAdapterView(withId(R.id.friendList)).onChildView(withId(R.id.goToChat)).perform(click());
+    }
+
+    @After
+    public void after() throws InterruptedException {
+        AuthUiActivityTest.signOut();
+        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test

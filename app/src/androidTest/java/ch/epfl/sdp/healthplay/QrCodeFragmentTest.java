@@ -32,10 +32,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.hamcrest.Matcher;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.concurrent.TimeUnit;
 
 @RunWith(AndroidJUnit4.class)
 public class QrCodeFragmentTest {
@@ -46,6 +49,12 @@ public class QrCodeFragmentTest {
         ActivityScenario activityScenario = ActivityScenario.launch(HomeScreenActivity.class);
         onView( allOf( withId(R.id.profileActivity), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
         onView(withId(R.id.goToQRCode)).perform(click());
+    }
+
+    @After
+    public void after() throws InterruptedException {
+        AuthUiActivityTest.signOut();
+        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test

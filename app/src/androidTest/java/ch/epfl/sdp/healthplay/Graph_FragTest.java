@@ -17,6 +17,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,6 +36,12 @@ public class Graph_FragTest {
         ActivityScenario sc = ActivityScenario.launch(WelcomeScreenActivity.class);
         TimeUnit.SECONDS.sleep(3);
         onView(withId(R.id.switchFragButton)).perform(click());
+        TimeUnit.SECONDS.sleep(1);
+    }
+
+    @After
+    public void after() throws InterruptedException {
+        AuthUiActivityTest.signOut();
         TimeUnit.SECONDS.sleep(1);
     }
     @Test

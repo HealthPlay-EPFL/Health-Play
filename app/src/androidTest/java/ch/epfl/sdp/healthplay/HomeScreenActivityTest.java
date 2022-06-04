@@ -25,10 +25,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.database.DataCache;
 import ch.epfl.sdp.healthplay.database.Database;
@@ -39,6 +42,12 @@ public class HomeScreenActivityTest {
     public void init() throws InterruptedException {
         AuthUiActivityTest.signIn(SignedInFragmentTest.emailString, SignedInFragmentTest.password);
         ActivityScenario activityScenario = ActivityScenario.launch(HomeScreenActivity.class);
+    }
+
+    @After
+    public void after() throws InterruptedException {
+        AuthUiActivityTest.signOut();
+        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test

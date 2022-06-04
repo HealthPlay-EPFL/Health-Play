@@ -86,6 +86,8 @@ public class LeaderBoardFragmentTest {
         TimeUnit.SECONDS.sleep(2);
         new Database().addHealthPoint("z0WPZPfFGMTatM2pX30TT71TWyo2", -50000);
         TimeUnit.SECONDS.sleep(2);
+        AuthUiActivityTest.signOut();
+        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test
