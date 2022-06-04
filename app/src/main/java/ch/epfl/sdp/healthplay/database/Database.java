@@ -74,7 +74,6 @@ public final class Database {
     public static final String CHATLIST = "ChatList";
     public static final String ONLINESTATUS = "onlineStatus";
     public static final String TYPINGTO = "typingTo";
-    public static final String IMAGE = "image";
 
 
     public static Comparator<String> comparator = (o1, o2) -> Long.compare(Long.parseLong(o2.substring(0,o2.length() - SUFFIX_LEN)), Long.parseLong(o1.substring(0,o1.length() - SUFFIX_LEN)));
