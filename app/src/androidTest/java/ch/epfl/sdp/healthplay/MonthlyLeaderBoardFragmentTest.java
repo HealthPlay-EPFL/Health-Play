@@ -154,14 +154,14 @@ public class MonthlyLeaderBoardFragmentTest {
         onView(withId(R.id.profile_picture)).check(matches(isDisplayed()));
     }
 
-    @Test
+    /*@Test
     public void addFriendMonthlyLeaderBoardTest(){
         onView(withId(R.id.top2)).check(matches(isDisplayed()));
         //openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
         //onView(withId(R.id.addFriendLeaderBoard)).perform(click());
         //onView(withContentDescription(R.string.add_to_friendlist)).perform(click());
 
-    }
+    }*/
 
     @Test
     public void returnTest() {
