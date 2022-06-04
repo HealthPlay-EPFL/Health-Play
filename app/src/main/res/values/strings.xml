@@ -379,5 +379,10 @@ Nimm deinen Kampf mit deinem Handy auf, um einen fairen Schiedsrichter zu haben 
     <string name="zero">0</string>
     <string name="list_of_products_consumed">List of products consumed</string>
     <string name="view_more">View more</string>
+    <string name="the_lobby_is_full_en">The lobby is full</string>
+    <string name="join_en">Join</string>
+    <string name="do_you_want_to_join_the_lobby_en">Do you want to join the lobby </string>
+    <string name="invitation_en">Invitation</string>
     <string name="unranked">you rank : unranked</string>
+    <string name="choose_a_friend_to_invite_en">Choose a friend to invite</string>
 </resources>

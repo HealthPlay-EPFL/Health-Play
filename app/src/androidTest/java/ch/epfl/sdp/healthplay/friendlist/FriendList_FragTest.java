@@ -10,10 +10,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
+import static org.junit.Assert.assertTrue;
 
 import android.view.View;
 import android.widget.ListView;
 
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -32,40 +35,34 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.AuthUiActivityTest;
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.R;
+import ch.epfl.sdp.healthplay.WelcomeScreenActivity;
+import ch.epfl.sdp.healthplay.database.DataCache;
 import ch.epfl.sdp.healthplay.database.Database;
+
 
 @RunWith(AndroidJUnit4.class)
 public class FriendList_FragTest {
 
-    private int numberOfFriends;
-    @Rule
-    public ActivityScenarioRule<HomeScreenActivity> testRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
-
     @Before
     public void before() throws InterruptedException{
-
         AuthUiActivityTest.signIn("health.play@gmail.com", "123456");
-        Espresso.onView(ViewMatchers.withId(R.id.FriendList_button)).perform(ViewActions.click());
-        Database database = new Database();
-        database.addToFriendList("123");
-        Map<String, Boolean> map = database.getFriendList();
-        List<String> friends = new ArrayList<>();
-        TimeUnit.SECONDS.sleep(1);
-        numberOfFriends = map.keySet().size();
+        ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
+        onView(ViewMatchers.withId(R.id.FriendList_button)).perform(click());
+        onView(withId(R.id.addFriendBouton)).perform(click());
     }
 
-    @Test
-    public void backToCalendarTest(){
 
-        Espresso.onView(withId(R.id.friendToCalendar)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+    @Test
+    public void backToFriendListTest() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(1);
+
+        Espresso.onView(withId(R.id.backButton)).check(matches(allOf( isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
@@ -74,7 +71,7 @@ public class FriendList_FragTest {
 
                     @Override
                     public String getDescription() {
-                        return "click Calendar button";
+                        return "click plus button";
                     }
 
                     @Override
@@ -83,77 +80,89 @@ public class FriendList_FragTest {
                     }
                 }
         );
-        Espresso.onView(withId(R.id.FriendList_button)).check(matches(isDisplayed()));
+        TimeUnit.SECONDS.sleep(1);
 
-
-    }
-
-    @Test
-    public void goToAddFriendFragTest() throws InterruptedException {
-        Espresso.onView(withId(R.id.addFriendBouton)).check(matches(allOf( isEnabled(), isClickable()))).perform(click());
-        Espresso.onView(withId(R.id.backButton)).check(matches(isDisplayed()));
-        TimeUnit.MILLISECONDS.sleep(100);
+        onView(withId(R.id.addFriendBouton)).check(matches(isDisplayed()));
     }
 
     @Test
     public void listViewIsCorrectlyDisplayed(){
+        onView(withId(R.id.allUserList)).check(matches(isDisplayed()));
+    }
 
-        Espresso.onView(withId(R.id.friendList)).check(matches(isDisplayed()));
-        Espresso.onView(withId(R.id.friendList)).perform(ViewActions.swipeUp());
+    @Test
+    public void filterIsWorking(){
+
+        onView(withId(R.id.friendSearch)).perform(ViewActions.typeText("123"));
+        onData(anything()).inAdapterView(withId(R.id.allUserList));
+
+        onView(withId(R.id.allUserList)).check(matches(new TypeSafeMatcher<View>() {
+
+            @Override
+            public boolean matchesSafely(View view) {
+                ListView listView = (ListView) view;
+
+                return listView.getCount() == 1;
+            }
+
+            @Override
+            public void describeTo(Description description) {
+
+            }
+
+        }));
 
 
     }
 
     @Test
-    public void removeFriend() {
-
-        onData(anything()).inAdapterView(withId(R.id.friendList)).atPosition(0).onChildView(withId(R.id.manageFriendButton)).perform(click());
-        onView(withId(R.id.friendList)).check(matches(new TypeSafeMatcher<View>() {
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ListView listView = (ListView) view;
-                boolean output = listView.getCount() == numberOfFriends - 1 || numberOfFriends == 0;
-                if(output) {
-                    if(numberOfFriends > 0){
-                        numberOfFriends -= 1;
+    public void addFriend() throws InterruptedException {
+        onView(withId(R.id.friendSearch)).perform(ViewActions.typeText("123"));
+        onData(anything()).inAdapterView(withId(R.id.allUserList)).atPosition(0).onChildView(withId(R.id.manageFriendButton)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+                    @Override
+                    public String getDescription() {
+                        return "click add button";
+                    }
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
                     }
                 }
-                return output;
-            }
-
-            @Override
-            public void describeTo(Description description) {
-
-            }
-
-        }));
-
-
+        );
+        Database database = new Database();
+        Map<String, String> map = database.getFriendList();
+        TimeUnit.SECONDS.sleep(1);
+        assertTrue(map.containsKey("123"));
     }
 
-    @Test
-    public void listViewDisplayAllFriends() throws InterruptedException {
+    /*@Test
+    public void showProfile(){
+        onView(withId(R.id.friendSearch)).perform(ViewActions.typeText("Tetard"));
+        onData(anything()).inAdapterView(withId(R.id.allUserList)).atPosition(0).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
 
-        onView(withId(R.id.friendList)).check(matches(new TypeSafeMatcher<View>() {
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
 
-            @Override
-            public boolean matchesSafely(View view) {
-                ListView listView = (ListView) view;
-
-                return listView.getCount() == numberOfFriends;
-            }
-
-            @Override
-            public void describeTo(Description description) {
-
-            }
-
-        }));
-
-
-
-    }
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+        onView(withId(R.id.changeButton)).check(matches(isDisplayed()));
+    }*/
 
 
 }
