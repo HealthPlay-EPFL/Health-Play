@@ -57,7 +57,8 @@ public class ChatActivityTest {
         AuthUiActivityTest.signIn("health.play@gmail.com", "123456");
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         onView(ViewMatchers.withId(R.id.FriendList_button)).perform(click());
-        onData(friendWithId("CdTrI7WKUUThqsVTFx6JZJZhk0s2")).inAdapterView(withId(R.id.friendList)).onChildView(withId(R.id.goToChat)).perform(click());
+        TimeUnit.SECONDS.sleep(1);
+        onData(friendWithId("H7ZFXooYVWfASQfE5R3ej8PU1B33")).inAdapterView(withId(R.id.friendList)).onChildView(withId(R.id.goToChat)).perform(click());
     }
 
     @Test
