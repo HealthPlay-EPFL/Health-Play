@@ -64,8 +64,8 @@ public class EditProfilePictureFragmentTest {
     public IntentsTestRule mActivityTestRule = new IntentsTestRule(HomeScreenActivity.class);
 
     @Before
-    public void init() throws InterruptedException {
-        AuthUiActivityTest.signIn("HP@admin.ch", "123456");
+    public void init(){
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
         activity = ActivityScenario.launch(HomeScreenActivity.class);
         activity.onActivity(new ActivityScenario.ActivityAction() {
             @Override
@@ -75,12 +75,6 @@ public class EditProfilePictureFragmentTest {
             }
         });
         onView(withId(R.id.changeButton)).perform(click());
-    }
-
-    @After
-    public void after() throws InterruptedException {
-        AuthUiActivityTest.signOut();
-        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test

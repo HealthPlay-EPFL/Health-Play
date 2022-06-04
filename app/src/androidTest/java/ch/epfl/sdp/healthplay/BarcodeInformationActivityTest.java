@@ -39,13 +39,8 @@ public class BarcodeInformationActivityTest {
     private float calorieCount = 385;
 
     @Before
-    public void before() throws InterruptedException {
-        AuthUiActivityTest.signIn("health-play@admin.ch", "123456");
-    }
-
-    @After
-    public void after() throws InterruptedException {
-        AuthUiActivityTest.signOut();
+    public void before() {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
     }
 
     @Test

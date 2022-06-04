@@ -44,12 +44,6 @@ public class HomeScreenActivityTest {
         ActivityScenario activityScenario = ActivityScenario.launch(HomeScreenActivity.class);
     }
 
-    @After
-    public void after() throws InterruptedException {
-        AuthUiActivityTest.signOut();
-        TimeUnit.SECONDS.sleep(1);
-    }
-
     @Test
     public void isOnline() {
         Database database = new Database();

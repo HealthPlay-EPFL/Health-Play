@@ -43,12 +43,6 @@ public class ProfileFragmentTest {
         onView( allOf( withId(R.id.profileActivity), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
     }
 
-    @After
-    public void after() throws InterruptedException {
-        AuthUiActivityTest.signOut();
-        TimeUnit.SECONDS.sleep(1);
-    }
-
     @Test
     public void initiate(){
         onView(withId(R.id.profile_picture)).check(matches(isDisplayed()));

@@ -51,7 +51,7 @@ public class MonthlyLeaderBoardFragmentTest {
 
     @Before
     public void init() throws InterruptedException {
-        AuthUiActivityTest.signIn("a.b@admin.ch", "123456");
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("a.b@admin.ch", "123456");
         new Database().addHealthPoint("Z77qDyTWaeQ3ApvL4ImmDhrrMaG2", 100000);
         TimeUnit.SECONDS.sleep(2);
         new Database().addHealthPoint("z0WPZPfFGMTatM2pX30TT71TWyo2", 50000);
@@ -74,8 +74,6 @@ public class MonthlyLeaderBoardFragmentTest {
         TimeUnit.SECONDS.sleep(2);
         new Database().addHealthPoint("z0WPZPfFGMTatM2pX30TT71TWyo2", -50000);
         TimeUnit.SECONDS.sleep(2);
-        AuthUiActivityTest.signOut();
-        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test

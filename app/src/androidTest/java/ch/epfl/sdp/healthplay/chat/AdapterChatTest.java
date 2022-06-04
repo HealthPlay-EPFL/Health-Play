@@ -33,15 +33,11 @@ public class AdapterChatTest {
 
     @Before
     public void before() throws InterruptedException{
-        AuthUiActivityTest.signIn("health.play@gmail.com", "123456");
+        FirebaseAuth.getInstance().signOut();
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
+        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         onView(withId(R.id.FriendList_button)).perform(click());
-    }
-
-    @After
-    public void after() throws InterruptedException {
-        AuthUiActivityTest.signOut();
-        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test

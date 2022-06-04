@@ -43,12 +43,6 @@ public class ProfileSettingsFragmentTest {
         onView(withId(R.id.statsButton)).perform(click());
     }
 
-    @After
-    public void after() throws InterruptedException {
-        AuthUiActivityTest.signOut();
-        TimeUnit.SECONDS.sleep(1);
-    }
-
     @Test
     public void saveNewInfo() {
         String testName = "test";
