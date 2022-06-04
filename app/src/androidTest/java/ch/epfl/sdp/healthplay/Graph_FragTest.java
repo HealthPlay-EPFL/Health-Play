@@ -33,12 +33,11 @@ public class Graph_FragTest {
     @Before
     public void init() throws InterruptedException {
         AuthUiActivityTest.signIn("HP@admin.ch", "123456");
-        ActivityScenario sc = ActivityScenario.launch(WelcomeScreenActivity.class);
-        TimeUnit.SECONDS.sleep(3);
+        ActivityScenario sc = ActivityScenario.launch(HomeScreenActivity.class);
         onView(withId(R.id.switchFragButton)).perform(click());
         TimeUnit.SECONDS.sleep(1);
     }
-    
+
     @Test
     public void normalLaunchFrag() throws InterruptedException {
         onView(withId(R.id.buttonPrev)).check(matches(isNotEnabled()));
