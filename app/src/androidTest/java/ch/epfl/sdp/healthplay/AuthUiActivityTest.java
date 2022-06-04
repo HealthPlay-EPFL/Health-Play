@@ -119,10 +119,10 @@ public class AuthUiActivityTest {
         ActivityScenario.launch(HomeScreenActivity.class);
         onView( allOf( withId(R.id.SignedInFragment), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
         onView(withText("Sign in with email")).perform(click());
-        onView(withHint("Email")).perform(typeText(SignedInFragmentTest.emailString), ViewActions.closeSoftKeyboard());
+        onView(withHint("Email")).perform(typeText(email), ViewActions.closeSoftKeyboard());
         onView(withText("Next")).perform(click());
         TimeUnit.SECONDS.sleep(1);
-        onView(withHint("Password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
+        onView(withHint("Password")).perform(typeText(password), ViewActions.closeSoftKeyboard());
         onView(withText("SIGN IN")).perform(click());
         TimeUnit.SECONDS.sleep(1);
     }
