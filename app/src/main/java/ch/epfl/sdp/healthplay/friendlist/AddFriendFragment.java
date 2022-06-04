@@ -40,9 +40,6 @@ import ch.epfl.sdp.healthplay.navigation.FragmentNavigation;
  */
 public class AddFriendFragment extends Fragment {
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private final Database database = new Database();
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
 
@@ -78,7 +75,9 @@ public class AddFriendFragment extends Fragment {
                         List<Friend> allPossibleFriend = new ArrayList<>();
 
                         for (String user : allUsers) {
-                            allPossibleFriend.add(new Friend(user, Objects.requireNonNull(map.get(user)).get(Database.USERNAME)));
+                            if(map.get(user).get(Database.USERNAME) != null){
+                                allPossibleFriend.add(new Friend(user, Objects.requireNonNull(map.get(user)).get(Database.USERNAME)));
+                            }
                         }
 
                         buildListView(view, listView, allPossibleFriend);

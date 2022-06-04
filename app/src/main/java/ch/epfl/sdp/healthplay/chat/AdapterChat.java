@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,20 +34,25 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.database.Database;
+import ch.epfl.sdp.healthplay.planthunt.PlanthuntCreateJoinLobbyActivity;
+import ch.epfl.sdp.healthplay.planthunt.PlanthuntJoinLobbyActivity;
+import ch.epfl.sdp.healthplay.planthunt.PlanthuntWaitLobbyActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 //This class is the Adapter for all the messages in a chat
 public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
     private static final int MSG_TYPE_LEFT = 0;
     private static final int MSG_TYPE_RIGHT = 1;
-    private Context context;
-    private List<ModelChat> list;
-    private String imageUrl;
+    private final Context context;
+    private final List<ModelChat> list;
+    private final String imageUrl;
     private FirebaseUser firebaseUser;
-    private Database database;
+    private final Database database;
+    private String username;
 
     /**
      * Construct an AdapterChat
@@ -57,6 +67,14 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
         this.list = list;
         this.imageUrl = imageUrl;
         database = new Database();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        database.readField(firebaseUser.getUid(), Database.USERNAME, new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                username = task.getResult().getValue(String.class);
+            }
+        });
     }
 
     /**
@@ -106,14 +124,14 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
         } else {
             Glide.with(context).load(R.drawable.profile_icon).into(holder.image);
         }
-        //if text, show a text and hide the image container
-        if (type.equals("text")) {
+        //if text or invitation, show a text and hide the image container
+        if (type.equals("text") || type.equals("invitation")) {
             holder.message.setVisibility(View.VISIBLE);
             holder.mImage.setVisibility(View.GONE);
             holder.message.setText(message);
         }
         //if image, show a image and hide the text container
-        else {
+        else{
             holder.message.setVisibility(View.GONE);
             holder.mImage.setVisibility(View.VISIBLE);
             Glide.with(context).load(message).into(holder.mImage);
@@ -124,22 +142,79 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
             public void onClick(View v) {
                 //AlertDialog with a warning and a button to delete the message
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(context.getString(R.string.delete_message_en));
-                builder.setMessage(context.getString(R.string.are_you_sure_to_delete_this_message_en));
-                builder.setPositiveButton(context.getString(R.string.delete_en), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteMsg(position);
-                    }
-                });
-                //Handle the click on the Cancel button
-                builder.setNegativeButton(context.getString(R.string.cancel_en), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //close the AlertDialog
-                        dialog.dismiss();
-                    }
-                });
+                //If the message is an invitation
+                if(type.equals("invitation")){
+                    Intent intent = new Intent(context, PlanthuntWaitLobbyActivity.class);
+                    String lobbyName = message.split(":")[1].trim();
+
+                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, lobbyName);
+                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
+                    intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.PLAYER);
+
+                    builder.setTitle(context.getString(R.string.invitation_en));
+                    builder.setMessage(context.getString(R.string.do_you_want_to_join_the_lobby_en) + " " + lobbyName + " ?");
+                    //Handle the click on the Join button
+                    builder.setPositiveButton(context.getString(R.string.join_en), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            database.getLobbyPlayerCount(lobbyName, Database.NBR_PLAYERS, task2 -> {
+                                if (!task2.isSuccessful()) {
+                                    Log.e("ERROR", "Lobby does not exist!");
+                                }
+                                database.getLobbyPlayerCount(lobbyName, Database.MAX_NBR_PLAYERS, task3 -> {
+                                    if (!task3.isSuccessful()) {
+                                        Log.e("ERROR", "Lobby does not exist!");
+                                    }
+                                    if (Math.toIntExact((long) task2.getResult().getValue()) < Math.toIntExact((long) task3.getResult().getValue())) {
+                                        database.addUserToLobby(lobbyName, username);
+                                        context.startActivity(intent);
+                                    } else {
+                                        Snackbar.make(holder.itemView, R.string.the_lobby_is_full_en, Snackbar.LENGTH_SHORT ).show();
+                                    }
+                                });
+                            });
+
+
+                        }
+                    });
+                    //Handle the click on the Cancel button
+                    builder.setNegativeButton(context.getString(R.string.cancel_en), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //close the AlertDialog
+                            dialog.dismiss();
+                        }
+                    });
+                    //Handle the click on the Delete button
+                    builder.setNegativeButton(context.getString(R.string.delete_en), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //close the AlertDialog
+                            deleteMsg(position);
+                        }
+                    });
+
+                }
+                //If the message is a text or an image
+                else{
+                    builder.setTitle(context.getString(R.string.delete_message_en));
+                    builder.setMessage(context.getString(R.string.are_you_sure_to_delete_this_message_en));
+                    builder.setPositiveButton(context.getString(R.string.delete_en), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteMsg(position);
+                        }
+                    });
+                    //Handle the click on the Cancel button
+                    builder.setNegativeButton(context.getString(R.string.cancel_en), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //close the AlertDialog
+                            dialog.dismiss();
+                        }
+                    });
+                }
+
                 //Show the AlertDialog
                 builder.create().show();
             }

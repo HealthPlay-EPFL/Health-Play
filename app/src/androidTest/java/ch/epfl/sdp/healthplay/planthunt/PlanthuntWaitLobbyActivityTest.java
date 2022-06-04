@@ -1,11 +1,16 @@
 package ch.epfl.sdp.healthplay.planthunt;
 
+import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.junit.Assert.*;
 
 import android.content.Intent;
@@ -35,18 +40,81 @@ import ch.epfl.sdp.healthplay.database.Database;
 
 public class PlanthuntWaitLobbyActivityTest {
 
-    @Rule
-    public ActivityScenarioRule<PlanthuntWaitLobbyActivity> testRule = new ActivityScenarioRule<>(PlanthuntWaitLobbyActivity.class);
-
+    String test = "test", username = "a";
 
     @Before
     public void before() throws InterruptedException {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
-        Database db = new Database();
-        db.deleteLobby("test");
-        db.writeNewLobbyNoActivity("test", "password", "host", 300, 2);
-        TimeUnit.SECONDS.sleep(1);
+        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), PlanthuntWaitLobbyActivity.class);
+
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.LOBBY_NAME, test);
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.USERNAME, username);
+        intent.putExtra(PlanthuntCreateJoinLobbyActivity.HOST_TYPE, PlanthuntCreateJoinLobbyActivity.HOST);
+        ActivityScenario.launch(intent);
     }
+
+    @Test
+    public void inviteFriendToLobbyTest() {
+        onView(withId(R.id.createInvitation)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+        onData(anything()).inRoot(isDialog()).atPosition(0).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+    }
+
+    /*@Test
+    public void closeInvitationTest() {
+        onView(withId(R.id.createInvitation)).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click plus button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+        onView(ViewMatchers.withText("Cancel")).perform(click());
+    }*/
 
     /*
     @Test
