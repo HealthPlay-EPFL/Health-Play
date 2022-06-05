@@ -44,6 +44,7 @@ public class FinishScreenTest {
     @Test
     public void restartTest() {
         ActivityScenario.launch(FinishScreen.class);
+        // fix cirus random things
        /* Espresso.onView(withId(R.id.restart)).check(matches(allOf(isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
