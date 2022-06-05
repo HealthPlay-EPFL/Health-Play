@@ -118,7 +118,12 @@ class MainActivity : AppCompatActivity(),
         tvScore = findViewById(R.id.tvScore)
         tvFPS = findViewById(R.id.tvFps)
         surfaceView = findViewById(R.id.surfaceView)
-
+        poseDetector =
+            MoveNetMultiPose.create(
+                this,
+                device,
+                Type.Dynamic
+            )
 
         // Get the Friend List of the current User
         val database = Database()
@@ -350,12 +355,7 @@ class MainActivity : AppCompatActivity(),
     private fun createPoseEstimator() {
         // For MoveNet MultiPose, hide score and disable pose classifier as the model returns
         // multiple Person instances.
-        poseDetector =
-            MoveNetMultiPose.create(
-                this,
-                device,
-                Type.Dynamic
-            )
+
         poseDetector.let { detector ->
             cameraSource?.setDetector(detector)
         }
