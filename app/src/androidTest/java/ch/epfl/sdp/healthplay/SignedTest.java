@@ -46,7 +46,7 @@ public class SignedTest {
     @Test
     public void authenticate() throws InterruptedException {
         onView(withText("Sign in with email")).perform(click());
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(SignedInFragmentTest.emailString, SignedInFragmentTest.password);
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(AuthUiActivityTest.emailTest, "123456");
         WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         onView(withHint("Email")).perform(typeText(SignedInFragmentTest.emailString), ViewActions.closeSoftKeyboard());
         onView(withText("Next")).perform(click());
