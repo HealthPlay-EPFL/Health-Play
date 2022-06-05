@@ -34,7 +34,8 @@ import ch.epfl.sdp.healthplay.auth.AuthUiActivity;
 public class WelcomeScreenActivityTest {
 
     @Before
-    public void init(){
+    public void init() throws InterruptedException {
+        AuthUiActivityTest.signIn("HP@admin.ch", "123456");
         ActivityScenario activityTest = ActivityScenario.launch(WelcomeScreenActivity.class);
     }
     @Test
