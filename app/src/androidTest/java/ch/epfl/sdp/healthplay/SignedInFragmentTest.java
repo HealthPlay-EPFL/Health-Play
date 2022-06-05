@@ -37,6 +37,7 @@ import junit.framework.Assert;
 
 import org.checkerframework.checker.units.qual.Time;
 import org.hamcrest.Matcher;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -53,9 +54,15 @@ public class SignedInFragmentTest {
     public static String password = "123456";
 
     @Before
-    public void init() {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(emailString, password);
+    public void init() throws InterruptedException {
+        AuthUiActivityTest.signIn(emailString, password);
         /**/
+    }
+
+    @After
+    public void after() throws InterruptedException {
+        AuthUiActivityTest.signOut();
+        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test

@@ -5,6 +5,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
@@ -21,6 +22,7 @@ import android.view.View;
 import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -42,6 +44,7 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.auth.AuthUiActivity;
+import ch.epfl.sdp.healthplay.database.DataCache;
 
 @RunWith(AndroidJUnit4.class)
 public class AuthUiActivityTest {
@@ -107,6 +110,27 @@ public class AuthUiActivityTest {
         onView(withText("SIGN IN")).perform(click());
         TimeUnit.SECONDS.sleep(1);
         ActivityScenario home = ActivityScenario.launch(AuthUiActivity.class);
+        TimeUnit.SECONDS.sleep(1);
+    }
+
+    public static void signIn(String email, String password) throws InterruptedException {
+        FirebaseAuth.getInstance().signOut();
+        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
+        ActivityScenario.launch(HomeScreenActivity.class);
+        onView( allOf( withId(R.id.SignedInFragment), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
+        onView(withText("Sign in with email")).perform(click());
+        onView(withHint("Email")).perform(typeText(email), ViewActions.closeSoftKeyboard());
+        onView(withText("Next")).perform(click());
+        TimeUnit.SECONDS.sleep(1);
+        onView(withHint("Password")).perform(typeText(password), ViewActions.closeSoftKeyboard());
+        onView(withText("SIGN IN")).perform(click());
+        TimeUnit.SECONDS.sleep(1);
+    }
+
+    public static void signOut() throws InterruptedException {
+        ActivityScenario.launch(HomeScreenActivity.class);
+        onView( allOf( withId(R.id.SignedInFragment), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
+        onView(withId(R.id.sign_out)).perform(click());
         TimeUnit.SECONDS.sleep(1);
     }
 

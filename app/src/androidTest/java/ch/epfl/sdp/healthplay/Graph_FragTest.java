@@ -17,6 +17,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,22 +32,24 @@ public class Graph_FragTest {
 
     @Before
     public void init() throws InterruptedException {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
-        ActivityScenario sc = ActivityScenario.launch(WelcomeScreenActivity.class);
-        TimeUnit.SECONDS.sleep(3);
+        AuthUiActivityTest.signIn("HP@admin.ch", "123456");
+        ActivityScenario sc = ActivityScenario.launch(HomeScreenActivity.class);
         onView(withId(R.id.switchFragButton)).perform(click());
         TimeUnit.SECONDS.sleep(1);
     }
+
     @Test
-    public void normalLaunchFrag() {
+    public void normalLaunchFrag() throws InterruptedException {
         onView(withId(R.id.buttonPrev)).check(matches(isNotEnabled()));
         onView(withId(R.id.buttonNext)).check(matches(isEnabled()));
         onView(withId(R.id.buttonCalories)).check(matches(isNotEnabled()));
         onView(withId(R.id.buttonHealth)).check(matches(isEnabled()));
+        AuthUiActivityTest.signOut();
+        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test
-    public void caloriesClickOnNext()  {
+    public void caloriesClickOnNext() throws InterruptedException {
         onView(withId(R.id.buttonPrev)).check(matches(isNotEnabled()));
         onView(withId(R.id.buttonNext)).check(matches(isEnabled()));
         onView(withId(R.id.buttonNext)).perform(click());
@@ -54,40 +57,48 @@ public class Graph_FragTest {
         onView(withId(R.id.buttonNext)).check(matches(isNotEnabled()));
         onView(withId(R.id.buttonCalories)).check(matches(isNotEnabled()));
         onView(withId(R.id.buttonHealth)).check(matches(isEnabled()));
+        AuthUiActivityTest.signOut();
+        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test
-    public void caloriesClickOnPrev(){
+    public void caloriesClickOnPrev() throws InterruptedException {
         onView(withId(R.id.buttonNext)).perform(click());
         onView(withId(R.id.buttonPrev)).perform(click());
         onView(withId(R.id.buttonPrev)).check(matches(isNotEnabled()));
         onView(withId(R.id.buttonNext)).check(matches(isEnabled()));
         onView(withId(R.id.buttonCalories)).check(matches(isNotEnabled()));
         onView(withId(R.id.buttonHealth)).check(matches(isEnabled()));
+        AuthUiActivityTest.signOut();
+        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test
-    public void caloriesClickOnNextAfterClickOnHealth(){
+    public void caloriesClickOnNextAfterClickOnHealth() throws InterruptedException {
         onView(withId(R.id.buttonNext)).perform(click());
         onView(withId(R.id.buttonHealth)).perform(click());
         onView(withId(R.id.buttonPrev)).check(matches(isNotEnabled()));
         onView(withId(R.id.buttonNext)).check(matches(isEnabled()));
         onView(withId(R.id.buttonCalories)).check(matches(isEnabled()));
         onView(withId(R.id.buttonHealth)).check(matches(isNotEnabled()));
+        AuthUiActivityTest.signOut();
+        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test
-    public void clickOnCalories(){
+    public void clickOnCalories() throws InterruptedException {
         onView(withId(R.id.buttonHealth)).perform(click());
         onView(withId(R.id.buttonCalories)).perform(click());
         onView(withId(R.id.buttonPrev)).check(matches(isNotEnabled()));
         onView(withId(R.id.buttonNext)).check(matches(isEnabled()));
         onView(withId(R.id.buttonCalories)).check(matches(isNotEnabled()));
         onView(withId(R.id.buttonHealth)).check(matches(isEnabled()));
+        AuthUiActivityTest.signOut();
+        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test
-    public void clickOnHealthAfterClickOnNextAfterClickOnCalories(){
+    public void clickOnHealthAfterClickOnNextAfterClickOnCalories() throws InterruptedException {
         onView(withId(R.id.buttonHealth)).perform(click());
         onView(withId(R.id.buttonNext)).perform(click());
         onView(withId(R.id.buttonCalories)).perform(click());
@@ -95,6 +106,8 @@ public class Graph_FragTest {
         onView(withId(R.id.buttonNext)).check(matches(isEnabled()));
         onView(withId(R.id.buttonCalories)).check(matches(isNotEnabled()));
         onView(withId(R.id.buttonHealth)).check(matches(isEnabled()));
+        AuthUiActivityTest.signOut();
+        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test
@@ -106,6 +119,5 @@ public class Graph_FragTest {
         onView(withId(R.id.switchFragButton)).perform(click());
         TimeUnit.SECONDS.sleep(1);
         onView(withId(R.id.buttonSwap)).perform(click());
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
     }
 }

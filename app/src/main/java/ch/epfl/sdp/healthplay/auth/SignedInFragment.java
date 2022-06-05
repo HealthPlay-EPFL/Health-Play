@@ -157,7 +157,7 @@ public class SignedInFragment extends Fragment {
     }
 
     private void deleteAccount() {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        /*String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         AuthUI.getInstance()
                 .delete(getActivity())
                 .addOnCompleteListener(getActivity(), task -> {
@@ -165,6 +165,16 @@ public class SignedInFragment extends Fragment {
                         new Database().deleteUser(userId);
                         startActivity(new Intent(getActivity(),HomeScreenActivity.class));
                     } else {
+                        showSnackbar(R.string.delete_account_failed);
+                    }
+                });*/
+        new Database().deleteUser(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addOnCompleteListener(getActivity(), t -> {
+                    if (t.isSuccessful()) {
+                        AuthUI.getInstance()
+                                .delete(getActivity());
+                        startActivity(new Intent(getActivity(),HomeScreenActivity.class));
+                    }else{
                         showSnackbar(R.string.delete_account_failed);
                     }
                 });

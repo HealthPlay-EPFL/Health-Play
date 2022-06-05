@@ -34,6 +34,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,6 +42,7 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
 
+import ch.epfl.sdp.healthplay.AuthUiActivityTest;
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.WelcomeScreenActivity;
@@ -53,12 +55,17 @@ public class ChatActivityTest {
 
     @Before
     public void before() throws InterruptedException{
-        FirebaseAuth.getInstance().signOut();
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health-play@admin.ch", "123456");
-        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
+        AuthUiActivityTest.signIn("health.play@gmail.com", "123456");
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         onView(ViewMatchers.withId(R.id.FriendList_button)).perform(click());
-        onData(friendWithId("CdTrI7WKUUThqsVTFx6JZJZhk0s2")).inAdapterView(withId(R.id.friendList)).onChildView(withId(R.id.goToChat)).perform(click());
+        TimeUnit.SECONDS.sleep(1);
+        onData(friendWithId("H7ZFXooYVWfASQfE5R3ej8PU1B33")).inAdapterView(withId(R.id.friendList)).onChildView(withId(R.id.goToChat)).perform(click());
+    }
+
+    @After
+    public void after() throws InterruptedException {
+        AuthUiActivityTest.signOut();
+        TimeUnit.SECONDS.sleep(1);
     }
 
     @Test

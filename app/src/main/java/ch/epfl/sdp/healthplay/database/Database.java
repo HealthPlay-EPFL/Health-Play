@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import ch.epfl.sdp.healthplay.R;
@@ -285,8 +286,8 @@ public final class Database {
         }
     }
 
-    public void deleteUser(String userId) {
-        mDatabase.child(USERS)
+    public Task<Void> deleteUser(String userId) {
+        return mDatabase.child(USERS)
                  .child(userId)
                  .removeValue()
                  .addOnCompleteListener(t -> {
@@ -294,15 +295,18 @@ public final class Database {
                         Log.e("ERROR", "could not delete the user");
                     }
                     else {
-                        getLeaderBoard(deleteLeaderBoardUser(userId,format, LEADERBOARD_DAILY),LEADERBOARD_DAILY);
-                    }
-                 })
-                 .addOnCompleteListener(t -> {
-                    if(!t.isSuccessful()) {
-                        Log.e("ERROR", "could not delete the user from the leaderBoard");
-                    }
-                    else {
-                        getLeaderBoard(deleteLeaderBoardUser(userId, formatYearMonth, LEADERBOARD_MONTHLY),LEADERBOARD_MONTHLY);
+                        mDatabase.child(LEADERBOARD_DAILY)
+                                .get()
+                                .addOnCompleteListener(deleteLeaderBoardUser(userId,format, LEADERBOARD_DAILY)).addOnCompleteListener(task -> {
+                            if(!task.isSuccessful()) {
+                                Log.e("ERROR", "could not delete the user");
+                            }
+                            else {
+                                mDatabase.child(LEADERBOARD_MONTHLY)
+                                        .get()
+                                        .addOnCompleteListener(deleteLeaderBoardUser(userId,formatYearMonth, LEADERBOARD_MONTHLY));
+                            }
+                        });
                     }
                  });
 
@@ -315,20 +319,21 @@ public final class Database {
             }
             else {
                 @SuppressWarnings("unchecked")
-                HashMap<String,HashMap<String,HashMap<String, String>>> leaderBoard = (HashMap<String,HashMap<String, HashMap<String, String>>>)task.getResult().getValue();
+                Map<String, HashMap<String, HashMap<String, String>>> inter = (HashMap<String,HashMap<String, HashMap<String, String>>>)task.getResult().getValue();
+                ConcurrentHashMap<String,HashMap<String,HashMap<String, String>>> leaderBoard = new ConcurrentHashMap<String, HashMap<String, HashMap<String, String>>>(inter);
                 if(leaderBoard != null && leaderBoard.containsKey(getTodayDate(pformat))) {
-                    HashMap<String, HashMap<String, String>> todayLeaderBoard = leaderBoard.get(getTodayDate(pformat));
+                    ConcurrentHashMap<String, HashMap<String, String>> todayLeaderBoard = new ConcurrentHashMap<>(leaderBoard.get(getTodayDate(pformat)));
                     if(todayLeaderBoard != null) {
-                        for(Map.Entry<String, HashMap<String, String>> entry : todayLeaderBoard.entrySet()) {
-                            for(Map.Entry<String, String> e : entry.getValue().entrySet()) {
-                                if(e.getKey().equals(userId)) {
-                                    entry.getValue().remove(userId);
+                        for(String entry : todayLeaderBoard.keySet()) {
+                            ConcurrentHashMap<String, String> inter2 = new ConcurrentHashMap<>(todayLeaderBoard.get(entry));
+                            for(String id : inter2.keySet()) {
+                                if(id.equals(userId)) {
+                                    mDatabase.child(pleaderBoard).child(getTodayDate(pformat)).child(entry).child(id).removeValue();
+                                    return;
                                 }
                             }
                         }
                     }
-                    leaderBoard.put(getTodayDate(pformat), todayLeaderBoard);
-                    mDatabase.child(pleaderBoard).setValue(leaderBoard);
                 }
             }
         };

@@ -25,10 +25,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.healthplay.database.DataCache;
 import ch.epfl.sdp.healthplay.database.Database;
@@ -36,16 +39,9 @@ import ch.epfl.sdp.healthplay.database.Database;
 @RunWith(AndroidJUnit4.class)
 public class HomeScreenActivityTest {
     @Before
-    public void init(){
-        FirebaseAuth.getInstance().signOut();
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("HP@admin.ch", "123456");
-        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
-        ActivityScenario sc = ActivityScenario.launch(HomeScreenActivity.class);
-    }
-
-    @Test
-    public void fragmentChangeTest() {
-        ViewInteraction navigationBar = Espresso.onView(withId(R.id.bottomNavigationView));
+    public void init() throws InterruptedException {
+        AuthUiActivityTest.signIn(SignedInFragmentTest.emailString, SignedInFragmentTest.password);
+        ActivityScenario activityScenario = ActivityScenario.launch(HomeScreenActivity.class);
     }
 
     @Test

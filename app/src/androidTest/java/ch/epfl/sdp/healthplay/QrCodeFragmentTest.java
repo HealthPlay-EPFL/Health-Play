@@ -21,6 +21,7 @@ import android.view.View;
 
 import androidx.test.InstrumentationRegistry;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -32,10 +33,15 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.hamcrest.Matcher;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.concurrent.TimeUnit;
+
+import ch.epfl.sdp.healthplay.database.DataCache;
 
 @RunWith(AndroidJUnit4.class)
 public class QrCodeFragmentTest {
@@ -43,6 +49,7 @@ public class QrCodeFragmentTest {
     @Before
     public void before() throws InterruptedException{
         FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
+        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
         ActivityScenario activityScenario = ActivityScenario.launch(HomeScreenActivity.class);
         onView( allOf( withId(R.id.profileActivity), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
         onView(withId(R.id.goToQRCode)).perform(click());

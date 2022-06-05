@@ -30,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,6 +39,7 @@ import org.junit.runner.RunWith;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import ch.epfl.sdp.healthplay.AuthUiActivityTest;
 import ch.epfl.sdp.healthplay.HomeScreenActivity;
 import ch.epfl.sdp.healthplay.R;
 import ch.epfl.sdp.healthplay.WelcomeScreenActivity;
@@ -50,11 +52,16 @@ public class AddFriendFragmentTest {
 
     @Before
     public void before() throws InterruptedException{
-        FirebaseAuth.getInstance().signInWithEmailAndPassword("health.play@gmail.com", "123456");
-        WelcomeScreenActivity.cache = new DataCache(ApplicationProvider.getApplicationContext());
+        AuthUiActivityTest.signIn("health.play@gmail.com", "123456");
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         onView(ViewMatchers.withId(R.id.FriendList_button)).perform(click());
         onView(withId(R.id.addFriendBouton)).perform(click());
+    }
+
+    @After
+    public void after() throws InterruptedException {
+        AuthUiActivityTest.signOut();
+        TimeUnit.SECONDS.sleep(1);
     }
 
 
