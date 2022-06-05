@@ -78,14 +78,13 @@ public class ProfileFragmentTest {
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
         onView( allOf( withId(R.id.profileActivity), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
         onView(withId(R.id.profileUsername)).check(matches(isDisplayed()));
-        onView( allOf( withId(R.id.SignedInFragment), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
-        onView(withText("Sign in with email")).perform(click());
-        onView(withHint("Email")).perform(typeText(SignedInFragmentTest.emailString), ViewActions.closeSoftKeyboard());
-        onView(withText("Next")).perform(click());
+        onView( allOf( withId(R.id.gamesMenu), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
+        WelcomeScreenActivity.cache = null;
         TimeUnit.SECONDS.sleep(1);
-        onView(withHint("Password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
-        onView(withText("SIGN IN")).perform(click());
+        onView( allOf( withId(R.id.frag_Home), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
         TimeUnit.SECONDS.sleep(1);
+        onView( allOf( withId(R.id.profileActivity), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
+        onView(withText("Sign in with email")).check(matches(isDisplayed()));
     }
 
     @Test
