@@ -15,6 +15,7 @@ import static org.hamcrest.Matchers.allOf;
 import static ch.epfl.sdp.healthplay.AuthUiActivityTest.emailTest;
 
 import android.app.Activity;
+import android.widget.TextView;
 
 import androidx.navigation.Navigation;
 import androidx.test.core.app.ActivityScenario;
@@ -30,9 +31,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import ch.epfl.sdp.healthplay.auth.ProfileFragment;
 import ch.epfl.sdp.healthplay.database.DataCache;
+import ch.epfl.sdp.healthplay.database.Database;
 import ch.epfl.sdp.healthplay.database.Friend;
 
 @RunWith(AndroidJUnit4.class)
@@ -89,27 +94,35 @@ public class ProfileFragmentTest {
     }
 
     @Test
-    public void notInitiateToday() throws InterruptedException {
+    public void testUpdateStats() throws InterruptedException {
         String id = WelcomeScreenActivity.cache.getUserId();
         String friend = new Friend(id, "my username").toString();
-        onView( allOf( withId(R.id.SignedInFragment), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
-        onView(withId(R.id.sign_out)).perform(click());
-        TimeUnit.SECONDS.sleep(1);
         ActivityScenario activity = ActivityScenario.launch(HomeScreenActivity.class);
-        onView( allOf( withId(R.id.SignedInFragment), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
-        onView(withText("Sign in with email")).perform(click());
-        onView(withHint("Email")).perform(typeText(emailTest), ViewActions.closeSoftKeyboard());
-        onView(withText("Next")).perform(click());
-        TimeUnit.SECONDS.sleep(1);
-        onView(withHint("New password")).perform(typeText("123456"), ViewActions.closeSoftKeyboard());
-        onView(withText("Save")).perform(click());
-        TimeUnit.SECONDS.sleep(1);
         onView( allOf( withId(R.id.profileActivity), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
-        onView(withId(R.id.profileUsername)).check(matches(isDisplayed()));
-        onView( allOf( withId(R.id.SignedInFragment), isDescendantOfA(withId(R.id.bottomNavigationView)))).perform(click());
-        onView(withId(R.id.delete_account)).perform(click());
-        onView(withText("Yes, nuke it!")).perform(click());
-        TimeUnit.SECONDS.sleep(3);
+        activity.onActivity(new ActivityScenario.ActivityAction() {
+            @Override
+            public void perform(Activity activity) {
+                ProfileFragment fragment = new ProfileFragment();
+                fragment.updateStats(null, id, ((TextView) activity.findViewById(R.id.statsButton)), ((TextView) activity.findViewById(R.id.profileWeight)), ((TextView) activity.findViewById(R.id.profileHealthPoint)));
+            }
+        });
+        TimeUnit.SECONDS.sleep(1);
+        onView(withId(R.id.profileHealthPoint)).check(matches(withText("0")));
+        Map<String, Number> inter = new HashMap<>();
+        inter.put(Database.CALORIE_COUNTER, null);
+        inter.put(Database.HEALTH_POINT, null);
+        inter.put(Database.WEIGHT, null);
+        Map<String, Map<String, Number>> map = new HashMap<>();
+        map.put(Database.getTodayDate(), inter);
+        activity.onActivity(new ActivityScenario.ActivityAction() {
+            @Override
+            public void perform(Activity activity) {
+                ProfileFragment fragment = new ProfileFragment();
+                fragment.updateStats(map, id, ((TextView) activity.findViewById(R.id.statsButton)), ((TextView) activity.findViewById(R.id.profileWeight)), ((TextView) activity.findViewById(R.id.profileHealthPoint)));
+            }
+        });
+        TimeUnit.SECONDS.sleep(1);
+        onView(withId(R.id.profileHealthPoint)).check(matches(withText("0")));
     }
 
 }
